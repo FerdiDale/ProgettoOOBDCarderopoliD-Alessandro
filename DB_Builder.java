@@ -1,11 +1,14 @@
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 public class DB_Builder 
 {
-	public DB_Builder()
+	
+	public DB_Builder() throws CreazioneErrataDatabaseException, DriverMancanteException
 	{
 		boolean preesistente = false;
-		
+		boolean erroreIniziale = false;
 		try 
 		{	
 			//Connessione con url del server senza database in caso il database non sia presente
@@ -21,13 +24,16 @@ public class DB_Builder
 		}
 		catch(ClassNotFoundException e)
 		{
-			System.out.println(e.getMessage());
+			DriverMancanteException ecc = new DriverMancanteException();
+			throw ecc;
 		}
 		catch(SQLException e)
 		{
-		//TODO Bisogna vedere che exception è
-			preesistente = true;
-			System.out.println(e.getMessage());
+			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database già esistente
+			else {
+				JOptionPane.showMessageDialog(null,"C'è stato un errore, il database non è stato creato correttamente\n"
+						+ "Riprovare a riavviare l'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		
 		if(!preesistente)
@@ -46,14 +52,14 @@ public class DB_Builder
 								+ "CONSTRAINT UnicaLocalita UNIQUE(Via, N_Civico, CAP));");
 				
 				stmt.executeUpdate("CREATE TABLE Sala"
-						+ "(Id_Sala SERIAL,"
-						+ "Nome VARCHAR(40) NOT NULL,"
-						+ "Id_Ristorante INTEGER NOT NULL,"
-						+ "PRIMARY KEY(Id_Sala),"
-						+ "CONSTRAINT Appartenenza FOREIGN KEY(Id_Ristorante) REFERENCES Ristorante(Id_Ristorante)"
-						+ "                            ON DELETE CASCADE                    ON UPDATE CASCADE,"
-						+ "CONSTRAINT NomeUnicoSalaDelRistorante UNIQUE(Nome,Id_Ristorante));");
-	
+								+ "(Id_Sala SERIAL,"
+								+ "Nome VARCHAR(40) NOT NULL,"
+								+ "Id_Ristorante INTEGER NOT NULL,"
+								+ "PRIMARY KEY(Id_Sala),"
+								+ "CONSTRAINT Appartenenza FOREIGN KEY(Id_Ristorante) REFERENCES Ristorante(Id_Ristorante)"
+								+ "                            ON DELETE CASCADE                    ON UPDATE CASCADE,"
+								+ "CONSTRAINT NomeUnicoSalaDelRistorante UNIQUE(Nome,Id_Ristorante));");
+			
 				stmt.executeUpdate("CREATE TABLE Tavolo"
 								+ "(Id_Tavolo SERIAL,"
 								+ "Capacita INTEGER NOT NULL,"
@@ -117,65 +123,65 @@ public class DB_Builder
 								+ "                        ON DELETE CASCADE                  ON UPDATE CASCADE);");
 				
 				stmt.executeUpdate ("CREATE FUNCTION InserisciSimmetrico() RETURNS TRIGGER "
-									+" LANGUAGE plpgsql AS $$ "
-									+ "DECLARE "
-									+ "CheckConto INTEGER; "
-									+ "BEGIN "
-									+ "SELECT COUNT(*) INTO CheckConto "
-									+ "FROM Adiacenza AS A "
-									+ "WHERE A.Id_Tavolo1 = NEW.Id_Tavolo2 AND A.Id_Tavolo2 = NEW.Id_Tavolo1; "
-									+ "IF (CheckConto=0) THEN "
-									+ "	INSERT INTO Adiacenza "
-									+ "	VALUES (NEW.Id_Tavolo2, NEW.Id_Tavolo1); "
-									+ "END IF; "
-									+ "END; "
-									+ "$$");
+								+" LANGUAGE plpgsql AS $$ "
+								+ "DECLARE "
+								+ "CheckConto INTEGER; "
+								+ "BEGIN "
+								+ "SELECT COUNT(*) INTO CheckConto "
+								+ "FROM Adiacenza AS A "
+								+ "WHERE A.Id_Tavolo1 = NEW.Id_Tavolo2 AND A.Id_Tavolo2 = NEW.Id_Tavolo1; "
+								+ "IF (CheckConto=0) THEN "
+								+ "	INSERT INTO Adiacenza "
+								+ "	VALUES (NEW.Id_Tavolo2, NEW.Id_Tavolo1); "
+								+ "END IF; "
+								+ "END; "
+								+ "$$");
 					
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaInserimento "
-							+ "AFTER INSERT ON Adiacenza "
-							+ "FOR EACH ROW "
-							+ "EXECUTE FUNCTION InserisciSimmetrico();"); 
+								+ "AFTER INSERT ON Adiacenza "
+								+ "FOR EACH ROW "
+								+ "EXECUTE FUNCTION InserisciSimmetrico();"); 
 				
 				stmt.executeUpdate ("CREATE FUNCTION CancellaSimmetrico() RETURNS TRIGGER "
-									+ "LANGUAGE plpgsql AS $$ "
-									+ "DECLARE "
-									+ "CheckConto INTEGER; "
-									+ "BEGIN "
-									+ "SELECT COUNT(*) INTO CheckConto "
-									+ "FROM Adiacenza AS A "
-									+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
-									+ "IF (CheckConto>0) THEN "
-									+ "	DELETE FROM Adiacenza "
-									+ "	WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
-									+ "END IF; "
-									+ "END; "
-									+ "$$");
+								+ "LANGUAGE plpgsql AS $$ "
+								+ "DECLARE "
+								+ "CheckConto INTEGER; "
+								+ "BEGIN "
+								+ "SELECT COUNT(*) INTO CheckConto "
+								+ "FROM Adiacenza AS A "
+								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
+								+ "IF (CheckConto>0) THEN "
+								+ "	DELETE FROM Adiacenza "
+								+ "	WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
+								+ "END IF; "
+								+ "END; "
+								+ "$$");
 				
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaCancellazione "
-						+ "AFTER DELETE ON Adiacenza "
-						+ "FOR EACH ROW "
-						+ "EXECUTE FUNCTION CancellaSimmetrico();"); 
+								+ "AFTER DELETE ON Adiacenza "
+								+ "FOR EACH ROW "
+								+ "EXECUTE FUNCTION CancellaSimmetrico();"); 
 						
 				stmt.executeUpdate ("CREATE FUNCTION ModificaSimmetrico() RETURNS TRIGGER "
-									+ "LANGUAGE plpgsql AS $$ "
-									+ "DECLARE "
-									+ "CheckConto INTEGER; "
-									+ "BEGIN "
-									+ "SELECT COUNT(*) INTO CheckConto "
-									+ "FROM Adiacenza AS A "
-									+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
-									+ "IF (CheckConto>0) THEN "
-									+ "UPDATE Adiacenza AS A "
-									+ "SET A.Id_Tavolo1 = NEW.Id_Tavolo2, A.Id_Tavolo2 = NEW.Id_Tavolo1 "
-									+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
-									+ "END IF; "
-									+ "END; "
-									+ "$$"); 
+								+ "LANGUAGE plpgsql AS $$ "
+								+ "DECLARE "
+								+ "CheckConto INTEGER; "
+								+ "BEGIN "
+								+ "SELECT COUNT(*) INTO CheckConto "
+								+ "FROM Adiacenza AS A "
+								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
+								+ "IF (CheckConto>0) THEN "
+								+ "UPDATE Adiacenza AS A "
+								+ "SET A.Id_Tavolo1 = NEW.Id_Tavolo2, A.Id_Tavolo2 = NEW.Id_Tavolo1 "
+								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
+								+ "END IF; "
+								+ "END; "
+								+ "$$"); 
 				
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaModifica "
-						+ "AFTER UPDATE ON Adiacenza "
-						+ "FOR EACH ROW "
-						+ "EXECUTE FUNCTION ModificaSimmetrico();"); 
+								+ "AFTER UPDATE ON Adiacenza "
+								+ "FOR EACH ROW "
+								+ "EXECUTE FUNCTION ModificaSimmetrico();"); 
 			
 				/*stmt.executeUpdate("CREATE ASSERTION ConsistenzaServizio"
 								+ "CHECK (NOT EXISTS (SELECT *"
@@ -189,7 +195,8 @@ public class DB_Builder
 			}
 			catch(SQLException e)
 			{
-				System.out.println(e.getMessage());
+				CreazioneErrataDatabaseException ecc = new CreazioneErrataDatabaseException();
+				throw ecc;
 			}
 		}
 	}

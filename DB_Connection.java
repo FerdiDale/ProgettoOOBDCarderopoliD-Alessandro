@@ -1,11 +1,13 @@
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 public class DB_Connection {
 
 	private static DB_Connection instance; 
 	private Connection conn = null;
 	
-	private DB_Connection() {
+	private DB_Connection() throws DriverMancanteException {
 		
 		try 
 		{	
@@ -16,11 +18,13 @@ public class DB_Connection {
 		}
 		catch(ClassNotFoundException e)
 		{
-			System.out.println(e.getMessage());
+			DriverMancanteException ecc = new DriverMancanteException();
+			throw ecc;
 		}
 		catch(SQLException e)
 		{
-			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, "C'è stato un errore di connessione al DBMS\n"
+					+ "Si provi a riavviare l'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 		}
 		
 	};
@@ -29,8 +33,10 @@ public class DB_Connection {
 		return conn;
 	}
 	
-	public static DB_Connection getInstance() {
+	public static DB_Connection getInstance(){
 		
+		try
+		{
 		if (instance==null) {
 			instance = new DB_Connection();
 		} else
@@ -39,11 +45,14 @@ public class DB_Connection {
 					instance = new DB_Connection();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				System.out.println("hey3");
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "C'è stato un errore di connessione al DBMS\n"
+						+ "Si provi a riavviare l'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 			}
-		
+		}
+		catch(DriverMancanteException e)
+		{
+			e.StampaMessaggio();
+		}
 		return instance;
 		
 	}
