@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class Controller {
 	
-	InterfacciaRistoranti frameRist;
+	InterfacciaRistoranti frameRistoranti;
 	
 	public static void main(String[] args) {
 
@@ -14,14 +14,13 @@ public class Controller {
 		}
 		catch(ErroreIniziale e)
 		{
-			e.StampaMessaggio();
+			e.stampaMessaggio();
 		}
-		
 
 	}
 	
 	public Controller() {
-		frameRist = new InterfacciaRistoranti(this);
+		frameRistoranti = new InterfacciaRistoranti(this);
 	}
 
 }

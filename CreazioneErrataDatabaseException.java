@@ -2,7 +2,7 @@ import javax.swing.JOptionPane;
 
 public class CreazioneErrataDatabaseException extends ErroreIniziale {
 
-	public void StampaMessaggio(){
+	public void stampaMessaggio(){
 		
 		JOptionPane.showMessageDialog(null,"C'è stato un errore, il database potrebbe"
 				+ " non essere stato creato correttamente.\n"

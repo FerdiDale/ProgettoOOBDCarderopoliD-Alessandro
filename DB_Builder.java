@@ -8,7 +8,6 @@ public class DB_Builder
 	public DB_Builder() throws CreazioneErrataDatabaseException, DriverMancanteException
 	{
 		boolean preesistente = false;
-		boolean erroreIniziale = false;
 		try 
 		{	
 			//Connessione con url del server senza database in caso il database non sia presente

@@ -51,7 +51,7 @@ public class DB_Connection {
 		}
 		catch(DriverMancanteException e)
 		{
-			e.StampaMessaggio();
+			e.stampaMessaggio();
 		}
 		return instance;
 		
