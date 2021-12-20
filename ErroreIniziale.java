@@ -1,5 +1,5 @@
 
-public abstract class ErroreIniziale extends Exception {
+public abstract class ErroreIniziale extends Throwable {
 
 	abstract void StampaMessaggio();
 }
