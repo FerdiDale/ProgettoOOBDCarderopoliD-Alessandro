@@ -2,7 +2,7 @@ import javax.swing.JOptionPane;
 
 public class DriverMancanteException extends ErroreIniziale {
 
-	public void StampaMessaggio() {
+	public void stampaMessaggio() {
 		JOptionPane.showMessageDialog(null, "C'e' stato un errore, il driver del DBMS potrebbe"
 				+ " non essere stato installato correttamente.\n"
 				+ "Riprovare l'installazione"

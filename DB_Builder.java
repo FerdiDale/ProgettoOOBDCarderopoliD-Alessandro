@@ -13,7 +13,7 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database è gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
@@ -31,7 +31,7 @@ public class DB_Builder
 			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database già esistente
 			else 
 			{
-				JOptionPane.showMessageDialog(null,"C'è stato un errore, il database non è stato creato correttamente\n"
+				JOptionPane.showMessageDialog(null,"C'e' stato un errore, il database non e' stato creato correttamente\n"
 						+ "Riprovare a riavviare l'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -264,7 +264,7 @@ public class DB_Builder
 			catch(SQLException e)
 			{
 				CreazioneErrataDatabaseException ecc = new CreazioneErrataDatabaseException();
-				ecc.StampaMessaggio();
+				ecc.stampaMessaggio();
 			}
 		}
 	}

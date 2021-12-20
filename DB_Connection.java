@@ -14,7 +14,7 @@ public class DB_Connection {
 			Class.forName("org.postgresql.Driver");
 			
 			//Connessione al db come utente postgres
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ristorantidb", "postgres", "");
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ristorantidb", "postgres", "1754Ggdf");
 		}
 		catch(ClassNotFoundException e)
 		{
@@ -23,7 +23,7 @@ public class DB_Connection {
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, "C'è stato un errore di connessione al DBMS\n"
+			JOptionPane.showMessageDialog(null, "C'e' stato un errore di connessione al DBMS\n"
 					+ "Si provi a riavviare l'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 		}
 		
@@ -45,7 +45,7 @@ public class DB_Connection {
 					instance = new DB_Connection();
 				}
 			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "C'è stato un errore di connessione al DBMS\n"
+				JOptionPane.showMessageDialog(null, "C'e' stato un errore di connessione al DBMS\n"
 						+ "Si provi a riavviare l'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 			}
 		}
