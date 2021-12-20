@@ -8,7 +8,6 @@ public class DB_Builder
 	public DB_Builder() throws CreazioneErrataDatabaseException, DriverMancanteException
 	{
 		boolean preesistente = false;
-		boolean erroreIniziale = false;
 		try 
 		{	
 			//Connessione con url del server senza database in caso il database non sia presente
@@ -30,7 +29,8 @@ public class DB_Builder
 		catch(SQLException e)
 		{
 			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database già esistente
-			else {
+			else 
+			{
 				JOptionPane.showMessageDialog(null,"C'è stato un errore, il database non è stato creato correttamente\n"
 						+ "Riprovare a riavviare l'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 			}
@@ -47,9 +47,9 @@ public class DB_Builder
 								+ "Nome VARCHAR(40) NOT NULL,"
 								+ "Via VARCHAR(40) NOT NULL,"
 								+ "N_Civico INTEGER NOT NULL,"
-								+ "CAP CHAR(5) NOT NULL,"
+								+ "Citta VARCHAR(40) NOT NULL,"
 								+ "PRIMARY KEY(Id_Ristorante),"
-								+ "CONSTRAINT UnicaLocalita UNIQUE(Via, N_Civico, CAP));");
+								+ "CONSTRAINT UnicaLocalita UNIQUE(Via, N_Civico, Citta));");
 				
 				stmt.executeUpdate("CREATE TABLE Sala"
 								+ "(Id_Sala SERIAL,"
@@ -122,81 +122,149 @@ public class DB_Builder
 								+ "CONSTRAINT Tavolata FOREIGN KEY(Id_Tavolata) REFERENCES Tavolata(Id_Tavolata)"
 								+ "                        ON DELETE CASCADE                  ON UPDATE CASCADE);");
 				
-				stmt.executeUpdate ("CREATE FUNCTION InserisciSimmetrico() RETURNS TRIGGER "
-								+" LANGUAGE plpgsql AS $$ "
-								+ "DECLARE "
-								+ "CheckConto INTEGER; "
-								+ "BEGIN "
-								+ "SELECT COUNT(*) INTO CheckConto "
-								+ "FROM Adiacenza AS A "
-								+ "WHERE A.Id_Tavolo1 = NEW.Id_Tavolo2 AND A.Id_Tavolo2 = NEW.Id_Tavolo1; "
-								+ "IF (CheckConto=0) THEN "
-								+ "	INSERT INTO Adiacenza "
-								+ "	VALUES (NEW.Id_Tavolo2, NEW.Id_Tavolo1); "
-								+ "END IF; "
-								+ "END; "
-								+ "$$");
+				stmt.executeUpdate("CREATE TABLE Posizioni"
+						          +"(PosX INTEGER NOT NULL,"
+						          +"PosY INTEGER NOT NULL,"
+						          +"DimX INTEGER NOT NULL,"
+						          +"DimY INTEGER NOT NULL);");
+				
+				stmt.executeUpdate ("CREATE FUNCTION InserisciSimmetrico() RETURNS TRIGGER\r"
+								+" LANGUAGE plpgsql AS $$\r"
+								+ "DECLARE\r"
+								+ "CheckConto INTEGER;\r"
+								+ "BEGIN\r"
+								+ "SELECT COUNT(*) INTO CheckConto\r"
+								+ "FROM Adiacenza AS A\r"
+								+ "WHERE A.Id_Tavolo1 = NEW.Id_Tavolo2 AND A.Id_Tavolo2 = NEW.Id_Tavolo1;\r"
+								+ "IF (CheckConto=0) THEN\r"
+								+ "	INSERT INTO Adiacenza\r"
+								+ "	VALUES (NEW.Id_Tavolo2, NEW.Id_Tavolo1);\r"
+								+ "END IF;\r"
+								+ "END;\r"
+								+ "$$\r");
 					
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaInserimento "
 								+ "AFTER INSERT ON Adiacenza "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION InserisciSimmetrico();"); 
 				
-				stmt.executeUpdate ("CREATE FUNCTION CancellaSimmetrico() RETURNS TRIGGER "
-								+ "LANGUAGE plpgsql AS $$ "
-								+ "DECLARE "
-								+ "CheckConto INTEGER; "
-								+ "BEGIN "
-								+ "SELECT COUNT(*) INTO CheckConto "
-								+ "FROM Adiacenza AS A "
-								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
-								+ "IF (CheckConto>0) THEN "
-								+ "	DELETE FROM Adiacenza "
-								+ "	WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
-								+ "END IF; "
-								+ "END; "
-								+ "$$");
+				stmt.executeUpdate ("CREATE FUNCTION CancellaSimmetrico() RETURNS TRIGGER\r"
+								+ "LANGUAGE plpgsql AS $$\r"
+								+ "DECLARE\r"
+								+ "CheckConto INTEGER;\r"
+								+ "BEGIN\r"
+								+ "SELECT COUNT(*) INTO CheckConto\r"
+								+ "FROM Adiacenza AS A\r"
+								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r"
+								+ "IF (CheckConto>0) THEN\r"
+								+ "	DELETE FROM Adiacenza\r"
+								+ "	WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r"
+								+ "END IF;\r"
+								+ "END;\r"
+								+ "$$\r");
 				
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaCancellazione "
 								+ "AFTER DELETE ON Adiacenza "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION CancellaSimmetrico();"); 
 						
-				stmt.executeUpdate ("CREATE FUNCTION ModificaSimmetrico() RETURNS TRIGGER "
-								+ "LANGUAGE plpgsql AS $$ "
-								+ "DECLARE "
-								+ "CheckConto INTEGER; "
-								+ "BEGIN "
-								+ "SELECT COUNT(*) INTO CheckConto "
-								+ "FROM Adiacenza AS A "
-								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
-								+ "IF (CheckConto>0) THEN "
-								+ "UPDATE Adiacenza AS A "
-								+ "SET A.Id_Tavolo1 = NEW.Id_Tavolo2, A.Id_Tavolo2 = NEW.Id_Tavolo1 "
-								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1; "
-								+ "END IF; "
-								+ "END; "
-								+ "$$"); 
+				stmt.executeUpdate ("CREATE FUNCTION ModificaSimmetrico() RETURNS TRIGGER\r"
+								+ "LANGUAGE plpgsql AS $$\r"
+								+ "DECLARE\r"
+								+ "CheckConto INTEGER;\r"
+								+ "BEGIN\r"
+								+ "SELECT COUNT(*) INTO CheckConto\r"
+								+ "FROM Adiacenza AS A\r"
+								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r"
+								+ "IF (CheckConto>0) THEN\r"
+								+ "UPDATE Adiacenza AS A\r"
+								+ "SET A.Id_Tavolo1 = NEW.Id_Tavolo2, A.Id_Tavolo2 = NEW.Id_Tavolo1\r"
+								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r"
+								+ "END IF;\r"
+								+ "END;\r"
+								+ "$$\r"); 
 				
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaModifica "
 								+ "AFTER UPDATE ON Adiacenza "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION ModificaSimmetrico();"); 
 			
-				/*stmt.executeUpdate("CREATE ASSERTION ConsistenzaServizio"
-								+ "CHECK (NOT EXISTS (SELECT *"
-								+ "		           FROM Servizio AS S, Cameriere AS C, Tavolata AS T"
-								+ "		           WHERE S.IdCameriere=C.IdCameriere AND S.Id_Tavolata = T.Id_Tavolata"
-								+ "                      AND ((C.Data_Licenziamento IS NOT NULL AND C.Data_Licenziamento < T.Data)"
-								+ "                      OR C.Data_Assunzione > T.Data)));");
+				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataInserimento() RETURNS TRIGGER\r"
+								+ "LANGUAGE plpgsql as $$\r"
+								+ "DECLARE\r"
+								+ "CheckConto INTEGER;\r"
+								+ "BEGIN\r"
+								+ "SELECT COUNT(*) INTO CheckConto\r"
+								+ "FROM Cameriere AS C, Tavolata AS T\r"
+								+ "WHERE C.Id_Cameriere=NEW.Id_Cameriere AND T.Id_Tavolata = NEW.Id_Tavolata AND (C.Data_Ammissione>T.Data OR C.Data_Licenziamento <T.Data);\r"
+								+ "IF (CheckConto > 0) THEN\r"
+								+ "DELETE FROM Servizio\r"
+								+ "WHERE Id_Cameriere=NEW.Id_Cameriere AND Id_Tavolata = NEW.Id_Tavolata;\r"
+								+ "END IF;\r"
+								+ "END;\r"
+								+ "$$;\r");
+				
+				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioInserimento "
+								+ "AFTER INSERT ON Servizio "
+								+ "FOR EACH ROW "
+								+ "EXECUTE FUNCTION ConsistenzaServizioTavolataInserimento(); ");
 			
-				stmt.executeUpdate("");*/
-						
+				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataModificaServizio() RETURNS TRIGGER\r"
+								+ "LANGUAGE plpgsql as $$\r"
+								+ "DECLARE\r"
+								+ "CheckConto INTEGER;\r"
+								+ "BEGIN\r\n"
+								+ "SELECT COUNT(*) INTO CheckConto\r"
+								+ "FROM Cameriere AS C, Tavolata AS T\r"
+								+ "WHERE C.Id_Cameriere=NEW.Id_Cameriere AND T.Id_Tavolata = NEW.Id_Tavolata AND (C.Data_Ammissione>T.Data OR C.Data_Licenziamento <T.Data);\r"
+								+ "IF (CheckConto>0) THEN\r"
+								+ "UPDATE Servizio \r"
+								+ "SET Id_Cameriere = OLD.Id_Cameriere, Id_Tavolata = OLD.Id_Tavolata\r"
+								+ "WHERE Id_Cameriere = NEW.Id_Cameriere AND Id_Tavolata = NEW.Id_Tavolata;\r"
+								+ "END IF;\r"
+								+ "END;\r"
+								+ "$$;\r");
+				
+				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioUpdate "
+								+ "AFTER UPDATE ON Servizio "
+								+ "FOR EACH ROW "
+								+ "EXECUTE FUNCTION  ConsistenzaServizioTavolataModificaServizio(); ");
+				
+				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataModificaAmmissioneLicenziamento() RETURNS TRIGGER \r"
+								+ "LANGUAGE plpgsql AS $$ \r"
+								+ "DECLARE \r"
+								+ "Check_AConto INTEGER; \r"
+								+ "Check_LConto INTEGER; \r"
+								+ "BEGIN \r"
+								+ "SELECT COUNT(*) INTO Check_AConto\r"
+								+ "FROM Servizio AS S, Tavolata AS T\r"
+								+ "WHERE S.Id_Cameriere = NEW.Id_Cameriere AND S.Id_Tavolata=T.Id_Tavolata AND NEW.Data_Ammissione>T.Data; \r"
+								+ "SELECT COUNT(*) INTO Check_LConto \r"
+								+ "FROM Servizio AS S, Tavolata AS T \r"
+								+ "WHERE S.Id_Cameriere = NEW.Id_Cameriere AND S.Id_Tavolata=T.Id_Tavolata AND NEW.Data_Licenziamento<T.Data; \r"
+								+ "IF (Check_AConto > 0) THEN \r"
+								+ "UPDATE Cameriere \r"
+								+ "SET Data_Ammissione = OLD.Data_Ammissione \r"
+								+ "WHERE Id_Cameriere = NEW.Id_Cameriere; \r"
+								+ "END IF; \r"
+								+ "IF (Check_LConto > 0) THEN \r"
+								+ "UPDATE Cameriere \r"
+								+ "SET Data_Licenziamento = OLD.Data_Licenziamento \r"
+								+ "WHERE Id_Cameriere = NEW.Id_Cameriere; \r"
+								+ "END IF; \r"
+								+ "END; \r"
+								+ "$$; \r");
+				
+				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioAggiornamentoAmmissioneLicenziamento "
+								+ "AFTER UPDATE ON Cameriere "
+								+ "FOR EACH ROW "
+								+ "WHEN (OLD.Data_Ammissione <> NEW.Data_Ammissione OR OLD.Data_Licenziamento <> NEW.Data_Licenziamento) "
+								+ "EXECUTE FUNCTION  ConsistenzaServizioTavolataModificaAmmissioneLicenziamento(); ");
 			}
 			catch(SQLException e)
 			{
 				CreazioneErrataDatabaseException ecc = new CreazioneErrataDatabaseException();
-				throw ecc;
+				ecc.StampaMessaggio();
 			}
 		}
 	}
