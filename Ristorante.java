@@ -1,10 +1,18 @@
+
 public class Ristorante {
 	
+	Integer Id_Ristorante;
 	String Nome;
 	String Via;
 	Integer N_Civico;
 	String Citta;
 	
+	public Integer getId_Ristorante() {
+		return Id_Ristorante;
+	}
+	public void setId_Ristorante(Integer id_Ristorante) {
+		Id_Ristorante = id_Ristorante;
+	}
 	public String getNome() {
 		return Nome;
 	}

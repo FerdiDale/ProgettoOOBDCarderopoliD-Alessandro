@@ -16,10 +16,12 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 			
 			while(risultatoQuery.next()) {
 				Ristorante ristoranteCurr = new Ristorante();
+				Integer idCurr = risultatoQuery.getInt(1);
 				String nomeCurr = risultatoQuery.getString(2);
 				String viaCurr = risultatoQuery.getString(3);
 				Integer n_CivicoCurr = risultatoQuery.getInt(4);
 				String cittaCurr = risultatoQuery.getString(5);
+				ristoranteCurr.setId_Ristorante(idCurr);
 				ristoranteCurr.setNome(nomeCurr);
 				ristoranteCurr.setVia(viaCurr);
 				ristoranteCurr.setN_Civico(n_CivicoCurr);
