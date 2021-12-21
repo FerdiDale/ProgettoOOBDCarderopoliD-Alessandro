@@ -1,5 +1,7 @@
 
+
+
 public abstract class ErroreIniziale extends Throwable {
 
-	abstract void stampaMessaggio();
+	abstract public void stampaMessaggio();
 }

@@ -1,4 +1,6 @@
 
+
+
 public class Sala 
 {
 	public int Id_Sala;

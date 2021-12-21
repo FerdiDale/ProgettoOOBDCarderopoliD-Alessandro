@@ -1,5 +1,7 @@
 
-public class operazioneFallitaException extends Throwable {
+
+
+public class OperazioneFallitaException extends Throwable {
 
 	
 	
