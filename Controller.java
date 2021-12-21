@@ -2,9 +2,11 @@ import java.sql.*;
 
 public class Controller {
 	
-	InterfacciaRistoranti frameRistoranti;
+	InterfacciaRistoranti frameRist;
+	InterfacciaSale frameSala;
+	InterfacciaCreazioneSala frameCreateS;
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 		try 
 		{
@@ -16,11 +18,26 @@ public class Controller {
 		{
 			e.stampaMessaggio();
 		}
+		
 
 	}
 	
 	public Controller() {
-		frameRistoranti = new InterfacciaRistoranti(this);
+		frameRist = new InterfacciaRistoranti(this);
+	}*/
+	public void bottoneRimozioneSalaPremuto(Sala c)
+	{
+		try
+		{
+			SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
+			SDAO.RimuoviSalaRistorante(c);
+		}finally {}
+	}
+	
+	public void bottoneAggiuntaSalaPremuto()
+	{
+		frameSala.setVisible(false);
+		
 	}
 
 }
