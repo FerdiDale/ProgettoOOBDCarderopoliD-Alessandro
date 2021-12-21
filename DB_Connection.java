@@ -6,7 +6,7 @@ public class DB_Connection {
 
 	private static DB_Connection instance; 
 	private Connection conn = null;
-	
+  
 	private DB_Connection() throws DriverMancanteException {
 		
 		try 
@@ -14,7 +14,7 @@ public class DB_Connection {
 			Class.forName("org.postgresql.Driver");
 			
 			//Connessione al db come utente postgres
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ristorantidb", "postgres", "Antonio22");
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ristorantidb", "postgres", "");
 		}
 		catch(ClassNotFoundException e)
 		{

@@ -1,3 +1,5 @@
+
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -5,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class RistoranteDAOImplPostgres implements RistoranteDAO {
 	
-	public ArrayList<Ristorante> estraiTuttiRistoranti() throws operazioneFallitaException{
+	public ArrayList<Ristorante> estraiTuttiRistoranti() throws OperazioneFallitaException{
 		
 		try
 		{
@@ -34,7 +36,40 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		}
 		catch (SQLException e)
 		{
-			operazioneFallitaException ecc = new operazioneFallitaException();
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			throw ecc;
+		}
+	}
+	
+	public void inserisciRistorante(String nome, String via, Integer n_Civico, String citta) throws OperazioneFallitaException{
+		try
+		{
+			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
+			stmt.executeUpdate("INSERT INTO Ristorante (Nome, Via, N_Civico, Citta) VALUES ("
+					+ "'" + nome + "'" + ", " + "'" + via+ "'" + ", " 
+					+ n_Civico + ", " + "'"+ citta +"'" + " );");
+			
+		}
+		catch (SQLException e)
+		{
+			OperazioneFallitaException ecc= new OperazioneFallitaException();
+			throw ecc;
+		}
+	}
+
+	public void modificaRistorante(Integer id_Ristorante, String nome, String via, Integer n_Civico, String citta) throws OperazioneFallitaException {
+		try
+		{
+			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
+			stmt.executeUpdate("UPDATE Ristorante AS R SET "
+					+ "Nome = " + "'" + nome + "'" + ", " + "Via = " + "'" + via+ "'" + ", " 
+					+ "N_Civico = " + n_Civico + ", " + "Citta = " + "'" + citta +"'" +
+					"WHERE Id_Ristorante = " + id_Ristorante + ";");
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+			OperazioneFallitaException ecc= new OperazioneFallitaException();
 			throw ecc;
 		}
 	}

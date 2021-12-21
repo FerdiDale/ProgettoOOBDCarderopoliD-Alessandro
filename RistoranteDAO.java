@@ -1,7 +1,9 @@
+
+
 import java.util.ArrayList;
 
 public interface RistoranteDAO {
 
-	public ArrayList<Ristorante> estraiTuttiRistoranti() throws operazioneFallitaException;
+	public ArrayList<Ristorante> estraiTuttiRistoranti() throws OperazioneFallitaException;
 	
 }

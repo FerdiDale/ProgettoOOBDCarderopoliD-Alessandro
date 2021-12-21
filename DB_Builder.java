@@ -1,3 +1,4 @@
+
 import java.sql.*;
 
 import javax.swing.JOptionPane;
@@ -11,13 +12,13 @@ public class DB_Builder
 		try 
 		{	
 			//Connessione con url del server senza database in caso il database non sia presente
-			//(La connessione con accesso al database Ë gestita dalla classe singleton DB_Connection)
+			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
-			//devono essere tutti minuscoli, altrimenti dar‡ errore
+			//devono essere tutti minuscoli, altrimenti dar√† errore
 			//(database non esistente)
 			conn.close();
 		}
@@ -28,7 +29,7 @@ public class DB_Builder
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gi‡ esistente
+			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gi√† esistente
 			else 
 			{
 				JOptionPane.showMessageDialog(null,"C'e' stato un errore, il database non e' stato creato correttamente\n"
@@ -44,10 +45,10 @@ public class DB_Builder
 				
 				stmt.executeUpdate("CREATE TABLE Ristorante"
 								+ "(Id_Ristorante SERIAL,"
-								+ "Nome VARCHAR(40) NOT NULL,"
-								+ "Via VARCHAR(40) NOT NULL,"
-								+ "N_Civico INTEGER NOT NULL,"
-								+ "Citta VARCHAR(40) NOT NULL,"
+								+ "Nome VARCHAR(40) NOT NULL, "
+								+ "Via VARCHAR(40) NOT NULL, "
+								+ "N_Civico INTEGER NOT NULL, "
+								+ "Citta VARCHAR(40) NOT NULL, "
 								+ "PRIMARY KEY(Id_Ristorante),"
 								+ "CONSTRAINT UnicaLocalita UNIQUE(Via, N_Civico, Citta));");
 				
