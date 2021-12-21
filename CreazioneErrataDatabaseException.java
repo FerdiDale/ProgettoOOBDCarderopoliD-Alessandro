@@ -1,5 +1,4 @@
 
-
 import javax.swing.JOptionPane;
 
 public class CreazioneErrataDatabaseException extends ErroreIniziale {
@@ -12,3 +11,4 @@ public class CreazioneErrataDatabaseException extends ErroreIniziale {
 				+ "e il riavvio dell'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 	}
 }
+

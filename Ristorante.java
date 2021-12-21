@@ -1,6 +1,3 @@
-
-
-
 public class Ristorante {
 	
 	Integer Id_Ristorante;

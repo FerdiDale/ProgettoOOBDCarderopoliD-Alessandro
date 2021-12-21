@@ -1,15 +1,17 @@
-import java.sql.*;
 
+import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class Controller {
 	
-	InterfacciaRistoranti frameRistoranti;
+  InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
+	InterfacciaSale frameSala;
+	InterfacciaCreazioneSala frameCreateS;
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 		try 
 		{
@@ -21,14 +23,15 @@ public class Controller {
 		{
 			e.stampaMessaggio();
 		}
+		
 
 	}
 	
 	public Controller() {
-		frameRistoranti = new InterfacciaRistoranti(this);
+		frameRist = new InterfacciaRistoranti(this);
 	}
-
-	public void bottoneAggiungiRistorantePremuto() {
+  
+  	public void bottoneAggiungiRistorantePremuto() {
 		frameRistoranti.setVisible(false);
 		frameAggiuntaRistorante = new InterfacciaAggiuntaRistorante(this);
 		frameAggiuntaRistorante.setVisible(true);
@@ -70,5 +73,20 @@ public class Controller {
 		}
 	}
 	
+  
+	public void bottoneRimozioneSalaPremuto(Sala c)
+	{
+		try
+		{
+			SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
+			SDAO.RimuoviSalaRistorante(c);
+		}finally {}
+	}
 	
+	public void bottoneAggiuntaSalaPremuto()
+	{
+		frameSala.setVisible(false);
+		
+	}
+
 }
