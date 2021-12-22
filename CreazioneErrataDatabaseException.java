@@ -1,7 +1,7 @@
 
 import javax.swing.JOptionPane;
 
-public class CreazioneErrataDatabaseException extends ErroreIniziale {
+public class CreazioneErrataDatabaseException extends ErrorePersonalizzato {
 
 	public void stampaMessaggio(){
 		

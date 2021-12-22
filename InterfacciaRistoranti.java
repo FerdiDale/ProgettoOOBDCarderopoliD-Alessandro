@@ -31,7 +31,6 @@ import java.awt.event.MouseEvent;
 public class InterfacciaRistoranti extends JFrame {
 
 	private Controller theController;
-	private RistoranteDAO ristDao = new RistoranteDAOImplPostgres(); //BISOGNA SPOSTARE IL DAO E L'INIZIALIZZAZIONE NEL CONTROLLORE
 	private JList<Ristorante> listaVisibile;
 	ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
 	DefaultListModel<Ristorante> modelloLista = new DefaultListModel<Ristorante>();
@@ -47,16 +46,15 @@ public class InterfacciaRistoranti extends JFrame {
 		setBounds(100, 100, 581, 470);
 		getContentPane().setLayout(null);
 
-
-		
 		creaLista();
+		
 		listaVisibile.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		listaVisibile.setLayoutOrientation(JList.VERTICAL);
 		
 		JButton bottoneAggiungiRistorante = new JButton("Aggiungi un ristorante");
 		bottoneAggiungiRistorante.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {//BISOGNA VERIFICARE NON VENGANO VIOLATI I CONSTRAINT
+			public void mouseClicked(MouseEvent e) {
 				theController.bottoneAggiungiRistorantePremuto();		
 			}
 		});
@@ -67,7 +65,7 @@ public class InterfacciaRistoranti extends JFrame {
 		JButton bottoneModificaRistorante = new JButton("Modifica i dati del ristorante selezionato");
 		bottoneModificaRistorante.addMouseListener(new MouseAdapter() {
 			@Override //BISOGNA VERIFICARE IL NUMERO DI CARATTERI
-			public void mouseClicked(MouseEvent e) {//BISOGNA VERIFICARE NON VENGANO VIOLATI I CONSTRAINT
+			public void mouseClicked(MouseEvent e) {
 				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
 				theController.bottoneModificaRistorantePremuto(ristoranteSelezionato);
 			}
@@ -146,20 +144,7 @@ public class InterfacciaRistoranti extends JFrame {
 	
 	public void creaLista() {
 		
-		boolean errore = false;
-		
-		do {
-			try
-			{
-				listaRistoranti = ristDao.estraiTuttiRistoranti();
-				errore = false;
-			}
-			catch (OperazioneFallitaException ecc)
-			{
-				errore = true;
-			}
-		} while (errore);
-		
+		listaRistoranti = theController.inizializzazioneRistoranti();
 		modelloLista.addAll(listaRistoranti);
 		listaVisibile = new JList<Ristorante>(modelloLista);
 		listaVisibile.setBounds(10, 10, 275, 425);

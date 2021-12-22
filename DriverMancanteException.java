@@ -1,6 +1,6 @@
 import javax.swing.JOptionPane;
 
-public class DriverMancanteException extends ErroreIniziale {
+public class DriverMancanteException extends ErrorePersonalizzato {
 
 	public void stampaMessaggio() {
 		JOptionPane.showMessageDialog(null, "C'e' stato un errore, il driver del DBMS potrebbe"

@@ -29,7 +29,7 @@ public class DB_Builder
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gi√† esistente
+			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gia'† esistente
 			else 
 			{
 				JOptionPane.showMessageDialog(null,"C'e' stato un errore, il database non e' stato creato correttamente\n"

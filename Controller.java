@@ -1,5 +1,7 @@
 
 import java.sql.*;
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 public class Controller {
@@ -18,9 +20,8 @@ public class Controller {
 		{
 			DB_Builder costruttore = new DB_Builder();
 			Controller controllore = new Controller();
-
 		}
-		catch(ErroreIniziale e)
+		catch(ErrorePersonalizzato e)
 		{
 			e.stampaMessaggio();
 		}
@@ -46,9 +47,9 @@ public class Controller {
 			frameRistoranti = new InterfacciaRistoranti(this);
 			frameRistoranti.setVisible(true);
 		}
-		catch (OperazioneFallitaException e)
+		catch (ErrorePersonalizzato e)
 		{
-			e.StampaMessaggio();
+			e.stampaMessaggio();
 		}
 	}
 	
@@ -66,9 +67,9 @@ public class Controller {
 			frameRistoranti = new InterfacciaRistoranti(this);
 			frameRistoranti.setVisible(true);
 		}
-		catch (OperazioneFallitaException e)
+		catch (ErrorePersonalizzato e)
 		{
-			e.StampaMessaggio();
+			e.stampaMessaggio();
 		}
 	}
 	
@@ -92,15 +93,15 @@ public class Controller {
 		{
 			ristoranteDao.eliminaRistorante(ristoranteCorrente);
 		}
-		catch (OperazioneFallitaException e)
+		catch (ErrorePersonalizzato e)
 		{
-			e.StampaMessaggio();
+			e.stampaMessaggio();
 		}		
 	}
 
 	public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
 		frameRistoranti.setVisible(false);
-		frameSale = new InterfacciaSale(this, ristoranteCorrente.getNome(), ristoranteCorrente.getId_Ristorante());
+		frameSale = new InterfacciaSale(this, ristoranteCorrente);
 	}
 
 	public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
@@ -108,4 +109,24 @@ public class Controller {
 		frameStatistiche = new InterfacciaStatistiche(this, ristoranteCorrente);
 	}
 
+	public ArrayList<Ristorante> inizializzazioneRistoranti() {
+		
+		ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
+		boolean errore = false;
+		
+		do {
+			try
+			{
+				listaRistoranti = ristoranteDao.estraiTuttiRistoranti();
+				errore = false;
+			}
+			catch (OperazioneFallitaException ecc)
+			{
+				errore = true;
+			}
+		} while (errore);
+		
+		return listaRistoranti;
+	}
+	
 }
