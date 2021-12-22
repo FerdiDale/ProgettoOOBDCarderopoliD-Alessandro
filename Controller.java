@@ -4,14 +4,15 @@ import javax.swing.JOptionPane;
 
 public class Controller {
 	
-  InterfacciaRistoranti frameRistoranti;
+	InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
-	InterfacciaSale frameSala;
-	InterfacciaCreazioneSala frameCreateS;
+	InterfacciaSale frameSale;
+	InterfacciaStatistiche frameStatistiche;
+	//InterfacciaCreazioneSala frameCreateS;
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 
 		try 
 		{
@@ -28,7 +29,7 @@ public class Controller {
 	}
 	
 	public Controller() {
-		frameRist = new InterfacciaRistoranti(this);
+		frameRistoranti = new InterfacciaRistoranti(this);
 	}
   
   	public void bottoneAggiungiRistorantePremuto() {
@@ -47,8 +48,7 @@ public class Controller {
 		}
 		catch (OperazioneFallitaException e)
 		{
-			JOptionPane.showMessageDialog(null, "C'e' stato un errore di connnessione, riprovare l'operazione.",
-					"Errore!", JOptionPane.ERROR_MESSAGE);
+			e.StampaMessaggio();
 		}
 	}
 	
@@ -68,8 +68,7 @@ public class Controller {
 		}
 		catch (OperazioneFallitaException e)
 		{
-			JOptionPane.showMessageDialog(null, "C'e' stato un errore di connnessione, riprovare l'operazione.",
-					"Errore!", JOptionPane.ERROR_MESSAGE);
+			e.StampaMessaggio();
 		}
 	}
 	
@@ -85,8 +84,28 @@ public class Controller {
 	
 	public void bottoneAggiuntaSalaPremuto()
 	{
-		frameSala.setVisible(false);
-		
+		frameSale.setVisible(false);
+	}
+
+	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {
+		try
+		{
+			ristoranteDao.eliminaRistorante(ristoranteCorrente);
+		}
+		catch (OperazioneFallitaException e)
+		{
+			e.StampaMessaggio();
+		}		
+	}
+
+	public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
+		frameRistoranti.setVisible(false);
+		frameSale = new InterfacciaSale(this, ristoranteCorrente.getNome(), ristoranteCorrente.getId_Ristorante());
+	}
+
+	public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
+		frameRistoranti.setVisible(false);
+		frameStatistiche = new InterfacciaStatistiche(this, ristoranteCorrente);
 	}
 
 }

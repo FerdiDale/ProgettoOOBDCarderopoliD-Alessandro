@@ -85,7 +85,6 @@ public class InterfacciaSale extends JFrame
 		
 		setResizable(false);
 		
-	
 		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
 		lista.clear();
 		lista = SDAO.EstraiSaleRistorante(id_ristorante);

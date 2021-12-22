@@ -78,18 +78,42 @@ public class InterfacciaRistoranti extends JFrame {
 		if (listaVisibile.getSelectedIndex()==-1) bottoneModificaRistorante.setEnabled(false);
 		
 		JButton bottoneEliminaRistorante = new JButton("Elimina il ristorante selezionato");
+		bottoneEliminaRistorante.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
+				theController.bottoneEliminaRistorantePremuto(ristoranteSelezionato);
+				listaRistoranti.remove(listaVisibile.getSelectedIndex());
+				modelloLista.removeAllElements();
+				modelloLista.addAll(listaRistoranti);
+			}
+		});
 		bottoneEliminaRistorante.setBounds(10, 333, 551, 23);
 		getContentPane().add(bottoneEliminaRistorante);
 		bottoneEliminaRistorante.setVisible(true);
 		if (listaVisibile.getSelectedIndex()==-1) bottoneEliminaRistorante.setEnabled(false);
 	
 		JButton bottoneVisualizzaStatisticheRistorante = new JButton("Visualizza statistiche del ristorante selezionato");
+		bottoneVisualizzaStatisticheRistorante.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
+				theController.bottoneVisualizzaStatistichePremuto(ristoranteSelezionato);
+			}
+		});
 		bottoneVisualizzaStatisticheRistorante.setBounds(10, 400, 551, 23);
 		getContentPane().add(bottoneVisualizzaStatisticheRistorante);
 		bottoneVisualizzaStatisticheRistorante.setVisible(true);
 		if (listaVisibile.getSelectedIndex()==-1) bottoneVisualizzaStatisticheRistorante.setEnabled(false);
 		
 		JButton bottoneVisualizzaSaleRistorante = new JButton("Visualizza sale del ristorante selezionato");
+		bottoneVisualizzaSaleRistorante.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
+				theController.bottoneVisualizzaSalePremuto(ristoranteSelezionato);
+			}
+		});
 		bottoneVisualizzaSaleRistorante.setBounds(10, 366, 551, 23);
 		getContentPane().add(bottoneVisualizzaSaleRistorante);
 		bottoneVisualizzaSaleRistorante.setVisible(true);
