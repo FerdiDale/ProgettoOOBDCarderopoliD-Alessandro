@@ -1,16 +1,18 @@
 
 import java.sql.*;
-import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Controller {
-    InterfacciaRistoranti frameRistoranti;
+	
+	InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
-	InterfacciaSale frameSala;
-	InterfacciaCreazioneSala frameCreateS;
-	InterfacciaGestioneCamerieri frameGestioneCamerieri;
+	InterfacciaSale frameSale;
+	InterfacciaStatistiche frameStatistiche;
+	//InterfacciaCreazioneSala frameCreateS;
 	
 	public static void main(String[] args) {
 
@@ -18,12 +20,13 @@ public class Controller {
 		{
 			DB_Builder costruttore = new DB_Builder();
 			Controller controllore = new Controller();
-
 		}
-		catch(ErroreIniziale e)
+		catch(ErrorePersonalizzato e)
 		{
 			e.stampaMessaggio();
 		}
+		
+
 	}
 	
 	public Controller() {
@@ -44,10 +47,9 @@ public class Controller {
 			frameRistoranti = new InterfacciaRistoranti(this);
 			frameRistoranti.setVisible(true);
 		}
-		catch (OperazioneFallitaException e)
+		catch (ErrorePersonalizzato e)
 		{
-			JOptionPane.showMessageDialog(null, "C'e' stato un errore di connnessione, riprovare l'operazione.",
-					"Errore!", JOptionPane.ERROR_MESSAGE);
+			e.stampaMessaggio();
 		}
 	}
 	
@@ -65,10 +67,9 @@ public class Controller {
 			frameRistoranti = new InterfacciaRistoranti(this);
 			frameRistoranti.setVisible(true);
 		}
-		catch (OperazioneFallitaException e)
+		catch (ErrorePersonalizzato e)
 		{
-			JOptionPane.showMessageDialog(null, "C'e' stato un errore di connnessione, riprovare l'operazione.",
-					"Errore!", JOptionPane.ERROR_MESSAGE);
+			e.stampaMessaggio();
 		}
 	}
 	
@@ -82,42 +83,50 @@ public class Controller {
 		}finally {}
 	}
 	
-	public void bottoneAggiuntaSalaPremuto(Ristorante ristorante)
-	{		
-		frameCreateS = new InterfacciaCreazioneSala(ristorante,this);
-		frameSala.setVisible(false);
-	}
-	
-	public boolean interfacciaCreazioneSalaOkPremuto1(String nomeSala, int id_ristorante)
+	public void bottoneAggiuntaSalaPremuto()
 	{
-		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
-		return SDAO.isNomeSalaTaken(nomeSala, id_ristorante);
+		frameSale.setVisible(false);
 	}
-	
-	public void interfacciaCreazioneSalaOkPremuto2(String nomeSala, Ristorante ristorante)
-	{
-		frameCreateS.setVisible(false);
-		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
-		SDAO.AggiuntaSalaRistorante(nomeSala, ristorante.getId_Ristorante());
-		frameSala = new InterfacciaSale(this,ristorante);
+
+	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {
+		try
+		{
+			ristoranteDao.eliminaRistorante(ristoranteCorrente);
+		}
+		catch (ErrorePersonalizzato e)
+		{
+			e.stampaMessaggio();
+		}		
 	}
-	
-	public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristorante)
-	{
-		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
-		return SDAO.EstraiSaleRistorante(ristorante.getId_Ristorante());
+
+	public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
+		frameRistoranti.setVisible(false);
+		frameSale = new InterfacciaSale(this, ristoranteCorrente);
 	}
-	
-	public ArrayList<Cameriere> EstraiCamerieriInServizioC(Ristorante ristorante)
-	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.EstraiCamerieriInServizio(ristorante);
+
+	public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
+		frameRistoranti.setVisible(false);
+		frameStatistiche = new InterfacciaStatistiche(this, ristoranteCorrente);
 	}
-	
-	public ArrayList<Cameriere> EstraiCamerieriLicenziatiC(Ristorante ristorante)
-	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.EstraiCamerieriLicenziati(ristorante);
+
+	public ArrayList<Ristorante> inizializzazioneRistoranti() {
+		
+		ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
+		boolean errore = false;
+		
+		do {
+			try
+			{
+				listaRistoranti = ristoranteDao.estraiTuttiRistoranti();
+				errore = false;
+			}
+			catch (OperazioneFallitaException ecc)
+			{
+				errore = true;
+			}
+		} while (errore);
+		
+		return listaRistoranti;
 	}
 	
 }
