@@ -27,7 +27,7 @@ public class Controller {
 	}
 	
 	public Controller() {
-		frameRistoranti = new InterfacciaRistoranti(this);
+		//frameRistoranti = new InterfacciaRistoranti(this);
 	}
   
   	public void bottoneAggiungiRistorantePremuto() {
@@ -123,37 +123,12 @@ public class Controller {
 	public void bottoneRiassumiCamerierePremuto(Cameriere c,String data)
 	{
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.
-	}
-
-	public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
-		frameRistoranti.setVisible(false);
-		frameSale = new InterfacciaSale(this, ristoranteCorrente);
-	}
-
-	public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
-		frameRistoranti.setVisible(false);
-		frameStatistiche = new InterfacciaStatistiche(this, ristoranteCorrente);
-	}
-
-	public ArrayList<Ristorante> inizializzazioneRistoranti() {
-		
-		ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
-		boolean errore = false;
-		
-		do {
-			try
-			{
-				listaRistoranti = ristoranteDao.estraiTuttiRistoranti();
-				errore = false;
-			}
-			catch (OperazioneFallitaException ecc)
-			{
-				errore = true;
-			}
-		} while (errore);
-		
-		return listaRistoranti;
+		CDAO.riassumiCameriereLicenziato(c,data);
 	}
 	
+	public void bottoneLicenziaCamerierePremuto(Cameriere c, String data)
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		CDAO.licenziaCameriereAssunto(c, data);
+	}
 }

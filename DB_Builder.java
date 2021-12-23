@@ -89,12 +89,12 @@ public class DB_Builder
 				stmt.executeUpdate("CREATE TABLE Avventori"
 								+ "(Nome VARCHAR(30) NOT NULL,"
 								+ "Cognome VARCHAR(30) NOT NULL,"
-								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY CHECK (N_CID LIKE 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
-								+ "N_Tel CHAR(10) CHECK (N_Tel LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'));");
+								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
+								+ "N_Tel CHAR(10) CHECK (N_Tel SIMILAR TO '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'));");
 			
 				stmt.executeUpdate("CREATE TABLE Elenco_Avventori"
 								+ "(Id_Tavolata INTEGER NOT NULL,"
-								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY CHECK (N_CID LIKE 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
+								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
 								+ "CONSTRAINT InTavolata FOREIGN KEY(Id_Tavolata) REFERENCES Tavolata(Id_Tavolata),"
 								+ "CONSTRAINT DiAvventore FOREIGN KEY(N_CID) REFERENCES Avventori(N_CID));");
 			
@@ -105,7 +105,7 @@ public class DB_Builder
 			
 				stmt.executeUpdate("CREATE TABLE Cameriere"
 								+ "(Id_Cameriere SERIAL PRIMARY KEY,"
-								+ "CID_Cameriere CHAR(9) NOT NULL CHECK (CID_Cameriere LIKE 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
+								+ "CID_Cameriere CHAR(9) NOT NULL CHECK (CID_Cameriere SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
 								+ "Nome VARCHAR(30) NOT NULL,"
 								+ "Cognome VARCHAR(30) NOT NULL,"
 								+ "Id_Ristorante INTEGER NOT NULL,"
@@ -270,3 +270,6 @@ public class DB_Builder
 		}
 	}
 }
+
+
+

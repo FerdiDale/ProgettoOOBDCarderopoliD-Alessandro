@@ -8,4 +8,6 @@ public interface CameriereDAO
 	public ArrayList<Cameriere> EstraiCamerieriLicenziati(Ristorante ristorante);
 	
 	public void riassumiCameriereLicenziato(Cameriere c,String data);
+	
+	public void licenziaCameriereAssunto(Cameriere c, String data);
 }
