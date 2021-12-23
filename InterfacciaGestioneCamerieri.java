@@ -26,7 +26,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	private ArrayList<Cameriere> arrayListLicenziati = new ArrayList<Cameriere>();
 	private JTextField dataAssunzione;
 	private JTextField dataLicenziamento;
-	private JButton setDataAssunzione;
+	private JButton setDataRiassunzione;
 	private JButton setDataLicenziamento;
 	private JButton RiassumiCameriere;
 	private JButton LicenziaCameriere;
@@ -34,8 +34,9 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	private SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
 	private int indiceListaAssunti = -1;
 	private int indiceListaLicenziati = -1;
-	private Date dataAssunzioneStringa;
-	private Date dataLicenziamentoStringa;
+	private String dataAssunzioneStringa;
+	private String dataLicenziamentoStringa;
+	private int buttonunlock = -2;
 	
 	
 	public InterfacciaGestioneCamerieri(Ristorante ristorante, Controller theController)
@@ -90,9 +91,9 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		add(dataLicenziamento);
 		dataLicenziamento.setColumns(10);
 		
-		setDataAssunzione = new JButton("^");
-		setDataAssunzione.setBounds(311, 101, 89, 23);
-		add(setDataAssunzione);
+		setDataRiassunzione = new JButton("^");
+		setDataRiassunzione.setBounds(311, 101, 89, 23);
+		add(setDataRiassunzione);
 		
 		setDataLicenziamento = new JButton("^");
 		setDataLicenziamento.setBounds(311, 229, 89, 23);
@@ -116,33 +117,60 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource() == setDataAssunzione)
+			if(e.getSource() == setDataRiassunzione)
 			{
 				if(dataAssunzione.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si puÃ² inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else 
 				{
 					try
 					{
-						dataAssunzioneStringa = formatoData.parse(dataAssunzione.getText());
+						formatoData.parse(dataAssunzione.getText());
+						if(indiceListaLicenziati == -1)
+						{
+							buttonunlock =-1;
+							JOptionPane.showMessageDialog(null, "Si selezioni ora un cameriere dalla lista dei licenziati per riassumerlo.", "Informazione",JOptionPane.INFORMATION_MESSAGE);
+						}
+						else
+						{
+							RiassumiCameriere.setEnabled(true);
+						}
 					}
 					catch(ParseException p)
 					{
 						JOptionPane.showMessageDialog(null,"La data non e' del formato corretto, riprovare.","Errore!",JOptionPane.ERROR_MESSAGE);
 					}
-					//se l'indice della lista assunzioni non Ã¨ -1 allora puoi far premere il bottone di assunzione, altrimenti mostra un messaggio "selezionare il cameriere da riassumere"
+					//se l'indice della lista licenziati non è -1 allora puoi far premere il bottone di assunzione, altrimenti mostra un messaggio "selezionare il cameriere da riassumere"
 				}
+			}
+			else if(e.getSource() == listaLicenziati)
+			{
+				indiceListaLicenziati = listaLicenziati.getSelectedIndex();
+				if(i)
+				JOptionPane.showMessageDialog(null,"Si immetti ora una data nell'apposita casella di testo per poter riassumere il cameriere selezionato");
+			}
+			{
+				theController.bottoneRiassumiCamerierePremuto(arrayListLicenziati.get(indiceListaLicenziati),dataAssunzioneStringa);
+				arrayListAssunti.add(arrayListLicenziati.get(indiceListaLicenziati));
+				arrayListLicenziati.remove(indiceListaLicenziati);
+				modelloListaLicenziati.removeAllElements();
+				modelloListaLicenziati.addAll(arrayListLicenziati);
+				modelloListaAssunti.removeAllElements();
+				modelloListaAssunti.addAll(arrayListAssunti);
 			}
 		}
 	}
 	
-	private class DateP extends Date
-	{
-		public String toString()
-		{
-			return 
-		}
-	}
+
 }
+
+
+
+
+//codice per la riassunzione del cameriere 
+/*theController.bottoneRiassumiCamerierePremuto(arrayListLicenziati.get(indiceListaLicenziati), ristorante);
+						arrayListLicenziati.remove(indiceListaLicenziati);
+						modelloListaLicenziati.removeAllElements();
+						modelloListaLicenziati.addAll(arrayListLicenziati);*/

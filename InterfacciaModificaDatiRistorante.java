@@ -117,4 +117,3 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		contentPane.add(bottoneConfermaAggiuntaRistorante);
 	}
 }
-

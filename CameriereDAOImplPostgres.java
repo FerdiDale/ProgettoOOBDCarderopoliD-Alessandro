@@ -1,6 +1,8 @@
 import java.sql.*;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class CameriereDAOImplPostgres 
 {
 	public ArrayList<Cameriere> EstraiCamerieriInServizio(Ristorante ristorante)
@@ -41,4 +43,17 @@ public class CameriereDAOImplPostgres
 		}
 		return Risultato;
 	}
+	
+	public void riassumiCameriereLicenziato(Cameriere c,String data)
+	{
+		try
+		{
+			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
+			ResultSet risultatoQuery= stmt.executeQuery("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione()) VALUES ("c.getCID_Cameriere()+","+c.getNome()+","+c.getCognome()+","+"DATE"+"'";");
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, "L'inserimento nel database non ha avuto successo. Riprovare.\n", "Errore!", JOptionPane.ERROR_MESSAGE);
+		}
+	}	
 }

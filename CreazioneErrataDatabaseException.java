@@ -1,7 +1,7 @@
 
 import javax.swing.JOptionPane;
 
-public class CreazioneErrataDatabaseException extends ErrorePersonalizzato {
+public class CreazioneErrataDatabaseException extends ErroreIniziale {
 
 	public void stampaMessaggio(){
 		
@@ -11,4 +11,3 @@ public class CreazioneErrataDatabaseException extends ErrorePersonalizzato {
 				+ "e il riavvio dell'applicativo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 	}
 }
-
