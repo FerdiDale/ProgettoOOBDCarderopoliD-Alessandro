@@ -1,9 +1,8 @@
 
 import java.sql.*;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
+import java.util.Date;
 public class Controller {
 	
 	InterfacciaRistoranti frameRistoranti;
@@ -127,6 +126,12 @@ public class Controller {
 		} while (errore);
 		
 		return listaRistoranti;
+	}
+	
+	public void bottoneRiassumiCamerierePremuto(Cameriere c,String data)
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		CDAO.
 	}
 	
 }

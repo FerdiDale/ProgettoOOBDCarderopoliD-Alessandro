@@ -41,17 +41,19 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		lblNewLabel.setBounds(10, 11, 520, 26);
 		contentPane.add(lblNewLabel);
 
-		inputNomeRistorante = new JTextField(10);
+		inputNomeRistorante = new JTextField();
 		inputNomeRistorante.setBounds(270, 55, 260, 20);
 		contentPane.add(inputNomeRistorante);
+		inputNomeRistorante.setColumns(10);
 		
 		JLabel labelNomeRistorante = new JLabel("Nome");
 		labelNomeRistorante.setBounds(10, 55, 235, 20);
 		contentPane.add(labelNomeRistorante);
 		
-		inputCittaRistorante = new JTextField(10);
+		inputCittaRistorante = new JTextField();
 		inputCittaRistorante.setBounds(270, 86, 260, 20);
 		contentPane.add(inputCittaRistorante);
+		inputCittaRistorante.setColumns(10);
 	
 		JLabel labelCittaRistorante = new JLabel("Citta'");
 		labelCittaRistorante.setBounds(10, 86, 235, 20);
@@ -61,6 +63,7 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		inputViaRistorante.setText("");
 		inputViaRistorante.setBounds(270, 117, 260, 20);
 		contentPane.add(inputViaRistorante);
+		inputViaRistorante.setColumns(10);
 	
 		JLabel labelViaRistorante = new JLabel("Via");
 		labelViaRistorante.setBounds(10, 117, 235, 20);
@@ -70,6 +73,7 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		inputN_CivicoRistorante.setText("");
 		inputN_CivicoRistorante.setBounds(270, 148, 260, 20);
 		contentPane.add(inputN_CivicoRistorante);
+		inputN_CivicoRistorante.setColumns(10);
 		
 		JLabel labelN_CivicoRistorante = new JLabel("Numero Civico");
 		labelN_CivicoRistorante.setBounds(10, 148, 235, 20);
