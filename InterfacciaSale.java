@@ -19,10 +19,10 @@ import javax.swing.JScrollPane;
 
 public class InterfacciaSale extends JFrame 
 {
-	private Ristorante ristorante;
-	private ArrayList<Sala> listaSale = new ArrayList<Sala>();
-	private DefaultListModel<Sala> modelloLista = new DefaultListModel<Sala>();
-	private JList<Sala> listavisibile = new JList<>(modelloLista);
+	private int id_ristorante;
+	private ArrayList<Sala> lista = new ArrayList<Sala>();
+	private DefaultListModel<Sala> modellolista = new DefaultListModel<Sala>();
+	private JList<Sala> listavisibile = new JList<>(modellolista);
 	private int elementoSelezionato = -1;
 	private JButton GestioneCamerieri;
 	private JButton RimuoviSala ;
@@ -35,12 +35,12 @@ public class InterfacciaSale extends JFrame
 	
 	public InterfacciaSale(Controller c, Ristorante ristorante) 
 	{
-		super("Sale del ristorante "+ ristorante.getNome());
+		/*super("Sale del ristorante "+ nomeristorante);*/
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 		theController = c;
-		this.ristorante = ristorante;
+		this.id_ristorante = id_ristorante;
 		
 		AggiuntaSala = new JButton("Aggiungi sala");
 		AggiuntaSala.setBounds(290, 9, 120, 23);
@@ -83,14 +83,15 @@ public class InterfacciaSale extends JFrame
 		GestoreClickMouse click = new GestoreClickMouse();
 		RimuoviSala.addActionListener(click);
 		
+		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
+		lista.clear();
+		lista = SDAO.EstraiSaleRistorante(id_ristorante);
+		
+		modellolista.removeAllElements();
+		modellolista.addAll(lista);
+		
 		setResizable(false);
-		
-	
-		listaSale.clear();
-		listaSale = theController.EstraiSaleRistorante(ristorante);
-		
-		modelloLista.removeAllElements();
-		modelloLista.addAll(listaSale);
+		setVisible(true);
 		
 	}
 
@@ -100,15 +101,15 @@ public class InterfacciaSale extends JFrame
 		{
 			if (e.getSource() == RimuoviSala)
 			{
-				Sala corrente = listaSale.get(elementoSelezionato);
-				listaSale.remove(elementoSelezionato);
+				Sala corrente = lista.get(elementoSelezionato);
+				lista.remove(elementoSelezionato);
 				theController.bottoneRimozioneSalaPremuto(corrente);
-				modelloLista.removeAllElements();
-				modelloLista.addAll(listaSale);
+				modellolista.removeAllElements();
+				modellolista.addAll(lista);
 			}
 			else if (e.getSource() == AggiuntaSala)
 			{
-				theController.bottoneAggiuntaSalaPremuto(ristorante);
+				
 			}
 		}
 	}

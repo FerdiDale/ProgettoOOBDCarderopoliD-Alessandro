@@ -1,3 +1,5 @@
+
+
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -27,7 +29,6 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 			{
 				System.out.println(e); 
 			}
-			JOptionPane.showMessageDialog(null,risultato.toString());
 			return risultato;
 		}
 	public void RimuoviSalaRistorante(Sala s)
@@ -44,35 +45,8 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		}
 	}
 	
-	public void AggiuntaSalaRistorante(String nomeSala,int id_ristorante)
+	public void AggiuntaSalaRistorante(int id_ristorante)
 	{
-		try 
-		{
-			Connection c = DB_Connection.getInstance().getConnection();
-			Statement stmt = c.createStatement();
-			stmt.executeUpdate("INSERT INTO Sala(Nome,Id_Ristorante) VALUES ("+ nomeSala +","+id_ristorante+");");
-		}
-		catch(SQLException e)
-		{
-			JOptionPane.showMessageDialog(null,"L'inserimento non e' andato a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
-		}
-	}
 		
-	public boolean isNomeSalaTaken(String nomeSala, int id_ristorante)
-	{
-		boolean risultato = false;
-		try
-		{
-			Connection c = DB_Connection.getInstance().getConnection();
-			Statement stmt = c.createStatement();
-			ResultSet sale =stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante+" AND Nome ="+nomeSala+";");  
-			risultato = sale.next();
-		}
-		catch(SQLException e)
-		{
-			JOptionPane.showMessageDialog(null,"La ricerca del nome non è andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
-
-		}
-		return risultato;
-	}	
+	}
 }
