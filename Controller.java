@@ -11,6 +11,7 @@ public class Controller {
 	InterfacciaSale frameSala;
 	InterfacciaCreazioneSala frameCreateS;
 	InterfacciaGestioneCamerieri frameGestioneCamerieri;
+	InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
 	
 	public static void main(String[] args) {
 
@@ -130,5 +131,11 @@ public class Controller {
 	{
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
 		CDAO.licenziaCameriereAssunto(c, data);
+	}
+	
+	public void bottoneAggiungiCamerierePremuto(Ristorante r)
+	{
+		frameGestioneCamerieri.setVisible(false);
+		frameAggiuntaCamerieri = new InterfacciaAggiuntaCamerieri(r, this); 
 	}
 }

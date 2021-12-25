@@ -43,13 +43,17 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	private String dataLicenziamentoStringa;
 	private int buttonunlockA = -2;
 	private int buttonunlockL = -2;
+	private JLabel etichettaFormatoDataLicenziamento;
+	private JLabel eFDL2;
+	private JLabel etichettaFormatoDataLicenziamento_1;
+	private JLabel eFDL2_1;
 	
 	
 	public InterfacciaGestioneCamerieri(Ristorante ristorante, Controller theController)
 	{
 		super("Gestione camerieri di "+ristorante.getNome());
 		getContentPane().setLayout(null);
-		setBounds(100, 100, 450, 350);
+		setBounds(100, 100, 500, 404);
 		this.theController=theController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -79,12 +83,12 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		getContentPane().add(AggiuntaCameriere);
 		
 		RiassumiCameriere = new JButton("Riassumi Cameriere");
-		RiassumiCameriere.setBounds(287, 188, 135, 23);
+		RiassumiCameriere.setBounds(287, 234, 135, 23);
 		RiassumiCameriere.setEnabled(false);
 		getContentPane().add(RiassumiCameriere);
 		
 		dataRiassunzione = new JTextField();
-		dataRiassunzione.setBounds(287, 249, 135, 23);
+		dataRiassunzione.setBounds(287, 331, 135, 23);
 		getContentPane().add(dataRiassunzione);
 		dataRiassunzione.setColumns(10);
 		
@@ -94,12 +98,12 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		getContentPane().add(LicenziaCameriere);
 		
 		dataLicenziamento = new JTextField();
-		dataLicenziamento.setBounds(287, 128, 135, 23);
+		dataLicenziamento.setBounds(287, 157, 135, 23);
 		getContentPane().add(dataLicenziamento);
 		dataLicenziamento.setColumns(10);
 		
 		setDataRiassunzione = new JButton("^");
-		setDataRiassunzione.setBounds(311, 217, 89, 23);
+		setDataRiassunzione.setBounds(311, 271, 89, 23);
 		getContentPane().add(setDataRiassunzione);
 		
 		setDataLicenziamento = new JButton("^");
@@ -122,6 +126,22 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		dataLicenziamento.setFocusable(true);
 		dataRiassunzione.setFocusable(true);
 		
+		etichettaFormatoDataLicenziamento = new JLabel("Inserire la data nel formato");
+		etichettaFormatoDataLicenziamento.setBounds(286, 294, 148, 14);
+		getContentPane().add(etichettaFormatoDataLicenziamento);
+		
+		eFDL2 = new JLabel("anno/mese/giorno e poi premere la freccetta");
+		eFDL2.setBounds(245, 306, 234, 14);
+		getContentPane().add(eFDL2);
+		
+		etichettaFormatoDataLicenziamento_1 = new JLabel("Inserire la data nel formato");
+		etichettaFormatoDataLicenziamento_1.setBounds(286, 126, 148, 14);
+		getContentPane().add(etichettaFormatoDataLicenziamento_1);
+		
+		eFDL2_1 = new JLabel("anno/mese/giorno e poi premere la freccetta");
+		eFDL2_1.setBounds(245, 138, 234, 14);
+		getContentPane().add(eFDL2_1);
+		
 		dataLicenziamento.addKeyListener(handlerC);
 		dataRiassunzione.addKeyListener(handlerC);
 		setDataRiassunzione.addActionListener(handler);
@@ -133,6 +153,8 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		dataLicenziamento.addActionListener(handler);
 		LicenziaCameriere.addActionListener(handler);
 		listaAssunti.addListSelectionListener(handlerL);
+		
+		AggiuntaCameriere.addActionListener(handler);
 		
 		setResizable(false);
 		
@@ -185,7 +207,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 				modelloListaAssunti.removeAllElements();
 				modelloListaAssunti.addAll(arrayListAssunti);
 			}
-			if(e.getSource() == setDataLicenziamento)
+			else if(e.getSource() == setDataLicenziamento)
 			{
 				if(dataLicenziamento.getText().isBlank())
 				{
@@ -226,6 +248,10 @@ public class InterfacciaGestioneCamerieri extends JFrame
 				modelloListaAssunti.addAll(arrayListAssunti);
 				modelloListaLicenziati.removeAllElements();
 				modelloListaLicenziati.addAll(arrayListLicenziati);
+			}
+			else 
+			{
+				theController.bottoneAggiungiCamerierePremuto(ristorante);
 			}
 		}
 	}
