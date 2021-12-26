@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class CameriereDAOImplPostgres 
-{
+{/*
 	public ArrayList<Cameriere> EstraiCamerieriInServizio(Ristorante ristorante)
 	{
 		ArrayList<Cameriere> Risultato = new ArrayList<Cameriere>();
@@ -55,5 +55,5 @@ public class CameriereDAOImplPostgres
 		{
 			JOptionPane.showMessageDialog(null, "L'inserimento nel database non ha avuto successo. Riprovare.\n", "Errore!", JOptionPane.ERROR_MESSAGE);
 		}
-	}	
+	}	*/
 }

@@ -94,7 +94,7 @@ public class DB_Builder
 			
 				stmt.executeUpdate("CREATE TABLE Elenco_Avventori"
 								+ "(Id_Tavolata INTEGER NOT NULL,"
-								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY CHECK (N_CID LIKE 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
+								+ "N_CID CHAR(9) NOT NULL CHECK (N_CID LIKE 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
 								+ "CONSTRAINT InTavolata FOREIGN KEY(Id_Tavolata) REFERENCES Tavolata(Id_Tavolata),"
 								+ "CONSTRAINT DiAvventore FOREIGN KEY(N_CID) REFERENCES Avventori(N_CID));");
 			

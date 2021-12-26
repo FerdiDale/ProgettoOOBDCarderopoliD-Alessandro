@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 
 public class InterfacciaGestioneCamerieri extends JFrame 
 {
-	private Ristorante ristorante;
+	/*private Ristorante ristorante;
 	private Controller theController;
 	private DefaultListModel<Cameriere> modelloListaAssunti = new  DefaultListModel<Cameriere>();
 	private	DefaultListModel<Cameriere> modelloListaLicenziati = new DefaultListModel<Cameriere>();
@@ -162,7 +162,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			}
 		}
 	}
-	
+	*/
 
 }
 
