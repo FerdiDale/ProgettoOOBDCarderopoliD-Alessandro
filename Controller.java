@@ -1,16 +1,28 @@
 
 import java.sql.*;
+
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.ListIterator;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 public class Controller {
     InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
+	NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
 	InterfacciaSale frameSala;
 	InterfacciaCreazioneSala frameCreateS;
 	InterfacciaGestioneCamerieri frameGestioneCamerieri;
+	InterfacciaStatistiche frameStatistiche; 
 	InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
 	
 	public static void main(String[] args) {
@@ -43,7 +55,6 @@ public class Controller {
 			ristoranteDao.inserisciRistorante(nome, via, n_Civico, citta);
 			frameAggiuntaRistorante.setVisible(false);
 			frameRistoranti = new InterfacciaRistoranti(this);
-			frameRistoranti.setVisible(true);
 		}
 		catch (OperazioneFallitaException e)
 		{
@@ -55,7 +66,6 @@ public class Controller {
 	public void bottoneModificaRistorantePremuto(Ristorante ristoranteCorrente) {
 		frameRistoranti.setVisible(false);
 		frameModificaRistorante = new InterfacciaModificaDatiRistorante(this, ristoranteCorrente);
-		frameModificaRistorante.setVisible(true);
 	}
 	
 	public void modificaRistoranteOkPremuto(Integer id_Ristorante, String nome, String via, Integer n_Civico, String citta) {
@@ -64,7 +74,6 @@ public class Controller {
 			ristoranteDao.modificaRistorante(id_Ristorante, nome, via, n_Civico, citta);
 			frameModificaRistorante.setVisible(false);
 			frameRistoranti = new InterfacciaRistoranti(this);
-			frameRistoranti.setVisible(true);
 		}
 		catch (OperazioneFallitaException e)
 		{
@@ -82,7 +91,7 @@ public class Controller {
 			SDAO.RimuoviSalaRistorante(c);
 		}finally {}
 	}
-	
+	/*
 	public void bottoneAggiuntaSalaPremuto(Ristorante ristorante)
 	{		
 		frameCreateS = new InterfacciaCreazioneSala(ristorante,this);
@@ -138,4 +147,72 @@ public class Controller {
 		frameGestioneCamerieri.setVisible(false);
 		frameAggiuntaCamerieri = new InterfacciaAggiuntaCamerieri(r, this); 
 	}
+	
+	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {
+		try
+		{
+			ristoranteDao.eliminaRistorante(ristoranteCorrente);
+		}
+		catch (ErrorePersonalizzato e)
+		{
+			e.stampaMessaggio();
+		}		
+	}
+
+	public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
+		frameRistoranti.setVisible(false);
+		frameSala = new InterfacciaSale(this, ristoranteCorrente);
+	}
+
+	public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
+		frameRistoranti.setVisible(false);
+		frameStatistiche = new InterfacciaStatistiche(this, ristoranteCorrente, java.time.LocalDateTime.now().getYear());
+	}
+
+	public ArrayList<Ristorante> inizializzazioneRistoranti() {
+		
+		ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
+		boolean errore = false;
+		
+		do {
+			try
+			{
+				listaRistoranti = ristoranteDao.estraiTuttiRistoranti();
+				errore = false;
+			}
+			catch (OperazioneFallitaException ecc)
+			{
+				errore = true;
+			}
+		} while (errore);
+		
+		return listaRistoranti;
+	}
+
+	public DefaultCategoryDataset stampaStatistiche(Integer anno, Ristorante ristorante) {
+		ArrayList<NumeroAvventoriMese> listaCorrenteStatistiche = new ArrayList<NumeroAvventoriMese>();
+		boolean errore = false;
+		
+		do {
+			try
+			{
+				errore= false;
+				listaCorrenteStatistiche = numeroAvventoriMeseDao.estraiStatisticheAnno(anno, ristorante);
+			}
+			catch (OperazioneFallitaException e)
+			{
+				System.out.println(e.getMessage());
+				errore = true;
+			}
+			
+		} while(errore);
+		
+		DefaultCategoryDataset risultato = new DefaultCategoryDataset();
+		
+		for (NumeroAvventoriMese numeroCorrente : listaCorrenteStatistiche) {
+			System.out.println(numeroCorrente.getNumAvventori() + numeroCorrente.getMese() + numeroCorrente.getAnno());
+			risultato.setValue(numeroCorrente.getNumAvventori(), "Numero di avventori", numeroCorrente.getMese());
+		}
+		
+		return risultato;		
 }
