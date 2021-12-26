@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 
@@ -23,6 +24,8 @@ public class InterfacciaCreazioneSala extends JFrame
 		GestoreBottoneOk GestoreNomeSala = new GestoreBottoneOk();
 		this.theController = theController;
 		this.ristorante = ristorante;
+		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
+		setIconImage(icona.getImage());
 		
 		NomeSala = new JTextField();
 		NomeSala.setBounds(10, 30, 86, 20);

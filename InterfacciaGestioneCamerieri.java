@@ -4,6 +4,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -56,6 +56,8 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		setBounds(100, 100, 500, 404);
 		this.theController=theController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
+		setIconImage(icona.getImage());
 		
 		JScrollPane scrollPaneAssunti = new JScrollPane();
 		scrollPaneAssunti.setBounds(10, 35, 225, 105);
@@ -313,13 +315,3 @@ public class InterfacciaGestioneCamerieri extends JFrame
 }
 
 
-
-
-//codice per la riassunzione del cameriere 
-/*				theController.bottoneRiassumiCamerierePremuto(arrayListLicenziati.get(indiceListaLicenziati),dataAssunzioneStringa);
-				arrayListAssunti.add(arrayListLicenziati.get(indiceListaLicenziati));
-				arrayListLicenziati.remove(indiceListaLicenziati);
-				modelloListaLicenziati.removeAllElements();
-				modelloListaLicenziati.addAll(arrayListLicenziati);
-				modelloListaAssunti.removeAllElements();
-				modelloListaAssunti.addAll(arrayListAssunti);*/

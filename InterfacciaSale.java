@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import javax.swing.event.*;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+
 import java.util.ArrayList;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -41,6 +43,8 @@ public class InterfacciaSale extends JFrame
 		getContentPane().setLayout(null);
 		theController = c;
 		this.ristorante = ristorante;
+		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
+		setIconImage(icona.getImage());
 		
 		AggiuntaSala = new JButton("Aggiungi sala");
 		AggiuntaSala.setBounds(290, 9, 120, 23);
