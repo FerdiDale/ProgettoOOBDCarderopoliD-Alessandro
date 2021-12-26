@@ -23,6 +23,7 @@ public class Controller {
 	InterfacciaCreazioneSala frameCreateS;
 	InterfacciaGestioneCamerieri frameGestioneCamerieri;
 	InterfacciaStatistiche frameStatistiche; 
+	InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
 	
 	public static void main(String[] args) {
 
@@ -39,7 +40,7 @@ public class Controller {
 	}
 	
 	public Controller() {
-		frameRistoranti = new InterfacciaRistoranti(this);
+		//frameRistoranti = new InterfacciaRistoranti(this);
 	}
   
   	public void bottoneAggiungiRistorantePremuto() {
@@ -132,8 +133,20 @@ public class Controller {
 	public void bottoneRiassumiCamerierePremuto(Cameriere c,String data)
 	{
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.
-	}*/
+		CDAO.riassumiCameriereLicenziato(c,data);
+	}
+	
+	public void bottoneLicenziaCamerierePremuto(Cameriere c, String data)
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		CDAO.licenziaCameriereAssunto(c, data);
+	}
+	
+	public void bottoneAggiungiCamerierePremuto(Ristorante r)
+	{
+		frameGestioneCamerieri.setVisible(false);
+		frameAggiuntaCamerieri = new InterfacciaAggiuntaCamerieri(r, this); 
+	}
 	
 	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {
 		try
@@ -201,6 +214,5 @@ public class Controller {
 			risultato.setValue(numeroCorrente.getNumAvventori(), "Numero di avventori", numeroCorrente.getMese());
 		}
 		
-		return risultato;
-	}
+		return risultato;		
 }

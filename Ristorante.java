@@ -37,7 +37,6 @@ public class Ristorante {
 		Citta = citta;
 	}
 
-	@Override
 	public String toString(){
 		
 		String risultato = new String();

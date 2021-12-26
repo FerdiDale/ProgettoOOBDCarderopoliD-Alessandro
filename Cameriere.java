@@ -63,4 +63,9 @@ public class Cameriere
 		Data_Ammissione = data_Ammissione;
 		Data_Licenziamento = data_Licenziamento;
 	}
+	
+	public String toString()
+	{
+		return Nome+" "+Cognome+" "+CID_Cameriere;
+	}
 }
