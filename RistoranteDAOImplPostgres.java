@@ -74,20 +74,4 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		}
 	}
 	
-	public void eliminaRistorante(Ristorante ristoranteCorrente) throws OperazioneFallitaException {
-		try
-		{
-			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-			stmt.executeUpdate("DELETE FROM RISTORANTE WHERE "
-					+  "Id_Ristorante = " + ristoranteCorrente.getId_Ristorante() + ";");
-		}
-		catch (SQLException e)
-		{
-			System.out.println(e.getMessage());
-			OperazioneFallitaException ecc= new OperazioneFallitaException();
-			throw ecc;
-		}
-		
-	}
-	
 }

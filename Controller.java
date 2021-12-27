@@ -1,4 +1,3 @@
-
 import java.sql.*;
 
 import javax.swing.JOptionPane;
@@ -14,12 +13,12 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Controller {
-    InterfacciaRistoranti frameRistoranti;
+  InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
-	NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
-	InterfacciaSale frameSala;
+  NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
+	InterfacciaSale frameSale;
 	InterfacciaCreazioneSala frameCreateS;
 	InterfacciaGestioneCamerieri frameGestioneCamerieri;
 	InterfacciaStatistichePerAnno frameStatistichePerAnno; 
@@ -87,17 +86,14 @@ public class Controller {
   
 	public void bottoneRimozioneSalaPremuto(Sala c)
 	{
-		try
-		{
 			SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
 			SDAO.RimuoviSalaRistorante(c);
-		}finally {}
 	}
 	
 	public void bottoneAggiuntaSalaPremuto(Ristorante ristorante)
 	{		
 		frameCreateS = new InterfacciaCreazioneSala(ristorante,this);
-		frameSala.setVisible(false);
+		frameSale.setVisible(false);
 	}
 	
 	public boolean interfacciaCreazioneSalaOkPremuto1(String nomeSala, int id_ristorante)
@@ -111,7 +107,37 @@ public class Controller {
 		frameCreateS.setVisible(false);
 		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
 		SDAO.AggiuntaSalaRistorante(nomeSala, ristorante.getId_Ristorante());
-		frameSala = new InterfacciaSale(this,ristorante);
+		frameSale = new InterfacciaSale(this,ristorante);
+	}
+	
+	public void bottoneGestioneCamerieriPremuto(Ristorante ristorante)
+	{
+		frameSale.setVisible(false);
+		frameGestioneCamerieri = new InterfacciaGestioneCamerieri(ristorante, this);
+	}
+	
+	public void bottoneOkGestioneCamerieriPremuto(Ristorante ristorante)
+	{
+		frameGestioneCamerieri.setVisible(false);
+		frameSale = new InterfacciaSale(this,ristorante);
+	}
+	
+	public void bottoneTornaIndietroSalePremuto()
+	{
+		frameSale.setVisible(false);
+		frameRistoranti = new InterfacciaRistoranti(this);
+	}
+	
+	public void bottoneTornaIndietroGestioneCamerieriPremuto(Ristorante ristorante)
+	{
+		frameGestioneCamerieri.setVisible(false);
+		frameSale = new InterfacciaSale(this,ristorante);
+	}
+	
+	public void bottoneTornaIndietroInterfacciaCreazioneSalaPremuto(Ristorante ristorante)
+	{
+		frameCreateS.setVisible(false);
+		frameSale = new InterfacciaSale(this,ristorante);
 	}
 	
 	public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristorante)
@@ -148,6 +174,18 @@ public class Controller {
 	{
 		frameGestioneCamerieri.setVisible(false);
 		frameAggiuntaCamerieri = new InterfacciaAggiuntaCamerieri(r, this); 
+	}
+	
+	public void bottoneTornaIndietroAggiuntaCamerieriPremuto(Ristorante ristorante)
+	{
+		frameAggiuntaCamerieri.setVisible(false);
+		frameGestioneCamerieri = new InterfacciaGestioneCamerieri(ristorante, this);
+	}
+	
+	public void bottoneOkAggiuntaCamerieriPremutoSuccessful(Cameriere cameriere) throws SQLException
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		CDAO.assumiNuovoCameriere(cameriere);
 	}
 	
 	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {
@@ -267,8 +305,5 @@ public class Controller {
 	public void bottoneIndietroModificaRistorantePremuto() {
 		frameModificaRistorante.setVisible(false);
 		frameRistoranti = new InterfacciaRistoranti (this);
-	}
-	
-	
-	
-}
+  }
+}  

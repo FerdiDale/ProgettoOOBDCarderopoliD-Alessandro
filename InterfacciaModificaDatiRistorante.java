@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,9 +28,6 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 	 */
 	public InterfacciaModificaDatiRistorante(Controller c, Ristorante ristoranteCorrente) {
 		theController = c;
-		
-		ImageIcon icona = new ImageIcon("res/Icona progetto oobd.png");
-		setIconImage(icona.getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 556, 250);

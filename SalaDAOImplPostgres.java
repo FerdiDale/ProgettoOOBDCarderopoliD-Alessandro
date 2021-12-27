@@ -35,7 +35,7 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		{
 			Connection c = DB_Connection.getInstance().getConnection();
 			Statement stmt = c.createStatement();
-			stmt.executeUpdate("DELETE FROM Sala WHERE Id_Ristorante = " + s.getId_Ristorante()+"AND Id_Sala ="+s.getId_Sala()+";");  
+			stmt.executeUpdate("DELETE FROM Sala WHERE Id_Sala ="+s.getId_Sala()+";");  
 		}
 		catch(SQLException e)
 		{
@@ -49,7 +49,7 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		{
 			Connection c = DB_Connection.getInstance().getConnection();
 			Statement stmt = c.createStatement();
-			stmt.executeUpdate("INSERT INTO Sala(Nome,Id_Ristorante) VALUES ( '" + nomeSala +"' ,"+id_ristorante+");");
+			stmt.executeUpdate("INSERT INTO Sala(Nome,Id_Ristorante) VALUES ('"+ nomeSala +"',"+id_ristorante+");");
 		}
 		catch(SQLException e)
 		{
@@ -69,7 +69,7 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null,"La ricerca del nome non è andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"La ricerca del nome non Ã¨ andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
 
 		}
 		return risultato;

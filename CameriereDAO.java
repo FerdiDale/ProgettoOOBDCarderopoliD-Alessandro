@@ -10,4 +10,6 @@ public interface CameriereDAO
 	public void riassumiCameriereLicenziato(Cameriere c,String data);
 	
 	public void licenziaCameriereAssunto(Cameriere c, String data);
+	
+	public void assumiNuovoCameriere(Cameriere c);
 }

@@ -32,8 +32,7 @@ public class InterfacciaSale extends JFrame
 	private JButton AggiuntaSala;
 	private JScrollPane scorrimentoPerlistavisibile;
 	private Controller theController;
-	private JTextField textField; 
-	private JTextField textField_1;
+	private JButton tornaIndietro;
 	
 	public InterfacciaSale(Controller c, Ristorante ristorante) 
 	{
@@ -51,7 +50,7 @@ public class InterfacciaSale extends JFrame
 		getContentPane().add(AggiuntaSala);
 		
 		GestioneCamerieri = new JButton("Gestisci camerieri");
-		GestioneCamerieri.setBounds(290, 43, 120, 23);
+		GestioneCamerieri.setBounds(273, 43, 151, 23);
 	    getContentPane().add(GestioneCamerieri);
 		
 		RimuoviSala = new JButton("Rimuovi sala selezionata");
@@ -69,32 +68,25 @@ public class InterfacciaSale extends JFrame
 		
 	    scorrimentoPerlistavisibile.setViewportView(listavisibile);
 	    
-	    textField = new JTextField("Nome sala");
-	    textField.setBounds(290, 77, 86, 20);
-	    getContentPane().add(textField);
-	    textField.setColumns(10);
-	    
-	    textField_1 = new JTextField("ID sala");
-	    textField_1.setBounds(290, 108, 86, 20);
-	    getContentPane().add(textField_1);
-	    textField_1.setColumns(10);
+	    tornaIndietro = new JButton("Indietro");
+	    tornaIndietro.setBounds(290, 136, 120, 17);
+	    getContentPane().add(tornaIndietro);
 	    GestoreClickMouse handler = new GestoreClickMouse();
-	    textField.addActionListener(handler);
 		
 		GestoreSelezioneLista selezione = new GestoreSelezioneLista();
 		listavisibile.addListSelectionListener(selezione);
 		
-		GestoreClickMouse click = new GestoreClickMouse();
-		RimuoviSala.addActionListener(click);
-		
+		tornaIndietro.addActionListener(handler);
+		RimuoviSala.addActionListener(handler);
+		AggiuntaSala.addActionListener(handler);
+		GestioneCamerieri.addActionListener(handler);
+
 		listaSale.clear();
 		listaSale = theController.EstraiSaleRistorante(ristorante);
 		
 		modelloLista.removeAllElements();
 		modelloLista.addAll(listaSale);
-	
-		AggiuntaSala.addActionListener(handler);
-
+		
 		setResizable(false);
 		setVisible(true);
 	}
@@ -114,6 +106,14 @@ public class InterfacciaSale extends JFrame
 			else if (e.getSource() == AggiuntaSala)
 			{
 				theController.bottoneAggiuntaSalaPremuto(ristorante);
+			}
+			else if (e.getSource() == GestioneCamerieri)
+			{
+				theController.bottoneGestioneCamerieriPremuto(ristorante);
+			}
+			else if (e.getSource() == tornaIndietro)
+			{
+				theController.bottoneTornaIndietroSalePremuto();
 			}
 		}
 	}

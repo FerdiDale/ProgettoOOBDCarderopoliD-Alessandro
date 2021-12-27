@@ -17,7 +17,6 @@ public class CameriereDAOImplPostgres
 				Cameriere attuale = new Cameriere(risultatoQuery.getInt(1),risultatoQuery.getString(2),risultatoQuery.getString(3),risultatoQuery.getString(4),
 						risultatoQuery.getInt(5),risultatoQuery.getString(6),risultatoQuery.getString(7));
 				Risultato.add(attuale);
-				//Rivediti sta parte
 			}
 		}
 		catch(SQLException e)
@@ -32,10 +31,10 @@ public class CameriereDAOImplPostgres
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-			ResultSet risultatoQuery= stmt.executeQuery("SELECT * FROM Cameriere WHERE Id_Ristorante = "+ristorante.getId_Ristorante()+" AND Data_Licenziamento IS NOT NULL AND CID_Cameriere not in (SELECT CID_Cameriere FROM Cameriere WHERE Data_Licenziamento IS NULL);");
+			ResultSet risultatoQuery= stmt.executeQuery("SELECT distinct CID_Cameriere,Nome,Cognome,Id_Ristorante FROM Cameriere WHERE Id_Ristorante = "+ristorante.getId_Ristorante()+" AND Data_Licenziamento IS NOT NULL AND CID_Cameriere not in (SELECT CID_Cameriere FROM Cameriere WHERE Data_Licenziamento IS NULL);");
 			while(risultatoQuery.next())
 			{
-				Cameriere attuale = new Cameriere(risultatoQuery.getInt(1),risultatoQuery.getString(2),risultatoQuery.getString(3),risultatoQuery.getString(4),risultatoQuery.getInt(5),risultatoQuery.getString(6),risultatoQuery.getString(7));
+				Cameriere attuale = new Cameriere(risultatoQuery.getString(1),risultatoQuery.getString(2),risultatoQuery.getString(3),risultatoQuery.getInt(4));
 				Risultato.add(attuale);
 			}
 		}
@@ -71,5 +70,12 @@ public class CameriereDAOImplPostgres
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Errore!", JOptionPane.ERROR_MESSAGE);
 		}
-  }
+	}
+	
+	public void assumiNuovoCameriere(Cameriere c) throws SQLException
+	{
+		Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
+		stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
+		+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
+	}
 }
