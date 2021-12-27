@@ -12,6 +12,8 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InterfacciaAggiuntaRistorante extends JFrame {
 
@@ -36,10 +38,10 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Inserisci i dati del nuovo ristorante");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel.setBounds(10, 11, 520, 26);
-		contentPane.add(lblNewLabel);
+		JLabel promptLabel = new JLabel("Inserisci i dati del nuovo ristorante");
+		promptLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		promptLabel.setBounds(10, 11, 520, 26);
+		contentPane.add(promptLabel);
 
 		inputNomeRistorante = new JTextField();
 		inputNomeRistorante.setBounds(270, 55, 260, 20);
@@ -99,7 +101,23 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 						String cittaCurr = inputCittaRistorante.getText();
 						String viaCurr = inputViaRistorante.getText();
 						Integer n_CivicoCurr = Integer.parseInt(inputN_CivicoRistorante.getText());
-						theController.aggiuntaRistoranteOkPremuto(nomeCurr, viaCurr, n_CivicoCurr, cittaCurr);
+						if (nomeCurr.length()>40) {
+							JOptionPane.showMessageDialog(null, "Il nome del ristorante puo' contenere al massimo 40 caratteri!",
+									"Attenzione!", JOptionPane.WARNING_MESSAGE);
+						}
+						else if (cittaCurr.length()>40) {
+							JOptionPane.showMessageDialog(null, "Il nome della citta' puo' contenere al massimo 40 caratteri!",
+									"Attenzione!", JOptionPane.WARNING_MESSAGE);
+						}
+						else if (viaCurr.length()>40) {
+							JOptionPane.showMessageDialog(null, "Il nome della via puo' contenere al massimo 40 caratteri!",
+									"Attenzione!", JOptionPane.WARNING_MESSAGE);
+						}
+						else if (n_CivicoCurr<1) {
+							JOptionPane.showMessageDialog(null, "Il numero civico deve essere un numero valido!",
+									"Attenzione!", JOptionPane.WARNING_MESSAGE);
+						}
+						else theController.aggiuntaRistoranteOkPremuto(nomeCurr, viaCurr, n_CivicoCurr, cittaCurr);
 					}
 					catch (NumberFormatException ecc)
 					{
@@ -111,5 +129,16 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		});
 		bottoneConfermaAggiuntaRistorante.setBounds(467, 179, 63, 23);
 		contentPane.add(bottoneConfermaAggiuntaRistorante);
+	
+		JButton bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				theController.bottoneIndietroAggiungiRistorantePremuto();
+			}
+		});
+		bottoneIndietro.setBounds(10, 179, 89, 23);
+		contentPane.add(bottoneIndietro);
+		
+		setVisible(true);
 	}
 }

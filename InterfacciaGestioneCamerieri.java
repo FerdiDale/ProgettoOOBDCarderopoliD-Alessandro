@@ -174,7 +174,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			{
 				if(dataRiassunzione.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si puÃ² inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(dataRiassunzione.getText().length()<10)
 				{
@@ -216,7 +216,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			{
 				if(dataLicenziamento.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si puÃ² inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(dataLicenziamento.getText().length()<10)
 				{
@@ -320,5 +320,3 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		}
 	}
 }
-
-

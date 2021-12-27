@@ -3,28 +3,29 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class NumeroAvventoriMeseDAOImplPostgres implements NumeroAvventoriMeseDAO {
+public class NumeroAvventoriGiornoDAOImplPostgres implements NumeroAvventoriGiornoDAO {
 
 	@Override
-	public ArrayList<NumeroAvventoriMese> estraiStatisticheAnno(Integer annoScelto, Ristorante ristoranteScelto) throws OperazioneFallitaException {
-		
+	public ArrayList<NumeroAvventoriGiorno> estraiStatisticheMese(Integer annoScelto, Integer meseScelto,
+			Ristorante ristoranteScelto) throws OperazioneFallitaException {
 		try
 		{
-			ArrayList<NumeroAvventoriMese> listaStatistiche = new ArrayList<NumeroAvventoriMese>();
+			ArrayList<NumeroAvventoriGiorno> listaStatistiche = new ArrayList<NumeroAvventoriGiorno>();
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
 			ResultSet risultatoQuery;
-			risultatoQuery = stmt.executeQuery(" SELECT EXTRACT (MONTH FROM T.DATA) AS MESE, "
+			risultatoQuery = stmt.executeQuery(" SELECT EXTRACT (DAY FROM T.DATA) AS GIORNO, "
 			+   "COUNT (E_A.N_CID) AS NUMAVVENTORI "
 			+	"FROM TAVOLATA AS T NATURAL JOIN ELENCO_AVVENTORI AS E_A "
 			+	" NATURAL JOIN TAVOLO AS TAV NATURAL JOIN SALA AS S "
 			+	"WHERE EXTRACT (YEAR FROM T.DATA) = " + annoScelto.toString()
 			+	" AND S.Id_Ristorante = " + ristoranteScelto.getId_Ristorante()
-			+	" GROUP BY EXTRACT (MONTH FROM T.DATA); ");
+			+	" AND EXTRACT (MONTH FROM T.DATA) = " + meseScelto.toString()
+			+	" GROUP BY EXTRACT (DAY FROM T.DATA); ");
 			
 			while(risultatoQuery.next()) {
-				Integer meseCurr = risultatoQuery.getInt(1);
+				Integer giornoCurr = risultatoQuery.getInt(1);
 				Integer numAvventoriCurr = risultatoQuery.getInt(2);
-				NumeroAvventoriMese statisticheCorrenti = new NumeroAvventoriMese(numAvventoriCurr, meseCurr, annoScelto);
+				NumeroAvventoriGiorno statisticheCorrenti = new NumeroAvventoriGiorno(numAvventoriCurr, giornoCurr, meseScelto, annoScelto);
 				listaStatistiche.add(statisticheCorrenti);
 			}
 			
@@ -36,6 +37,8 @@ public class NumeroAvventoriMeseDAOImplPostgres implements NumeroAvventoriMeseDA
 			OperazioneFallitaException ecc = new OperazioneFallitaException();
 			throw ecc;
 		}
+		
 	}
 
+	
 }
