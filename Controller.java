@@ -6,23 +6,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ListIterator;
 
-import org.jfree.chart.ChartFactory;
+/*import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;*/
 
 public class Controller {
     InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
-	NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
+//	NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
 	InterfacciaSale frameSala;
 	InterfacciaCreazioneSala frameCreateS;
 	InterfacciaGestioneCamerieri frameGestioneCamerieri;
-	InterfacciaStatistiche frameStatistiche; 
+//	InterfacciaStatistiche frameStatistiche; 
 	InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
 	
 	public static void main(String[] args) {
@@ -40,7 +40,7 @@ public class Controller {
 	}
 	
 	public Controller() {
-		//frameRistoranti = new InterfacciaRistoranti(this);
+		frameRistoranti = new InterfacciaRistoranti(this);
 	}
   
   	public void bottoneAggiungiRistorantePremuto() {
@@ -91,7 +91,7 @@ public class Controller {
 			SDAO.RimuoviSalaRistorante(c);
 		}finally {}
 	}
-	/*
+	
 	public void bottoneAggiuntaSalaPremuto(Ristorante ristorante)
 	{		
 		frameCreateS = new InterfacciaCreazioneSala(ristorante,this);
@@ -109,6 +109,36 @@ public class Controller {
 		frameCreateS.setVisible(false);
 		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
 		SDAO.AggiuntaSalaRistorante(nomeSala, ristorante.getId_Ristorante());
+		frameSala = new InterfacciaSale(this,ristorante);
+	}
+	
+	public void bottoneGestioneCamerieriPremuto(Ristorante ristorante)
+	{
+		frameSala.setVisible(false);
+		frameGestioneCamerieri = new InterfacciaGestioneCamerieri(ristorante, this);
+	}
+	
+	public void bottoneOkGestioneCamerieriPremuto(Ristorante ristorante)
+	{
+		frameGestioneCamerieri.setVisible(false);
+		frameSala = new InterfacciaSale(this,ristorante);
+	}
+	
+	public void bottoneTornaIndietroSalePremuto()
+	{
+		frameSala.setVisible(false);
+		frameRistoranti = new InterfacciaRistoranti(this);
+	}
+	
+	public void bottoneTornaIndietroGestioneCamerieriPremuto(Ristorante ristorante)
+	{
+		frameGestioneCamerieri.setVisible(false);
+		frameSala = new InterfacciaSale(this,ristorante);
+	}
+	
+	public void bottoneTornaIndietroInterfacciaCreazioneSalaPremuto(Ristorante ristorante)
+	{
+		frameCreateS.setVisible(false);
 		frameSala = new InterfacciaSale(this,ristorante);
 	}
 	
@@ -148,7 +178,19 @@ public class Controller {
 		frameAggiuntaCamerieri = new InterfacciaAggiuntaCamerieri(r, this); 
 	}
 	
-	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {
+	public void bottoneTornaIndietroAggiuntaCamerieriPremuto(Ristorante ristorante)
+	{
+		frameAggiuntaCamerieri.setVisible(false);
+		frameGestioneCamerieri = new InterfacciaGestioneCamerieri(ristorante, this);
+	}
+	
+	public void bottoneOkAggiuntaCamerieriPremutoSuccessful(Cameriere cameriere) throws SQLException
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		CDAO.assumiNuovoCameriere(cameriere);
+	}
+	
+/*	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {
 		try
 		{
 			ristoranteDao.eliminaRistorante(ristoranteCorrente);
@@ -158,16 +200,16 @@ public class Controller {
 			e.stampaMessaggio();
 		}		
 	}
-
-	public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
+*/
+		public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
 		frameRistoranti.setVisible(false);
 		frameSala = new InterfacciaSale(this, ristoranteCorrente);
 	}
 
-	public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
+	/*public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
 		frameRistoranti.setVisible(false);
 		frameStatistiche = new InterfacciaStatistiche(this, ristoranteCorrente, java.time.LocalDateTime.now().getYear());
-	}
+	}*/
 
 	public ArrayList<Ristorante> inizializzazioneRistoranti() {
 		
@@ -189,7 +231,7 @@ public class Controller {
 		return listaRistoranti;
 	}
 
-	public DefaultCategoryDataset stampaStatistiche(Integer anno, Ristorante ristorante) {
+/*	public DefaultCategoryDataset stampaStatistiche(Integer anno, Ristorante ristorante) {
 		ArrayList<NumeroAvventoriMese> listaCorrenteStatistiche = new ArrayList<NumeroAvventoriMese>();
 		boolean errore = false;
 		
@@ -215,4 +257,5 @@ public class Controller {
 		}
 		
 		return risultato;		
+	}*/
 }

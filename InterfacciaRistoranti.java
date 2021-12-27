@@ -38,7 +38,7 @@ public class InterfacciaRistoranti extends JFrame {
 		setTitle("Ristoranti");
 		theController = c;
 		
-		ImageIcon icona = new ImageIcon("res/Icona progetto oobd.png");
+		ImageIcon icona = new ImageIcon("IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,7 +79,7 @@ public class InterfacciaRistoranti extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
-				theController.bottoneEliminaRistorantePremuto(ristoranteSelezionato);
+		//		theController.bottoneEliminaRistorantePremuto(ristoranteSelezionato);
 				listaRistoranti.remove(listaVisibile.getSelectedIndex());
 				modelloLista.removeAllElements();
 				modelloLista.addAll(listaRistoranti);
@@ -95,7 +95,7 @@ public class InterfacciaRistoranti extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
-				theController.bottoneVisualizzaStatistichePremuto(ristoranteSelezionato);
+			//	theController.bottoneVisualizzaStatistichePremuto(ristoranteSelezionato);
 			}
 		});
 		bottoneVisualizzaStatisticheRistorante.setBounds(10, 400, 551, 23);

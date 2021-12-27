@@ -52,6 +52,15 @@ public class Cameriere
 	public void setData_Licenziamento(String data_Licenziamento) {
 		Data_Licenziamento = data_Licenziamento;
 	}
+	
+	public Cameriere(String cID_Cameriere, String nome, String cognome, int id_Ristorante) {
+		super();
+		CID_Cameriere = cID_Cameriere;
+		Nome = nome;
+		Cognome = cognome;
+		Id_Ristorante = id_Ristorante;
+	}
+	
 	public Cameriere(int id_Cameriere, String cID_Cameriere, String nome, String cognome, int id_Ristorante,
 			String data_Ammissione, String data_Licenziamento) {
 		super();

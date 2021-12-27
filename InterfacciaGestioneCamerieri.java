@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 
 public class InterfacciaGestioneCamerieri extends JFrame 
 {
-	/*private Ristorante ristorante;
+	private Ristorante ristorante;
 	private Controller theController;
 	private DefaultListModel<Cameriere> modelloListaAssunti = new  DefaultListModel<Cameriere>();
 	private	DefaultListModel<Cameriere> modelloListaLicenziati = new DefaultListModel<Cameriere>();
@@ -53,8 +53,9 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	{
 		super("Gestione camerieri di "+ristorante.getNome());
 		getContentPane().setLayout(null);
-		setBounds(100, 100, 500, 404);
+		setBounds(100, 100, 540, 404);
 		this.theController=theController;
+		this.ristorante = ristorante;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
@@ -81,35 +82,35 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		getContentPane().add(Licenziati);
 		
 		AggiuntaCameriere = new JButton("Aggiungi Cameriere");
-		AggiuntaCameriere.setBounds(287, 33, 135, 23);
+		AggiuntaCameriere.setBounds(287, 33, 160, 23);
 		getContentPane().add(AggiuntaCameriere);
 		
 		RiassumiCameriere = new JButton("Riassumi Cameriere");
-		RiassumiCameriere.setBounds(287, 234, 135, 23);
+		RiassumiCameriere.setBounds(287, 234, 160, 23);
 		RiassumiCameriere.setEnabled(false);
 		getContentPane().add(RiassumiCameriere);
 		
 		dataRiassunzione = new JTextField();
-		dataRiassunzione.setBounds(287, 331, 135, 23);
+		dataRiassunzione.setBounds(296, 336, 135, 23);
 		getContentPane().add(dataRiassunzione);
 		dataRiassunzione.setColumns(10);
 		
 		LicenziaCameriere = new JButton("Licenzia Cameriere");
-		LicenziaCameriere.setBounds(287, 67, 135, 23);
+		LicenziaCameriere.setBounds(287, 67, 160, 23);
 		LicenziaCameriere.setEnabled(false);
 		getContentPane().add(LicenziaCameriere);
 		
 		dataLicenziamento = new JTextField();
-		dataLicenziamento.setBounds(287, 157, 135, 23);
+		dataLicenziamento.setBounds(296, 162, 135, 23);
 		getContentPane().add(dataLicenziamento);
 		dataLicenziamento.setColumns(10);
 		
 		setDataRiassunzione = new JButton("^");
-		setDataRiassunzione.setBounds(311, 271, 89, 23);
+		setDataRiassunzione.setBounds(320, 276, 89, 23);
 		getContentPane().add(setDataRiassunzione);
 		
 		setDataLicenziamento = new JButton("^");
-		setDataLicenziamento.setBounds(311, 96, 89, 23);
+		setDataLicenziamento.setBounds(320, 101, 89, 23);
 		getContentPane().add(setDataLicenziamento);
 		
 		arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
@@ -129,35 +130,37 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		dataRiassunzione.setFocusable(true);
 		
 		etichettaFormatoDataLicenziamento = new JLabel("Inserire la data nel formato");
-		etichettaFormatoDataLicenziamento.setBounds(286, 294, 148, 14);
+		etichettaFormatoDataLicenziamento.setBounds(295, 299, 184, 14);
 		getContentPane().add(etichettaFormatoDataLicenziamento);
 		
 		eFDL2 = new JLabel("anno/mese/giorno e poi premere la freccetta");
-		eFDL2.setBounds(245, 306, 234, 14);
+		eFDL2.setBounds(254, 311, 280, 14);
 		getContentPane().add(eFDL2);
 		
 		etichettaFormatoDataLicenziamento_1 = new JLabel("Inserire la data nel formato");
-		etichettaFormatoDataLicenziamento_1.setBounds(286, 126, 148, 14);
+		etichettaFormatoDataLicenziamento_1.setBounds(295, 131, 184, 14);
 		getContentPane().add(etichettaFormatoDataLicenziamento_1);
 		
 		eFDL2_1 = new JLabel("anno/mese/giorno e poi premere la freccetta");
-		eFDL2_1.setBounds(245, 138, 234, 14);
+		eFDL2_1.setBounds(254, 143, 280, 14);
 		getContentPane().add(eFDL2_1);
+		
+		JButton tornaIndietro = new JButton("Indietro");
+		tornaIndietro.setBounds(10, 331, 89, 23);
+		getContentPane().add(tornaIndietro);
 		
 		dataLicenziamento.addKeyListener(handlerC);
 		dataRiassunzione.addKeyListener(handlerC);
 		setDataRiassunzione.addActionListener(handler);
-		dataRiassunzione.addActionListener(handler);
 		listaLicenziati.addListSelectionListener(handlerL);
 		RiassumiCameriere.addActionListener(handler);
-		
+		tornaIndietro.addActionListener(handler);
 		setDataLicenziamento.addActionListener(handler);
-		dataLicenziamento.addActionListener(handler);
 		LicenziaCameriere.addActionListener(handler);
 		listaAssunti.addListSelectionListener(handlerL);
-		
 		AggiuntaCameriere.addActionListener(handler);
 		
+		setVisible(true);
 		setResizable(false);
 		
 		
@@ -171,7 +174,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			{
 				if(dataRiassunzione.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si puÃ² inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(dataRiassunzione.getText().length()<10)
 				{
@@ -213,7 +216,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			{
 				if(dataLicenziamento.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si puÃ² inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(dataLicenziamento.getText().length()<10)
 				{
@@ -251,9 +254,13 @@ public class InterfacciaGestioneCamerieri extends JFrame
 				modelloListaLicenziati.removeAllElements();
 				modelloListaLicenziati.addAll(arrayListLicenziati);
 			}
-			else 
+			else if (e.getSource() == AggiuntaCameriere)
 			{
 				theController.bottoneAggiungiCamerierePremuto(ristorante);
+			}
+			else
+			{
+				theController.bottoneTornaIndietroGestioneCamerieriPremuto(ristorante);
 			}
 		}
 	}
@@ -313,3 +320,5 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		}
 	}
 }
+
+
