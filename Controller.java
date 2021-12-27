@@ -19,7 +19,7 @@ public class Controller {
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
 //	NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
-	InterfacciaSale frameSala;
+	InterfacciaSale frameSale;
 	InterfacciaCreazioneSala frameCreateS;
 	InterfacciaGestioneCamerieri frameGestioneCamerieri;
 //	InterfacciaStatistiche frameStatistiche; 
@@ -95,7 +95,7 @@ public class Controller {
 	public void bottoneAggiuntaSalaPremuto(Ristorante ristorante)
 	{		
 		frameCreateS = new InterfacciaCreazioneSala(ristorante,this);
-		frameSala.setVisible(false);
+		frameSale.setVisible(false);
 	}
 	
 	public boolean interfacciaCreazioneSalaOkPremuto1(String nomeSala, int id_ristorante)
@@ -109,37 +109,37 @@ public class Controller {
 		frameCreateS.setVisible(false);
 		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
 		SDAO.AggiuntaSalaRistorante(nomeSala, ristorante.getId_Ristorante());
-		frameSala = new InterfacciaSale(this,ristorante);
+		frameSale = new InterfacciaSale(this,ristorante);
 	}
 	
 	public void bottoneGestioneCamerieriPremuto(Ristorante ristorante)
 	{
-		frameSala.setVisible(false);
+		frameSale.setVisible(false);
 		frameGestioneCamerieri = new InterfacciaGestioneCamerieri(ristorante, this);
 	}
 	
 	public void bottoneOkGestioneCamerieriPremuto(Ristorante ristorante)
 	{
 		frameGestioneCamerieri.setVisible(false);
-		frameSala = new InterfacciaSale(this,ristorante);
+		frameSale = new InterfacciaSale(this,ristorante);
 	}
 	
 	public void bottoneTornaIndietroSalePremuto()
 	{
-		frameSala.setVisible(false);
+		frameSale.setVisible(false);
 		frameRistoranti = new InterfacciaRistoranti(this);
 	}
 	
 	public void bottoneTornaIndietroGestioneCamerieriPremuto(Ristorante ristorante)
 	{
 		frameGestioneCamerieri.setVisible(false);
-		frameSala = new InterfacciaSale(this,ristorante);
+		frameSale = new InterfacciaSale(this,ristorante);
 	}
 	
 	public void bottoneTornaIndietroInterfacciaCreazioneSalaPremuto(Ristorante ristorante)
 	{
 		frameCreateS.setVisible(false);
-		frameSala = new InterfacciaSale(this,ristorante);
+		frameSale = new InterfacciaSale(this,ristorante);
 	}
 	
 	public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristorante)
@@ -203,7 +203,7 @@ public class Controller {
 */
 		public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
 		frameRistoranti.setVisible(false);
-		frameSala = new InterfacciaSale(this, ristoranteCorrente);
+		frameSale = new InterfacciaSale(this, ristoranteCorrente);
 	}
 
 	/*public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
