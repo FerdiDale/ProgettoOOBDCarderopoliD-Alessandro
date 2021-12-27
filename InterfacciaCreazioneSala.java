@@ -19,6 +19,7 @@ public class InterfacciaCreazioneSala extends JFrame
 	public InterfacciaCreazioneSala(Ristorante ristorante, Controller theController) 
 	{
 		super("Aggiunta Sala");
+		setBounds(10, 20, 200, 200);
 		setResizable(false);
 		getContentPane().setLayout(null);
 		GestoreBottoneOk GestoreNomeSala = new GestoreBottoneOk();
@@ -41,6 +42,8 @@ public class InterfacciaCreazioneSala extends JFrame
 		BottoneOk.setBounds(127, 30, 53, 20);
 		add(BottoneOk);
 		BottoneOk.addActionListener(GestoreNomeSala);
+		
+		setVisible(true);
 		
 	}
 	

@@ -27,7 +27,6 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 			{
 				System.out.println(e); 
 			}
-			JOptionPane.showMessageDialog(null,risultato.toString());
 			return risultato;
 		}
 	public void RimuoviSalaRistorante(Sala s)
@@ -50,7 +49,7 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		{
 			Connection c = DB_Connection.getInstance().getConnection();
 			Statement stmt = c.createStatement();
-			stmt.executeUpdate("INSERT INTO Sala(Nome,Id_Ristorante) VALUES ("+ nomeSala +","+id_ristorante+");");
+			stmt.executeUpdate("INSERT INTO Sala(Nome,Id_Ristorante) VALUES ( '" + nomeSala +"' ,"+id_ristorante+");");
 		}
 		catch(SQLException e)
 		{
@@ -65,7 +64,7 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		{
 			Connection c = DB_Connection.getInstance().getConnection();
 			Statement stmt = c.createStatement();
-			ResultSet sale =stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante+" AND Nome ="+nomeSala+";");  
+			ResultSet sale =stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante+" AND Nome = '" +nomeSala+"' ;");  
 			risultato = sale.next();
 		}
 		catch(SQLException e)

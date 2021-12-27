@@ -87,15 +87,16 @@ public class InterfacciaSale extends JFrame
 		GestoreClickMouse click = new GestoreClickMouse();
 		RimuoviSala.addActionListener(click);
 		
-		setResizable(false);
-		
-	
 		listaSale.clear();
 		listaSale = theController.EstraiSaleRistorante(ristorante);
 		
 		modelloLista.removeAllElements();
 		modelloLista.addAll(listaSale);
-		
+	
+		AggiuntaSala.addActionListener(handler);
+
+		setResizable(false);
+		setVisible(true);
 	}
 
 	private class GestoreClickMouse implements ActionListener
