@@ -25,7 +25,8 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 			}
 			catch(SQLException e)
 			{
-				System.out.println(e); 
+				OperazioneFallitaException ecc = new OperazioneFallitaException();
+				ecc.stampaMessaggio();
 			}
 			return risultato;
 		}

@@ -14,7 +14,7 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "Antonio22");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
@@ -130,7 +130,7 @@ public class DB_Builder
 						          +"DimY INTEGER NOT NULL);");
 				
 				stmt.executeUpdate ("CREATE FUNCTION InserisciSimmetrico() RETURNS TRIGGER\r"
-								+" LANGUAGE plpgsql AS $$\r"
+								+" AS $$\r"
 								+ "DECLARE\r"
 								+ "CheckConto INTEGER;\r"
 								+ "BEGIN\r"
@@ -141,8 +141,9 @@ public class DB_Builder
 								+ "	INSERT INTO Adiacenza\r"
 								+ "	VALUES (NEW.Id_Tavolo2, NEW.Id_Tavolo1);\r"
 								+ "END IF;\r"
+								+ "RETURN NEW;\r"
 								+ "END;\r"
-								+ "$$\r");
+								+ "$$ LANGUAGE plpgsql;\r");
 					
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaInserimento "
 								+ "AFTER INSERT ON Adiacenza "
@@ -150,7 +151,7 @@ public class DB_Builder
 								+ "EXECUTE FUNCTION InserisciSimmetrico();"); 
 				
 				stmt.executeUpdate ("CREATE FUNCTION CancellaSimmetrico() RETURNS TRIGGER\r"
-								+ "LANGUAGE plpgsql AS $$\r"
+								+ " AS $$\r"
 								+ "DECLARE\r"
 								+ "CheckConto INTEGER;\r"
 								+ "BEGIN\r"
@@ -161,8 +162,9 @@ public class DB_Builder
 								+ "	DELETE FROM Adiacenza\r"
 								+ "	WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r"
 								+ "END IF;\r"
+								+ "RETURN NEW;\r"
 								+ "END;\r"
-								+ "$$\r");
+								+ "$$ LANGUAGE plpgsql;\r");
 				
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaCancellazione "
 								+ "AFTER DELETE ON Adiacenza "
@@ -170,7 +172,7 @@ public class DB_Builder
 								+ "EXECUTE FUNCTION CancellaSimmetrico();"); 
 						
 				stmt.executeUpdate ("CREATE FUNCTION ModificaSimmetrico() RETURNS TRIGGER\r"
-								+ "LANGUAGE plpgsql AS $$\r"
+								+ "AS $$\r"
 								+ "DECLARE\r"
 								+ "CheckConto INTEGER;\r"
 								+ "BEGIN\r"
@@ -182,8 +184,9 @@ public class DB_Builder
 								+ "SET A.Id_Tavolo1 = NEW.Id_Tavolo2, A.Id_Tavolo2 = NEW.Id_Tavolo1\r"
 								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r"
 								+ "END IF;\r"
+								+ "RETURN NEW;\r"
 								+ "END;\r"
-								+ "$$\r"); 
+								+ "$$ LANGUAGE plpgsql; \r"); 
 				
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaModifica "
 								+ "AFTER UPDATE ON Adiacenza "
@@ -191,7 +194,7 @@ public class DB_Builder
 								+ "EXECUTE FUNCTION ModificaSimmetrico();"); 
 			
 				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataInserimento() RETURNS TRIGGER\r"
-								+ "LANGUAGE plpgsql as $$\r"
+								+ "as $$\r"
 								+ "DECLARE\r"
 								+ "CheckConto INTEGER;\r"
 								+ "BEGIN\r"
@@ -202,8 +205,9 @@ public class DB_Builder
 								+ "DELETE FROM Servizio\r"
 								+ "WHERE Id_Cameriere=NEW.Id_Cameriere AND Id_Tavolata = NEW.Id_Tavolata;\r"
 								+ "END IF;\r"
+								+ "RETURN NEW;\r"
 								+ "END;\r"
-								+ "$$;\r");
+								+ "$$ LANGUAGE plpgsql;\r");
 				
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioInserimento "
 								+ "AFTER INSERT ON Servizio "
@@ -211,7 +215,7 @@ public class DB_Builder
 								+ "EXECUTE FUNCTION ConsistenzaServizioTavolataInserimento(); ");
 			
 				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataModificaServizio() RETURNS TRIGGER\r"
-								+ "LANGUAGE plpgsql as $$\r"
+								+ "as $$\r"
 								+ "DECLARE\r"
 								+ "CheckConto INTEGER;\r"
 								+ "BEGIN\r\n"
@@ -223,8 +227,9 @@ public class DB_Builder
 								+ "SET Id_Cameriere = OLD.Id_Cameriere, Id_Tavolata = OLD.Id_Tavolata\r"
 								+ "WHERE Id_Cameriere = NEW.Id_Cameriere AND Id_Tavolata = NEW.Id_Tavolata;\r"
 								+ "END IF;\r"
+								+ "RETURN NEW;\r"
 								+ "END;\r"
-								+ "$$;\r");
+								+ "$$ LANGUAGE plpgsql;\r");
 				
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioUpdate "
 								+ "AFTER UPDATE ON Servizio "
@@ -232,7 +237,7 @@ public class DB_Builder
 								+ "EXECUTE FUNCTION  ConsistenzaServizioTavolataModificaServizio(); ");
 				
 				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataModificaAmmissioneLicenziamento() RETURNS TRIGGER \r"
-								+ "LANGUAGE plpgsql AS $$ \r"
+								+ "AS $$ \r"
 								+ "DECLARE \r"
 								+ "Check_AConto INTEGER; \r"
 								+ "Check_LConto INTEGER; \r"
@@ -253,14 +258,55 @@ public class DB_Builder
 								+ "SET Data_Licenziamento = OLD.Data_Licenziamento \r"
 								+ "WHERE Id_Cameriere = NEW.Id_Cameriere; \r"
 								+ "END IF; \r"
+								+ "RETURN NEW;\r"
 								+ "END; \r"
-								+ "$$; \r");
+								+ "$$ LANGUAGE plpgsql;\r");
 				
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioAggiornamentoAmmissioneLicenziamento "
 								+ "AFTER UPDATE ON Cameriere "
 								+ "FOR EACH ROW "
 								+ "WHEN (OLD.Data_Ammissione <> NEW.Data_Ammissione OR OLD.Data_Licenziamento <> NEW.Data_Licenziamento) "
 								+ "EXECUTE FUNCTION  ConsistenzaServizioTavolataModificaAmmissioneLicenziamento(); ");
+			
+				stmt.executeUpdate("CREATE FUNCTION RimuoviDataAmmissioneSbagliata() RETURNS TRIGGER\r"
+								+ "AS $$\r"
+								+ "DECLARE\r"
+								+ "Counting integer;\r"
+								+ "BEGIN\r\n"
+								+ "SELECT COUNT(*) into Counting\r"
+								+ "FROM Cameriere as C\r"
+								+ "WHERE C.cid_cameriere = NEW.cid_cameriere AND NEW.data_ammissione<C.data_licenziamento AND C.id_cameriere <> NEW.id_cameriere;\r"
+								+ "IF (Counting >0) THEN\r"
+								+ "   DELETE FROM cameriere WHERE id_cameriere = NEW.id_cameriere;\r"
+								+ "END IF;\r"
+								+ "RETURN NEW;\r"
+								+ "END;\r"
+								+ "$$ LANGUAGE plpgsql;\r");
+				
+				stmt.executeUpdate("CREATE FUNCTION AggiornaDataAmmissioneSbagliata() RETURNS TRIGGER\r"
+								+ " AS $$\r"
+								+ "DECLARE\r"
+								+ "Counting integer;\r"
+								+ "BEGIN\r"
+								+ "SELECT COUNT(*) into Counting\r"
+								+ "FROM Cameriere as C\r"
+								+ "WHERE C.cid_cameriere = NEW.cid_cameriere AND NEW.data_ammissione<C.data_licenziamento AND C.id_cameriere <> NEW.id_cameriere;\r"
+								+ "IF (Counting >0) THEN\r"
+								+ "   UPDATE cameriere SET data_licenziamento = NULL WHERE id_cameriere = NEW.id_cameriere;\r"
+								+ "END IF;\r"
+								+ "RETURN NEW;\r"
+								+ "END;\r"	
+								+ "$$ LANGUAGE plpgsql ;\r");
+				
+				stmt.executeUpdate("CREATE TRIGGER ConsistenzaDateInserimentoCameriere "
+						+ "AFTER INSERT ON Cameriere "
+						+ "FOR EACH ROW "
+						+ "EXECUTE FUNCTION  RimuoviDataAmmissioneSbagliata(); ");
+
+				stmt.executeUpdate("CREATE TRIGGER ConsistenzaDateAggiornamentoCameriere "
+						+ "AFTER UPDATE ON Cameriere "
+						+ "FOR EACH ROW "
+						+ "EXECUTE FUNCTION  AggiornaDataAmmissioneSbagliata(); ");
 			}
 			catch(SQLException e)
 			{

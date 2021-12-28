@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ListIterator;
 
-/*import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;*/
+import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Controller {
     InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
-//	NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
+// 	NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
 	InterfacciaSale frameSale;
 	InterfacciaCreazioneSala frameCreateS;
 	InterfacciaGestioneCamerieri frameGestioneCamerieri;
@@ -166,10 +166,10 @@ public class Controller {
 		CDAO.riassumiCameriereLicenziato(c,data);
 	}
 	
-	public void bottoneLicenziaCamerierePremuto(Cameriere c, String data)
+	public String bottoneLicenziaCamerierePremuto(Cameriere c, String data)
 	{
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.licenziaCameriereAssunto(c, data);
+		return CDAO.licenziaCameriereAssunto(c, data);
 	}
 	
 	public void bottoneAggiungiCamerierePremuto(Ristorante r)

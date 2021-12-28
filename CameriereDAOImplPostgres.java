@@ -21,7 +21,8 @@ public class CameriereDAOImplPostgres
 		}
 		catch(SQLException e)
 		{
-			
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 		return Risultato;
 	}
@@ -55,20 +56,29 @@ public class CameriereDAOImplPostgres
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Errore!", JOptionPane.ERROR_MESSAGE);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 	}
 
-	public void licenziaCameriereAssunto(Cameriere c,String data)
+	public String licenziaCameriereAssunto(Cameriere c,String data)
 	{
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
 			stmt.executeUpdate("UPDATE Cameriere SET Data_Licenziamento ='"+data+"' WHERE Id_Cameriere = "+c.getId_Cameriere()+";");
+			return "Tutto_Bene";
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Errore!", JOptionPane.ERROR_MESSAGE);
+			if(e.getSQLState().equals("23514"))
+				return "Data_Non_Valida";
+			else
+			{
+				OperazioneFallitaException ex = new OperazioneFallitaException();
+				ex.stampaMessaggio();
+				return "Operazione_Fallita";
+			}
 		}
 	}
 	

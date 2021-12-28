@@ -50,6 +50,10 @@ public class InterfacciaCreazioneSala extends JFrame
 		tornaIndietro.setBounds(10, 64, 89, 23);
 		getContentPane().add(tornaIndietro);
 		
+		
+		ContaCaratteri key = new ContaCaratteri();
+		NomeSala.addKeyListener(key);
+		NomeSala.setFocusable(true);
 		contaCaratteri = new JLabel("0");
 		contaCaratteri.setBounds(106, 33, 46, 14);
 		getContentPane().add(contaCaratteri);
