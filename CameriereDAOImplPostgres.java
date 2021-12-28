@@ -72,10 +72,25 @@ public class CameriereDAOImplPostgres
 		}
 	}
 	
-	public void assumiNuovoCameriere(Cameriere c) throws SQLException
+	public String assumiNuovoCameriere(Cameriere c)
 	{
-		Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-		stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
-		+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
+		try
+		{
+			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
+			stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
+			+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
+			return "Nessun_Errore";
+		}
+		catch(SQLException e)
+		{
+			if (e.getSQLState().equals("23514"))
+			{
+				return "CID_Non_Valido";
+			}
+			else
+			{
+				return "Data_Non_Valida";
+			}
+		}
 	}
 }

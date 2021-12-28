@@ -1,3 +1,4 @@
+
 import java.sql.*;
 
 import javax.swing.JOptionPane;
@@ -13,11 +14,11 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
-			//devono essere tutti minuscoli, altrimenti darÃ  errore
+			//devono essere tutti minuscoli, altrimenti dar� errore
 			//(database non esistente)
 			conn.close();
 		}
@@ -28,7 +29,7 @@ public class DB_Builder
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database giÃ  esistente
+			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gi� esistente
 			else 
 			{
 				JOptionPane.showMessageDialog(null,"C'e' stato un errore, il database non e' stato creato correttamente\n"
@@ -93,9 +94,9 @@ public class DB_Builder
 			
 				stmt.executeUpdate("CREATE TABLE Elenco_Avventori"
 								+ "(Id_Tavolata INTEGER NOT NULL,"
-								+ "N_CID CHAR(9) NOT NULL CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
-								+ "CONSTRAINT InTavolata FOREIGN KEY(Id_Tavolata) REFERENCES Tavolata(Id_Tavolata),"
-								+ "CONSTRAINT DiAvventore FOREIGN KEY(N_CID) REFERENCES Avventori(N_CID));");
+								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
+								+ "CONSTRAINT InTavolata FOREIGN KEY(Id_Tavolata) REFERENCES Tavolata(Id_Tavolata) ON DELETE CASCADE ON UPDATE CASCADE,"
+								+ "CONSTRAINT DiAvventore FOREIGN KEY(N_CID) REFERENCES Avventori(N_CID) ON DELETE CASCADE ON UPDATE CASCADE);");
 			
 				stmt.executeUpdate("CREATE VIEW N_Avventori AS "
 								+ "SELECT T.Id_Tavolata, COUNT (EA.N_CID) AS Num "
@@ -269,3 +270,6 @@ public class DB_Builder
 		}
 	}
 }
+
+
+

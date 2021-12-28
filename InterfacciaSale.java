@@ -81,6 +81,8 @@ public class InterfacciaSale extends JFrame
 		AggiuntaSala.addActionListener(handler);
 		GestioneCamerieri.addActionListener(handler);
 
+		
+	
 		listaSale.clear();
 		listaSale = theController.EstraiSaleRistorante(ristorante);
 		
@@ -89,6 +91,7 @@ public class InterfacciaSale extends JFrame
 		
 		setResizable(false);
 		setVisible(true);
+		
 	}
 
 	private class GestoreClickMouse implements ActionListener
