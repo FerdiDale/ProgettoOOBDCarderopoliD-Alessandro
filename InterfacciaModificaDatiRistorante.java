@@ -11,8 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class InterfacciaModificaDatiRistorante extends JFrame {
 
@@ -105,23 +103,7 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 						String cittaCurr = inputCittaRistorante.getText();
 						String viaCurr = inputViaRistorante.getText();
 						Integer n_CivicoCurr = Integer.parseInt(inputN_CivicoRistorante.getText());
-						if (nomeCurr.length()>40) {
-							JOptionPane.showMessageDialog(null, "Il nome del ristorante puo' contenere al massimo 40 caratteri!",
-									"Attenzione!", JOptionPane.WARNING_MESSAGE);
-						}
-						else if (cittaCurr.length()>40) {
-							JOptionPane.showMessageDialog(null, "Il nome della citta' puo' contenere al massimo 40 caratteri!",
-									"Attenzione!", JOptionPane.WARNING_MESSAGE);
-						}
-						else if (viaCurr.length()>40) {
-							JOptionPane.showMessageDialog(null, "Il nome della via puo' contenere al massimo 40 caratteri!",
-									"Attenzione!", JOptionPane.WARNING_MESSAGE);
-						}
-						else if (n_CivicoCurr<1) {
-							JOptionPane.showMessageDialog(null, "Il numero civico deve essere un numero valido!",
-									"Attenzione!", JOptionPane.WARNING_MESSAGE);
-						}
-						else theController.aggiuntaRistoranteOkPremuto(nomeCurr, viaCurr, n_CivicoCurr, cittaCurr);
+						theController.modificaRistoranteOkPremuto(idCurr, nomeCurr, viaCurr, n_CivicoCurr, cittaCurr);
 					}
 					catch (NumberFormatException ecc)
 					{
@@ -133,16 +115,5 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		});
 		bottoneConfermaAggiuntaRistorante.setBounds(467, 179, 63, 23);
 		contentPane.add(bottoneConfermaAggiuntaRistorante);
-		
-		JButton bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				theController.bottoneIndietroModificaRistorantePremuto();
-			}
-		});
-		bottoneIndietro.setBounds(10, 179, 89, 23);
-		contentPane.add(bottoneIndietro);
-		
-		setVisible(true);
 	}
 }

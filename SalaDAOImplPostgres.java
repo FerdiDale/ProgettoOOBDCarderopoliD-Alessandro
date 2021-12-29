@@ -25,7 +25,8 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 			}
 			catch(SQLException e)
 			{
-				System.out.println(e); 
+				OperazioneFallitaException ecc = new OperazioneFallitaException();
+				ecc.stampaMessaggio();
 			}
 			return risultato;
 		}
@@ -64,12 +65,12 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		{
 			Connection c = DB_Connection.getInstance().getConnection();
 			Statement stmt = c.createStatement();
-			ResultSet sale =stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante+" AND Nome = '" +nomeSala+"' ;");  
+			ResultSet sale =stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante+" AND Nome ='"+nomeSala+"';");  
 			risultato = sale.next();
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null,"La ricerca del nome non Ã¨ andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"La ricerca del nome non è andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
 
 		}
 		return risultato;

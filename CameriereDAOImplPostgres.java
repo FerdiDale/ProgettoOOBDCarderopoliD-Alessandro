@@ -21,7 +21,8 @@ public class CameriereDAOImplPostgres
 		}
 		catch(SQLException e)
 		{
-			
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 		return Risultato;
 	}
@@ -55,27 +56,51 @@ public class CameriereDAOImplPostgres
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Errore!", JOptionPane.ERROR_MESSAGE);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 	}
 
-	public void licenziaCameriereAssunto(Cameriere c,String data)
+	public String licenziaCameriereAssunto(Cameriere c,String data)
 	{
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
 			stmt.executeUpdate("UPDATE Cameriere SET Data_Licenziamento ='"+data+"' WHERE Id_Cameriere = "+c.getId_Cameriere()+";");
+			return "Tutto_Bene";
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Errore!", JOptionPane.ERROR_MESSAGE);
+			if(e.getSQLState().equals("23514"))
+				return "Data_Non_Valida";
+			else
+			{
+				OperazioneFallitaException ex = new OperazioneFallitaException();
+				ex.stampaMessaggio();
+				return "Operazione_Fallita";
+			}
 		}
 	}
 	
-	public void assumiNuovoCameriere(Cameriere c) throws SQLException
+	public String assumiNuovoCameriere(Cameriere c)
 	{
-		Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-		stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
-		+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
+		try
+		{
+			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
+			stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
+			+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
+			return "Nessun_Errore";
+		}
+		catch(SQLException e)
+		{
+			if (e.getSQLState().equals("23514"))
+			{
+				return "CID_Non_Valido";
+			}
+			else
+			{
+				return "Data_Non_Valida";
+			}
+		}
 	}
 }

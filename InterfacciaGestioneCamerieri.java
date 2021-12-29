@@ -174,7 +174,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			{
 				if(dataRiassunzione.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si puÃ² inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(dataRiassunzione.getText().length()<10)
 				{
@@ -216,7 +216,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			{
 				if(dataLicenziamento.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si puÃ² inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(dataLicenziamento.getText().length()<10)
 				{
@@ -246,17 +246,30 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			}
 			else if(e.getSource() == LicenziaCameriere)
 			{
-				theController.bottoneLicenziaCamerierePremuto(arrayListAssunti.get(indiceListaAssunti),dataLicenziamentoStringa);
-				arrayListLicenziati.add(arrayListAssunti.get(indiceListaAssunti));
-				arrayListAssunti.remove(indiceListaAssunti);
-				modelloListaAssunti.removeAllElements();
-				modelloListaAssunti.addAll(arrayListAssunti);
-				modelloListaLicenziati.removeAllElements();
-				modelloListaLicenziati.addAll(arrayListLicenziati);
+				String esito = theController.bottoneLicenziaCamerierePremuto(arrayListAssunti.get(indiceListaAssunti),dataLicenziamentoStringa);
+				if(esito.equals("Tutto_Bene"))
+				{
+					arrayListLicenziati.add(arrayListAssunti.get(indiceListaAssunti));
+					arrayListAssunti.remove(indiceListaAssunti);
+					modelloListaAssunti.removeAllElements();
+					modelloListaAssunti.addAll(arrayListAssunti);
+					modelloListaLicenziati.removeAllElements();
+					modelloListaLicenziati.addAll(arrayListLicenziati);
+				}
+				else if(esito.equals("Operazione_Fallita"))
+				{
+					
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Non si può licenziare un cameriere prima della sua data di assunzione!("+arrayListAssunti.get(indiceListaAssunti).getData_Ammissione()+")", "Informazione", JOptionPane.INFORMATION_MESSAGE);
+				}
+				LicenziaCameriere.setEnabled(false);
 			}
 			else if (e.getSource() == AggiuntaCameriere)
 			{
 				theController.bottoneAggiungiCamerierePremuto(ristorante);
+				AggiuntaCameriere.setEnabled(false);
 			}
 			else
 			{
@@ -320,3 +333,5 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		}
 	}
 }
+
+
