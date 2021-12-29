@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,6 +32,9 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 	public InterfacciaAggiuntaRistorante(Controller c) {
 		setTitle("Nuovo ristorante");
 		theController = c;
+		
+		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
+		setIconImage(icona.getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 556, 250);

@@ -17,7 +17,7 @@ public class Controller {
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
-  NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
+    NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
 	InterfacciaSale frameSale;
 	InterfacciaCreazioneSala frameCreateS;
 	InterfacciaGestioneCamerieri frameGestioneCamerieri;
@@ -25,6 +25,7 @@ public class Controller {
 	InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
 	InterfacciaStatistichePerMese frameStatistichePerMese;
 	NumeroAvventoriGiornoDAOImplPostgres numeroAvventoriGiornoDao = new NumeroAvventoriGiornoDAOImplPostgres();
+	InterfacciaTavoli frameTavoli;
 	
 	public static void main(String[] args) {
 
@@ -158,16 +159,16 @@ public class Controller {
 		return CDAO.EstraiCamerieriLicenziati(ristorante);
 	}
 	
-	public void bottoneRiassumiCamerierePremuto(Cameriere c,String data)
+	public boolean bottoneRiassumiCamerierePremuto(Cameriere c,String data)
 	{
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.riassumiCameriereLicenziato(c,data);
+		 return CDAO.riassumiCameriereLicenziato(c,data);
 	}
 	
-	public void bottoneLicenziaCamerierePremuto(Cameriere c, String data)
+	public String bottoneLicenziaCamerierePremuto(Cameriere c, String data)
 	{
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.licenziaCameriereAssunto(c, data);
+		return CDAO.licenziaCameriereAssunto(c, data);
 	}
 	
 	public void bottoneAggiungiCamerierePremuto(Ristorante r)
@@ -201,7 +202,7 @@ public class Controller {
 
 	public void bottoneVisualizzaSalePremuto(Ristorante ristoranteCorrente) {
 		frameRistoranti.setVisible(false);
-		frameSala = new InterfacciaSale(this, ristoranteCorrente);
+		frameSale = new InterfacciaSale(this, ristoranteCorrente);
 	}
 
 	public void bottoneVisualizzaStatistichePremuto(Ristorante ristoranteCorrente) {
@@ -306,4 +307,13 @@ public class Controller {
 		frameModificaRistorante.setVisible(false);
 		frameRistoranti = new InterfacciaRistoranti (this);
   }
+	public void bottoneIndietroGestioneTavoliPremuto(Sala salaScelta, Ristorante ristoranteScelto) {
+		frameTavoli.setVisible(false);
+		frameSale = new InterfacciaSale(this, ristoranteScelto);
+	}
+
+	public void bottoneVediTavoliPremuto(Ristorante ristoranteScelto, Sala salaScelta) {
+		frameSale.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this, salaScelta, ristoranteScelto);
+	}
 }  

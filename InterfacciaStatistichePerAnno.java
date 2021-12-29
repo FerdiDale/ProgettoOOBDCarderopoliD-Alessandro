@@ -44,7 +44,7 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 		theController = c;
 		annoCorrente = annoScelto;
 		
-		ImageIcon icona = new ImageIcon("res/Icona progetto oobd.png");
+		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

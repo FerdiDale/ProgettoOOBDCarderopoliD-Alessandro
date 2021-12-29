@@ -57,6 +57,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		this.theController=theController;
 		this.ristorante = ristorante;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
@@ -133,7 +134,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		etichettaFormatoDataLicenziamento.setBounds(295, 299, 184, 14);
 		getContentPane().add(etichettaFormatoDataLicenziamento);
 		
-		eFDL2 = new JLabel("anno/mese/giorno e poi premere la freccetta");
+		eFDL2 = new JLabel("anno-mese-giorno e poi premere la freccetta");
 		eFDL2.setBounds(254, 311, 280, 14);
 		getContentPane().add(eFDL2);
 		
@@ -141,7 +142,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		etichettaFormatoDataLicenziamento_1.setBounds(295, 131, 184, 14);
 		getContentPane().add(etichettaFormatoDataLicenziamento_1);
 		
-		eFDL2_1 = new JLabel("anno/mese/giorno e poi premere la freccetta");
+		eFDL2_1 = new JLabel("anno-mese-giorno e poi premere la freccetta");
 		eFDL2_1.setBounds(254, 143, 280, 14);
 		getContentPane().add(eFDL2_1);
 		
@@ -174,7 +175,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			{
 				if(dataRiassunzione.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si puo' inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(dataRiassunzione.getText().length()<10)
 				{
@@ -204,19 +205,24 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			}
 			else if(e.getSource() == RiassumiCameriere)
 			{
-				theController.bottoneRiassumiCamerierePremuto(arrayListLicenziati.get(indiceListaLicenziati),dataAssunzioneStringa);
-				arrayListAssunti.add(arrayListLicenziati.get(indiceListaLicenziati));
-				arrayListLicenziati.remove(indiceListaLicenziati);
-				modelloListaLicenziati.removeAllElements();
-				modelloListaLicenziati.addAll(arrayListLicenziati);
-				modelloListaAssunti.removeAllElements();
-				modelloListaAssunti.addAll(arrayListAssunti);
+				boolean nessunProblema;
+				nessunProblema = theController.bottoneRiassumiCamerierePremuto(arrayListLicenziati.get(indiceListaLicenziati),dataAssunzioneStringa);
+				if (nessunProblema) {
+					arrayListAssunti.add(arrayListLicenziati.get(indiceListaLicenziati));
+					arrayListLicenziati.remove(indiceListaLicenziati);
+					modelloListaLicenziati.removeAllElements();
+					modelloListaLicenziati.addAll(arrayListLicenziati);
+					modelloListaAssunti.removeAllElements();
+					modelloListaAssunti.addAll(arrayListAssunti);
+					dataRiassunzione.setText("");
+				}
+				RiassumiCameriere.setEnabled(false);
 			}
 			else if(e.getSource() == setDataLicenziamento)
 			{
 				if(dataLicenziamento.getText().isBlank())
 				{
-					JOptionPane.showMessageDialog(null, "Non si può inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Non si puo' inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(dataLicenziamento.getText().length()<10)
 				{
@@ -246,13 +252,26 @@ public class InterfacciaGestioneCamerieri extends JFrame
 			}
 			else if(e.getSource() == LicenziaCameriere)
 			{
-				theController.bottoneLicenziaCamerierePremuto(arrayListAssunti.get(indiceListaAssunti),dataLicenziamentoStringa);
+				String esito = theController.bottoneLicenziaCamerierePremuto(arrayListAssunti.get(indiceListaAssunti),dataLicenziamentoStringa);
+				if(esito.equals("Tutto_Bene"))
+				{
 				arrayListLicenziati.add(arrayListAssunti.get(indiceListaAssunti));
 				arrayListAssunti.remove(indiceListaAssunti);
 				modelloListaAssunti.removeAllElements();
 				modelloListaAssunti.addAll(arrayListAssunti);
 				modelloListaLicenziati.removeAllElements();
 				modelloListaLicenziati.addAll(arrayListLicenziati);
+				dataLicenziamento.setText("");
+				}
+				else if(esito.equals("Operazione_Fallita"))
+				{
+					//E' gestito gi� dal DAO
+				}
+				else
+				{
+				JOptionPane.showMessageDialog(null, "Non si puo' licenziare un cameriere prima della sua data di assunzione!("+arrayListAssunti.get(indiceListaAssunti).getData_Ammissione()+")", "Informazione", JOptionPane.INFORMATION_MESSAGE);
+				}
+				LicenziaCameriere.setEnabled(false);
 			}
 			else if (e.getSource() == AggiuntaCameriere)
 			{

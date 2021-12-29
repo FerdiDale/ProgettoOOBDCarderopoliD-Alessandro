@@ -61,6 +61,7 @@ public class InterfacciaSale extends JFrame
 		VediTavoli = new JButton("Vedi i tavoli della sala selezionata");
 		VediTavoli.setBounds(10, 195, 205, 55);
 		getContentPane().add(VediTavoli);
+		if (elementoSelezionato == -1) VediTavoli.setEnabled(false);
 		
 		scorrimentoPerlistavisibile = new JScrollPane();
 		scorrimentoPerlistavisibile.setBounds(10, 11, 253, 170);
@@ -80,6 +81,7 @@ public class InterfacciaSale extends JFrame
 		RimuoviSala.addActionListener(handler);
 		AggiuntaSala.addActionListener(handler);
 		GestioneCamerieri.addActionListener(handler);
+		VediTavoli.addActionListener(handler);
 
 		listaSale.clear();
 		listaSale = theController.EstraiSaleRistorante(ristorante);
@@ -115,6 +117,11 @@ public class InterfacciaSale extends JFrame
 			{
 				theController.bottoneTornaIndietroSalePremuto();
 			}
+			else if (e.getSource() == VediTavoli)
+			{
+				Sala corrente = listaSale.get(elementoSelezionato);
+				theController.bottoneVediTavoliPremuto(ristorante, corrente);
+			}
 		}
 	}
 		
@@ -124,6 +131,7 @@ public class InterfacciaSale extends JFrame
 		{
 			elementoSelezionato = e.getFirstIndex();
 			RimuoviSala.setEnabled(true);
+			VediTavoli.setEnabled(true);
 		}
 	}
 }
