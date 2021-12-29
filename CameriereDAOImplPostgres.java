@@ -21,7 +21,8 @@ public class CameriereDAOImplPostgres
 		}
 		catch(SQLException e)
 		{
-			
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 		return Risultato;
 	}
@@ -57,7 +58,7 @@ public class CameriereDAOImplPostgres
 			risultato.next();
 			if(risultato.getString(1)!=null){
 				
-				JOptionPane.showMessageDialog(null, "Un cameriere non può essere riassunto prima di quando e' "
+				JOptionPane.showMessageDialog(null, "Un cameriere non puo' essere riassunto prima di quando e' "
 						+ "stato licenziato! ( " + risultato.getString(1) + " )", "Errore!", JOptionPane.ERROR_MESSAGE);
 				return false;
 				
@@ -96,7 +97,8 @@ public class CameriereDAOImplPostgres
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("23514")) return "Data_Non_Valida";
+			if (e.getSQLState().equals("23514")) 
+        return "Data_Non_Valida";
 			else
 			{
 				OperazioneFallitaException ex = new OperazioneFallitaException();
@@ -106,10 +108,25 @@ public class CameriereDAOImplPostgres
 		}
 	}
 	
-	public void assumiNuovoCameriere(Cameriere c) throws SQLException
+	public String assumiNuovoCameriere(Cameriere c)
 	{
-		Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-		stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
-		+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
+		try
+		{
+			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
+			stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
+			+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
+			return "Nessun_Errore";
+		}
+		catch(SQLException e)
+		{
+			if (e.getSQLState().equals("23514"))
+			{
+				return "CID_Non_Valido";
+			}
+			else
+			{
+				return "Data_Non_Valida";
+			}
+		}
 	}
 }

@@ -125,6 +125,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		{
 			if (e.getSource() == bottoneOk)
 			{
+				String esito = "";
 				boolean valido = true;
 				try
 				{
@@ -136,41 +137,37 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 				}
 				if (valido && textFieldCognome.getText().length()<= 30 && textFieldNome.getText().length() <=30 && textFieldCID.getText().length()==9)
 					{
-					try 
-					{
 						Cameriere inAggiunta = new Cameriere(textFieldCID.getText(),textFieldNome.getText(),textFieldCognome.getText(), ristorante.getId_Ristorante());
 						inAggiunta.setData_Ammissione(textFieldDataAssunzione.getText());
-						theController.bottoneOkAggiuntaCamerieriPremutoSuccessful(inAggiunta);
-						textFieldNome.selectAll();
-						textFieldNome.replaceSelection("");
-						textFieldCognome.selectAll();
-						textFieldCognome.replaceSelection("");
-						textFieldCID.selectAll();
-						textFieldCID.replaceSelection("");
-						textFieldDataAssunzione.selectAll();
-						textFieldDataAssunzione.replaceSelection("");
-						nCaratteriCID.setText("");
-						nCaratteriNome.setText("");
-						nCaratteriCognome.setText("");
-						JOptionPane.showMessageDialog(null,"Il cameriere è stato aggiunto correttamente al database","Conferma",JOptionPane.INFORMATION_MESSAGE);
-					}
-					catch(SQLException s)
-					{
-						if (s.getSQLState().equals("23514"))
+						esito = theController.bottoneOkAggiuntaCamerieriPremutoSuccessful(inAggiunta);
+						if(esito.equals("Nessun_Errore"))
+						{
+							textFieldNome.selectAll();
+							textFieldNome.replaceSelection("");
+							textFieldCognome.selectAll();
+							textFieldCognome.replaceSelection("");
+							textFieldCID.selectAll();
+							textFieldCID.replaceSelection("");
+							textFieldDataAssunzione.selectAll();
+							textFieldDataAssunzione.replaceSelection("");
+							nCaratteriCID.setText("");
+							nCaratteriNome.setText("");
+							nCaratteriCognome.setText("");
+							JOptionPane.showMessageDialog(null,"Il cameriere è stato aggiunto correttamente al database","Conferma",JOptionPane.INFORMATION_MESSAGE);
+						}
+						else if (esito.equals("CID_Non_Valido"))
 						{
 							JOptionPane.showMessageDialog(null, "Il numero CID non risulta valido. Si prega di riinserirlo.", "Errore!", JOptionPane.ERROR_MESSAGE);
 							textFieldCID.selectAll();
 							textFieldCID.replaceSelection("");
 							nCaratteriCID.setText("");
 						}
-						else if(s.getSQLState().equals("22007"))
+						else if(esito.equals("Data_Non_Valida"))
 						{
 							JOptionPane.showMessageDialog(null, "La data non risulta valida. Si prega di riinserirla.", "Errore!", JOptionPane.ERROR_MESSAGE);
 							textFieldDataAssunzione.selectAll();
 							textFieldDataAssunzione.replaceSelection("");
-						}
-					}
-					
+						}			
 				}
 				else
 				JOptionPane.showMessageDialog(null, "Si prega di controllare le dimensioni dei valori nelle caselle di testo (Nome, Cognome al più 30, CID deve essere esattamente 9. Ci si assicuri inoltre di aver rispettato il formato della data.", "Errore!", JOptionPane.ERROR_MESSAGE);

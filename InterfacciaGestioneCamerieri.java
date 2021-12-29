@@ -265,7 +265,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 				}
 				else if(esito.equals("Operazione_Fallita"))
 				{
-					//E' gestito gi‡ dal DAO
+					//E' gestito gi√† dal DAO
 				}
 				else
 				{
