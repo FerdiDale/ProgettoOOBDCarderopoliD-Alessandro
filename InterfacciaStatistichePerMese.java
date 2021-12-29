@@ -39,7 +39,7 @@ public class InterfacciaStatistichePerMese extends JFrame {
 		annoCorrente = annoScelto;
 		meseCorrente.setValoreNumerico(meseScelto);
 		
-		ImageIcon icona = new ImageIcon("res/Icona progetto oobd.png");
+		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

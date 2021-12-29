@@ -46,19 +46,45 @@ public class CameriereDAOImplPostgres
 		return Risultato;
 	}
 	
-	public void riassumiCameriereLicenziato(Cameriere c,String data)
+	public boolean riassumiCameriereLicenziato(Cameriere c,String data)
 	{
-		try
+		try 
 		{
-			System.out.println(data);
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-			stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE'"+data+"');");
+			ResultSet risultato = stmt.executeQuery("SELECT MAX (Data_Licenziamento) "
+												+ "FROM Cameriere AS C "
+												+ "WHERE  C.Data_Licenziamento > '" + data +"'  "
+												+ "AND C.CID_Cameriere = '" + c.getCID_Cameriere() + "'; ");
+			risultato.next();
+			if(risultato.getString(1)!=null){
+				
+				JOptionPane.showMessageDialog(null, "Un cameriere non puo' essere riassunto prima di quando e' "
+						+ "stato licenziato! ( " + risultato.getString(1) + " )", "Errore!", JOptionPane.ERROR_MESSAGE);
+				return false;
+				
+				}
+			else {
+				
+				try
+				{
+					stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE'"+data+"');");
+					return true;
+				}
+				catch(SQLException e)
+				{
+					OperazioneFallitaException ecc = new OperazioneFallitaException();
+					ecc.stampaMessaggio();
+					return false;
+				}
+			}
 		}
-		catch(SQLException e)
+		catch (SQLException e)
 		{
 			OperazioneFallitaException ecc = new OperazioneFallitaException();
 			ecc.stampaMessaggio();
+			return false;
 		}
+		
 	}
 
 	public String licenziaCameriereAssunto(Cameriere c,String data)
@@ -71,8 +97,8 @@ public class CameriereDAOImplPostgres
 		}
 		catch(SQLException e)
 		{
-			if(e.getSQLState().equals("23514"))
-				return "Data_Non_Valida";
+			if (e.getSQLState().equals("23514")) 
+        return "Data_Non_Valida";
 			else
 			{
 				OperazioneFallitaException ex = new OperazioneFallitaException();

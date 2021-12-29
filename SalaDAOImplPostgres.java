@@ -70,7 +70,7 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null,"La ricerca del nome non è andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"La ricerca del nome non Ã¨ andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
 
 		}
 		return risultato;
