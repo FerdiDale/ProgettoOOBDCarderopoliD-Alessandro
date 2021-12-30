@@ -1,6 +1,4 @@
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
@@ -19,11 +17,11 @@ public class InterfacciaCreazioneSala extends JFrame
 	private JTextField NomeSala;
 	private Controller theController;
 	private int id_ristorante;
-	private JLabel contaCaratteri;
 	
 	public InterfacciaCreazioneSala(Ristorante ristorante, Controller theController) 
 	{
 		super("Aggiunta Sala");
+		setBounds(10, 20, 200, 200);
 		setResizable(false);
 		getContentPane().setLayout(null);
 		GestoreBottoni GestoreNomeSala = new GestoreBottoni();
@@ -31,11 +29,12 @@ public class InterfacciaCreazioneSala extends JFrame
 		this.ristorante = ristorante;
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
-		setBounds(10,10,320,154);
+		setBounds(10,10,200,154);
 		
 		NomeSala = new JTextField();
 		NomeSala.setBounds(10, 30, 86, 20);
 		NomeSala.setColumns(40);
+		NomeSala.addActionListener(GestoreNomeSala);
 	    getContentPane().add(NomeSala);
 		
 		JLabel EtichettaInserisciNome = new JLabel("Nome della sala");
@@ -49,16 +48,10 @@ public class InterfacciaCreazioneSala extends JFrame
 		tornaIndietro = new JButton("Indietro");
 		tornaIndietro.setBounds(10, 64, 89, 23);
 		getContentPane().add(tornaIndietro);
-		
-		
-		ContaCaratteri key = new ContaCaratteri();
-		NomeSala.addKeyListener(key);
-		NomeSala.setFocusable(true);
-		contaCaratteri = new JLabel("0");
-		contaCaratteri.setBounds(106, 33, 46, 14);
-		getContentPane().add(contaCaratteri);
 		BottoneOk.addActionListener(GestoreNomeSala);
 		tornaIndietro.addActionListener(GestoreNomeSala);
+		setVisible(true);
+		
 		setVisible(true);
 		
 	}
@@ -76,13 +69,11 @@ public class InterfacciaCreazioneSala extends JFrame
 				}
 				else
 				{
-					if(NomeSala.getText().length()<=40)
-						nomeGiaPreso = theController.interfacciaCreazioneSalaOkPremuto1(NomeSala.getText(),id_ristorante);
-					else nomeGiaPreso = true;
+					nomeGiaPreso = theController.interfacciaCreazioneSalaOkPremuto1(NomeSala.getText(),id_ristorante);
 				}
 				if (nomeGiaPreso)
 				{
-					JOptionPane.showMessageDialog(null,"Il nome inserito e' gia' in uso per un'altra sala oppure è troppo lungo (più di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Il nome inserito e' gia' in uso per un'altra sala.", "Errore!", JOptionPane.ERROR_MESSAGE);
 					NomeSala.selectAll();
 					NomeSala.replaceSelection("");
 				}
@@ -95,22 +86,6 @@ public class InterfacciaCreazioneSala extends JFrame
 			{
 				theController.bottoneTornaIndietroInterfacciaCreazioneSalaPremuto(ristorante);
 			}
-		}
-	}
-	private class ContaCaratteri implements KeyListener
-	{
-		public void keyPressed(KeyEvent e)
-		{
-			
-		}
-		
-		public void keyReleased(KeyEvent e)
-		{
-			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
-		}
-		public void keyTyped(KeyEvent e)
-		{
-			
 		}
 	}
 }

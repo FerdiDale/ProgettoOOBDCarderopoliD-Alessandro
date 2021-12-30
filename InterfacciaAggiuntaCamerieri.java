@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 public class InterfacciaAggiuntaCamerieri extends JFrame
 {
 	private SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");

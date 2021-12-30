@@ -11,5 +11,7 @@ public interface CameriereDAO
 	
 	public String licenziaCameriereAssunto(Cameriere c, String data);
 
-	public String assumiNuovoCameriere(Cameriere c);
+
+	
+	public void assumiNuovoCameriere(Cameriere c);
 }
