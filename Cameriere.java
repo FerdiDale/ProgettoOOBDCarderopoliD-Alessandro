@@ -79,3 +79,21 @@ public class Cameriere
 		return Nome+" "+Cognome+" "+CID_Cameriere;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
