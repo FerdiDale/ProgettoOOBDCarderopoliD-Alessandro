@@ -13,7 +13,6 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Controller {
-	public int antonio;
   InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
