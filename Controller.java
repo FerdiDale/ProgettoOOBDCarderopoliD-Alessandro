@@ -144,7 +144,7 @@ public class Controller {
 	public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristorante)
 	{
 		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
-		return SDAO.EstraiSaleRistorante(ristorante.getId_Ristorante());
+		return SDAO.EstraiSaleRistorante(ristorante);
 	}
 	
 	public ArrayList<Cameriere> EstraiCamerieriInServizioC(Ristorante ristorante)
@@ -307,13 +307,13 @@ public class Controller {
 		frameModificaRistorante.setVisible(false);
 		frameRistoranti = new InterfacciaRistoranti (this);
   }
-	public void bottoneIndietroGestioneTavoliPremuto(Sala salaScelta, Ristorante ristoranteScelto) {
+	public void bottoneIndietroGestioneTavoliPremuto(Sala salaScelta) {
 		frameTavoli.setVisible(false);
-		frameSale = new InterfacciaSale(this, ristoranteScelto);
+		frameSale = new InterfacciaSale(this, salaScelta.getRistoranteDiAppartenenza());
 	}
 
-	public void bottoneVediTavoliPremuto(Ristorante ristoranteScelto, Sala salaScelta) {
+	public void bottoneVediTavoliPremuto(Sala salaScelta) {
 		frameSale.setVisible(false);
-		frameTavoli = new InterfacciaTavoli(this, salaScelta, ristoranteScelto);
+		frameTavoli = new InterfacciaTavoli(this, salaScelta);
 	}
 }  
