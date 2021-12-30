@@ -6,7 +6,6 @@ public class Sala
 	public int Id_Sala;
 	private String Nome;
 	private Ristorante RistoranteDiAppartenenza;
-
 	
 	public int getId_Sala() {
 		return Id_Sala;
