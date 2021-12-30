@@ -13,7 +13,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Controller {
-  InterfacciaRistoranti frameRistoranti;
+	InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
