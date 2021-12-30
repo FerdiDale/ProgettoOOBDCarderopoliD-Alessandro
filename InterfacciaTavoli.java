@@ -15,7 +15,7 @@ public class InterfacciaTavoli extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfacciaTavoli(Controller c, Sala salaCorrente, Ristorante ristoranteCorrente) {
+	public InterfacciaTavoli(Controller c, Sala salaCorrente) {
 		theController = c;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +40,7 @@ public class InterfacciaTavoli extends JFrame {
 		JButton bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				theController.bottoneIndietroGestioneTavoliPremuto(salaCorrente, ristoranteCorrente);
+				theController.bottoneIndietroGestioneTavoliPremuto(salaCorrente);
 			}
 		});
 		bottoneIndietro.setBounds(10, 449, 89, 23);

@@ -6,20 +6,21 @@ import java.sql.*;
 
 public class SalaDAOImplPostgres implements SalaDAO 
 {
-public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
+public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 		{
 			ArrayList<Sala> risultato = new ArrayList<Sala>();
 			try 
 			{	
 				Connection c = DB_Connection.getInstance().getConnection();
 				Statement stmt = c.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante +";");  
+				ResultSet rs = stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " 
+												+ ristoranteCorrente.getId_Ristorante() +";");  
 				while(rs.next())
 				{
 					Sala casellasingola = new Sala();
 					casellasingola.setId_Sala(rs.getInt(1));
 					casellasingola.setNome(rs.getString(2));
-					casellasingola.setId_Ristorante(rs.getInt(3));
+					casellasingola.setRistoranteDiAppartenenza(ristoranteCorrente);
 					risultato.add(casellasingola);
 				}
 			}
@@ -40,7 +41,8 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		}
 		catch(SQLException e)
 		{
-			System.out.println(e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 	}
 	
@@ -65,12 +67,12 @@ public ArrayList<Sala> EstraiSaleRistorante(int id_ristorante)
 		{
 			Connection c = DB_Connection.getInstance().getConnection();
 			Statement stmt = c.createStatement();
-			ResultSet sale =stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante+" AND Nome ='"+nomeSala+"';");  
+			ResultSet sale =stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante+" AND Nome = '" +nomeSala+"' ;");  
 			risultato = sale.next();
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null,"La ricerca del nome non Ã¨ andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"La ricerca del nome non e'¨ andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
 
 		}
 		return risultato;
