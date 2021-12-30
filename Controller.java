@@ -183,10 +183,10 @@ public class Controller {
 		frameGestioneCamerieri = new InterfacciaGestioneCamerieri(ristorante, this);
 	}
 	
-	public void bottoneOkAggiuntaCamerieriPremutoSuccessful(Cameriere cameriere) throws SQLException
+	public String bottoneOkAggiuntaCamerieriPremutoSuccessful(Cameriere cameriere)
 	{
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.assumiNuovoCameriere(cameriere);
+		return CDAO.assumiNuovoCameriere(cameriere);
 	}
 	
 	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {

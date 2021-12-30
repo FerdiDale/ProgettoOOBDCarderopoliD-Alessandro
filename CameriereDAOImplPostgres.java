@@ -67,7 +67,7 @@ public class CameriereDAOImplPostgres
 				
 				try
 				{
-					stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE'"+data+"');");
+					stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getRistorante().getId_Ristorante()+",DATE'"+data+"');");
 					return true;
 				}
 				catch(SQLException e)
@@ -92,13 +92,13 @@ public class CameriereDAOImplPostgres
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-			stmt.executeUpdate("UPDATE Cameriere SET Data_Licenziamento ='"+data+"' WHERE Id_Cameriere = "+c.getId_Cameriere()+";");
+			stmt.executeUpdate("UPDATE Cameriere SET Data_Licenziamento = DATE '"+data+"' WHERE Id_Cameriere = "+c.getId_Cameriere()+";");
 			return "Tutto_Bene";
 		}
 		catch(SQLException e)
 		{
 			if (e.getSQLState().equals("23514")) 
-        return "Data_Non_Valida";
+				return "Data_Non_Valida";
 			else
 			{
 				OperazioneFallitaException ex = new OperazioneFallitaException();
@@ -114,7 +114,7 @@ public class CameriereDAOImplPostgres
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
 			stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
-			+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
+			+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getRistorante().getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
 			return "Nessun_Errore";
 		}
 		catch(SQLException e)

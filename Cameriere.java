@@ -6,7 +6,7 @@ public class Cameriere
 	private String CID_Cameriere;
 	private String Nome;
 	private String Cognome;
-	private int	Id_Ristorante;
+	private Ristorante	ristorante;
 	private String	Data_Ammissione;
 	private String	Data_Licenziamento;
 	
@@ -34,12 +34,6 @@ public class Cameriere
 	public void setCognome(String cognome) {
 		Cognome = cognome;
 	}
-	public int getId_Ristorante() {
-		return Id_Ristorante;
-	}
-	public void setId_Ristorante(int id_Ristorante) {
-		Id_Ristorante = id_Ristorante;
-	}
 	public String getData_Ammissione() {
 		return Data_Ammissione;
 	}
@@ -58,7 +52,7 @@ public class Cameriere
 		CID_Cameriere = cID_Cameriere;
 		Nome = nome;
 		Cognome = cognome;
-		Id_Ristorante = id_Ristorante;
+		ristorante.setId_Ristorante(id_Ristorante);
 	}
 	
 	public Cameriere(int id_Cameriere, String cID_Cameriere, String nome, String cognome, int id_Ristorante,
@@ -68,11 +62,18 @@ public class Cameriere
 		CID_Cameriere = cID_Cameriere;
 		Nome = nome;
 		Cognome = cognome;
-		Id_Ristorante = id_Ristorante;
+		ristorante.setId_Ristorante(id_Ristorante);
 		Data_Ammissione = data_Ammissione;
 		Data_Licenziamento = data_Licenziamento;
 	}
 	
+	public Ristorante getRistorante() {
+		return ristorante;
+	}
+	
+	public void setRistorante(Ristorante ristorante) {
+		this.ristorante = ristorante;
+	}
 	public String toString()
 	{
 		return Nome+" "+Cognome+" "+CID_Cameriere;
