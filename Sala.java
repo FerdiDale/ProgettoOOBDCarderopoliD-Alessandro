@@ -5,7 +5,8 @@ public class Sala
 {
 	private int Id_Sala;
 	private String Nome;
-	private int Id_Ristorante;
+	private Ristorante RistoranteDiAppartenenza;
+	
 	public int getId_Sala() {
 		return Id_Sala;
 	}
@@ -18,14 +19,14 @@ public class Sala
 	public void setNome(String nome) {
 		Nome = nome;
 	}
-	public int getId_Ristorante() {
-		return Id_Ristorante;
-	}
-	public void setId_Ristorante(int id_Ristorante) {
-		Id_Ristorante = id_Ristorante;
-	}
 	public String toString()
 	{
 		return Nome;
+	}
+	public Ristorante getRistoranteDiAppartenenza() {
+		return RistoranteDiAppartenenza;
+	}
+	public void setRistoranteDiAppartenenza(Ristorante ristoranteDiAppartenenza) {
+		RistoranteDiAppartenenza = ristoranteDiAppartenenza;
 	}
 }
