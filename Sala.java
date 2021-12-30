@@ -3,10 +3,10 @@
 
 public class Sala 
 {
-	private int Id_Sala;
+	public int Id_Sala;
 	private String Nome;
 	private Ristorante RistoranteDiAppartenenza;
-	private int prova;
+
 	
 	public int getId_Sala() {
 		return Id_Sala;
