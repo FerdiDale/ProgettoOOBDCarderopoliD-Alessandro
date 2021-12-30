@@ -13,7 +13,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Controller {
-	InterfacciaRistoranti frameRistoranti;
+    InterfacciaRistoranti frameRistoranti;
 	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
 	InterfacciaModificaDatiRistorante frameModificaRistorante;
 	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
@@ -315,5 +315,11 @@ public class Controller {
 	public void bottoneVediTavoliPremuto(Sala salaScelta) {
 		frameSale.setVisible(false);
 		frameTavoli = new InterfacciaTavoli(this, salaScelta);
+	}
+	
+	public ArrayList<Tavolo> EstrazioneTavoliSala(Sala sala)
+	{
+		TavoloDAOImplPostgres TDAO = new TavoloDAOImplPostgres();
+		return TDAO.EstraiTavoliSala(sala);
 	}
 }  
