@@ -308,4 +308,10 @@ public class Controller {
 		frameSale.setVisible(false);
 		frameTavoli = new InterfacciaTavoli(this, salaScelta);
 	}
+	
+	public ArrayList<Tavolo> EstrazioneTavoliSala(Sala sala)
+	{
+		TavoloDAOImplPostgres TDAO = new TavoloDAOImplPostgres();
+		return TDAO.EstraiTavoliSala(sala);
+	}
 }  

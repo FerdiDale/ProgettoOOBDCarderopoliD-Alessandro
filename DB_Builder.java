@@ -59,7 +59,7 @@ public class DB_Builder
 								+ "CONSTRAINT Appartenenza FOREIGN KEY(Id_Ristorante) REFERENCES Ristorante(Id_Ristorante)"
 								+ "                            ON DELETE CASCADE                    ON UPDATE CASCADE,"
 								+ "CONSTRAINT NomeUnicoSalaDelRistorante UNIQUE(Nome,Id_Ristorante));");
-			
+			 //Handle exception nell'insert della sala con nome uguale
 				stmt.executeUpdate("CREATE TABLE Tavolo"
 								+ "(Id_Tavolo SERIAL,"
 								+ "Capacita INTEGER NOT NULL,"
@@ -123,13 +123,13 @@ public class DB_Builder
 								+ "                        ON DELETE CASCADE                  ON UPDATE CASCADE);");
 				
 				stmt.executeUpdate("CREATE TABLE Posizioni"
-						          +"(Id_Tavolo INTEGER NOT NULL, "
+						          +"(Id_Tavolo INTEGER NOT NULL,"
 						          + "PosX INTEGER NOT NULL,"
 						          +"PosY INTEGER NOT NULL,"
 						          +"DimX INTEGER NOT NULL,"
-						          +"DimY INTEGER NOT NULL"
-						          + "COSTRAINT DelTavolo FOREIGN KEY (Id_Tavolo) REFERENCES Tavolo(Id_Tavolo)"
-						          + " ON DELETE CASCADE ON UPDATE CASCADE);");
+						          +"DimY INTEGER NOT NULL,"
+						          + "CONSTRAINT delTavolo FOREIGN KEY(Id_Tavolo) REFERENCES Tavolo(Id_Tavolo)"
+						          + "                     ON DELETE CASCADE                 ON UPDATE CASCADE);");
 				
 				stmt.executeUpdate ("CREATE FUNCTION InserisciSimmetrico() RETURNS TRIGGER\r"
 								+" AS $$\r"
@@ -285,30 +285,12 @@ public class DB_Builder
 								+ "END;\r"
 								+ "$$ LANGUAGE plpgsql;\r");
 				
-				stmt.executeUpdate("CREATE FUNCTION AggiornaDataAmmissioneSbagliata() RETURNS TRIGGER\r"
-								+ " AS $$\r"
-								+ "DECLARE\r"
-								+ "Counting integer;\r"
-								+ "BEGIN\r"
-								+ "SELECT COUNT(*) into Counting\r"
-								+ "FROM Cameriere as C\r"
-								+ "WHERE C.cid_cameriere = NEW.cid_cameriere AND NEW.data_ammissione<C.data_licenziamento AND C.id_cameriere <> NEW.id_cameriere;\r"
-								+ "IF (Counting >0) THEN\r"
-								+ "   UPDATE cameriere SET data_licenziamento = NULL WHERE id_cameriere = NEW.id_cameriere;\r"
-								+ "END IF;\r"
-								+ "RETURN NEW;\r"
-								+ "END;\r"	
-								+ "$$ LANGUAGE plpgsql ;\r");
 				
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaDateInserimentoCameriere "
 						+ "AFTER INSERT ON Cameriere "
 						+ "FOR EACH ROW "
 						+ "EXECUTE FUNCTION  RimuoviDataAmmissioneSbagliata(); ");
 
-				stmt.executeUpdate("CREATE TRIGGER ConsistenzaDateAggiornamentoCameriere "
-						+ "AFTER UPDATE ON Cameriere "
-						+ "FOR EACH ROW "
-						+ "EXECUTE FUNCTION  AggiornaDataAmmissioneSbagliata(); ");
 			}
 			catch(SQLException e)
 			{
