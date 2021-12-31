@@ -285,11 +285,31 @@ public class DB_Builder
 								+ "END;\r"
 								+ "$$ LANGUAGE plpgsql;\r");
 				
+				stmt.executeUpdate("CREATE FUNCTION AggiornaDataAmmissioneSbagliata() RETURNS TRIGGER\r"
+								+ " AS $$\r"
+								+ "DECLARE\r"
+								+ "Counting integer;\r"
+								+ "BEGIN\r"
+								+ "SELECT COUNT(*) into Counting\r"
+								+ "FROM Cameriere as C\r"
+								+ "WHERE C.cid_cameriere = NEW.cid_cameriere AND NEW.data_ammissione<C.data_licenziamento AND C.id_cameriere <> NEW.id_cameriere;\r"
+								+ "IF (Counting >0) THEN\r"
+								+ "   UPDATE cameriere SET data_licenziamento = NULL WHERE id_cameriere = NEW.id_cameriere;\r"
+								+ "END IF;\r"
+								+ "RETURN NEW;\r"
+								+ "END;\r"	
+								+ "$$ LANGUAGE plpgsql ;\r");
+				
 				
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaDateInserimentoCameriere "
 						+ "AFTER INSERT ON Cameriere "
 						+ "FOR EACH ROW "
 						+ "EXECUTE FUNCTION  RimuoviDataAmmissioneSbagliata(); ");
+				
+				stmt.executeUpdate("CREATE TRIGGER ConsistenzaDateAggiornamentoCameriere "
+						+ "AFTER UPDATE ON Cameriere "
+						+ "FOR EACH ROW "
+						+ "EXECUTE FUNCTION  AggiornaDataAmmissioneSbagliata(); ");
 
 			}
 			catch(SQLException e)
