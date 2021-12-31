@@ -58,10 +58,9 @@ public class Controller {
 			frameAggiuntaRistorante.setVisible(false);
 			frameRistoranti = new InterfacciaRistoranti(this);
 		}
-		catch (OperazioneFallitaException e)
+		catch (ErrorePersonalizzato e)
 		{
-			JOptionPane.showMessageDialog(null, "C'e' stato un errore di connnessione, riprovare l'operazione.",
-					"Errore!", JOptionPane.ERROR_MESSAGE);
+			e.stampaMessaggio();
 		}
 	}
 	
@@ -77,10 +76,9 @@ public class Controller {
 			frameModificaRistorante.setVisible(false);
 			frameRistoranti = new InterfacciaRistoranti(this);
 		}
-		catch (OperazioneFallitaException e)
+		catch (ErrorePersonalizzato e)
 		{
-			JOptionPane.showMessageDialog(null, "C'e' stato un errore di connnessione, riprovare l'operazione.",
-					"Errore!", JOptionPane.ERROR_MESSAGE);
+			e.stampaMessaggio();
 		}
 	}
 	
@@ -97,13 +95,7 @@ public class Controller {
 		frameSale.setVisible(false);
 	}
 	
-	public boolean interfacciaCreazioneSalaOkPremuto1(String nomeSala, int id_ristorante)
-	{
-		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
-		return SDAO.isNomeSalaTaken(nomeSala, id_ristorante);
-	}
-	
-	public void interfacciaCreazioneSalaOkPremuto2(String nomeSala, Ristorante ristorante)
+	public void interfacciaCreazioneSalaOkPremuto(String nomeSala, Ristorante ristorante)
 	{
 		frameCreateS.setVisible(false);
 		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();

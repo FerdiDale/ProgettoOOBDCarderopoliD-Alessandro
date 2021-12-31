@@ -10,10 +10,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 
 public class InterfacciaTavoli extends JFrame  {
 
@@ -64,7 +65,7 @@ public class InterfacciaTavoli extends JFrame  {
 		JButton bottoneAggiuntaTavolo = new JButton("Aggiungi tavolo");
 		bottoneAggiuntaTavolo.setBounds(10, 384, 317, 23);
 		contentPane.add(bottoneAggiuntaTavolo);
-		
+
 		pannelloTavoli panel = new pannelloTavoli();
 		panel.setBounds(10, 11, 659, 362);
 		contentPane.add(panel);

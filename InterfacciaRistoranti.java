@@ -93,7 +93,7 @@ public class InterfacciaRistoranti extends JFrame {
 		JButton bottoneVisualizzaStatisticheRistorante = new JButton("Visualizza statistiche del ristorante selezionato");
 		bottoneVisualizzaStatisticheRistorante.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {//devi cambiare tutto
 				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
 				theController.bottoneVisualizzaStatistichePremuto(ristoranteSelezionato);
 			}
