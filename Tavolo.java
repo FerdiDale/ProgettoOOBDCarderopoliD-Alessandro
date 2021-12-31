@@ -1,3 +1,4 @@
+
 public class Tavolo 
 {
 	private int Id_Tavolo;
