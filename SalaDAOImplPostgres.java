@@ -56,25 +56,10 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null,"L'inserimento non e' andato a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
+			if (e.getSQLState().equals("23505"))
+				JOptionPane.showMessageDialog(null,"Questo nome e' gia' utilizzato per un'altra sala di questo ristorante!","Attenzione!",JOptionPane.WARNING_MESSAGE);
+			else
+				JOptionPane.showMessageDialog(null,"L'inserimento non e' andato a buon fine. Si prega di riavviare l'applicativo e riprovare"+e.getSQLState(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
 	}
-		
-	public boolean isNomeSalaTaken(String nomeSala, int id_ristorante)
-	{
-		boolean risultato = false;
-		try
-		{
-			Connection c = DB_Connection.getInstance().getConnection();
-			Statement stmt = c.createStatement();
-			ResultSet sale =stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " + id_ristorante+" AND Nome = '" +nomeSala+"' ;");  
-			risultato = sale.next();
-		}
-		catch(SQLException e)
-		{
-			JOptionPane.showMessageDialog(null,"La ricerca del nome non e'¨ andata a buon fine. Si prega di riavviare l'applicativo e riprovare: "+ e.toString(),"Errore!",JOptionPane.ERROR_MESSAGE);
-
-		}
-		return risultato;
-	}	
 }
