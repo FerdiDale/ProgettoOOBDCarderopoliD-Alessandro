@@ -7,6 +7,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class InterfacciaTavoli extends JFrame {
 
@@ -49,6 +54,11 @@ public class InterfacciaTavoli extends JFrame {
 		JButton bottoneAggiuntaTavolo = new JButton("Aggiungi tavolo");
 		bottoneAggiuntaTavolo.setBounds(10, 384, 317, 23);
 		contentPane.add(bottoneAggiuntaTavolo);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 679, 366);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
 		setVisible(true);
 		setResizable(false);

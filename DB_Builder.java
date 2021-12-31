@@ -13,7 +13,7 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "Antonio22");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
@@ -123,10 +123,13 @@ public class DB_Builder
 								+ "                        ON DELETE CASCADE                  ON UPDATE CASCADE);");
 				
 				stmt.executeUpdate("CREATE TABLE Posizioni"
-						          +"(PosX INTEGER NOT NULL,"
+						          +"(Id_Tavolo INTEGER NOT NULL, "
+						          + "PosX INTEGER NOT NULL,"
 						          +"PosY INTEGER NOT NULL,"
 						          +"DimX INTEGER NOT NULL,"
-						          +"DimY INTEGER NOT NULL);");
+						          +"DimY INTEGER NOT NULL"
+						          + "COSTRAINT DelTavolo FOREIGN KEY (Id_Tavolo) REFERENCES Tavolo(Id_Tavolo)"
+						          + " ON DELETE CASCADE ON UPDATE CASCADE);");
 				
 				stmt.executeUpdate ("CREATE FUNCTION InserisciSimmetrico() RETURNS TRIGGER\r"
 								+" AS $$\r"

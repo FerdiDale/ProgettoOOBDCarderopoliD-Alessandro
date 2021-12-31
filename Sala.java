@@ -5,7 +5,7 @@ public class Sala
 {
 	private int Id_Sala;
 	private String Nome;
-	private Ristorante RistoranteDiAppartenenza;
+	private Ristorante RistoranteDiAppartenenza = new Ristorante();
 	
 	public int getId_Sala() {
 		return Id_Sala;

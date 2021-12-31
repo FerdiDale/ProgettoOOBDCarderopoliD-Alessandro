@@ -6,7 +6,7 @@ public class Cameriere
 	private String CID_Cameriere;
 	private String Nome;
 	private String Cognome;
-	private Ristorante	ristorante;
+	private Ristorante	ristorante = new Ristorante();
 	private String	Data_Ammissione;
 	private String	Data_Licenziamento;
 	
