@@ -56,7 +56,7 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 		}
 		catch(SQLException e)
 		{
-			Jif (e.getSQLState().equals("23505"))
+			if (e.getSQLState().equals("23505"))
 				JOptionPane.showMessageDialog(null,"Questo nome e' gia' utilizzato per un'altra sala di questo ristorante!","Attenzione!",JOptionPane.WARNING_MESSAGE);
 			else
 				JOptionPane.showMessageDialog(null,"L'inserimento non e' andato a buon fine. Si prega di riavviare l'applicativo e riprovare"+e.getSQLState(),"Errore!",JOptionPane.ERROR_MESSAGE);
