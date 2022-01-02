@@ -54,7 +54,6 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		JLabel labelNomeRistorante = new JLabel("Nome");
 		labelNomeRistorante.setBounds(10, 55, 235, 20);
 		contentPane.add(labelNomeRistorante);
-		labelNomeRistorante.setText(ristoranteCorrente.getNome());
 		
 		inputCittaRistorante = new JTextField();
 		inputCittaRistorante.setBounds(270, 86, 260, 20);
@@ -125,7 +124,7 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 							JOptionPane.showMessageDialog(null, "Il numero civico deve essere un numero valido!",
 									"Attenzione!", JOptionPane.WARNING_MESSAGE);
 						}
-						else theController.aggiuntaRistoranteOkPremuto(nomeCurr, viaCurr, n_CivicoCurr, cittaCurr);
+						else theController.modificaRistoranteOkPremuto(ristoranteCorrente, nomeCurr, viaCurr, n_CivicoCurr, cittaCurr);
 					}
 					catch (NumberFormatException ecc)
 					{

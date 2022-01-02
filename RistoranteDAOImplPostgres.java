@@ -63,14 +63,14 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		}
 	}
 
-	public void modificaRistorante(Integer id_Ristorante, String nome, String via, Integer n_Civico, String citta) throws OperazioneFallitaException, RistoranteUgualeException {
+	public void modificaRistorante(Ristorante ristorante, String nome, String via, Integer n_Civico, String citta) throws OperazioneFallitaException, RistoranteUgualeException {
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
 			stmt.executeUpdate("UPDATE Ristorante AS R SET "
 					+ "Nome = " + "'" + nome + "'" + ", " + "Via = " + "'" + via+ "'" + ", " 
 					+ "N_Civico = " + n_Civico + ", " + "Citta = " + "'" + citta +"'" +
-					"WHERE Id_Ristorante = " + id_Ristorante + ";");
+					"WHERE Id_Ristorante = " + ristorante.getId_Ristorante() + ";");
 		}
 		catch (SQLException e)
 		{
@@ -97,5 +97,12 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
           OperazioneFallitaException ecc= new OperazioneFallitaException();
           throw ecc;
         }
-		}	
+		}
+
+	@Override
+	public void modificaRistorante(Integer id_Ristorante, String nome, String via, Integer n_Civico, String citta)
+			throws OperazioneFallitaException, RistoranteUgualeException {
+		// TODO Auto-generated method stub
+		
+	}	
 }
