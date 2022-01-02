@@ -41,7 +41,7 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		}
 	}
 	
-	public void inserisciRistorante(String nome, String via, Integer n_Civico, String citta) throws OperazioneFallitaException, RistoranteUgualeException{
+	public void inserisciRistorante(String nome, String via, Integer n_Civico, String citta) throws OperazioneFallitaException{
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
@@ -52,18 +52,13 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		}
 		catch (SQLException e)
 		{
-			if (e.getSQLState().equals("23505")){
-				RistoranteUgualeException ecc = new RistoranteUgualeException();
-				throw ecc;
-			}
-			else {
-				OperazioneFallitaException ecc = new OperazioneFallitaException();
-				throw ecc;
-			}
+			OperazioneFallitaException ecc= new OperazioneFallitaException();
+			throw ecc;
 		}
 	}
 
 	public void modificaRistorante(Ristorante ristorante, String nome, String via, Integer n_Civico, String citta) throws OperazioneFallitaException, RistoranteUgualeException {
+
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
@@ -74,14 +69,9 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		}
 		catch (SQLException e)
 		{
-			if (e.getSQLState().equals("23505")){
-				RistoranteUgualeException ecc = new RistoranteUgualeException();
-				throw ecc;
-			}
-			else {
-				OperazioneFallitaException ecc = new OperazioneFallitaException();
-				throw ecc;
-			}
+			System.out.println(e.getMessage());
+			OperazioneFallitaException ecc= new OperazioneFallitaException();
+			throw ecc;
 		}
 	}
 	
@@ -98,11 +88,4 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
           throw ecc;
         }
 		}
-
-	@Override
-	public void modificaRistorante(Integer id_Ristorante, String nome, String via, Integer n_Civico, String citta)
-			throws OperazioneFallitaException, RistoranteUgualeException {
-		// TODO Auto-generated method stub
-		
-	}	
 }

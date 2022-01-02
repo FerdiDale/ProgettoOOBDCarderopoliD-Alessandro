@@ -69,25 +69,26 @@ public class InterfacciaCreazioneSala extends JFrame
 		{
 			if(e.getSource()==BottoneOk)
 			{	
-				boolean nomeTroppoLungo = false;
+				boolean nomeGiaPreso = false;
 				if(NomeSala.getText().isBlank())
 				{
 					JOptionPane.showMessageDialog(null,"Non puoi inserire una sala senza nome!","Errore", JOptionPane.ERROR_MESSAGE);
 				}
 				else
 				{
-					if(NomeSala.getText().length()>40)
-						nomeTroppoLungo = true;
+					if(NomeSala.getText().length()<=40)
+						nomeGiaPreso = theController.interfacciaCreazioneSalaOkPremuto1(NomeSala.getText(),id_ristorante);
+					else nomeGiaPreso = true;
 				}
-				if (nomeTroppoLungo)
+				if (nomeGiaPreso)
 				{
-					JOptionPane.showMessageDialog(null,"Il nome inserito e'  troppo lungo (più di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Il nome inserito e' gia' in uso per un'altra sala oppure è troppo lungo (più di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
 					NomeSala.selectAll();
 					NomeSala.replaceSelection("");
 				}
 				else
 				{
-					theController.interfacciaCreazioneSalaOkPremuto(NomeSala.getText(), ristorante);
+					theController.interfacciaCreazioneSalaOkPremuto2(NomeSala.getText(), ristorante);
 				}
 			}
 			else

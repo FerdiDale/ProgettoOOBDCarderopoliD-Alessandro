@@ -1,3 +1,4 @@
+
 public class Tavolo 
 {
 	private int Id_Tavolo;
@@ -66,6 +67,9 @@ public class Tavolo
 	public void setDimY(int dimY) {
 		DimY = dimY;
 	}
-	
+	public Tavolo()
+	{
+		
+	}
 	
 }

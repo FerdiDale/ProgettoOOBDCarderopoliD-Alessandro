@@ -13,7 +13,7 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "Antonio22");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
@@ -284,7 +284,8 @@ public class DB_Builder
 								+ "RETURN NEW;\r"
 								+ "END;\r"
 								+ "$$ LANGUAGE plpgsql;\r");
-						
+				
+				
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaDateInserimentoCameriere "
 						+ "AFTER INSERT ON Cameriere "
 						+ "FOR EACH ROW "
