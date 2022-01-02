@@ -81,7 +81,7 @@ public class InterfacciaCreazioneSala extends JFrame
 				}
 				if (nomeTroppoLungo)
 				{
-					JOptionPane.showMessageDialog(null,"Il nome inserito e'  troppo lungo (più di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Il nome inserito e'  troppo lungo (piÃ¹ di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
 					NomeSala.selectAll();
 					NomeSala.replaceSelection("");
 				}

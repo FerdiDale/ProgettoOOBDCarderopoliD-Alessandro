@@ -25,4 +25,25 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		}
 		return risultato;
 	}
+
+	public void modificaPosizioniTavoli(ArrayList<Tavolo> tavoli) throws OperazioneFallitaException {
+		
+		try
+		{
+			for (Tavolo tavolo : tavoli) {
+				DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE Posizioni "
+																							 + " SET posx = " + tavolo.getPosX() + " ,"
+																							 + " posy = " + tavolo.getPosY() + " ,"
+																							 + " dimx = " + tavolo.getDimX() + " ,"
+																							 + " dimy = " + tavolo.getDimY() 
+																							 + " WHERE id_tavolo = " + tavolo.getId_Tavolo() + " ;");
+			}
+		}
+		catch(SQLException e)
+		{
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			throw ecc;
+		}
+		
+	}
 }

@@ -61,5 +61,5 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 			else
 				JOptionPane.showMessageDialog(null,"L'inserimento non e' andato a buon fine. Si prega di riavviare l'applicativo e riprovare"+e.getSQLState(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
-	}
+	}	
 }

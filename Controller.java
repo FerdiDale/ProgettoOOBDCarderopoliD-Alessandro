@@ -26,6 +26,10 @@ public class Controller {
 	InterfacciaStatistichePerMese frameStatistichePerMese;
 	NumeroAvventoriGiornoDAOImplPostgres numeroAvventoriGiornoDao = new NumeroAvventoriGiornoDAOImplPostgres();
 	InterfacciaTavoli frameTavoli;
+	InterfacciaModificaLayout frameModificaLayout;
+	TavoloDAOImplPostgres tavoloDao = new TavoloDAOImplPostgres();
+	InterfacciaAggiuntaTavoli frameAggiuntaTavoli;
+	InterfacciaAggiuntaCapienzaNumeroNuovoTavolo frameACNT;
 	
 	public static void main(String[] args) {
 
@@ -69,10 +73,10 @@ public class Controller {
 		frameModificaRistorante = new InterfacciaModificaDatiRistorante(this, ristoranteCorrente);
 	}
 	
-	public void modificaRistoranteOkPremuto(Integer id_Ristorante, String nome, String via, Integer n_Civico, String citta) {
+	public void modificaRistoranteOkPremuto(Ristorante ristorante, String nome, String via, Integer n_Civico, String citta) {
 		try
 		{
-			ristoranteDao.modificaRistorante(id_Ristorante, nome, via, n_Civico, citta);
+			ristoranteDao.modificaRistorante(ristorante, nome, via, n_Civico, citta);
 			frameModificaRistorante.setVisible(false);
 			frameRistoranti = new InterfacciaRistoranti(this);
 		}
@@ -314,4 +318,45 @@ public class Controller {
 		TavoloDAOImplPostgres TDAO = new TavoloDAOImplPostgres();
 		return TDAO.EstraiTavoliSala(sala);
 	}
+  
+	public void bottoneModificaLayoutPremuto(Sala sala) {
+		frameTavoli.setVisible(false);
+		frameModificaLayout = new InterfacciaModificaLayout(this, sala);
+	}
+
+	public void modificaLayoutIndietroPremuto(Sala sala) {
+		frameModificaLayout.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this, sala);
+	}
+
+	public void confermaModificheLayoutPremuto(ArrayList<Tavolo> tavoli, Sala sala) {
+		
+		try {
+			tavoloDao.modificaPosizioniTavoli (tavoli);
+			frameModificaLayout.setVisible(false);
+			frameTavoli = new InterfacciaTavoli(this, sala);
+		} catch (OperazioneFallitaException e) {
+			e.stampaMessaggio();
+		}
+	
+	}
+	
+	public void bottoneAggiuntaTavoloPremuto(Sala salaScelta, ArrayList<Tavolo> tavoliGiaEsistenti)
+	{
+		frameTavoli.setVisible(false);
+		frameACNT = new InterfacciaAggiuntaCapienzaNumeroNuovoTavolo(this,salaScelta,tavoliGiaEsistenti);
+	}
+	
+	public void bottoneOkInterfacciaAggiuntaCapienzaNumeroNuovoTavoloPremuto(Tavolo tavolo,Sala salaScelta, ArrayList<Tavolo> tavoliGiaEsistenti)
+	{
+		frameACNT.setVisible(false);
+		frameAggiuntaTavoli = new InterfacciaAggiuntaTavoli(tavolo,salaScelta,tavoliGiaEsistenti,this);
+	}
+	
+	public void bottoneOkInterfacciaAggiuntaTavoliPremuto(Sala salaScelta)
+	{
+		frameAggiuntaTavoli.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this,salaScelta);
+	}
+
 }  
