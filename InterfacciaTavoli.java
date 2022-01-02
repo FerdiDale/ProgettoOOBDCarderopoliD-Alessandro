@@ -118,6 +118,7 @@ public class InterfacciaTavoli extends JFrame {
 		GestioneBottoni handlerB = new GestioneBottoni();
 		
 		bottoneAggiuntaTavolo.addActionListener(handlerB);
+		bottoneModificaLayout.addActionListener(handlerB);
 
 		setVisible(true);
 		setResizable(false);
@@ -129,7 +130,7 @@ public class InterfacciaTavoli extends JFrame {
 			{
 				if (e.getSource() == bottoneAggiuntaTavolo)
 				{
-					theController.bottoneAggiuntaTavoloPremuto(sala);
+					theController.bottoneAggiuntaTavoloPremuto(sala, tavoli);
 				}
 				else if(e.getSource() == bottoneGestisciOccupazione)
 				{
@@ -144,28 +145,6 @@ public class InterfacciaTavoli extends JFrame {
 			}
 		}
 	
-	private class GestioneBottoni implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			if (e.getSource() == bottoneAggiuntaTavolo)
-			{
-				theController.bottoneAggiuntaTavoloPremuto(sala,tavoli);
-			}
-			else if(e.getSource() == bottoneGestisciOccupazione)
-			{
-				
-			}
-			else if (e.getSource() == bottoneGestisciAdiacenze)
-			{
-				
-			}
-			else if(e.getSource() == bottoneModificaLayout)
-			{
-				
-			}
-		}
-	}
 	
 	private class pannelloTavoli extends JPanel
 	{
@@ -186,29 +165,12 @@ public class InterfacciaTavoli extends JFrame {
 	int controllo = -1;
 	while(!tavolo && controllo < numeri.size())
 		{
-		controllo++;
-		if(e.getSource() == numeri.get(controllo))
-		{
-			boolean tavolo = false;
-			int controllo = -1;
-			while(!tavolo && controllo < numeri.size())
+			controllo++;
+			if(e.getSource() == numeri.get(controllo))
 			{
-				controllo++;
-				if(e.getSource() == numeri.get(controllo)) 
-					{
-						tavolo = true;
-						numeroTavoloSelezionato = Integer.parseInt(numeri.get(controllo).getText());
-					}
+				tavolo = true;
+				numeroTavoloSelezionato = Integer.parseInt(numeri.get(controllo).getText());
 			}
-			
-			if(tavolo)
-			{
-				System.out.println(numeroTavoloSelezionato);
-				bottoneGestisciOccupazione.setEnabled(true);
-				bottoneGestisciAdiacenze.setEnabled(true);
-			}
-
-		}
 		}
 		if(tavolo)
 		{
