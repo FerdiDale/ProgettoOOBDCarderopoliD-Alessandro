@@ -1,8 +1,6 @@
-import java.awt.BorderLayout;
+
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.EventQueue;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,12 +8,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+
+import org.postgresql.jdbc.PgResultSet.CursorResultHandler;
+
 import java.awt.event.MouseMotionListener;
-
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Cursor;
 
 import java.util.ArrayList;
+import javax.swing.JButton;
 
 public class InterfacciaAggiuntaTavoli extends JFrame {
 
@@ -23,21 +25,33 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 	private JLayeredPane areaDiDisegno;
 	private ArrayList<JLabel> numeri = new ArrayList<JLabel>();
 	private boolean paintTable = false;
-	private int posXIniziale;
-	private int posYIniziale;
-	private int posYFinale;
+	private int posXInizialeT;
+	private int posYInizialeT;
 	private JLabel nuovoTavolo;
 	private JLayeredPane riferimento;
+	private boolean tavoloDisegnato = false;
+	private int posXInizialeS;
+	private int posYInizialeS;
+	public int dimXF;
+	private int dimYF;
+	private JLabel nuovaEtichettaInBasso;
+	private JLabel nuovaEtichettaInBassoADestra;
+	private JLabel nuovaEtichettaADestra;
+	private JButton bottoneOk;
+	private JButton bottoneIndietro;
+	private Controller theController;
+	private Tavolo tavoloDaAggiungere = new Tavolo();
+	private InterfacciaAggiuntaTavoli riferimentoF = this;
 	
-	public InterfacciaAggiuntaTavoli(Sala salaCurr, ArrayList<Tavolo> tavoliGiaPresenti) 
+	public InterfacciaAggiuntaTavoli(Tavolo tavoloNuovo,Sala salaCurr, ArrayList<Tavolo> tavoliGiaPresenti, Controller controller) 
 	{
 		super("Aggiunta tavolo alla sala "+ salaCurr.getNome());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 515);
-		setLayout(null);
-		
-
-		
+		getContentPane().setLayout(null);
+		this.theController = controller;
+		tavoloDaAggiungere.setCapacita(tavoloNuovo.getCapacita());
+		tavoloDaAggiungere.setNumero(tavoloNuovo.getNumero());
 		
 		pannelloTavoli panel = new pannelloTavoli();
 		panel.setBounds(0, 0, 659, 362);
@@ -45,18 +59,27 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		areaDiDisegno = new JLayeredPane();
 		riferimento = areaDiDisegno;
 		areaDiDisegno.setBounds(10, 11, 659, 362);
-		this.add(areaDiDisegno);
+		getContentPane().add(areaDiDisegno);
 		areaDiDisegno.setLayout(null);
-		areaDiDisegno.add(panel, 0, 1);
+		
+		bottoneOk = new JButton("Ok");
+		bottoneOk.setBounds(10, 384, 89, 35);
+		getContentPane().add(bottoneOk);
+		
+		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBounds(580, 384, 89, 23);
+		getContentPane().add(bottoneIndietro);
+		
+		bottoneOk.addActionListener(new GestoreBottoni());
+		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
 		background = new JLabel();
 		background.setBounds(0, 0, 659, 362);
 		background.setBackground(Color.white);
 		background.setOpaque(true);
-		areaDiDisegno.add(background,0,-1);
 		
-		gestioneDisegnoSecondoClick handlerDD = new gestioneDisegnoSecondoClick();
-		inizializzazioneDisegno handlerD = new inizializzazioneDisegno();
+		GestioneDisegnoSecondoClick handlerDD = new GestioneDisegnoSecondoClick();
+		InizializzazzioneDisegno handlerD = new InizializzazzioneDisegno();
 		
 		background.addMouseMotionListener(handlerDD);
 		background.addMouseListener(handlerD);
@@ -86,10 +109,30 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 			areaDiDisegno.add(etichettaADestra,0,0);
 			numeri.add(tavoloCurr);
 		}
-		
+		areaDiDisegno.add(panel, 0, 1);
+		areaDiDisegno.add(background,0,-1);
 		
 		setResizable(false);
 		setVisible(true);
+		
+	}
+	
+	private class GestoreBottoni implements ActionListener
+	{
+
+		public void actionPerformed(ActionEvent e) 
+		{
+			if(e.getSource()==bottoneOk)
+			{
+				tavoloDaAggiungere.setPosX(posXInizialeT);
+				tavoloDaAggiungere.setPosY(posYInizialeT);
+				tavoloDaAggiungere.setDimX(dimXF);
+				tavoloDaAggiungere.setDimY(dimYF);
+				
+				//theController.bottoneOkInterfacciaAggiuntaTavoliPremuto()
+			}
+			
+		}
 		
 	}
 	
@@ -105,85 +148,159 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		}
 	}
 	
-	private class inizializzazioneDisegno implements MouseListener
+	private class InizializzazzioneDisegno implements MouseListener
 	{
-
-
-		private int posXFinale;
-
-
 		public void mouseClicked(MouseEvent e) 
 		{
 			if(e.getSource() == background)
 			{
-				if(!paintTable) 
+				if(paintTable == false && tavoloDisegnato == false) 
 					{
 						paintTable = true;
-						posXIniziale = e.getX();
-						posYIniziale = e.getY();
+						posXInizialeT = e.getX();
+						posYInizialeT = e.getY();
+						System.out.println(posXInizialeT+" "+ posYInizialeT);
 						nuovoTavolo = new JLabel();
-						nuovoTavolo.setBounds(posXIniziale,posYIniziale,0,0);
+						nuovoTavolo.setBounds(posXInizialeT,posYInizialeT,0,0);
 						nuovoTavolo.setOpaque(true);
 						nuovoTavolo.setBackground(Color.black);
+						nuovoTavolo.addMouseMotionListener(new GestioneDisegnoSecondoClick());
+						nuovoTavolo.addMouseListener(new InizializzazzioneDisegno());
+						nuovaEtichettaADestra = new JLabel();
+						nuovaEtichettaInBasso = new JLabel();
+						nuovaEtichettaInBassoADestra = new JLabel();
+						
+						nuovaEtichettaInBassoADestra.addMouseMotionListener(new GestioneDisegnoSecondoClick());
+						nuovaEtichettaInBassoADestra.addMouseListener(new InizializzazzioneDisegno());
+						nuovaEtichettaADestra.addMouseMotionListener(new GestioneDisegnoSecondoClick());
+						nuovaEtichettaADestra.addMouseListener(new InizializzazzioneDisegno());
+						nuovaEtichettaInBasso.addMouseMotionListener(new GestioneDisegnoSecondoClick());
+						nuovaEtichettaInBasso.addMouseListener(new InizializzazzioneDisegno());
+						nuovaEtichettaADestra.setBackground(Color.red);
+						nuovaEtichettaInBasso.setBackground(Color.red);
+						nuovaEtichettaInBassoADestra.setBackground(Color.red);
+						nuovaEtichettaInBassoADestra.setOpaque(true);
+						nuovaEtichettaADestra.setOpaque(true);
+						nuovaEtichettaInBasso.setOpaque(true);
 						riferimento.add(nuovoTavolo,0,1);
+						riferimento.add(nuovaEtichettaInBassoADestra,0,0);
+						riferimento.add(nuovaEtichettaADestra,0,0);
+						riferimento.add(nuovaEtichettaInBasso,0,0);
 					}
-				else 
+				else if (paintTable)
 					{
 						paintTable = false;
+						tavoloDisegnato = true;
+						nuovaEtichettaADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT+dimYF/2 -3,6,6);
+						nuovaEtichettaInBasso.setBounds(posXInizialeT+dimXF/2 -3,posYInizialeT+dimYF -3,6,6);
+						int somma = posYInizialeT + dimYF -3;
+						System.out.println(somma);
+						nuovaEtichettaInBassoADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT + dimYF -3,6,6);
+						System.out.println(posXInizialeT+" "+ posYInizialeT);
 					}
-			}
+			}	
+	
 		}
 
 
 		public void mousePressed(MouseEvent e) 
 		{
-			
+			if(tavoloDisegnato && e.getSource() == nuovoTavolo )
+			{
+				posXInizialeS = e.getX();
+				posYInizialeS = e.getY();
+			}
+			else if(e.getSource() == nuovaEtichettaADestra)
+			{
+				posXInizialeS = e.getX();
+			}
+			else if(e.getSource()== nuovaEtichettaInBasso)
+			{
+				posYInizialeS = e.getY();
+			}
+			else if(e.getSource()== nuovaEtichettaInBassoADestra)
+			{
+				posXInizialeS=e.getX();
+				posYInizialeS=e.getY();
+			}
+
 		}
 
 
 		public void mouseReleased(MouseEvent e) 
 		{
-		
+
 		}
 
 
 		public void mouseEntered(MouseEvent e) 
 		{
-		
+			if(e.getSource()==nuovoTavolo)
+			{
+				riferimentoF.setCursor(Cursor.MOVE_CURSOR);
+			}
 		}
 
 
 		public void mouseExited(MouseEvent e) 
 		{
-
+			if(e.getSource()== nuovoTavolo)
+			{
+				riferimentoF.setCursor(Cursor.DEFAULT_CURSOR);
+			}
 			
 		}
 		
 		
 	}
 	
-	private class gestioneDisegnoSecondoClick implements MouseMotionListener
+	private class GestioneDisegnoSecondoClick implements MouseMotionListener
 	{
 
-		@Override
 		public void mouseDragged(MouseEvent e) 
 		{
-			
-			
+			if(e.getSource()==nuovoTavolo)
+			{
+				nuovoTavolo.setLocation(posXInizialeT =  posXInizialeT+(e.getX()-posXInizialeS),posYInizialeT =  posYInizialeT +(e.getY() - posYInizialeS));		
+				nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
+				nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
+				nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+			}
+			else if(e.getSource() == nuovaEtichettaADestra)
+			{
+				nuovoTavolo.setSize(new Dimension(dimXF= dimXF + (e.getX()-posXInizialeS),dimYF));
+				nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
+				nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
+				nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+			}
+			else if (e.getSource() == nuovaEtichettaInBasso)
+			{
+				nuovoTavolo.setSize(new Dimension(dimXF,dimYF = dimYF + (e.getY()-posYInizialeS)));
+				nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
+				nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
+				nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+			}
+			else if(e.getSource()==nuovaEtichettaInBassoADestra)
+			{
+				nuovoTavolo.setSize(new Dimension(dimXF= dimXF + (e.getX()-posXInizialeS),dimYF = dimYF + (e.getY()-posYInizialeS)));
+				nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
+				nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
+				nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+			}
 		}
 
-		@Override
 		public void mouseMoved(MouseEvent e) 
 		{
 			
-			if(paintTable)
+			if(paintTable && (e.getSource()==background || e.getSource()==nuovoTavolo || e.getSource()==nuovaEtichettaInBassoADestra))
 			{
-				nuovoTavolo.setBounds(posXIniziale,posYIniziale,e.getX()-posXIniziale,e.getY()-posYIniziale);
+				nuovoTavolo.setBounds(posXInizialeT,posYInizialeT,dimXF = e.getX()-posXInizialeT,dimYF = e.getY()-posYInizialeT);
+				System.out.println(dimXF+ " "+ dimYF);
+
 			}
 			
 			
 		}
 		
 	}
-
 }

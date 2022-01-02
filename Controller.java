@@ -27,6 +27,7 @@ public class Controller {
 	NumeroAvventoriGiornoDAOImplPostgres numeroAvventoriGiornoDao = new NumeroAvventoriGiornoDAOImplPostgres();
 	InterfacciaTavoli frameTavoli;
 	InterfacciaAggiuntaTavoli frameAggiuntaTavoli;
+	InterfacciaAggiuntaCapienzaNumeroNuovoTavolo frameACNT;
 	
 	public static void main(String[] args) {
 
@@ -327,6 +328,20 @@ public class Controller {
 	public void bottoneAggiuntaTavoloPremuto(Sala salaScelta, ArrayList<Tavolo> tavoliGiaEsistenti)
 	{
 		frameTavoli.setVisible(false);
-		frameAggiuntaTavoli = new InterfacciaAggiuntaTavoli(salaScelta,tavoliGiaEsistenti);
+		frameACNT = new InterfacciaAggiuntaCapienzaNumeroNuovoTavolo(this,salaScelta,tavoliGiaEsistenti);
 	}
+	
+	public void bottoneOkInterfacciaAggiuntaCapienzaNumeroNuovoTavoloPremuto(Tavolo tavolo,Sala salaScelta, ArrayList<Tavolo> tavoliGiaEsistenti)
+	{
+		frameACNT.setVisible(false);
+		frameAggiuntaTavoli = new InterfacciaAggiuntaTavoli(tavolo,salaScelta,tavoliGiaEsistenti,this);
+	}
+	
+	public void bottoneOkInterfacciaAggiuntaTavoliPremuto(Sala salaScelta)
+	{
+		frameAggiuntaTavoli.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this,salaScelta);
+	}
+	
+	
 }  
