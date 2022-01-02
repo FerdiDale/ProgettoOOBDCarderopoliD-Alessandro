@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 public class InterfacciaRistoranti extends JFrame {
 
 	private Controller theController;
@@ -65,8 +66,10 @@ public class InterfacciaRistoranti extends JFrame {
 		bottoneModificaRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
-				theController.bottoneModificaRistorantePremuto(ristoranteSelezionato);
+				if (bottoneModificaRistorante.isEnabled()) {
+					Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
+					theController.bottoneModificaRistorantePremuto(ristoranteSelezionato);
+				}
 			}
 		});
 		bottoneModificaRistorante.setBounds(10, 300, 551, 23);
@@ -78,11 +81,13 @@ public class InterfacciaRistoranti extends JFrame {
 		bottoneEliminaRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
-				theController.bottoneEliminaRistorantePremuto(ristoranteSelezionato);
-				listaRistoranti.remove(listaVisibile.getSelectedIndex());
-				modelloLista.removeAllElements();
-				modelloLista.addAll(listaRistoranti);
+				if (bottoneEliminaRistorante.isEnabled()) {
+					Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
+					theController.bottoneEliminaRistorantePremuto(ristoranteSelezionato);
+					listaRistoranti.remove(listaVisibile.getSelectedIndex());
+					modelloLista.removeAllElements();
+					modelloLista.addAll(listaRistoranti);
+				}
 			}
 		});
 		bottoneEliminaRistorante.setBounds(10, 333, 551, 23);
@@ -94,8 +99,10 @@ public class InterfacciaRistoranti extends JFrame {
 		bottoneVisualizzaStatisticheRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
-				theController.bottoneVisualizzaStatistichePremuto(ristoranteSelezionato);
+				if (bottoneVisualizzaStatisticheRistorante.isEnabled()) {
+					Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
+					theController.bottoneVisualizzaStatistichePremuto(ristoranteSelezionato);
+				}
 			}
 		});
 		bottoneVisualizzaStatisticheRistorante.setBounds(10, 400, 551, 23);
@@ -107,8 +114,10 @@ public class InterfacciaRistoranti extends JFrame {
 		bottoneVisualizzaSaleRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
-				theController.bottoneVisualizzaSalePremuto(ristoranteSelezionato);
+				if (bottoneVisualizzaSaleRistorante.isEnabled()) {
+					Ristorante ristoranteSelezionato = listaRistoranti.get(listaVisibile.getSelectedIndex());
+					theController.bottoneVisualizzaSalePremuto(ristoranteSelezionato);
+				}
 			}
 		});
 		bottoneVisualizzaSaleRistorante.setBounds(10, 366, 551, 23);
