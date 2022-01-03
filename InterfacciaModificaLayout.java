@@ -1,4 +1,4 @@
-import java.awt.BorderLayout;
+  import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
@@ -48,7 +48,7 @@ public class InterfacciaModificaLayout extends JFrame {
 	* Create the frame.
 	*/
 	public InterfacciaModificaLayout(Controller c, Sala salaCorrente) {
-		super("Visualizzazione tavoli di "+ salaCorrente.getNome());
+		super("Modifica layout di "+ salaCorrente.getNome());
 		getContentPane().setLayout(null);
 		theController = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
