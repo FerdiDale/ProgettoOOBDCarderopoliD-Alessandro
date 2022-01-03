@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Tavolo 
 {
@@ -9,8 +10,32 @@ public class Tavolo
 	private int PosY;
 	private int DimX;
 	private int DimY;
+	private ArrayList<Tavolo> TavoliAdiacenti = new ArrayList<Tavolo>();
+	
 	//metti tavoliAdiacenti
-	public Tavolo(int id_Tavolo, int numero, int posX, int posY, int dimX, int dimY) {
+	
+	public Tavolo(int id_Tavolo, int numero, int capacita, int posX, int posY, int dimX, int dimY, Sala sala) {
+		super();
+		Id_Tavolo = id_Tavolo;
+		Numero = numero;
+		Capacita = capacita;
+		PosX = posX;
+		PosY = posY;
+		DimX = dimX;
+		DimY = dimY;
+		TavoliAdiacenti = null;
+		Sala = sala;
+	}
+	
+	public Tavolo(int id_Tavolo, int capacita, Sala sala, int numero) {
+		super();
+		Id_Tavolo = id_Tavolo;
+		Capacita = capacita;
+		Sala = sala;
+		Numero = numero;
+	}
+
+	public Tavolo(int id_Tavolo, int numero, int posX, int posY, int dimX, int dimY, ArrayList<Tavolo> tavoliAdiacentiScelti) {
 		super();
 		Id_Tavolo = id_Tavolo;
 		Numero = numero;
@@ -18,13 +43,21 @@ public class Tavolo
 		PosY = posY;
 		DimX = dimX;
 		DimY = dimY;
+		TavoliAdiacenti = tavoliAdiacentiScelti;
 	}
+	
+	public Tavolo()
+	{
+		
+	}
+	
 	public int getId_Tavolo() {
 		return Id_Tavolo;
 	}
 	public void setId_Tavolo(int id_Tavolo) {
 		Id_Tavolo = id_Tavolo;
 	}
+
 	public int getCapacita() {
 		return Capacita;
 	}
@@ -61,9 +94,13 @@ public class Tavolo
 	public void setDimY(int dimY) {
 		DimY = dimY;
 	}
-	public Tavolo()
-	{
-		
+
+	public ArrayList<Tavolo> getTavoliAdiacenti() {
+		return TavoliAdiacenti;
+	}
+
+	public void setTavoliAdiacenti(ArrayList<Tavolo> tavoliAdiacenti) {
+		this.TavoliAdiacenti = tavoliAdiacenti;
 	}
 	public Sala getSala_App() {
 		return Sala_App;

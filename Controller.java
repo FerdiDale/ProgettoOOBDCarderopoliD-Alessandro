@@ -32,6 +32,8 @@ public class Controller {
 	InterfacciaAggiuntaCapienzaNumeroNuovoTavolo frameACNT;
 	InterfacciaSelezioneDataOccupazione frameSelezioneDataOccupazione;
 	InterfacciaGestioneOccupazioni frameGestioneOccupazioni;
+	InterfacciaAdiacenze frameAdiacenze;
+	private InterfacciaModificaDatiTavolo frameModificaDatiTavolo;
 	
 	public static void main(String[] args) {
 
@@ -401,5 +403,72 @@ public class Controller {
 		frameSelezioneDataOccupazione.setVisible(false);
 		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
 	}
+
+	public void bottoneGestisciAdiacenze(Tavolo tavoloScelto) {
+		frameTavoli.setVisible(false);
+		frameAdiacenze = new InterfacciaAdiacenze(this, tavoloScelto);
+	}
+
+	public void adiacenzeIndietroPremuto(Sala sala) {
+		frameAdiacenze.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this,sala);
+		
+	}
+
+	public ArrayList<Tavolo> estraiTavoliAdiacenti(Tavolo tavoloScelto) {
+		
+		try {
+			return tavoloDao.ricavaTavoliAdiacenti(tavoloScelto);
+		}
+		catch (OperazioneFallitaException e) {
+			e.stampaMessaggio();
+		}
+		
+		return null;
+		
+	}
+
+	public void bottoneConfermaModificheAdiacensePremuto(Tavolo tavoloProtagonista) {
+		try {
+			tavoloDao.rimpiazzaAdiacenze(tavoloProtagonista);
+			frameAdiacenze.setVisible(false);
+			frameTavoli = new InterfacciaTavoli(this,tavoloProtagonista.getSala());
+		} catch (OperazioneFallitaException e) {
+			e.stampaMessaggio();
+		}
+	}
+
+	public void bottoneModificaDatiPremuto(Tavolo tavolo) {
+		frameTavoli.setVisible(false);
+		frameModificaDatiTavolo = new InterfacciaModificaDatiTavolo(this, tavolo);
+	}
+
+	public void bottoneEliminaTavoloPremuto(Tavolo tavolo) {
+		try {
+			tavoloDao.eliminaTavolo(tavolo);
+		} catch (OperazioneFallitaException e) {
+			e.stampaMessaggio();
+		}
+	}
+
+	public void bottoneConfermaModificheDatiTavoloPremuto(Tavolo tavoloScelto, int numeroCorrente,
+			int capacitaCorrente) {
+		try {
+			
+			tavoloDao.modificaDatiTavolo(tavoloScelto, numeroCorrente, capacitaCorrente);
+			frameModificaDatiTavolo.setVisible(false);
+			frameTavoli = new InterfacciaTavoli(this, tavoloScelto.getSala());
+			
+		} catch (ErrorePersonalizzato e) {
+			e.stampaMessaggio();
+		}
+		
+	}
+
+	public void bottoneIndietroModificaDatiTavoloPremuto(Sala salaCorrente) {
+		frameModificaDatiTavolo.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this, salaCorrente);
+	}
+
 
 }  

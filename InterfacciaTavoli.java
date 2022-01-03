@@ -32,42 +32,41 @@ public class InterfacciaTavoli extends JFrame
 	private int numeroTavoloSelezionato = 0;
 	private JLabel background;
 	private JLayeredPane areaDiDisegno;
-	public InterfacciaTavoli(Controller c, Sala salaCorrente) 
-	{
+	private JButton bottoneModificaDatiTavolo;
+	private JButton bottoneEliminaTavolo;
+
+	public InterfacciaTavoli(Controller c, Sala salaCorrente) {
+  
 		super("Visualizzazione tavoli di "+ salaCorrente.getNome());
 		getContentPane().setLayout(null);
 		theController = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 695, 515);
+		setBounds(100, 100, 695, 555);
 		this.sala = salaCorrente;
-		setLayout(null);
+		getContentPane().setLayout(null);
 		
 		bottoneGestisciOccupazione = new JButton("Gestisci occupazioni del tavolo selezionato");
 		bottoneGestisciOccupazione.setBounds(337, 384, 332, 23);
-		add(bottoneGestisciOccupazione);
+		getContentPane().add(bottoneGestisciOccupazione);
+		bottoneGestisciOccupazione.setEnabled(false);
 		
 		bottoneModificaLayout = new JButton("Modifica layout");
 		bottoneModificaLayout.setBounds(10, 418, 317, 23);
-		add(bottoneModificaLayout);
+		getContentPane().add(bottoneModificaLayout);
 		
 		bottoneGestisciAdiacenze = new JButton("Gestisci tavoli adiacenti a quello selezionato");
 		bottoneGestisciAdiacenze.setBounds(337, 418, 332, 23);
-		add(bottoneGestisciAdiacenze);
+		getContentPane().add(bottoneGestisciAdiacenze);
+		bottoneGestisciAdiacenze.setEnabled(false);
 		
 		bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			theController.bottoneIndietroGestioneTavoliPremuto(salaCorrente);
-		}
-		});
-		
 
-		bottoneIndietro.setBounds(10, 449, 89, 23);
-		add(bottoneIndietro);
+		bottoneIndietro.setBounds(10, 482, 89, 23);
+		getContentPane().add(bottoneIndietro);
 		
 		bottoneAggiuntaTavolo = new JButton("Aggiungi tavolo");
 		bottoneAggiuntaTavolo.setBounds(10, 384, 317, 23);
-		add(bottoneAggiuntaTavolo);
+		getContentPane().add(bottoneAggiuntaTavolo);
 		
 		pannelloTavoli panel = new pannelloTavoli();
 		panel.setBounds(0, 0, 659, 362);
@@ -75,8 +74,18 @@ public class InterfacciaTavoli extends JFrame
 		
 		areaDiDisegno = new JLayeredPane();
 		areaDiDisegno.setBounds(10, 11, 659, 362);
-		add(areaDiDisegno);
+		getContentPane().add(areaDiDisegno);
+		
+		bottoneModificaDatiTavolo = new JButton("Modifica dati del tavolo selezionato");
+		bottoneModificaDatiTavolo.setBounds(10, 452, 317, 23);
+		getContentPane().add(bottoneModificaDatiTavolo);
+		bottoneModificaDatiTavolo.setEnabled(false);
+		
+		bottoneEliminaTavolo = new JButton("Elimina tavolo selezionato");
+		bottoneEliminaTavolo.setBounds(337, 452, 332, 23);
+		getContentPane().add(bottoneEliminaTavolo);
 		areaDiDisegno.add(panel, 0,1);
+		bottoneEliminaTavolo.setEnabled(false);
 		
 		background = new JLabel();
 		background.setBounds(0, 0, 659, 362);
@@ -95,8 +104,10 @@ public class InterfacciaTavoli extends JFrame
 			tavoloCurr.setOpaque(true);
 			tavoloCurr.setBounds(tavoli.get(i).getPosX(), tavoli.get(i).getPosY(), tavoli.get(i).getDimX(), tavoli.get(i).getDimY());
 			tavoloCurr.addMouseListener(handler);
+
 			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			areaDiDisegno.add(tavoloCurr,0,1);
+
 			numeri.add(tavoloCurr);
 		}
 		
@@ -105,7 +116,11 @@ public class InterfacciaTavoli extends JFrame
 		bottoneAggiuntaTavolo.addActionListener(handlerB);
 		bottoneModificaLayout.addActionListener(handlerB);
 		bottoneGestisciOccupazione.addActionListener(handlerB);
-		
+		bottoneGestisciAdiacenze.addActionListener(handlerB);
+		bottoneIndietro.addActionListener(handlerB);
+		bottoneModificaDatiTavolo.addActionListener(handlerB);
+		bottoneEliminaTavolo.addActionListener(handlerB);
+
 		setVisible(true);
 		setResizable(false);
 	}
@@ -124,11 +139,26 @@ public class InterfacciaTavoli extends JFrame
 				}
 				else if (e.getSource() == bottoneGestisciAdiacenze)
 				{
-					
+					theController.bottoneGestisciAdiacenze(trovaTavoloAssociato(numeroTavoloSelezionato));
 				}
 				else if(e.getSource() == bottoneModificaLayout)
 				{
 					theController.bottoneModificaLayoutPremuto(sala);
+				}
+				else if(e.getSource() == bottoneModificaDatiTavolo)
+				{
+					theController.bottoneModificaDatiPremuto(trovaTavoloAssociato(numeroTavoloSelezionato));
+				}
+				else if(e.getSource() == bottoneEliminaTavolo)
+				{
+					theController.bottoneEliminaTavoloPremuto(trovaTavoloAssociato(numeroTavoloSelezionato));
+					areaDiDisegno.remove(trovaLabelTavoloAssociato(numeroTavoloSelezionato));	
+					areaDiDisegno.validate();
+					areaDiDisegno.repaint();
+				}
+				else if(e.getSource() == bottoneIndietro)
+				{
+					theController.bottoneIndietroGestioneTavoliPremuto(sala);
 				}
 			}
 		}
@@ -180,6 +210,8 @@ public class InterfacciaTavoli extends JFrame
 			{
 				bottoneGestisciOccupazione.setEnabled(true);
 				bottoneGestisciAdiacenze.setEnabled(true);
+        bottoneEliminaTavolo.setEnabled(true);
+		   	bottoneModificaDatiTavolo.setEnabled(true);
 			}
 		} public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -191,5 +223,32 @@ public class InterfacciaTavoli extends JFrame
 		} public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		}
+	}
+	
+	public Tavolo trovaTavoloAssociato (int numeroTavolo) {
+		
+		Tavolo tavoloTrovato = null;
+		
+		for (Tavolo tavolo : tavoli) {
+			if (tavolo.getNumero() == numeroTavolo) {
+				tavoloTrovato = tavolo;
+			}
+		}
+		
+		return tavoloTrovato;		
+		
+	}
+	
+	public JLabel trovaLabelTavoloAssociato (int numeroTavolo) {
+		
+		JLabel tavoloTrovato = null;
+		
+		for (JLabel tavoloGrafico : numeri) {
+			if (Integer.parseInt(tavoloGrafico.getText()) == numeroTavolo) {
+				tavoloTrovato = tavoloGrafico;
+			}
+		}
+		
+		return tavoloTrovato;	
 	}
 }
