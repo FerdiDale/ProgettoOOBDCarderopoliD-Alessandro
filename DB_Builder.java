@@ -13,7 +13,7 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "Antonio22");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
@@ -59,7 +59,7 @@ public class DB_Builder
 								+ "CONSTRAINT Appartenenza FOREIGN KEY(Id_Ristorante) REFERENCES Ristorante(Id_Ristorante)"
 								+ "                            ON DELETE CASCADE                    ON UPDATE CASCADE,"
 								+ "CONSTRAINT NomeUnicoSalaDelRistorante UNIQUE(Nome,Id_Ristorante));");
-			 //Handle exception nell'insert della sala con nome uguale
+				
 				stmt.executeUpdate("CREATE TABLE Tavolo"
 								+ "(Id_Tavolo SERIAL,"
 								+ "Capacita INTEGER NOT NULL,"
@@ -73,8 +73,10 @@ public class DB_Builder
 				stmt.executeUpdate("CREATE TABLE Adiacenza"
 								+ "(Id_Tavolo1 INTEGER NOT NULL,"
 								+ "Id_Tavolo2 INTEGER NOT NULL,"
-								+ "CONSTRAINT Tavolo1 FOREIGN KEY(Id_Tavolo1) REFERENCES Tavolo(Id_Tavolo),"
-								+ "CONSTRAINT Tavolo2 FOREIGN KEY(Id_Tavolo2) REFERENCES Tavolo(Id_Tavolo),"
+								+ "CONSTRAINT Tavolo1 FOREIGN KEY(Id_Tavolo1) REFERENCES Tavolo(Id_Tavolo) "
+								+ "			 ON DELETE CASCADE              ON UPDATE CASCADE, "
+								+ "CONSTRAINT Tavolo2 FOREIGN KEY(Id_Tavolo2) REFERENCES Tavolo(Id_Tavolo) "
+								+ "			 ON DELETE CASCADE              ON UPDATE CASCADE, "
 								+ "CONSTRAINT AntiRiflessivo CHECK (Id_Tavolo1 <> Id_Tavolo2));");
 			
 				stmt.executeUpdate("CREATE TABLE Tavolata"
@@ -153,20 +155,20 @@ public class DB_Builder
 								+ "EXECUTE FUNCTION InserisciSimmetrico();"); 
 				
 				stmt.executeUpdate ("CREATE FUNCTION CancellaSimmetrico() RETURNS TRIGGER\r"
-								+ " AS $$\r"
-								+ "DECLARE\r"
-								+ "CheckConto INTEGER;\r"
-								+ "BEGIN\r"
-								+ "SELECT COUNT(*) INTO CheckConto\r"
-								+ "FROM Adiacenza AS A\r"
-								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r"
-								+ "IF (CheckConto>0) THEN\r"
-								+ "	DELETE FROM Adiacenza\r"
-								+ "	WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r"
-								+ "END IF;\r"
-								+ "RETURN NEW;\r"
-								+ "END;\r"
-								+ "$$ LANGUAGE plpgsql;\r");
+								+ " AS $$\r "
+								+ "DECLARE\r "
+								+ "CheckConto INTEGER;\r "
+								+ "BEGIN\r "
+								+ "SELECT COUNT(*) INTO CheckConto\r "
+								+ "FROM Adiacenza AS A\r " 
+								+ "WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r "
+								+ "IF (CheckConto>0) THEN\r "
+								+ "	DELETE FROM Adiacenza AS A\r "
+								+ "	WHERE A.Id_Tavolo1 = OLD.Id_Tavolo2 AND A.Id_Tavolo2 = OLD.Id_Tavolo1;\r "
+								+ "END IF;\r "
+								+ "RETURN NEW;\r "
+								+ "END;\r "
+								+ "$$ LANGUAGE plpgsql;\r ");
 				
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaCancellazione "
 								+ "AFTER DELETE ON Adiacenza "

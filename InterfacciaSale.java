@@ -24,7 +24,7 @@ public class InterfacciaSale extends JFrame
 	private Ristorante ristorante;
 	private ArrayList<Sala> listaSale = new ArrayList<Sala>();
 	private DefaultListModel<Sala> modelloLista = new DefaultListModel<Sala>();
-	private JList<Sala> listavisibile = new JList<>(modelloLista);
+	private JList<Sala> listaVisibile = new JList<>(modelloLista);
 	private int elementoSelezionato = -1;
 	private JButton GestioneCamerieri;
 	private JButton RimuoviSala ;
@@ -67,7 +67,7 @@ public class InterfacciaSale extends JFrame
 		scorrimentoPerlistavisibile.setBounds(10, 11, 253, 170);
 	    getContentPane().add(scorrimentoPerlistavisibile);
 		
-	    scorrimentoPerlistavisibile.setViewportView(listavisibile);
+	    scorrimentoPerlistavisibile.setViewportView(listaVisibile);
 	    
 	    tornaIndietro = new JButton("Indietro");
 	    tornaIndietro.setBounds(290, 136, 120, 17);
@@ -75,7 +75,7 @@ public class InterfacciaSale extends JFrame
 	    GestoreClickMouse handler = new GestoreClickMouse();
 		
 		GestoreSelezioneLista selezione = new GestoreSelezioneLista();
-		listavisibile.addListSelectionListener(selezione);
+		listaVisibile.addListSelectionListener(selezione);
 		
 		tornaIndietro.addActionListener(handler);
 		RimuoviSala.addActionListener(handler);
@@ -129,12 +129,9 @@ public class InterfacciaSale extends JFrame
 	{
 		public void valueChanged(ListSelectionEvent e)
 		{
-			elementoSelezionato = e.getFirstIndex();
+			elementoSelezionato = listaVisibile.getSelectedIndex();
 			RimuoviSala.setEnabled(true);
 			VediTavoli.setEnabled(true);
 		}
 	}
 }
-
-//Ancora da fare:
-//Gestione eventi sulla jlist e sui vari bottoni (collegamenti con le varie interfacce)
