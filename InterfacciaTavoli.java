@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -15,7 +17,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JLayeredPane;
 
-public class InterfacciaTavoli extends JFrame { 
+public class InterfacciaTavoli extends JFrame 
+{ 
 
 	private Controller theController;
 	private Sala sala;
@@ -26,15 +29,14 @@ public class InterfacciaTavoli extends JFrame {
 	private JButton bottoneModificaLayout;
 	private JButton bottoneGestisciAdiacenze;
 	private JButton bottoneGestisciOccupazione;
-	private int numeroTavoloSelezionato;
+	private int numeroTavoloSelezionato = 0;
 	private JLabel background;
 	private JLayeredPane areaDiDisegno;
 	private JButton bottoneModificaDatiTavolo;
 	private JButton bottoneEliminaTavolo;
-	/**
-	* Create the frame.
-	*/
+
 	public InterfacciaTavoli(Controller c, Sala salaCorrente) {
+  
 		super("Visualizzazione tavoli di "+ salaCorrente.getNome());
 		getContentPane().setLayout(null);
 		theController = c;
@@ -97,14 +99,15 @@ public class InterfacciaTavoli extends JFrame {
 		
 		for (int i = 0; i<tavoli.size(); i++)
 		{
-			JLabel tavoloCurr = new JLabel(String.format("%d",tavoli.get(i).getNumero()));
+			JLabel tavoloCurr = new JLabel(String.format("%d",tavoli.get(i).getNumero()),SwingConstants.CENTER);
 			tavoloCurr.setBackground(new Color(129,116,37));
 			tavoloCurr.setOpaque(true);
 			tavoloCurr.setBounds(tavoli.get(i).getPosX(), tavoli.get(i).getPosY(), tavoli.get(i).getDimX(), tavoli.get(i).getDimY());
 			tavoloCurr.addMouseListener(handler);
 
+			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			areaDiDisegno.add(tavoloCurr,0,1);
-			
+
 			numeri.add(tavoloCurr);
 		}
 		
@@ -112,6 +115,7 @@ public class InterfacciaTavoli extends JFrame {
 		
 		bottoneAggiuntaTavolo.addActionListener(handlerB);
 		bottoneModificaLayout.addActionListener(handlerB);
+		bottoneGestisciOccupazione.addActionListener(handlerB);
 		bottoneGestisciAdiacenze.addActionListener(handlerB);
 		bottoneIndietro.addActionListener(handlerB);
 		bottoneModificaDatiTavolo.addActionListener(handlerB);
@@ -119,7 +123,7 @@ public class InterfacciaTavoli extends JFrame {
 
 		setVisible(true);
 		setResizable(false);
-}
+	}
 
 	private class GestioneBottoni implements ActionListener
 		{
@@ -131,6 +135,7 @@ public class InterfacciaTavoli extends JFrame {
 				}
 				else if(e.getSource() == bottoneGestisciOccupazione)
 				{
+					
 				}
 				else if (e.getSource() == bottoneGestisciAdiacenze)
 				{
@@ -175,7 +180,22 @@ public class InterfacciaTavoli extends JFrame {
 	public void mouseClicked(MouseEvent e)
 	{
 		boolean tavolo = false;
-		int controllo = -1;
+		boolean aggiustato = false;
+		int controllo = 0;
+		if(numeroTavoloSelezionato!= 0)
+		{
+			while(controllo<numeri.size() && !aggiustato)
+			{
+				
+				if(numeri.get(controllo).getText().equals(String.format("%d", numeroTavoloSelezionato)))
+				{
+					aggiustato = true;
+					numeri.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+				}
+				controllo++;
+			}
+		}
+		controllo = -1;
 		while(!tavolo && controllo < numeri.size())
 			{
 				controllo++;
@@ -183,15 +203,16 @@ public class InterfacciaTavoli extends JFrame {
 				{
 					tavolo = true;
 					numeroTavoloSelezionato = Integer.parseInt(numeri.get(controllo).getText());
+					numeri.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
 				}
 			}
-		if(tavolo)
-		{
-			bottoneGestisciOccupazione.setEnabled(true);
-			bottoneGestisciAdiacenze.setEnabled(true);
-			bottoneEliminaTavolo.setEnabled(true);
-			bottoneModificaDatiTavolo.setEnabled(true);
-		}
+			if(tavolo)
+			{
+				bottoneGestisciOccupazione.setEnabled(true);
+				bottoneGestisciAdiacenze.setEnabled(true);
+        bottoneEliminaTavolo.setEnabled(true);
+		   	bottoneModificaDatiTavolo.setEnabled(true);
+			}
 		} public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		}

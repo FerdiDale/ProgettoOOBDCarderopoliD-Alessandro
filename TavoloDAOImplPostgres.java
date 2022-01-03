@@ -46,6 +46,28 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		}
 		
 	}
+	
+	public void inserisciNuovoTavolo(Tavolo tavoloNuovo) throws OperazioneFallitaException
+	{
+		try
+		{
+			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO tavolo(Capacita,id_sala,Numero) VALUES("+tavoloNuovo.getCapacita()+","+tavoloNuovo.getSala_App().getId_Sala()+","+tavoloNuovo.getNumero()+");");
+			ResultSet rs = DB_Connection.getInstance().getConnection().createStatement().executeQuery("select id_tavolo from tavolo where id_sala = "+tavoloNuovo.getSala_App().getId_Sala()+" AND numero = "+ tavoloNuovo.getNumero()+";");
+			rs.next();
+			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO posizioni VALUES("+rs.getInt(1)+","+tavoloNuovo.getPosX()+","+tavoloNuovo.getPosY()+","+tavoloNuovo.getDimX()+","+tavoloNuovo.getDimY()+");");			
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			throw ecc;
+		}
+	}
+	
+	public ArrayList<Tavolo> tavoliOccupatiInData(String data, Sala sala)
+	{
+	//Query per ricavare i tavoli occupati nella data in input, nota: basta fare un join tra tavolo e tavolata dove l'id coincide e la data � quella in input.
+  }
 
 	public ArrayList<Tavolo> ricavaTavoliAdiacenti(Tavolo tavoloScelto) throws OperazioneFallitaException {
 		

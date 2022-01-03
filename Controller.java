@@ -30,6 +30,8 @@ public class Controller {
 	TavoloDAOImplPostgres tavoloDao = new TavoloDAOImplPostgres();
 	InterfacciaAggiuntaTavoli frameAggiuntaTavoli;
 	InterfacciaAggiuntaCapienzaNumeroNuovoTavolo frameACNT;
+	InterfacciaSelezioneDataOccupazione frameSelezioneDataOccupazione;
+	InterfacciaGestioneOccupazioni frameGestioneOccupazioni;
 	InterfacciaAdiacenze frameAdiacenze;
 	private InterfacciaModificaDatiTavolo frameModificaDatiTavolo;
 	
@@ -333,11 +335,13 @@ public class Controller {
 
 	public void confermaModificheLayoutPremuto(ArrayList<Tavolo> tavoli, Sala sala) {
 		
-		try {
+		try 
+		{
 			tavoloDao.modificaPosizioniTavoli (tavoli);
 			frameModificaLayout.setVisible(false);
 			frameTavoli = new InterfacciaTavoli(this, sala);
-		} catch (OperazioneFallitaException e) {
+		} catch (OperazioneFallitaException e) 
+		{
 			e.stampaMessaggio();
 		}
 	
@@ -355,10 +359,49 @@ public class Controller {
 		frameAggiuntaTavoli = new InterfacciaAggiuntaTavoli(tavolo,salaScelta,tavoliGiaEsistenti,this);
 	}
 	
-	public void bottoneOkInterfacciaAggiuntaTavoliPremuto(Sala salaScelta)
+	public void bottoneIndietroInterfacciaAggiuntaCapienzaNumeroNuovoTavoloPremuto(Sala salaScelta)
+	{
+		frameACNT.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this,salaScelta);
+	}
+	
+	public void bottoneOkInterfacciaAggiuntaTavoliPremuto(Tavolo nuovoTavolo)
+	{
+		try
+		{
+			TavoloDAOImplPostgres TDAO = new TavoloDAOImplPostgres();
+			TDAO.inserisciNuovoTavolo(nuovoTavolo);
+		}
+		catch(OperazioneFallitaException e)
+		{
+			e.stampaMessaggio();
+		}
+		frameAggiuntaTavoli.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this,nuovoTavolo.getSala_App());
+	}
+	
+	public void bottoneIndietroInterfacciaAggiuntaTavoliPremuto(Sala salaScelta)
 	{
 		frameAggiuntaTavoli.setVisible(false);
 		frameTavoli = new InterfacciaTavoli(this,salaScelta);
+	}
+	
+	public void bottoneGestioneOccupazioneInterfacciaTavoliPremuto(ArrayList<Tavolo> tavoli)
+	{
+		frameTavoli.setVisible(false);
+		frameSelezioneDataOccupazione = new InterfacciaSelezioneDataOccupazione(this, tavoli);
+	}
+	
+	public void bottoneIndietroInterfacciaSelezioneDataGestioneOccupazionePremuto(Sala salaScelta)
+	{
+		frameSelezioneDataOccupazione.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this, salaScelta);
+	}
+	
+	public void bottoneGoNextInterfacciaSelezioneDataGestioneOccupazionePremuto(ArrayList<Tavolo> tavoli, String data)
+	{
+		frameSelezioneDataOccupazione.setVisible(false);
+		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
 	}
 
 	public void bottoneGestisciAdiacenze(Tavolo tavoloScelto) {

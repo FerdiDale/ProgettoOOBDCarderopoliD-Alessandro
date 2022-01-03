@@ -2,12 +2,15 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import org.postgresql.jdbc.PgResultSet.CursorResultHandler;
 
@@ -17,6 +20,8 @@ import java.awt.event.ActionListener;
 import java.awt.Cursor;
 
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 public class InterfacciaAggiuntaTavoli extends JFrame {
@@ -32,7 +37,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 	private boolean tavoloDisegnato = false;
 	private int posXInizialeS;
 	private int posYInizialeS;
-	public int dimXF;
+	private int dimXF;
 	private int dimYF;
 	private JLabel nuovaEtichettaInBasso;
 	private JLabel nuovaEtichettaInBassoADestra;
@@ -42,6 +47,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 	private Controller theController;
 	private Tavolo tavoloDaAggiungere = new Tavolo();
 	private InterfacciaAggiuntaTavoli riferimentoF = this;
+	private boolean inizializzazzioneTavolo = false;
 	
 	public InterfacciaAggiuntaTavoli(Tavolo tavoloNuovo,Sala salaCurr, ArrayList<Tavolo> tavoliGiaPresenti, Controller controller) 
 	{
@@ -52,6 +58,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		this.theController = controller;
 		tavoloDaAggiungere.setCapacita(tavoloNuovo.getCapacita());
 		tavoloDaAggiungere.setNumero(tavoloNuovo.getNumero());
+		tavoloDaAggiungere.setSala_App(salaCurr);
 		
 		pannelloTavoli panel = new pannelloTavoli();
 		panel.setBounds(0, 0, 659, 362);
@@ -87,26 +94,12 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		
 		for (int i = 0; i<tavoliGiaPresenti.size(); i++)
 		{
-			JLabel tavoloCurr = new JLabel(String.format("%d",tavoliGiaPresenti.get(i).getNumero()));
+			JLabel tavoloCurr = new JLabel(String.format("%d",tavoliGiaPresenti.get(i).getNumero()),SwingConstants.CENTER);
 			tavoloCurr.setBackground(new Color(129,116,37));
 			tavoloCurr.setOpaque(true);
 			tavoloCurr.setBounds(tavoliGiaPresenti.get(i).getPosX(), tavoliGiaPresenti.get(i).getPosY(), tavoliGiaPresenti.get(i).getDimX(), tavoliGiaPresenti.get(i).getDimY());
-			JLabel etichettaADestra= new JLabel();
-			JLabel etichettaInBasso = new JLabel();
-			JLabel etichettaInBassoADestra = new JLabel();
-			etichettaADestra.setBounds(tavoliGiaPresenti.get(i).getPosX()+tavoliGiaPresenti.get(i).getDimX()-3, (tavoliGiaPresenti.get(i).getPosY()+tavoliGiaPresenti.get(i).getDimY()/2) -3, 6, 6);
-			etichettaADestra.setOpaque(true);
-			etichettaADestra.setBackground(Color.black);
-			etichettaInBasso.setBounds((tavoliGiaPresenti.get(i).getPosX()+tavoliGiaPresenti.get(i).getDimX()/2)-3,tavoliGiaPresenti.get(i).getPosY()+tavoliGiaPresenti.get(i).getDimY()-3,6,6);
-			etichettaInBassoADestra.setBounds(tavoliGiaPresenti.get(i).getPosX()+tavoliGiaPresenti.get(i).getDimX()-3,tavoliGiaPresenti.get(i).getPosY()+tavoliGiaPresenti.get(i).getDimY()-3,6,6);
-			etichettaInBasso.setOpaque(true);
-			etichettaInBassoADestra.setOpaque(true);
-			etichettaInBasso.setBackground(Color.black);
-			etichettaInBassoADestra.setBackground(Color.black);
+			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			areaDiDisegno.add(tavoloCurr,0,1);
-			areaDiDisegno.add(etichettaInBasso,0,0);
-			areaDiDisegno.add(etichettaInBassoADestra,0,0);
-			areaDiDisegno.add(etichettaADestra,0,0);
 			numeri.add(tavoloCurr);
 		}
 		areaDiDisegno.add(panel, 0, 1);
@@ -117,6 +110,54 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		
 	}
 	
+	private boolean presentiSovrapposizioni (ArrayList<JLabel> listaPannelliTavoli) 
+	{
+		
+		boolean sovrapposizione = false;
+		
+		for (int i = 0; i<listaPannelliTavoli.size(); i++) {
+			
+			Rectangle rettangoloCorrente = new Rectangle(listaPannelliTavoli.get(i).getBounds());
+			
+			for (int j = 0; j<listaPannelliTavoli.size(); j++) {
+				
+				if (i!=j) {
+					
+					Rectangle rettangoloConfronto = new Rectangle(listaPannelliTavoli.get(j).getBounds());
+					
+					sovrapposizione = rettangoloCorrente.intersects(rettangoloConfronto) ||
+							rettangoloCorrente.contains(rettangoloConfronto) ||
+							rettangoloConfronto.contains(rettangoloCorrente) || sovrapposizione ;
+			
+				}
+			}
+		}
+		
+		return sovrapposizione;
+		
+	}
+	
+	private boolean presentiTavoliFuoriFinestra (ArrayList<JLabel> listaPannelliTavoli, JLayeredPane finestra) 
+	{
+		
+		boolean fuori = false;
+		
+		for (int i = 0; i<listaPannelliTavoli.size(); i++) {
+			
+			Rectangle rettangoloCorrente = new Rectangle(listaPannelliTavoli.get(i).getBounds());
+				
+			if (rettangoloCorrente.getMinX()<0 ||
+					rettangoloCorrente.getMaxX()>finestra.getWidth() ||
+					rettangoloCorrente.getMinY()<0 ||
+					rettangoloCorrente.getMaxY()>finestra.getHeight()) {
+				fuori = true;
+			}
+			
+		}
+		
+		return fuori;
+	}
+	
 	private class GestoreBottoni implements ActionListener
 	{
 
@@ -124,14 +165,28 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		{
 			if(e.getSource()==bottoneOk)
 			{
-				tavoloDaAggiungere.setPosX(posXInizialeT);
-				tavoloDaAggiungere.setPosY(posYInizialeT);
-				tavoloDaAggiungere.setDimX(dimXF);
-				tavoloDaAggiungere.setDimY(dimYF);
 				
-				//theController.bottoneOkInterfacciaAggiuntaTavoliPremuto()
+				numeri.add(nuovoTavolo);
+				if(!presentiSovrapposizioni(numeri) && !presentiTavoliFuoriFinestra(numeri,areaDiDisegno))
+				{
+					tavoloDaAggiungere.setPosX(posXInizialeT);
+					tavoloDaAggiungere.setPosY(posYInizialeT);
+					tavoloDaAggiungere.setDimX(dimXF);
+					System.out.println(dimYF);
+					tavoloDaAggiungere.setDimY(dimYF);
+					theController.bottoneOkInterfacciaAggiuntaTavoliPremuto(tavoloDaAggiungere);
+				}
+				else
+				{
+					numeri.remove(numeri.size()-1);
+					JOptionPane.showMessageDialog(null,"Il tavolo si trova su altri tavoli oppure si trova fuori dall'area di disegno. Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			
+			else if(e.getSource() == bottoneIndietro)
+			{
+				theController.bottoneIndietroInterfacciaAggiuntaTavoliPremuto(tavoloDaAggiungere.getSala_App());
+			}
 		}
 		
 	}
@@ -150,35 +205,40 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 	
 	private class InizializzazzioneDisegno implements MouseListener
 	{
+		//private boolean ridimensionamento = false;
 		public void mouseClicked(MouseEvent e) 
 		{
 			if(e.getSource() == background)
 			{
 				if(paintTable == false && tavoloDisegnato == false) 
 					{
+						//riferimentoF.setCursor(Cursor.NW_RESIZE_CURSOR);
 						paintTable = true;
 						posXInizialeT = e.getX();
 						posYInizialeT = e.getY();
 						System.out.println(posXInizialeT+" "+ posYInizialeT);
-						nuovoTavolo = new JLabel();
+						nuovoTavolo = new JLabel(String.format("%d",tavoloDaAggiungere.getNumero()), SwingConstants.CENTER);
 						nuovoTavolo.setBounds(posXInizialeT,posYInizialeT,0,0);
 						nuovoTavolo.setOpaque(true);
-						nuovoTavolo.setBackground(Color.black);
+						nuovoTavolo.setBackground(new Color(129,116,37));
 						nuovoTavolo.addMouseMotionListener(new GestioneDisegnoSecondoClick());
 						nuovoTavolo.addMouseListener(new InizializzazzioneDisegno());
+						nuovoTavolo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 						nuovaEtichettaADestra = new JLabel();
 						nuovaEtichettaInBasso = new JLabel();
 						nuovaEtichettaInBassoADestra = new JLabel();
-						
 						nuovaEtichettaInBassoADestra.addMouseMotionListener(new GestioneDisegnoSecondoClick());
 						nuovaEtichettaInBassoADestra.addMouseListener(new InizializzazzioneDisegno());
+						nuovaEtichettaADestra.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+						nuovaEtichettaInBasso.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+						nuovaEtichettaInBassoADestra.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 						nuovaEtichettaADestra.addMouseMotionListener(new GestioneDisegnoSecondoClick());
 						nuovaEtichettaADestra.addMouseListener(new InizializzazzioneDisegno());
 						nuovaEtichettaInBasso.addMouseMotionListener(new GestioneDisegnoSecondoClick());
 						nuovaEtichettaInBasso.addMouseListener(new InizializzazzioneDisegno());
-						nuovaEtichettaADestra.setBackground(Color.red);
-						nuovaEtichettaInBasso.setBackground(Color.red);
-						nuovaEtichettaInBassoADestra.setBackground(Color.red);
+						nuovaEtichettaADestra.setBackground(new Color(192,192,192));
+						nuovaEtichettaInBasso.setBackground(new Color(192,192,192));
+						nuovaEtichettaInBassoADestra.setBackground(new Color(192,192,192));
 						nuovaEtichettaInBassoADestra.setOpaque(true);
 						nuovaEtichettaADestra.setOpaque(true);
 						nuovaEtichettaInBasso.setOpaque(true);
@@ -189,15 +249,24 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 					}
 				else if (paintTable)
 					{
-						paintTable = false;
+					 	if(inizializzazzioneTavolo)
+					 	{
+							nuovaEtichettaADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT+dimYF/2 -3,6,6);
+							nuovaEtichettaInBasso.setBounds(posXInizialeT+dimXF/2 -3,posYInizialeT+dimYF -3,6,6);
+							nuovaEtichettaInBassoADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT + dimYF -3,6,6);
+					 	}
+					 	else
+					 	{
+					 		dimXF = 12;
+					 		dimYF = 12;
+					 		nuovoTavolo.setSize(new Dimension(dimXF,dimYF));
+					 		nuovaEtichettaADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT+dimYF/2 -3,6,6);
+							nuovaEtichettaInBasso.setBounds(posXInizialeT+dimXF/2 -3,posYInizialeT+dimYF -3,6,6);
+							nuovaEtichettaInBassoADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT + dimYF -3,6,6);
+					 	}
+					 	paintTable = false;
 						tavoloDisegnato = true;
-						nuovaEtichettaADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT+dimYF/2 -3,6,6);
-						nuovaEtichettaInBasso.setBounds(posXInizialeT+dimXF/2 -3,posYInizialeT+dimYF -3,6,6);
-						int somma = posYInizialeT + dimYF -3;
-						System.out.println(somma);
-						nuovaEtichettaInBassoADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT + dimYF -3,6,6);
-						System.out.println(posXInizialeT+" "+ posYInizialeT);
-					}
+					 }
 			}	
 	
 		}
@@ -213,15 +282,18 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 			else if(e.getSource() == nuovaEtichettaADestra)
 			{
 				posXInizialeS = e.getX();
+			//	ridimensionamento = true;
 			}
 			else if(e.getSource()== nuovaEtichettaInBasso)
 			{
 				posYInizialeS = e.getY();
+			//	ridimensionamento = true;
 			}
 			else if(e.getSource()== nuovaEtichettaInBassoADestra)
 			{
 				posXInizialeS=e.getX();
 				posYInizialeS=e.getY();
+			//	ridimensionamento = true;
 			}
 
 		}
@@ -229,25 +301,38 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 
 		public void mouseReleased(MouseEvent e) 
 		{
-
+			
 		}
 
 
 		public void mouseEntered(MouseEvent e) 
 		{
-			if(e.getSource()==nuovoTavolo)
+			/*if(e.getSource()==nuovoTavolo)
 			{
 				riferimentoF.setCursor(Cursor.MOVE_CURSOR);
 			}
+			else if(e.getSource()== nuovaEtichettaADestra)
+			{
+				riferimentoF.setCursor(Cursor.E_RESIZE_CURSOR);
+			}
+			else if(e.getSource() == nuovaEtichettaInBasso)
+			{
+				riferimentoF.setCursor(Cursor.N_RESIZE_CURSOR);
+			}
+			else if(e.getSource() == nuovaEtichettaInBassoADestra)
+			{
+				riferimentoF.setCursor(Cursor.NW_RESIZE_CURSOR);
+			}
+			else if(e.getSource() == background && ridimensionamento == false)
+			{
+				riferimentoF.setCursor(Cursor.DEFAULT_CURSOR);
+			}*/
 		}
 
 
 		public void mouseExited(MouseEvent e) 
 		{
-			if(e.getSource()== nuovoTavolo)
-			{
-				riferimentoF.setCursor(Cursor.DEFAULT_CURSOR);
-			}
+			
 			
 		}
 		
@@ -265,38 +350,51 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 				nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
 				nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
 				nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+				
 			}
 			else if(e.getSource() == nuovaEtichettaADestra)
 			{
-				nuovoTavolo.setSize(new Dimension(dimXF= dimXF + (e.getX()-posXInizialeS),dimYF));
-				nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
-				nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
-				nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+				if(dimXF + (e.getX()-posXInizialeS) >= 12 && dimYF >= 12)
+				{	
+						nuovoTavolo.setSize(new Dimension(dimXF= dimXF + (e.getX()-posXInizialeS),dimYF));
+						nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
+						nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
+						nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+					//	riferimentoF.setCursor(Cursor.E_RESIZE_CURSOR);
+				}
 			}
 			else if (e.getSource() == nuovaEtichettaInBasso)
-			{
-				nuovoTavolo.setSize(new Dimension(dimXF,dimYF = dimYF + (e.getY()-posYInizialeS)));
-				nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
-				nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
-				nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+			{	
+				if(dimXF >= 12 && dimYF + (e.getY()-posYInizialeS) >= 12)
+					{
+						nuovoTavolo.setSize(new Dimension(dimXF,dimYF = dimYF + (e.getY()-posYInizialeS)));
+						nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
+						nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
+						nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+					}
 			}
 			else if(e.getSource()==nuovaEtichettaInBassoADestra)
 			{
-				nuovoTavolo.setSize(new Dimension(dimXF= dimXF + (e.getX()-posXInizialeS),dimYF = dimYF + (e.getY()-posYInizialeS)));
-				nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
-				nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
-				nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+				if(dimXF + (e.getX()-posXInizialeS)>= 12 && dimYF + (e.getY()-posYInizialeS)  >= 12)
+					{
+						nuovoTavolo.setSize(new Dimension(dimXF= dimXF + (e.getX()-posXInizialeS),dimYF = dimYF + (e.getY()-posYInizialeS)));
+						nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
+						nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
+						nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
+					}
 			}
 		}
 
 		public void mouseMoved(MouseEvent e) 
 		{
 			
-			if(paintTable && (e.getSource()==background || e.getSource()==nuovoTavolo || e.getSource()==nuovaEtichettaInBassoADestra))
+			if(paintTable && (e.getSource()==background || e.getSource()==nuovoTavolo))
 			{
 				nuovoTavolo.setBounds(posXInizialeT,posYInizialeT,dimXF = e.getX()-posXInizialeT,dimYF = e.getY()-posYInizialeT);
-				System.out.println(dimXF+ " "+ dimYF);
-
+				if(dimXF>= 12 && dimYF >= 12)
+					inizializzazzioneTavolo = true;
+				else 
+					inizializzazzioneTavolo = false;
 			}
 			
 			

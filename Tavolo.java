@@ -4,7 +4,7 @@ public class Tavolo
 {
 	private int Id_Tavolo;
 	private int Capacita;
-	private Sala Sala;
+	private Sala Sala_App = new Sala();
 	private int Numero;
 	private int PosX;
 	private int PosY;
@@ -57,13 +57,6 @@ public class Tavolo
 	public void setId_Tavolo(int id_Tavolo) {
 		Id_Tavolo = id_Tavolo;
 	}
-	public Sala getSala() {
-		return Sala;
-	}
-
-	public void setSala(Sala sala) {
-		this.Sala = sala;
-	}
 
 	public int getCapacita() {
 		return Capacita;
@@ -108,6 +101,12 @@ public class Tavolo
 
 	public void setTavoliAdiacenti(ArrayList<Tavolo> tavoliAdiacenti) {
 		this.TavoliAdiacenti = tavoliAdiacenti;
+	}
+	public Sala getSala_App() {
+		return Sala_App;
+	}
+	public void setSala_App(Sala sala_App) {
+		Sala_App = sala_App;
 	}
 	
 }
