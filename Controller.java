@@ -432,7 +432,7 @@ public class Controller {
 		try {
 			tavoloDao.rimpiazzaAdiacenze(tavoloProtagonista);
 			frameAdiacenze.setVisible(false);
-			frameTavoli = new InterfacciaTavoli(this,tavoloProtagonista.getSala());
+			frameTavoli = new InterfacciaTavoli(this,tavoloProtagonista.getSala_App());
 		} catch (OperazioneFallitaException e) {
 			e.stampaMessaggio();
 		}
@@ -457,7 +457,7 @@ public class Controller {
 			
 			tavoloDao.modificaDatiTavolo(tavoloScelto, numeroCorrente, capacitaCorrente);
 			frameModificaDatiTavolo.setVisible(false);
-			frameTavoli = new InterfacciaTavoli(this, tavoloScelto.getSala());
+			frameTavoli = new InterfacciaTavoli(this, tavoloScelto.getSala_App());
 			
 		} catch (ErrorePersonalizzato e) {
 			e.stampaMessaggio();

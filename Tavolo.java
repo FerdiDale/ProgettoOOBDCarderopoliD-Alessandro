@@ -24,14 +24,14 @@ public class Tavolo
 		DimX = dimX;
 		DimY = dimY;
 		TavoliAdiacenti = null;
-		Sala = sala;
+		Sala_App = sala;
 	}
 	
 	public Tavolo(int id_Tavolo, int capacita, Sala sala, int numero) {
 		super();
 		Id_Tavolo = id_Tavolo;
 		Capacita = capacita;
-		Sala = sala;
+		Sala_App = sala;
 		Numero = numero;
 	}
 

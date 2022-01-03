@@ -38,13 +38,13 @@ public class InterfacciaAdiacenze extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfacciaAdiacenze(Controller c, Tavolo tavoloCorrente) {
-		super("Adiacenze del tavolo numero " + tavoloCorrente.getNumero() + " della sala "+ tavoloCorrente.getSala().getNome());
+		super("Adiacenze del tavolo numero " + tavoloCorrente.getNumero() + " della sala "+ tavoloCorrente.getSala_App().getNome());
 		getContentPane().setLayout(null);
 		theController = c;
 		tavoloProtagonista = tavoloCorrente;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 452);
-		this.sala = tavoloCorrente.getSala();
+		this.sala = tavoloCorrente.getSala_App();
 		getContentPane().setLayout(null);
 		
 		areaDiDisegno = new JLayeredPane();

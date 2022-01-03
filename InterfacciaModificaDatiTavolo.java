@@ -100,7 +100,7 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 			}
 			
 			else if (e.getSource() == bottoneIndietro) {
-				theController.bottoneIndietroModificaDatiTavoloPremuto(tavoloScelto.getSala());
+				theController.bottoneIndietroModificaDatiTavoloPremuto(tavoloScelto.getSala_App());
 			}
 		}
 	}
