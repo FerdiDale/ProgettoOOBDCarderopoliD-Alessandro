@@ -123,7 +123,7 @@ public class DB_Builder
 								+ "                        ON DELETE CASCADE                  ON UPDATE CASCADE);");
 				
 				stmt.executeUpdate("CREATE TABLE Posizioni"
-						          +"(Id_Tavolo INTEGER NOT NULL,"
+						          +"(Id_Tavolo INTEGER NOT NULL PRIMARY KEY,"
 						          + "PosX INTEGER NOT NULL,"
 						          +"PosY INTEGER NOT NULL,"
 						          +"DimX INTEGER NOT NULL,"

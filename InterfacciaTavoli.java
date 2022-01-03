@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -15,7 +17,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JLayeredPane;
 
-public class InterfacciaTavoli extends JFrame { 
+public class InterfacciaTavoli extends JFrame 
+{ 
 
 	private Controller theController;
 	private Sala sala;
@@ -26,13 +29,11 @@ public class InterfacciaTavoli extends JFrame {
 	private JButton bottoneModificaLayout;
 	private JButton bottoneGestisciAdiacenze;
 	private JButton bottoneGestisciOccupazione;
-	private int numeroTavoloSelezionato;
+	private int numeroTavoloSelezionato = 0;
 	private JLabel background;
 	private JLayeredPane areaDiDisegno;
-	/**
-	* Create the frame.
-	*/
-	public InterfacciaTavoli(Controller c, Sala salaCorrente) {
+	public InterfacciaTavoli(Controller c, Sala salaCorrente) 
+	{
 		super("Visualizzazione tavoli di "+ salaCorrente.getNome());
 		getContentPane().setLayout(null);
 		theController = c;
@@ -89,29 +90,13 @@ public class InterfacciaTavoli extends JFrame {
 		
 		for (int i = 0; i<tavoli.size(); i++)
 		{
-			JLabel tavoloCurr = new JLabel(String.format("%d",tavoli.get(i).getNumero()));
+			JLabel tavoloCurr = new JLabel(String.format("%d",tavoli.get(i).getNumero()),SwingConstants.CENTER);
 			tavoloCurr.setBackground(new Color(129,116,37));
 			tavoloCurr.setOpaque(true);
 			tavoloCurr.setBounds(tavoli.get(i).getPosX(), tavoli.get(i).getPosY(), tavoli.get(i).getDimX(), tavoli.get(i).getDimY());
 			tavoloCurr.addMouseListener(handler);
-
-			JLabel etichettaADestra= new JLabel();
-			JLabel etichettaInBasso = new JLabel();
-			JLabel etichettaInBassoADestra = new JLabel();
-			etichettaADestra.setBounds(tavoli.get(i).getPosX()+tavoli.get(i).getDimX()-3, (tavoli.get(i).getPosY()+tavoli.get(i).getDimY()/2) -3, 6, 6);
-			etichettaADestra.setOpaque(true);
-			etichettaADestra.setBackground(Color.black);
-			etichettaInBasso.setBounds((tavoli.get(i).getPosX()+tavoli.get(i).getDimX()/2)-3,tavoli.get(i).getPosY()+tavoli.get(i).getDimY()-3,6,6);
-			etichettaInBassoADestra.setBounds(tavoli.get(i).getPosX()+tavoli.get(i).getDimX()-3,tavoli.get(i).getPosY()+tavoli.get(i).getDimY()-3,6,6);
-			etichettaInBasso.setOpaque(true);
-			etichettaInBassoADestra.setOpaque(true);
-			etichettaInBasso.setBackground(Color.black);
-			etichettaInBassoADestra.setBackground(Color.black);
+			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			areaDiDisegno.add(tavoloCurr,0,1);
-			areaDiDisegno.add(etichettaInBasso,0,0);
-			areaDiDisegno.add(etichettaInBassoADestra,0,0);
-			areaDiDisegno.add(etichettaADestra,0,0);
-	
 			numeri.add(tavoloCurr);
 		}
 		
@@ -119,10 +104,11 @@ public class InterfacciaTavoli extends JFrame {
 		
 		bottoneAggiuntaTavolo.addActionListener(handlerB);
 		bottoneModificaLayout.addActionListener(handlerB);
-
+		bottoneGestisciOccupazione.addActionListener(handlerB);
+		
 		setVisible(true);
 		setResizable(false);
-}
+	}
 
 	private class GestioneBottoni implements ActionListener
 		{
@@ -134,9 +120,11 @@ public class InterfacciaTavoli extends JFrame {
 				}
 				else if(e.getSource() == bottoneGestisciOccupazione)
 				{
+					
 				}
 				else if (e.getSource() == bottoneGestisciAdiacenze)
 				{
+					
 				}
 				else if(e.getSource() == bottoneModificaLayout)
 				{
@@ -161,22 +149,38 @@ public class InterfacciaTavoli extends JFrame {
 	{ 
 	public void mouseClicked(MouseEvent e)
 	{
-	boolean tavolo = false;
-	int controllo = -1;
-	while(!tavolo && controllo < numeri.size())
+		boolean tavolo = false;
+		boolean aggiustato = false;
+		int controllo = 0;
+		if(numeroTavoloSelezionato!= 0)
 		{
-			controllo++;
-			if(e.getSource() == numeri.get(controllo))
+			while(controllo<numeri.size() && !aggiustato)
 			{
-				tavolo = true;
-				numeroTavoloSelezionato = Integer.parseInt(numeri.get(controllo).getText());
+				
+				if(numeri.get(controllo).getText().equals(String.format("%d", numeroTavoloSelezionato)))
+				{
+					aggiustato = true;
+					numeri.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+				}
+				controllo++;
 			}
 		}
-		if(tavolo)
-		{
-			bottoneGestisciOccupazione.setEnabled(true);
-			bottoneGestisciAdiacenze.setEnabled(true);
-		}
+		controllo = -1;
+		while(!tavolo && controllo < numeri.size())
+			{
+				controllo++;
+				if(e.getSource() == numeri.get(controllo))
+				{
+					tavolo = true;
+					numeroTavoloSelezionato = Integer.parseInt(numeri.get(controllo).getText());
+					numeri.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+				}
+			}
+			if(tavolo)
+			{
+				bottoneGestisciOccupazione.setEnabled(true);
+				bottoneGestisciAdiacenze.setEnabled(true);
+			}
 		} public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		}

@@ -3,7 +3,7 @@ public class Tavolo
 {
 	private int Id_Tavolo;
 	private int Capacita;
-	private int Id_Sala;
+	private Sala Sala_App = new Sala();
 	private int Numero;
 	private int PosX;
 	private int PosY;
@@ -30,12 +30,6 @@ public class Tavolo
 	}
 	public void setCapacita(int capacita) {
 		Capacita = capacita;
-	}
-	public int getId_Sala() {
-		return Id_Sala;
-	}
-	public void setId_Sala(int id_Sala) {
-		Id_Sala = id_Sala;
 	}
 	public int getNumero() {
 		return Numero;
@@ -70,6 +64,12 @@ public class Tavolo
 	public Tavolo()
 	{
 		
+	}
+	public Sala getSala_App() {
+		return Sala_App;
+	}
+	public void setSala_App(Sala sala_App) {
+		Sala_App = sala_App;
 	}
 	
 }
