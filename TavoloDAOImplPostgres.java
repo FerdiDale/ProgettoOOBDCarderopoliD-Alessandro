@@ -69,10 +69,25 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		}
 	}
 	
-	/*public ArrayList<Tavolo> tavoliOccupatiInData(String data, Sala sala)
+
+	public ArrayList<Integer> tavoliOccupatiInData(String data, Sala sala)
 	{
-	//Query per ricavare i tavoli occupati nella data in input, nota: basta fare un join tra tavolo e tavolata dove l'id coincide e la data � quella in input.
-	}*/
+		ArrayList<Integer> risultato = new ArrayList<Integer>();
+		try
+		{
+			ResultSet rs = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT T.Numero FROM Tavolo as T, Tavolata as TA WHERE T.id_tavolo = TA.id_tavolo AND TA.Data ='"+data+"' AND T.id_sala ="+sala.getId_Sala()+";");
+			while(rs.next())
+			{
+				risultato.add(new Integer(rs.getInt(1)));
+			}
+			return risultato;
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e);
+			return risultato;
+		}
+	}
 
 	public ArrayList<Tavolo> ricavaTavoliAdiacenti(Tavolo tavoloScelto) throws OperazioneFallitaException {
 		

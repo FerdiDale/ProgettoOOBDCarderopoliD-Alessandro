@@ -45,7 +45,7 @@ public class InterfacciaTavoli extends JFrame
 		this.sala = salaCorrente;
 		getContentPane().setLayout(null);
 		
-		bottoneGestisciOccupazione = new JButton("Gestisci occupazioni del tavolo selezionato");
+		bottoneGestisciOccupazione = new JButton("Gestisci occupazioni della sala");
 		bottoneGestisciOccupazione.setBounds(337, 384, 332, 23);
 		getContentPane().add(bottoneGestisciOccupazione);
 		
@@ -134,7 +134,7 @@ public class InterfacciaTavoli extends JFrame
 				}
 				else if(e.getSource() == bottoneGestisciOccupazione)
 				{
-					
+					theController.bottoneGestioneOccupazioneInterfacciaTavoliPremuto(tavoli);
 				}
 				else if (e.getSource() == bottoneGestisciAdiacenze)
 				{

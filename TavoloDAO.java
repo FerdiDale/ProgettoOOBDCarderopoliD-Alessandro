@@ -5,6 +5,7 @@ public interface TavoloDAO
 {	
 	public ArrayList<Tavolo> EstraiTavoliSala(Sala salaScelta);
 	public void modificaPosizioniTavoli(ArrayList<Tavolo> tavoli) throws OperazioneFallitaException;
+	public ArrayList<Integer> tavoliOccupatiInData(String data, Sala sala);
 	public void inserisciNuovoTavolo(Tavolo nuovoTavolo) throws OperazioneFallitaException, TavoloNumeroUgualeException;
 	public ArrayList<Tavolo> ricavaTavoliAdiacenti(Tavolo tavoloScelto) throws OperazioneFallitaException;
 	public void rimpiazzaAdiacenze(Tavolo tavoloProtagonista) throws OperazioneFallitaException;

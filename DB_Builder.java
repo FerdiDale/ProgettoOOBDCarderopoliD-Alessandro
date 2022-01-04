@@ -13,7 +13,7 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "Antonio22");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
@@ -91,7 +91,7 @@ public class DB_Builder
 								+ "(Nome VARCHAR(30) NOT NULL,"
 								+ "Cognome VARCHAR(30) NOT NULL,"
 								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
-								+ "N_Tel CHAR(10) CHECK (N_Tel SIMILAR TO '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'));");
+								+ "N_Tel CHAR(10) CHECK (N_Tel SIMILAR TO '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' OR N_Tel IS NULL));");
 			
 				stmt.executeUpdate("CREATE TABLE Elenco_Avventori"
 								+ "(Id_Tavolata INTEGER NOT NULL,"

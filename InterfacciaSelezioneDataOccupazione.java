@@ -26,7 +26,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 
 	private JButton bottoneSet;
 	private JTextField textFieldData;
-	private JCalendar calendar; 
+  private JCalendar calendar; 
 	private JLabel istruzioni2;
 	private JLabel istruzioni3;
 	private JLabel istruzioni4;
@@ -103,7 +103,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 			else if(e.getSource()== goNext)
 			{
 				if(textFieldData.getText().isBlank()) JOptionPane.showMessageDialog(null, "Scegliere prima una data dal calendario.");
-				//else metodo per andare all'interfacciaGestioneOccupazione
+				else theController.bottoneGoNextInterfacciaSelezioneDataGestioneOccupazionePremuto(tavoli, textFieldData.getText());
 					
 			}
 			else if(e.getSource() == bottoneIndietro)

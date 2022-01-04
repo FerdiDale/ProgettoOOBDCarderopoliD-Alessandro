@@ -7,9 +7,17 @@ public interface CameriereDAO
 	
 	public ArrayList<Cameriere> EstraiCamerieriLicenziati(Ristorante ristorante);
 	
-	public void riassumiCameriereLicenziato(Cameriere c,String data);
+	public boolean riassumiCameriereLicenziato(Cameriere c,String data);
 	
 	public String licenziaCameriereAssunto(Cameriere c, String data);
 
 	public String assumiNuovoCameriere(Cameriere c);
+
+	public void rimuoviCameriereDalTavoloInData(Cameriere c, String data, int idTavolo);
+	
+	public ArrayList<Cameriere> camerieriInServizioAlTavoloInData(int idTavolo, String data);
+	
+	public ArrayList<Cameriere> camerieriAssegnabiliAlTavoloInData(String data);
+	
+	public void inserimentoMultiploCamerieriInServizio(int[] indiciCamerieri, ArrayList<Cameriere> listaCamerieri, String data, Tavolo tavolo);
 }
