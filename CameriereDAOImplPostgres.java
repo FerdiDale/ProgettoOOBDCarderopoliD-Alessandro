@@ -1,9 +1,10 @@
+import java.security.interfaces.RSAKey;
 import java.sql.*;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class CameriereDAOImplPostgres 
+public class CameriereDAOImplPostgres implements CameriereDAO
 {
 	public ArrayList<Cameriere> EstraiCamerieriInServizio(Ristorante ristorante)
 	{
@@ -129,4 +130,90 @@ public class CameriereDAOImplPostgres
 			}
 		}
 	}
+	
+	public void rimuoviCameriereDalTavoloInData(Cameriere c, String data, int idTavolo)
+	{
+		try
+		{
+			ResultSet rs = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT id_tavolata FROM Tavolata WHERE id_tavolo ="+idTavolo+" AND DATA = '"+data+"';");
+			rs.next();
+			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM Servizio WHERE id_tavolata = "+rs.getInt(1)+" AND id_cameriere = "+c.getId_Cameriere()+";");
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	public ArrayList<Cameriere> camerieriInServizioAlTavoloInData(int idTavolo, String data)
+	{
+		ArrayList<Cameriere> risultato = new ArrayList<Cameriere>();
+		try
+		{
+			ResultSet tavolata = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT id_tavolata FROM Tavolata WHERE id_tavolo = "+idTavolo+" AND data = '"+data+"';");
+			tavolata.next();
+			ResultSet rs = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT CA.Nome, CA.Cognome, CA.id_cameriere, CA.cid_Cameriere \n"
+																									+ "FROM Cameriere as CA, Servizio AS S \n"
+																									+ "WHERE S.id_tavolata = "+tavolata.getInt(1)+" AND S.id_cameriere = CA.id_cameriere;");
+			while(rs.next())
+			{
+				risultato.add(new Cameriere(rs.getInt(3),rs.getString(4),rs.getString(1),rs.getString(2)));
+			}
+			return risultato;
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e);
+			return risultato;
+		}
+	}
+	
+	public ArrayList<Cameriere> camerieriAssegnabiliAlTavoloInData(String data)
+	{
+		ArrayList<Cameriere> risultato = new ArrayList<Cameriere>();
+		try
+		{
+			ResultSet rs = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select id_cameriere,cid_cameriere,nome,cognome from cameriere where data_ammissione<= '"+data+"' AND (data_licenziamento is null OR data_licenziamento >= '"+data+"');" );
+			while(rs.next())
+			{
+				risultato.add(new Cameriere(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
+			}
+			return risultato;
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e);
+			return risultato;
+		}
+	}
+
+	
+	public void inserimentoMultiploCamerieriInServizio(int[] indiciCamerieri, ArrayList<Cameriere> listaCamerieri,
+			String data, Tavolo tavolo)
+	{
+		
+		int tavolata = -1;
+		try
+		{
+			ResultSet tavolataDB = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select id_tavolata from tavolata where data = '"+data+"' AND id_tavolo = "+tavolo.getId_Tavolo()+";");
+			tavolataDB.next();
+			tavolata = tavolataDB.getInt(1);
+		}	
+		catch(SQLException e)
+		{
+			
+		}
+		for(int i= 0; i< indiciCamerieri.length; i++)
+		{
+			try
+			{
+				DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO servizio values("+listaCamerieri.get(indiciCamerieri[i]).getId_Cameriere()+","+tavolata+");");
+			}
+			catch(SQLException e)
+			{
+				
+			}
+		}
+	}
+		
 }

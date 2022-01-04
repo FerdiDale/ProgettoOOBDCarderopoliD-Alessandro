@@ -8,17 +8,17 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-/*import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;*/
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-/*import com.toedter.components.JLocaleChooser;
+import com.toedter.components.JLocaleChooser;
 import com.toedter.calendar.JYearChooser;
 import com.toedter.calendar.JMonthChooser;
-import com.toedter.calendar.JDayChooser;*/
+import com.toedter.calendar.JDayChooser;
 import javax.swing.JTextField;
 import java.awt.Color;
 public class InterfacciaSelezioneDataOccupazione extends JFrame
@@ -26,7 +26,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 
 	private JButton bottoneSet;
 	private JTextField textFieldData;
-//	private JCalendar calendar; 
+    private JCalendar calendar; 
 	private JLabel istruzioni2;
 	private JLabel istruzioni3;
 	private JLabel istruzioni4;
@@ -44,9 +44,9 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		bottoneSet = new JButton("Set");
 		bottoneSet.setBounds(194, 63, 66, 23);
 		getContentPane().add(bottoneSet);
-		/*calendar = new JCalendar();
+		calendar = new JCalendar();
 		calendar.setBounds(0, 30, 184, 153);
-		getContentPane().add(calendar);*/
+		getContentPane().add(calendar);
 		
 		
 		textFieldData = new JTextField();
@@ -98,12 +98,12 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		{
 			if(e.getSource() == bottoneSet)
 			{
-				//	textFieldData.setText(String.format("%d-%d-%d",calendar.getDate().getYear()+1900, calendar.getDate().getMonth()+1,calendar.getDayChooser().getDay()));
+				textFieldData.setText(String.format("%d-%d-%d",calendar.getDate().getYear()+1900, calendar.getDate().getMonth()+1,calendar.getDayChooser().getDay()));
 			}
 			else if(e.getSource()== goNext)
 			{
 				if(textFieldData.getText().isBlank()) JOptionPane.showMessageDialog(null, "Scegliere prima una data dal calendario.");
-				//else metodo per andare all'interfacciaGestioneOccupazione
+				else theController.bottoneGoNextInterfacciaSelezioneDataGestioneOccupazionePremuto(tavoli, textFieldData.getText());
 					
 			}
 			else if(e.getSource() == bottoneIndietro)

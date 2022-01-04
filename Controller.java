@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.regex.*;
 
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
@@ -13,27 +14,30 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Controller {
-    InterfacciaRistoranti frameRistoranti;
-	InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
-	InterfacciaModificaDatiRistorante frameModificaRistorante;
-	RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
-    NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
-	InterfacciaSale frameSale;
-	InterfacciaCreazioneSala frameCreateS;
-	InterfacciaGestioneCamerieri frameGestioneCamerieri;
-	InterfacciaStatistichePerAnno frameStatistichePerAnno; 
-	InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
-	InterfacciaStatistichePerMese frameStatistichePerMese;
-	NumeroAvventoriGiornoDAOImplPostgres numeroAvventoriGiornoDao = new NumeroAvventoriGiornoDAOImplPostgres();
-	InterfacciaTavoli frameTavoli;
-	InterfacciaModificaLayout frameModificaLayout;
-	TavoloDAOImplPostgres tavoloDao = new TavoloDAOImplPostgres();
-	InterfacciaAggiuntaTavoli frameAggiuntaTavoli;
-	InterfacciaAggiuntaCapienzaNumeroNuovoTavolo frameACNT;
-	InterfacciaSelezioneDataOccupazione frameSelezioneDataOccupazione;
-	InterfacciaGestioneOccupazioni frameGestioneOccupazioni;
-	InterfacciaAdiacenze frameAdiacenze;
+	private InterfacciaRistoranti frameRistoranti;
+    private InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
+    private InterfacciaModificaDatiRistorante frameModificaRistorante;
+	private RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
+	private NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
+    private InterfacciaSale frameSale;
+	private InterfacciaCreazioneSala frameCreateS;
+	private InterfacciaGestioneCamerieri frameGestioneCamerieri;
+	private InterfacciaStatistichePerAnno frameStatistichePerAnno; 
+	private InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
+	private InterfacciaStatistichePerMese frameStatistichePerMese;
+	private NumeroAvventoriGiornoDAOImplPostgres numeroAvventoriGiornoDao = new NumeroAvventoriGiornoDAOImplPostgres();
+	private InterfacciaTavoli frameTavoli;
+	private InterfacciaModificaLayout frameModificaLayout;
+	private TavoloDAOImplPostgres tavoloDao = new TavoloDAOImplPostgres();
+	private InterfacciaAggiuntaTavoli frameAggiuntaTavoli;
+	private InterfacciaAggiuntaCapienzaNumeroNuovoTavolo frameACNT;
+	private InterfacciaSelezioneDataOccupazione frameSelezioneDataOccupazione;
+	private InterfacciaGestioneOccupazioni frameGestioneOccupazioni;
+	private InterfacciaAdiacenze frameAdiacenze;
 	private InterfacciaModificaDatiTavolo frameModificaDatiTavolo;
+	private InterfacciaVisualizzazioneOccupazione frameVisualizzaOccupazione;
+	private ArrayList<InterfacciaAggiuntaDatiAvventore> framesAggiuntaAvventore;
+	private InterfacciaSelezioneCamerieri frameSelezioneCamerieri;
 	
 	public static void main(String[] args) {
 
@@ -392,6 +396,7 @@ public class Controller {
 		frameSelezioneDataOccupazione = new InterfacciaSelezioneDataOccupazione(this, tavoli);
 	}
 	
+	
 	public void bottoneIndietroInterfacciaSelezioneDataGestioneOccupazionePremuto(Sala salaScelta)
 	{
 		frameSelezioneDataOccupazione.setVisible(false);
@@ -404,7 +409,138 @@ public class Controller {
 		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
 	}
 
-	public void bottoneGestisciAdiacenze(Tavolo tavoloScelto) {
+	public ArrayList<Integer> estrazioneSaleOccupateInData(Sala sala, String data)
+	{
+		TavoloDAOImplPostgres TDAO= new TavoloDAOImplPostgres();
+		return TDAO.tavoliOccupatiInData(data, sala);
+	}
+	
+	public ArrayList<Avventori> estrazioneAvventoriDelTavoloInData(Tavolo tavolo, String data)
+	{
+		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
+		return ADAO.estraiAvventoriDelTavoloInData(tavolo, data);
+	}
+	
+	public void bottoneVisualizzaOccupazioneGestioneOccupazione(ArrayList<Tavolo> tavoli, String data, int tavoloScelto)
+	{
+		frameGestioneOccupazioni.setVisible(false);
+		frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this,tavoli,tavoloScelto,data);
+	}
+	
+	public void bottoneIndietroVisualizzazioneOccupazione(ArrayList<Tavolo> tavoli, String data)
+	{
+		frameVisualizzaOccupazione.setVisible(false);
+		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
+	}
+	
+	public void bottoneRimuoviCameriereVisualizzazioneOccupazione(String data,int idTavolo, Cameriere cameriereScelto)
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		CDAO.rimuoviCameriereDalTavoloInData(cameriereScelto, data, idTavolo);
+	}
+	
+	public ArrayList<Cameriere> estrazioneCamerieriInServizioAlTavoloinData(int idTavolo, String data)
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		return CDAO.camerieriInServizioAlTavoloInData(idTavolo, data);
+	}
+	
+	public void bottoneOccupaGestioneOccupazionePremuto(int numeroAvv, ArrayList<Tavolo> tavoli, int tavoloScelto, String data)
+	{
+		frameGestioneOccupazioni.setVisible(false);
+		framesAggiuntaAvventore = new ArrayList<InterfacciaAggiuntaDatiAvventore>();
+		for (int i = 0; i< numeroAvv; i++)
+		{
+			framesAggiuntaAvventore.add(new InterfacciaAggiuntaDatiAvventore(this,i,tavoli,tavoloScelto,data));
+		}
+		for (int i = 0; i<numeroAvv; i++)
+		{
+			framesAggiuntaAvventore.get(i).impostaBottoniCorretti(framesAggiuntaAvventore.size());
+			
+		}
+		System.out.println(framesAggiuntaAvventore.size());
+		framesAggiuntaAvventore.get(0).setVisible(true);
+	}
+	
+	public void bottoneConfermaAggiuntaAvventoriPremuto(ArrayList<Tavolo> tavoli,int tavoloScelto, String data) throws CampiNonCorrettiException
+	{
+		int i=0;
+		boolean controlloCampiVuoti = true;
+		boolean controlloAlmenoUnTelefono = false;
+		boolean formatoCidGiusto = true;
+		boolean doppieCID= false;
+		while(i<framesAggiuntaAvventore.size() && controlloCampiVuoti && formatoCidGiusto )
+		{
+			if(framesAggiuntaAvventore.get(i).getCid().getText().isBlank() || framesAggiuntaAvventore.get(i).getCognome().getText().isBlank() || framesAggiuntaAvventore.get(i).getNome().getText().isBlank()) controlloCampiVuoti = false;
+			if(!framesAggiuntaAvventore.get(i).getNtel().getText().isBlank()) controlloAlmenoUnTelefono = true;
+			if(!Pattern.matches("C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]",framesAggiuntaAvventore.get(i).getCid().getText())) formatoCidGiusto =false;
+			i++;
+		}
+		i = 0;
+		while(i<framesAggiuntaAvventore.size() && !doppieCID)
+		{
+			for (int j = i+1 ; j< framesAggiuntaAvventore.size(); j++)
+			{
+				if (framesAggiuntaAvventore.get(i).getCid().getText().equals(framesAggiuntaAvventore.get(j).getCid().getText())) doppieCID = true;
+			}
+			i++;
+		}
+		
+		System.out.println("Campi vuoti ="+controlloCampiVuoti+" telefono = "+controlloAlmenoUnTelefono+" CID = "+formatoCidGiusto);
+		if(controlloCampiVuoti && controlloAlmenoUnTelefono && formatoCidGiusto && !doppieCID)
+		{
+			framesAggiuntaAvventore.get(framesAggiuntaAvventore.size()-1).setVisible(false);
+			frameSelezioneCamerieri = new InterfacciaSelezioneCamerieri(this,tavoli,tavoloScelto,data);
+		}
+		else
+		{
+		    throw new CampiNonCorrettiException();
+		}
+		
+	}
+	
+	public ArrayList<Cameriere> estraiCamerieriAssegnabili(String data)
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		return CDAO.camerieriAssegnabiliAlTavoloInData(data);
+	}
+	
+	public void bottoneIndietroSelezioneCamerieriPremuto(ArrayList<Tavolo> tavoli, String data)
+	{
+		frameSelezioneCamerieri.setVisible(false);
+		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
+	}
+	
+	public void bottoneAvventoreSuccessivoPremuto(int indice)
+	{
+		framesAggiuntaAvventore.get(indice).setVisible(false);
+		framesAggiuntaAvventore.get(indice + 1).setVisible(true);
+	}
+	
+	public void bottoneAvventorePrecedentePremuto(int indice)
+	{
+		framesAggiuntaAvventore.get(indice).setVisible(false);
+		framesAggiuntaAvventore.get(indice-1).setVisible(true);
+	}
+	
+	public void bottoneConfermaSelezioneCamerieriPremuto(int[] indiciScelti, ArrayList<Cameriere> camerieriDisponibili, String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
+	{
+		TavolataDAOImplPostgres TAVDAO = new TavolataDAOImplPostgres();
+		TAVDAO.inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto).getId_Tavolo(),data));
+		
+		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
+		ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore);
+		
+		
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		CDAO.inserimentoMultiploCamerieriInServizio(indiciScelti, camerieriDisponibili, data, tavoli.get(tavoloScelto));
+		
+		frameSelezioneCamerieri.setVisible(false);
+		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
+	}
+	
+	public void bottoneGestisciAdiacenze(Tavolo tavoloScelto) 
+	{
 		frameTavoli.setVisible(false);
 		frameAdiacenze = new InterfacciaAdiacenze(this, tavoloScelto);
 	}
@@ -470,5 +606,8 @@ public class Controller {
 		frameTavoli = new InterfacciaTavoli(this, salaCorrente);
 	}
 
-
+	public ArrayList<InterfacciaAggiuntaDatiAvventore> getFramesAggiuntaAvventore()
+	{
+		return framesAggiuntaAvventore;
+	}
 }  

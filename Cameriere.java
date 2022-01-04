@@ -67,6 +67,13 @@ public class Cameriere
 		Data_Licenziamento = data_Licenziamento;
 	}
 	
+	public Cameriere(int id_Cameriere, String cID_Cameriere, String nome, String cognome) {
+		super();
+		Id_Cameriere = id_Cameriere;
+		CID_Cameriere = cID_Cameriere;
+		Nome = nome;
+		Cognome = cognome;
+	}
 	public Ristorante getRistorante() {
 		return ristorante;
 	}
