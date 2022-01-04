@@ -1,53 +1,54 @@
 import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.awt.EventQueue;
 
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import com.toedter.components.JLocaleChooser;
-import com.toedter.calendar.JYearChooser;
-import com.toedter.calendar.JMonthChooser;
-import com.toedter.calendar.JDayChooser;
 import javax.swing.JTextField;
-import java.awt.Color;
-public class InterfacciaSelezioneDataOccupazione extends JFrame
-{
+import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JCalendar;
+
+public class InterfacciaSelezioneDataCameriere extends JDialog {
 
 	private JButton bottoneSet;
 	private JTextField textFieldData;
-  private JCalendar calendar; 
+	private JCalendar calendar; 
 	private JLabel istruzioni2;
 	private JLabel istruzioni3;
 	private JLabel istruzioni4;
 	private JButton goNext;
 	private JButton bottoneIndietro;
-	private ArrayList<Tavolo> tavoli;
 	private Controller theController;
-	public InterfacciaSelezioneDataOccupazione(Controller controller, ArrayList<Tavolo> tavoli)
+	private boolean licenziamento;
+	private Cameriere cameriereScelto;
+	private String dataCorrente;
+	private InterfacciaSelezioneDataCameriere riferimentoFinestra = this;
+	
+	public InterfacciaSelezioneDataCameriere(Controller controller, boolean licenziamento, Cameriere cameriere)
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setModal(true);
 		setBounds(100, 100, 302, 268);
 		getContentPane().setLayout(null);
-		this.tavoli= tavoli;
 		this.theController = controller;
+		this.licenziamento = licenziamento;
+		cameriereScelto = cameriere;
 		bottoneSet = new JButton("Set");
 		bottoneSet.setBounds(194, 63, 66, 23);
 		getContentPane().add(bottoneSet);
 		calendar = new JCalendar();
 		calendar.setBounds(0, 30, 184, 153);
 		getContentPane().add(calendar);
-		
 		
 		textFieldData = new JTextField();
 		textFieldData.setBounds(4, 203, 172, 23);
@@ -103,13 +104,43 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 			else if(e.getSource()== goNext)
 			{
 				if(textFieldData.getText().isBlank()) JOptionPane.showMessageDialog(null, "Scegliere prima una data dal calendario.");
-				else theController.bottoneGoNextInterfacciaSelezioneDataGestioneOccupazionePremuto(tavoli, textFieldData.getText());
+				else {
 					
+					dataCorrente = textFieldData.getText();
+					
+					if (licenziamento) {
+						System.out.println(cameriereScelto);
+						System.out.println(dataCorrente);
+						String esito = theController.bottoneLicenziaCamerierePremuto(cameriereScelto ,dataCorrente);
+						if(esito.equals("Tutto_Bene"))
+						{
+							theController.confermaSceltaDataCameriere(riferimentoFinestra);
+						}
+						else if(esito.equals("Operazione_Fallita"))
+						{
+							//E' gestito gia' dal DAO
+						}
+						else if (esito.equals("Data_Licenziamento_Precedente"))
+						{
+							JOptionPane.showMessageDialog(null, "Non si puo' licenziare un cameriere prima della sua data di assunzione!("+cameriereScelto.getData_Ammissione()+")", "Informazione", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					else 
+					{
+						
+						boolean nessunProblema;
+						nessunProblema = theController.bottoneRiassumiCamerierePremuto(cameriereScelto, dataCorrente);
+						if (nessunProblema) {
+							theController.confermaSceltaDataCameriere(riferimentoFinestra);
+						}
+					}	
+				}
 			}
 			else if(e.getSource() == bottoneIndietro)
 			{
-				theController.bottoneIndietroInterfacciaSelezioneDataGestioneOccupazionePremuto(tavoli.get(1).getSala_App());
+				theController.bottoneIndietroSceltaDataCameriere(riferimentoFinestra);
 			}
 		}
 	}
+
 }

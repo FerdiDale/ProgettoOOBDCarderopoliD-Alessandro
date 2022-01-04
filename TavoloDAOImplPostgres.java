@@ -47,7 +47,7 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		
 	}
 	
-	public void inserisciNuovoTavolo(Tavolo tavoloNuovo) throws OperazioneFallitaException
+	public void inserisciNuovoTavolo(Tavolo tavoloNuovo) throws OperazioneFallitaException, TavoloNumeroUgualeException
 	{
 		try
 		{
@@ -58,9 +58,14 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e);
-			OperazioneFallitaException ecc = new OperazioneFallitaException();
-			throw ecc;
+			if (e.getSQLState().equals("23505")){
+				TavoloNumeroUgualeException ecc = new TavoloNumeroUgualeException();
+				throw ecc;
+			}
+			else {
+				OperazioneFallitaException ecc = new OperazioneFallitaException();
+				throw ecc;
+			}
 		}
 	}
 	
@@ -170,7 +175,6 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		}
 		catch(SQLException e)
 		{
-			System.out.println(e.getMessage());
 			OperazioneFallitaException ecc = new OperazioneFallitaException();
 			throw ecc;
 		}

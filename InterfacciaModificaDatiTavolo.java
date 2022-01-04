@@ -48,7 +48,6 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		getContentPane().add(capacitaTavolo);
 		capacitaTavolo.setColumns(10);
 		capacitaTavolo.setText(((Integer)tavoloScelto.getCapacita()).toString());
-		System.out.println(((Integer)tavoloScelto.getCapacita()).toString());
 		
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(10, 106, 89, 23);
@@ -87,7 +86,11 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 					{
 						numeroCorrente = Integer.parseInt(numeroTavolo.getText());
 						capacitaCorrente = Integer.parseInt(capacitaTavolo.getText());
-						valoriValidi = true;
+						
+						if (numeroCorrente>0 && capacitaCorrente>0)
+							valoriValidi = true;
+						else
+							valoriValidi = false;
 					}
 					catch(NumberFormatException c)
 					{
