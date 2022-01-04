@@ -69,7 +69,7 @@ public class InterfacciaAggiuntaCapienzaNumeroNuovoTavolo extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if (e.getSource()==bottoneOk)
+			if (e.getSource() == bottoneOk)
 			{
 				boolean valoriValidi = false;
 				Tavolo tavolo = new Tavolo();
@@ -80,7 +80,10 @@ public class InterfacciaAggiuntaCapienzaNumeroNuovoTavolo extends JFrame {
 					{
 						tavolo.setNumero(Integer.parseInt(numeroTavolo.getText()));
 						tavolo.setCapacita(Integer.parseInt(capienzaTavolo.getText()));
-						valoriValidi = true;
+						if (tavolo.getNumero()>0 && tavolo.getCapacita()>0)
+							valoriValidi = true;
+						else
+							valoriValidi = false;
 					}
 					catch(NumberFormatException c)
 					{
@@ -90,6 +93,10 @@ public class InterfacciaAggiuntaCapienzaNumeroNuovoTavolo extends JFrame {
 			
 				if(valoriValidi) theController.bottoneOkInterfacciaAggiuntaCapienzaNumeroNuovoTavoloPremuto(tavolo,salaDiAppartenenza,tavoliGiaEsistenti);
 				else JOptionPane.showMessageDialog(null,"Non sono stati inseriti dei numeri validi. Riprovare.","Errore!", JOptionPane.ERROR_MESSAGE);
+			}
+			else if (e.getSource() == bottoneIndietro)
+			{
+				theController.bottoneIndietroInterfacciaAggiuntaCapienzaNumeroNuovoTavoloPremuto(salaDiAppartenenza);
 			}
 		}
 	}
