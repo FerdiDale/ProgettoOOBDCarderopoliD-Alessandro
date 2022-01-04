@@ -48,7 +48,6 @@ public class InterfacciaTavoli extends JFrame
 		bottoneGestisciOccupazione = new JButton("Gestisci occupazioni del tavolo selezionato");
 		bottoneGestisciOccupazione.setBounds(337, 384, 332, 23);
 		getContentPane().add(bottoneGestisciOccupazione);
-		bottoneGestisciOccupazione.setEnabled(false);
 		
 		bottoneModificaLayout = new JButton("Modifica layout");
 		bottoneModificaLayout.setBounds(10, 418, 317, 23);
@@ -152,6 +151,10 @@ public class InterfacciaTavoli extends JFrame
 				else if(e.getSource() == bottoneEliminaTavolo)
 				{
 					theController.bottoneEliminaTavoloPremuto(trovaTavoloAssociato(numeroTavoloSelezionato));
+					bottoneGestisciAdiacenze.setEnabled(false);
+					bottoneEliminaTavolo.setEnabled(false);
+					bottoneModificaDatiTavolo.setEnabled(false);
+					tavoli.remove(trovaTavoloAssociato(numeroTavoloSelezionato));
 					areaDiDisegno.remove(trovaLabelTavoloAssociato(numeroTavoloSelezionato));	
 					areaDiDisegno.validate();
 					areaDiDisegno.repaint();
@@ -208,10 +211,9 @@ public class InterfacciaTavoli extends JFrame
 			}
 			if(tavolo)
 			{
-				bottoneGestisciOccupazione.setEnabled(true);
 				bottoneGestisciAdiacenze.setEnabled(true);
-        bottoneEliminaTavolo.setEnabled(true);
-		   	bottoneModificaDatiTavolo.setEnabled(true);
+				bottoneEliminaTavolo.setEnabled(true);
+				bottoneModificaDatiTavolo.setEnabled(true);
 			}
 		} public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub

@@ -1,5 +1,7 @@
 import java.sql.*;
 
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +36,7 @@ public class Controller {
 	InterfacciaGestioneOccupazioni frameGestioneOccupazioni;
 	InterfacciaAdiacenze frameAdiacenze;
 	private InterfacciaModificaDatiTavolo frameModificaDatiTavolo;
+	private InterfacciaSelezioneDataCameriere frameSelezioneDataCameriere;
 	
 	public static void main(String[] args) {
 
@@ -372,7 +375,7 @@ public class Controller {
 			TavoloDAOImplPostgres TDAO = new TavoloDAOImplPostgres();
 			TDAO.inserisciNuovoTavolo(nuovoTavolo);
 		}
-		catch(OperazioneFallitaException e)
+		catch(ErrorePersonalizzato e)
 		{
 			e.stampaMessaggio();
 		}
@@ -428,7 +431,7 @@ public class Controller {
 		
 	}
 
-	public void bottoneConfermaModificheAdiacensePremuto(Tavolo tavoloProtagonista) {
+	public void bottoneConfermaModificheAdiacenzePremuto(Tavolo tavoloProtagonista) {
 		try {
 			tavoloDao.rimpiazzaAdiacenze(tavoloProtagonista);
 			frameAdiacenze.setVisible(false);
@@ -454,7 +457,6 @@ public class Controller {
 	public void bottoneConfermaModificheDatiTavoloPremuto(Tavolo tavoloScelto, int numeroCorrente,
 			int capacitaCorrente) {
 		try {
-			
 			tavoloDao.modificaDatiTavolo(tavoloScelto, numeroCorrente, capacitaCorrente);
 			frameModificaDatiTavolo.setVisible(false);
 			frameTavoli = new InterfacciaTavoli(this, tavoloScelto.getSala_App());
@@ -470,5 +472,25 @@ public class Controller {
 		frameTavoli = new InterfacciaTavoli(this, salaCorrente);
 	}
 
+
+	public void generaCalendarioLicenziamentoCameriere(Cameriere cameriere) {
+		frameSelezioneDataCameriere = new InterfacciaSelezioneDataCameriere(this, true, cameriere);
+	}
+
+	public void generaCalendarioAssunzioneCameriere(Cameriere cameriere) {
+		frameSelezioneDataCameriere = new InterfacciaSelezioneDataCameriere(this, false, cameriere);
+	}
+
+	public void bottoneIndietroSceltaDataCameriere(InterfacciaSelezioneDataCameriere finestra) {
+		frameSelezioneDataCameriere = finestra;
+		frameSelezioneDataCameriere.setVisible(false);
+		frameGestioneCamerieri.setVisible(true);
+	}
+	public void confermaSceltaDataCameriere(InterfacciaSelezioneDataCameriere finestra) {
+		frameSelezioneDataCameriere = finestra;
+		frameSelezioneDataCameriere.setVisible(false);
+		frameGestioneCamerieri.setVisible(true);
+		frameGestioneCamerieri.ripresaInterfaccia();
+	}
 
 }  

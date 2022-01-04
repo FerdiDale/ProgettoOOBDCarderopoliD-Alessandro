@@ -172,7 +172,6 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 					tavoloDaAggiungere.setPosX(posXInizialeT);
 					tavoloDaAggiungere.setPosY(posYInizialeT);
 					tavoloDaAggiungere.setDimX(dimXF);
-					System.out.println(dimYF);
 					tavoloDaAggiungere.setDimY(dimYF);
 					theController.bottoneOkInterfacciaAggiuntaTavoliPremuto(tavoloDaAggiungere);
 				}
@@ -216,7 +215,6 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 						paintTable = true;
 						posXInizialeT = e.getX();
 						posYInizialeT = e.getY();
-						System.out.println(posXInizialeT+" "+ posYInizialeT);
 						nuovoTavolo = new JLabel(String.format("%d",tavoloDaAggiungere.getNumero()), SwingConstants.CENTER);
 						nuovoTavolo.setBounds(posXInizialeT,posYInizialeT,0,0);
 						nuovoTavolo.setOpaque(true);

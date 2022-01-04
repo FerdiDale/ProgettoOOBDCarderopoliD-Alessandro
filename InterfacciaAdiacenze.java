@@ -68,7 +68,7 @@ public class InterfacciaAdiacenze extends JFrame {
 		JButton bottoneConferma = new JButton("Conferma");
 		bottoneConferma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				theController.bottoneConfermaModificheAdiacensePremuto(tavoloProtagonista);
+				theController.bottoneConfermaModificheAdiacenzePremuto(tavoloProtagonista);
 			}
 		});
 		bottoneConferma.setBounds(580, 384, 89, 23);

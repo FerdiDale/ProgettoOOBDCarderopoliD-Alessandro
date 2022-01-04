@@ -1,4 +1,6 @@
 import javax.swing.JFrame;
+
+
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -10,7 +12,10 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
+
+import com.toedter.calendar.JCalendar;
 
 public class InterfacciaAggiuntaCamerieri extends JFrame
 {
@@ -26,7 +31,12 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 	private JLabel nCaratteriNome;
 	private JLabel nCaratteriCognome;
 	private JLabel nCaratteriCID;
-	private JLabel nCaratteriData;
+	private JCalendar calendar; 
+	private JLabel istruzioni2;
+	private JLabel istruzioni3;
+	private JLabel istruzioni4;
+	private JButton bottoneSet;
+	
 	public InterfacciaAggiuntaCamerieri(Ristorante ristorante, Controller theController)
 	{
 		super("Modulo di assunzione di "+ristorante.getNome());
@@ -35,7 +45,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().setLayout(null);
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
-		setBounds(20,20,375,225);
+		setBounds(20,20,415,464);
 		
 		JLabel etichettaNome = new JLabel("Nome");
 		etichettaNome.setBounds(10, 11, 46, 14);
@@ -47,11 +57,11 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldNome.setColumns(30);
 		
 		JLabel etichettaCognome = new JLabel("Cognome");
-		etichettaCognome.setBounds(200, 11, 149, 14);
+		etichettaCognome.setBounds(136, 11, 149, 14);
 		getContentPane().add(etichettaCognome);
 		
 		textFieldCognome = new JTextField();
-		textFieldCognome.setBounds(200, 36, 86, 20);
+		textFieldCognome.setBounds(136, 36, 86, 20);
 		getContentPane().add(textFieldCognome);
 		textFieldCognome.setColumns(30);
 		
@@ -65,31 +75,21 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldCID.setColumns(9);
 		
 		JLabel etichettaDataAssunzione = new JLabel("Data di assunzione");
-		etichettaDataAssunzione.setBounds(200, 75, 149, 14);
+		etichettaDataAssunzione.setBounds(116, 75, 149, 14);
 		getContentPane().add(etichettaDataAssunzione);
 		
-		textFieldDataAssunzione = new JTextField();
-		textFieldDataAssunzione.setBounds(200, 100, 86, 20);
-		getContentPane().add(textFieldDataAssunzione);
-		textFieldDataAssunzione.setColumns(10);
-		
 		bottoneOk = new JButton("Ok");
-		bottoneOk.setBounds(255, 152, 89, 23);
+		bottoneOk.setBounds(296, 389, 89, 23);
 		bottoneOk.setEnabled(false);
 		getContentPane().add(bottoneOk);
 		
-		textFieldDataAssunzione.setFocusable(true);
 		textFieldNome.setFocusable(true);
 		textFieldCognome.setFocusable(true);
 		textFieldCID.setFocusable(true);
 		
 		tornaIndietro = new JButton("Indietro");
-		tornaIndietro.setBounds(10, 152, 89, 23);
+		tornaIndietro.setBounds(10, 389, 89, 23);
 		getContentPane().add(tornaIndietro);
-		
-		JLabel formatoDataLabel = new JLabel("anno-mese-giorno");
-		formatoDataLabel.setBounds(200, 131, 149, 14);
-		getContentPane().add(formatoDataLabel);
 		
 		nCaratteriNome = new JLabel("");
 		nCaratteriNome.setBounds(106, 39, 46, 14);
@@ -104,8 +104,14 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().add(nCaratteriCID);
 		
 		GestoreTesti handler = new GestoreTesti();
+
+		textFieldDataAssunzione = new JTextField();
+		textFieldDataAssunzione.setBounds(116, 99, 172, 23);
+		textFieldDataAssunzione.setBackground(Color.white);
+		textFieldDataAssunzione.setEditable(false);
+		textFieldDataAssunzione.setOpaque(true);
+		textFieldDataAssunzione.setColumns(10);
 		
-		textFieldDataAssunzione.addKeyListener(handler);
 		textFieldNome.addKeyListener(handler);
 		textFieldCognome.addKeyListener(handler);
 		textFieldCID.addKeyListener(handler);
@@ -114,6 +120,33 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		
 		bottoneOk.addActionListener(handlerA);
 		tornaIndietro.addActionListener(handlerA);
+		
+		bottoneSet = new JButton("Set");
+		bottoneSet.setBounds(296, 129, 66, 23);
+		getContentPane().add(bottoneSet);
+		calendar = new JCalendar();
+		calendar.setBounds(200, 200, 184, 153);
+		getContentPane().add(calendar);
+		
+		getContentPane().add(textFieldDataAssunzione);
+		
+		JLabel istruzioni = new JLabel("Scegliere una data dal calendario.");
+		istruzioni.setBounds(116, 133, 235, 14);
+		getContentPane().add(istruzioni);
+		
+		istruzioni2 = new JLabel("Poi, premere");
+		istruzioni2.setBounds(116, 181, 82, 14);
+		getContentPane().add(istruzioni2);
+		
+		istruzioni3 = new JLabel("\"Set\"");
+		istruzioni3.setBounds(187, 181, 82, 14);
+		getContentPane().add(istruzioni3);
+		
+		istruzioni4 = new JLabel("Dopo aver impostato la data, premere la freccia");
+		istruzioni4.setBounds(116, 156, 284, 14);
+		getContentPane().add(istruzioni4);
+		
+		bottoneSet.addActionListener(new GestoreBottoni());
 		
 		setResizable(false);
 		setVisible(true);
@@ -135,7 +168,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 				{
 					valido = false;
 				}
-				if (valido && textFieldCognome.getText().length()<= 30 && textFieldNome.getText().length() <=30 && textFieldCID.getText().length()==9)
+				if (valido && textFieldCognome.getText().length()<= 30 && textFieldNome.getText().length() <=30 && textFieldCID.getText().length()==9 && !textFieldDataAssunzione.getText().isEmpty())
 					{
 						Cameriere inAggiunta = new Cameriere(textFieldCID.getText(),textFieldNome.getText(),textFieldCognome.getText(), ristorante.getId_Ristorante());
 						inAggiunta.setData_Ammissione(textFieldDataAssunzione.getText());
@@ -162,12 +195,24 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 							textFieldCID.replaceSelection("");
 							nCaratteriCID.setText("");
 						}
-						else if(esito.equals("Data_Non_Valida"))
+						else if (esito.equals("NomeCognome_Non_Validi")) 
 						{
-							JOptionPane.showMessageDialog(null, "La data non risulta valida. Si prega di riinserirla.", "Errore!", JOptionPane.ERROR_MESSAGE);
-							textFieldDataAssunzione.selectAll();
-							textFieldDataAssunzione.replaceSelection("");
-						}			
+							JOptionPane.showMessageDialog(null, "Il nome o il cognome presentano caratteri non validi. Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
+							textFieldNome.selectAll();
+							textFieldNome.replaceSelection("");
+							textFieldCognome.selectAll();
+							textFieldCognome.replaceSelection("");
+							nCaratteriNome.setText("");
+							nCaratteriCognome.setText("");
+						}
+						else if (esito.equals("CID_Gia_Presente"))
+						{
+							JOptionPane.showMessageDialog(null, "Esiste gia' un cameriere con questo CID!", "Errore!", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "C'e' stato un errore di connessione. Riprovare!", "Errore!", JOptionPane.ERROR_MESSAGE);
+						}
 				}
 				else
 				JOptionPane.showMessageDialog(null, "Si prega di controllare le dimensioni dei valori nelle caselle di testo (Nome, Cognome al più 30, CID deve essere esattamente 9. Ci si assicuri inoltre di aver rispettato il formato della data.", "Errore!", JOptionPane.ERROR_MESSAGE);
@@ -176,6 +221,10 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 			{
 				theController.bottoneTornaIndietroAggiuntaCamerieriPremuto(ristorante);
 			}
+			if(e.getSource() == bottoneSet)
+			{
+				textFieldDataAssunzione.setText(String.format("%d-%d-%d",calendar.getDate().getYear()+1900, calendar.getDate().getMonth()+1,calendar.getDayChooser().getDay()));
+			}
 		}
 	}
 	
@@ -183,8 +232,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 	{
 		public void keyPressed(KeyEvent e)
 		{
-			if(textFieldDataAssunzione.getText().isBlank() || textFieldNome.getText().isBlank() || 
-					textFieldCognome.getText().isBlank() || textFieldCID.getText().isBlank())
+			if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || textFieldCID.getText().isBlank())
 			{
 				bottoneOk.setEnabled(false);
 			}
@@ -209,8 +257,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 			{
 				nCaratteriCID.setText(String.format("%d", textFieldCID.getText().length()));
 			}
-			if(textFieldDataAssunzione.getText().isBlank() || textFieldNome.getText().isBlank() || 
-					textFieldCognome.getText().isBlank() || textFieldCID.getText().isBlank())
+			if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || textFieldCID.getText().isBlank())
 			{
 				bottoneOk.setEnabled(false);
 			}

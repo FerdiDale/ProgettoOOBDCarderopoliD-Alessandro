@@ -29,32 +29,17 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	private JList<Cameriere> listaLicenziati = new JList<Cameriere>(modelloListaLicenziati);
 	private ArrayList<Cameriere> arrayListAssunti = new ArrayList<Cameriere>();
 	private ArrayList<Cameriere> arrayListLicenziati = new ArrayList<Cameriere>();
-	private JTextField dataRiassunzione;
-	private JTextField dataLicenziamento;
-	private JButton setDataRiassunzione;
-	private JButton setDataLicenziamento;
 	private JButton RiassumiCameriere;
 	private JButton LicenziaCameriere;
 	private JButton AggiuntaCameriere;
-	private SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
 	private int indiceListaAssunti = -1;
 	private int indiceListaLicenziati = -1;
-	private String dataAssunzioneStringa;
-	private String dataLicenziamentoStringa;
-	private int buttonunlockA = -2;
-	private int buttonunlockL = -2;
-	private JLabel etichettaFormatoDataLicenziamento;
-	private JLabel eFDL2;
-	private JLabel etichettaFormatoDataLicenziamento_1;
-	private JLabel eFDL2_1;
 	private GestioneBottoniETesti handlerB = new GestioneBottoniETesti();
 	private	GestioneListe handlerL = new GestioneListe();
-	private ConsistenzaData handlerC = new ConsistenzaData();
-	private boolean listeEnabled;
 	
 	
 	public InterfacciaGestioneCamerieri(Ristorante ristorante, Controller theController)
-	{
+	{//BISOGNA GESTIRE QUANDO UN CAMERIERE VIENE LICENZIATO DOPO AVER OCCUPATO UN TAVOLO
 		super("Gestione camerieri di "+ristorante.getNome());
 		getContentPane().setLayout(null);
 		setBounds(100, 100, 540, 404);
@@ -95,28 +80,10 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		RiassumiCameriere.setEnabled(false);
 		getContentPane().add(RiassumiCameriere);
 		
-		dataRiassunzione = new JTextField();
-		dataRiassunzione.setBounds(296, 336, 135, 23);
-		getContentPane().add(dataRiassunzione);
-		dataRiassunzione.setColumns(10);
-		
 		LicenziaCameriere = new JButton("Licenzia Cameriere");
 		LicenziaCameriere.setBounds(287, 67, 160, 23);
 		LicenziaCameriere.setEnabled(false);
 		getContentPane().add(LicenziaCameriere);
-		
-		dataLicenziamento = new JTextField();
-		dataLicenziamento.setBounds(296, 162, 135, 23);
-		getContentPane().add(dataLicenziamento);
-		dataLicenziamento.setColumns(10);
-		
-		setDataRiassunzione = new JButton("^");
-		setDataRiassunzione.setBounds(320, 276, 89, 23);
-		getContentPane().add(setDataRiassunzione);
-		
-		setDataLicenziamento = new JButton("^");
-		setDataLicenziamento.setBounds(320, 101, 89, 23);
-		getContentPane().add(setDataLicenziamento);
 		
 		arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
 		arrayListLicenziati = theController.EstraiCamerieriLicenziatiC(ristorante);
@@ -127,179 +94,39 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		modelloListaAssunti.addAll(arrayListAssunti);
 		modelloListaLicenziati.addAll(arrayListLicenziati);
 		
-		dataLicenziamento.setFocusable(true);
-		dataRiassunzione.setFocusable(true);
-		
-		etichettaFormatoDataLicenziamento = new JLabel("Inserire la data nel formato");
-		etichettaFormatoDataLicenziamento.setBounds(295, 299, 184, 14);
-		getContentPane().add(etichettaFormatoDataLicenziamento);
-		
-		eFDL2 = new JLabel("anno-mese-giorno e poi premere la freccetta");
-		eFDL2.setBounds(254, 311, 280, 14);
-		getContentPane().add(eFDL2);
-		
-		etichettaFormatoDataLicenziamento_1 = new JLabel("Inserire la data nel formato");
-		etichettaFormatoDataLicenziamento_1.setBounds(295, 131, 184, 14);
-		getContentPane().add(etichettaFormatoDataLicenziamento_1);
-		
-		eFDL2_1 = new JLabel("anno-mese-giorno e poi premere la freccetta");
-		eFDL2_1.setBounds(254, 143, 280, 14);
-		getContentPane().add(eFDL2_1);
-		
 		JButton tornaIndietro = new JButton("Indietro");
 		tornaIndietro.setBounds(10, 331, 89, 23);
 		getContentPane().add(tornaIndietro);
 		
-		dataLicenziamento.addKeyListener(handlerC);
-		dataRiassunzione.addKeyListener(handlerC);
-		setDataRiassunzione.addActionListener(handlerB);
 		listaLicenziati.addListSelectionListener(handlerL);
 		RiassumiCameriere.addActionListener(handlerB);
 		tornaIndietro.addActionListener(handlerB);
-		setDataLicenziamento.addActionListener(handlerB);
 		LicenziaCameriere.addActionListener(handlerB);
 		listaAssunti.addListSelectionListener(handlerL);
 		AggiuntaCameriere.addActionListener(handlerB);
-		
-		listeEnabled = true;
+
 		
 		setVisible(true);
 		setResizable(false);
-		
-		
+
 	}
 	
 	private class GestioneBottoniETesti implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource() == setDataRiassunzione)
+			if(e.getSource() == RiassumiCameriere)
 			{
-				if(dataRiassunzione.getText().isBlank())
-				{
-					JOptionPane.showMessageDialog(null, "Non si puo' inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
-				}
-				else if(dataRiassunzione.getText().length()<10)
-				{
-					JOptionPane.showMessageDialog(null, "Data non valida, riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
-				}
-				else 
-				{
-					try
-					{
-						formatoData.parse(dataRiassunzione.getText());
-						dataAssunzioneStringa = dataRiassunzione.getText();
-						if(buttonunlockA >= -1 && indiceListaLicenziati!= -1)
-						{
-							RiassumiCameriere.setEnabled(true);
-						}
-						else
-						{
-							buttonunlockA =-1;
-							JOptionPane.showMessageDialog(null, "Si selezioni ora un cameriere dalla lista dei licenziati per riassumerlo.", "Informazione",JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
-					catch(ParseException p)
-					{
-						JOptionPane.showMessageDialog(null,"La data non e' del formato corretto, riprovare.","Errore!",JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-			else if(e.getSource() == RiassumiCameriere)
-			{
-				listeEnabled = false;
-				boolean nessunProblema;
-				nessunProblema = theController.bottoneRiassumiCamerierePremuto(arrayListLicenziati.get(indiceListaLicenziati),dataAssunzioneStringa);
-				if (nessunProblema) {
-					arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
-					arrayListLicenziati = theController.EstraiCamerieriLicenziatiC(ristorante);
-					listaAssunti.removeListSelectionListener(handlerL);
-					listaLicenziati.removeListSelectionListener(handlerL);
-					modelloListaLicenziati.removeAllElements();
-					modelloListaLicenziati.addAll(arrayListLicenziati);
-					modelloListaAssunti.removeAllElements();
-					modelloListaAssunti.addAll(arrayListAssunti);
-					listaAssunti.addListSelectionListener(handlerL);
-					listaLicenziati.addListSelectionListener(handlerL);
-					dataRiassunzione.setText("");
-				}
-				indiceListaLicenziati = -1;
-				RiassumiCameriere.setEnabled(false);
-				dataRiassunzione.removeActionListener(handlerB);
-				dataRiassunzione.setText("");
-				dataRiassunzione.addActionListener(handlerB);
-				buttonunlockA = -2;
-				listeEnabled = true;
-			}
-			else if(e.getSource() == setDataLicenziamento)
-			{
-				if(dataLicenziamento.getText().isBlank())
-				{
-					JOptionPane.showMessageDialog(null, "Non si puo' inserire una data vuota.", "Errore!", JOptionPane.ERROR_MESSAGE);
-				}
-				else if(dataLicenziamento.getText().length()<10)
-				{
-					JOptionPane.showMessageDialog(null, "Data non valida, riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
-				}
-				else 
-				{
-					try
-					{
-						formatoData.parse(dataLicenziamento.getText());
-						dataLicenziamentoStringa = dataLicenziamento.getText();
-						if(buttonunlockL >= -1 && indiceListaAssunti != -1)
-						{
-							LicenziaCameriere.setEnabled(true);
-						}
-						else
-						{
-							buttonunlockL =-1;
-							JOptionPane.showMessageDialog(null, "Si selezioni ora un cameriere dalla lista degli assunti per licenziarlo.", "Informazione",JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
-					catch(ParseException p)
-					{
-						JOptionPane.showMessageDialog(null,"La data non e' del formato corretto, riprovare.","Errore!",JOptionPane.ERROR_MESSAGE);
-					}
-				}
+				theController.generaCalendarioAssunzioneCameriere(arrayListLicenziati.get(indiceListaLicenziati));
 			}
 			else if(e.getSource() == LicenziaCameriere)
 			{
-				listeEnabled = false;
-				String esito = theController.bottoneLicenziaCamerierePremuto(arrayListAssunti.get(indiceListaAssunti),dataLicenziamentoStringa);
-				if(esito.equals("Tutto_Bene"))
-				{
-					arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
-					arrayListLicenziati = theController.EstraiCamerieriLicenziatiC(ristorante);
-					listaAssunti.removeListSelectionListener(handlerL);
-					listaLicenziati.removeListSelectionListener(handlerL);
-					modelloListaAssunti.removeAllElements();
-					modelloListaAssunti.addAll(arrayListAssunti);
-					modelloListaLicenziati.removeAllElements();
-					modelloListaLicenziati.addAll(arrayListLicenziati);
-					listaAssunti.addListSelectionListener(handlerL);
-					listaLicenziati.addListSelectionListener(handlerL);
-					dataLicenziamento.setText("");
-				}
-				else if(esito.equals("Operazione_Fallita"))
-				{
-					//E' gestito già dal DAO
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null, "Non si puo' licenziare un cameriere prima della sua data di assunzione!("+arrayListAssunti.get(indiceListaAssunti).getData_Ammissione()+")", "Informazione", JOptionPane.INFORMATION_MESSAGE);
-				}
-					LicenziaCameriere.setEnabled(false);
-					dataLicenziamento.removeActionListener(handlerB);
-					dataLicenziamento.setText("");
-					dataLicenziamento.addActionListener(handlerB);
-					buttonunlockL =-2 ;
-					indiceListaAssunti = -1;
-					listeEnabled = true;
+				theController.generaCalendarioLicenziamentoCameriere(arrayListAssunti.get(indiceListaAssunti));
 			}
 			else if (e.getSource() == AggiuntaCameriere)
 			{
 				theController.bottoneAggiungiCamerierePremuto(ristorante);
+				ripresaInterfaccia();
 			}
 			else
 			{
@@ -311,59 +138,57 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	{
 		public void valueChanged(ListSelectionEvent e)
 		{
-			if(listeEnabled)
+			
+			if(e.getSource() == listaLicenziati)
 			{
-				if(e.getSource() == listaLicenziati)
-				{
+				
+				indiceListaLicenziati = listaLicenziati.getSelectedIndex();
+				
+				if (indiceListaLicenziati == -1) {
 					
-					indiceListaLicenziati = listaLicenziati.getSelectedIndex();
-					if(buttonunlockA >= -1 && dataRiassunzione.getText().isBlank() == false)
-					{
-						RiassumiCameriere.setEnabled(true);
-					}
-					else
-					{
-						buttonunlockA = -1;
-						JOptionPane.showMessageDialog(null, "Si inserisca ora una data per riassumere il cameriere selezionato.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
-					}
+					RiassumiCameriere.setEnabled(false);
+					
 				}
-				else if (e.getSource() == listaAssunti)
-				{
-					indiceListaAssunti = listaAssunti.getSelectedIndex();
-					if(buttonunlockL >= -1 && dataLicenziamento.getText().isBlank() == false)
-					{
-						LicenziaCameriere.setEnabled(true);
-					}
-					else
-					{
-						buttonunlockL = -1;
-						JOptionPane.showMessageDialog(null, "Si inserisca ora una data per licenziare il cameriere selezionato.","Informazione", JOptionPane.INFORMATION_MESSAGE);
-					}
+				else {
+				
+					RiassumiCameriere.setEnabled(true);
+					LicenziaCameriere.setEnabled(false);
+					listaAssunti.clearSelection();
+					
 				}
 			}
-		}
+			else if (e.getSource() == listaAssunti)
+			{
+				indiceListaAssunti = listaAssunti.getSelectedIndex();
+				
+				if (indiceListaAssunti == -1) 
+				{
+					LicenziaCameriere.setEnabled(false);
+				}
+				else 
+				{
+					LicenziaCameriere.setEnabled(true);
+					RiassumiCameriere.setEnabled(false);
+					listaLicenziati.clearSelection();
+						
+				}
+			}
+		}	
 	}
 	
-	private class ConsistenzaData implements KeyListener
-	{
-		public void keyReleased(KeyEvent e)
-		{
-			
-		}
-		public void keyPressed(KeyEvent e)
-		{
-			if(e.getSource() == dataRiassunzione )
-			{
-				RiassumiCameriere.setEnabled(false);
-			}
-			else
-			{
-				LicenziaCameriere.setEnabled(false);
-			}
-		}
-		public void keyTyped(KeyEvent e)
-		{
-			
-		}
+	
+	public void ripresaInterfaccia() {
+		arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
+		arrayListLicenziati = theController.EstraiCamerieriLicenziatiC(ristorante);
+		listaAssunti.removeListSelectionListener(handlerL);
+		listaLicenziati.removeListSelectionListener(handlerL);
+		modelloListaAssunti.removeAllElements();
+		modelloListaAssunti.addAll(arrayListAssunti);
+		modelloListaLicenziati.removeAllElements();
+		modelloListaLicenziati.addAll(arrayListLicenziati);
+		listaAssunti.addListSelectionListener(handlerL);
+		listaLicenziati.addListSelectionListener(handlerL);
+		LicenziaCameriere.setEnabled(false);
+		RiassumiCameriere.setEnabled(false);
 	}
 }
