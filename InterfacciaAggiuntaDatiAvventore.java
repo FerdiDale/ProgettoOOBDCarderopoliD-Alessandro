@@ -1,15 +1,15 @@
-import java.awt.BorderLayout;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.util.ArrayList;
+
 public class InterfacciaAggiuntaDatiAvventore extends JFrame 
 {
 	private JTextField nome;
@@ -20,16 +20,26 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	private JButton avventorePrecedente;
 	private boolean ultima = false;
 	private int indice;
+	private boolean intero;
 	private Controller theController;
 	private ArrayList<Tavolo> tavoli;
 	private int tavoloScelto;
 	private String data;
+	private JLabel contaNome;
+	private JLabel contaCognome;
+	private JLabel contaCid;
+	private JLabel contaNtel;
+	private boolean diVisualizzazione = false;
 	
+
 	public InterfacciaAggiuntaDatiAvventore(Controller controller, int indice, ArrayList<Tavolo> tavoli, int tavoloScelto, String data) 
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 380, 220);
 		getContentPane().setLayout(null);
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		
 		this.tavoloScelto = tavoloScelto;
 		this.tavoli = tavoli;
 		this.theController = controller;
@@ -39,7 +49,6 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		nome.setBounds(30, 40, 86, 20);
 		getContentPane().add(nome);
 		nome.setColumns(10);
-		
 		JLabel etichettaNome = new JLabel("Nome");
 		etichettaNome.setBounds(30, 15, 61, 14);
 		getContentPane().add(etichettaNome);
@@ -82,6 +91,22 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		JButton bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 147, 89, 23);
 		getContentPane().add(bottoneIndietro);
+		
+		contaNome = new JLabel("0");
+		contaNome.setBounds(124, 40, 46, 23);
+		getContentPane().add(contaNome);
+		
+		contaCognome = new JLabel("0");
+		contaCognome.setBounds(124, 103, 46, 14);
+		getContentPane().add(contaCognome);
+		
+		contaCid = new JLabel("0");
+		contaCid.setBounds(276, 43, 46, 14);
+		getContentPane().add(contaCid);
+		
+		contaNtel = new JLabel("0");
+		contaNtel.setBounds(276, 103, 46, 14);
+		getContentPane().add(contaNtel);
 		prossimoAvventore.addActionListener(new GestioneBottoni());
 	
 		if(indice == 0 ) 
@@ -89,6 +114,16 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 			avventorePrecedente.setEnabled(false);
 			avventorePrecedente.setVisible(false);
 		}
+		
+		
+		nome.addKeyListener(new GestoreConta());
+		cognome.addKeyListener(new GestoreConta());
+		cid.addKeyListener(new GestoreConta());
+		ntel.addKeyListener(new GestoreConta());
+		nome.setFocusable(true);
+		cognome.setFocusable(true);
+		ntel.setFocusable(true);
+		cid.setFocusable(true);
 		
 		setResizable(false);
 	}
@@ -108,25 +143,127 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		{
 			if(e.getSource() == prossimoAvventore)
 			{
-				if(ultima)
+				try
 				{
-					try
+					if(!ntel.getText().isBlank())
 					{
-						theController.bottoneConfermaAggiuntaAvventoriPremuto(tavoli, tavoloScelto, data);
+						Integer.parseInt(ntel.getText());
+						
+						if(ntel.getText().length() == 10)	intero = true;
+						else intero = false;
 					}
-					catch(CampiNonCorrettiException c)
+					else
 					{
-						c.stampaMessaggio();
+						intero = true;
 					}
 				}
+				catch(NumberFormatException n)
+				{
+					intero = false;
+				}
+				if(cid.getText().length() != 9 || nome.getText().length() >30 || cognome.getText().length() > 30 || !intero) JOptionPane.showMessageDialog(null, "Si controllino le dimensioni dei campi (nome e cognome devono essere lunghi al piu 30, mentre CID deve essere lungo esattamente 9 caratteri, numero di telefono esattamente 10 caratteri decimali OPPURE vuoto");
+					
 				else
-				{
-					theController.bottoneAvventoreSuccessivoPremuto(indice);
-				}
+					{
+						if(ultima && !diVisualizzazione)
+						{
+							
+							try
+							{
+								theController.bottoneConfermaAggiuntaAvventoriPremuto(tavoli, tavoloScelto, data);
+							}
+							catch(CampiNonCorrettiException c)
+							{
+								c.stampaMessaggio();
+							}
+						}
+						else if(!ultima)
+							{
+								theController.bottoneAvventoreSuccessivoPremuto(indice);
+							}
+					
+						else if (ultima && diVisualizzazione)
+							{
+								try 
+								{
+									theController.bottoneConfermaAggiuntaAvventoreDiVisualizzazionePremuto(tavoli, tavoloScelto, data);
+								} catch (CampiNonCorrettiException e2) 
+								{
+									e2.stampaMessaggio();
+								}
+							}
+					}
+
 			}
 			else if(e.getSource() == avventorePrecedente)
 			{
 				theController.bottoneAvventorePrecedentePremuto(indice);
+			}
+		}
+		
+	}
+	
+	private class GestoreConta implements KeyListener
+	{
+		public void keyTyped(KeyEvent e) 
+		{
+			if(e.getSource() == nome)
+			{
+				contaNome.setText(String.format("%d", nome.getText().length()));
+			}
+			else if(e.getSource() == cognome)
+			{	
+				contaCognome.setText(String.format("%d", cognome.getText().length()));
+			}
+			else if(e.getSource() == cid)
+			{
+				contaCid.setText(String.format("%d", cid.getText().length()));
+			}
+			else if(e.getSource() == ntel)
+			{
+				contaNtel.setText(String.format("%d", ntel.getText().length()));
+			}
+		}
+
+		
+		public void keyPressed(KeyEvent e)
+		{
+			if(e.getSource() == nome)
+			{
+				contaNome.setText(String.format("%d", nome.getText().length()));
+			}
+			else if(e.getSource() == cognome)
+			{	
+				contaCognome.setText(String.format("%d", cognome.getText().length()));
+			}
+			else if(e.getSource() == cid)
+			{
+				contaCid.setText(String.format("%d", cid.getText().length()));
+			}
+			else if(e.getSource() == ntel)
+			{
+				contaNtel.setText(String.format("%d", ntel.getText().length()));
+			}
+		}
+
+		
+		public void keyReleased(KeyEvent e) 
+		{
+			if(e.getSource() == nome)
+			{
+				contaNome.setText(String.format("%d", nome.getText().length()));
+			}
+			else if(e.getSource() == cognome)
+			{	
+				contaCognome.setText(String.format("%d", cognome.getText().length()));
+			}
+			else if(e.getSource() == cid)
+			{
+				contaCid.setText(String.format("%d", cid.getText().length()));
+			}
+			else if(e.getSource() == ntel)
+			{
+				contaNtel.setText(String.format("%d", ntel.getText().length()));
 			}
 		}
 	}
@@ -162,7 +299,39 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	public void setNtel(JTextField ntel) {
 		this.ntel = ntel;
 	}
+
+	public ArrayList<Tavolo> getTavoli() {
+		return tavoli;
+	}
+
+	public int getTavoloScelto() {
+		return tavoloScelto;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	public JButton getProssimoAvventore() {
+		return prossimoAvventore;
+	}
+
+	public void setProssimoAvventore(JButton prossimoAvventore) {
+		this.prossimoAvventore = prossimoAvventore;
+	}
+
+	public boolean isDiVisualizzazione() {
+		return diVisualizzazione;
+	}
+
+	public void setDiVisualizzazione(boolean diVisualizzazione) {
+		this.diVisualizzazione = diVisualizzazione;
+	}
 	
+}
 	
 
-}

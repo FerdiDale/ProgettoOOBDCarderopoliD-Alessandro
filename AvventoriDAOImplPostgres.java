@@ -31,6 +31,17 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 	public void inserimentoMultiploAvventori(ArrayList<InterfacciaAggiuntaDatiAvventore> lista)
 	{
 		ResultSet prova;
+		int tavolata=-1;
+		try
+		{
+			ResultSet tavolataDB =DB_Connection.getInstance().getConnection().createStatement().executeQuery("select id_tavolata from tavolata where id_tavolo = "+lista.get(0).getTavoli().get(lista.get(0).getTavoloScelto()).getId_Tavolo()+" AND data = '"+lista.get(0).getData()+"';");
+			tavolataDB.next();
+			tavolata = tavolataDB.getInt(1);
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, "Ricerca tavolata in avventori "+ e);
+		}
 		for(int i = 0; i< lista.size();i++)
 			try
 			{
@@ -41,11 +52,44 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 						if(lista.get(i).getNtel().getText().isBlank()) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO Avventori VALUES('"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"');");
 						else DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO Avventori VALUES('"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"','"+lista.get(i).getNtel().getText()+"');");
 					}
+				 DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO elenco_avventori VALUES("+tavolata+",'"+lista.get(i).getCid().getText()+"');");
 			}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e);
+			JOptionPane.showMessageDialog(null, "Aggiunta degli avventori all'elenco avventori "+ e);
 		}
 		
+	}
+
+	public void rimuoviAvventoreDaElencoAvventori(int id_tavolo, String data, Avventori cliente) 
+	{
+		try
+		{
+			ResultSet tavolataDB =  DB_Connection.getInstance().getConnection().createStatement().executeQuery("select id_tavolata from tavolata where id_tavolo = "+id_tavolo+" AND data = '"+data+"';");
+			tavolataDB.next();
+			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM elenco_avventori where id_tavolata = "+tavolataDB.getInt(1)+" AND n_cid = '"+cliente.getN_CID()+"';");
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, "rimozione elenco avventori "+ e);
+		}
+		//FAi un unico inserimento di tutte le righe in una volta
+	}
+	
+
+	
+	public void aggiungiNuovoavventoreAllaTavolata(int id_tavolo, String data, Avventori avventore) 
+	{
+		try
+		{
+			ResultSet tavolataDB = DB_Connection.getInstance().getConnection().createStatement().executeQuery("select id_tavolata from tavolata where id_tavolo = "+id_tavolo+" AND data = '"+data+"';");
+			tavolataDB.next();
+			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("insert into avventori values('"+avventore.getNome()+"','"+avventore.getCognome()+"','"+avventore.getN_CID()+"','"+avventore.getN_tel()+"');");
+			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("insert into elenco_avventori values("+tavolataDB.getInt(1)+",'"+avventore.getN_CID()+"');");
+		}
+		catch(SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, "Aggiunta avventore" +e);
+		}
 	}
 }

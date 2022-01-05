@@ -1,8 +1,6 @@
-import java.sql.*;
+//CONTROLLO SU LICENZIA CAMERIERE, SE OCCUPA UNA TAVOLATA NON PUO ESSERE LICENZIATO PRIMA
 import java.util.regex.*;
 
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.Date;
@@ -379,7 +377,11 @@ public class Controller {
 			TavoloDAOImplPostgres TDAO = new TavoloDAOImplPostgres();
 			TDAO.inserisciNuovoTavolo(nuovoTavolo);
 		}
-		catch(ErrorePersonalizzato e)
+		catch(TavoloNumeroUgualeException e)
+		{
+			e.stampaMessaggio();
+		} 
+			catch (OperazioneFallitaException e) 
 		{
 			e.stampaMessaggio();
 		}
@@ -454,6 +456,7 @@ public class Controller {
 		framesAggiuntaAvventore = new ArrayList<InterfacciaAggiuntaDatiAvventore>();
 		for (int i = 0; i< numeroAvv; i++)
 		{
+			System.out.println(tavoloScelto);
 			framesAggiuntaAvventore.add(new InterfacciaAggiuntaDatiAvventore(this,i,tavoli,tavoloScelto,data));
 		}
 		for (int i = 0; i<numeroAvv; i++)
@@ -468,14 +471,18 @@ public class Controller {
 	public void bottoneConfermaAggiuntaAvventoriPremuto(ArrayList<Tavolo> tavoli,int tavoloScelto, String data) throws CampiNonCorrettiException
 	{
 		int i=0;
-		boolean controlloCampiVuoti = true;
+		boolean controlloCampiNonVuoti = true;
 		boolean controlloAlmenoUnTelefono = false;
+		boolean formatoNTelGiusto = true;
+		boolean noApostrofi = true;
 		boolean formatoCidGiusto = true;
 		boolean doppieCID= false;
-		while(i<framesAggiuntaAvventore.size() && controlloCampiVuoti && formatoCidGiusto )
+		while(i<framesAggiuntaAvventore.size() && controlloCampiNonVuoti && formatoCidGiusto && formatoNTelGiusto && noApostrofi)
 		{
-			if(framesAggiuntaAvventore.get(i).getCid().getText().isBlank() || framesAggiuntaAvventore.get(i).getCognome().getText().isBlank() || framesAggiuntaAvventore.get(i).getNome().getText().isBlank()) controlloCampiVuoti = false;
+			if(framesAggiuntaAvventore.get(i).getNome().getText().contains(new StringBuffer("'")) || framesAggiuntaAvventore.get(i).getCognome().getText().contains(new StringBuffer("'"))) noApostrofi = false;
+			if(framesAggiuntaAvventore.get(i).getCid().getText().isBlank() || framesAggiuntaAvventore.get(i).getCognome().getText().isBlank() || framesAggiuntaAvventore.get(i).getNome().getText().isBlank()) controlloCampiNonVuoti = false;
 			if(!framesAggiuntaAvventore.get(i).getNtel().getText().isBlank()) controlloAlmenoUnTelefono = true;
+			if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", framesAggiuntaAvventore.get(i).getNtel().getText())) formatoNTelGiusto = false;
 			if(!Pattern.matches("C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]",framesAggiuntaAvventore.get(i).getCid().getText())) formatoCidGiusto =false;
 			i++;
 		}
@@ -489,8 +496,8 @@ public class Controller {
 			i++;
 		}
 		
-		System.out.println("Campi vuoti ="+controlloCampiVuoti+" telefono = "+controlloAlmenoUnTelefono+" CID = "+formatoCidGiusto);
-		if(controlloCampiVuoti && controlloAlmenoUnTelefono && formatoCidGiusto && !doppieCID)
+		System.out.println("Campi vuoti ="+controlloCampiNonVuoti+" telefono = "+controlloAlmenoUnTelefono+" CID = "+formatoCidGiusto);
+		if(controlloCampiNonVuoti && controlloAlmenoUnTelefono && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi)
 		{
 			framesAggiuntaAvventore.get(framesAggiuntaAvventore.size()-1).setVisible(false);
 			frameSelezioneCamerieri = new InterfacciaSelezioneCamerieri(this,tavoli,tavoloScelto,data);
@@ -502,16 +509,22 @@ public class Controller {
 		
 	}
 	
-	public ArrayList<Cameriere> estraiCamerieriAssegnabili(String data)
+	public ArrayList<Cameriere> estraiCamerieriAssegnabili(String data, Ristorante ristorante)
 	{
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.camerieriAssegnabiliAlTavoloInData(data);
+		return CDAO.camerieriAssegnabiliAlTavoloInData(data, ristorante);
 	}
 	
 	public void bottoneIndietroSelezioneCamerieriPremuto(ArrayList<Tavolo> tavoli, String data)
 	{
 		frameSelezioneCamerieri.setVisible(false);
 		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
+	}
+	
+	public void bottoneIndietroGestioneOccupazioniPremuto(ArrayList<Tavolo> tavoli)
+	{
+		frameGestioneOccupazioni.setVisible(false);
+		frameTavoli = new InterfacciaTavoli(this, tavoli.get(0).getSala_App());
 	}
 	
 	public void bottoneAvventoreSuccessivoPremuto(int indice)
@@ -526,7 +539,7 @@ public class Controller {
 		framesAggiuntaAvventore.get(indice-1).setVisible(true);
 	}
 	
-	public void bottoneConfermaSelezioneCamerieriPremuto(int[] indiciScelti, ArrayList<Cameriere> camerieriDisponibili, String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
+	public void bottoneConfermaSelezioneCamerieriPremuto(ArrayList<Cameriere> camerieriScelti, String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
 	{
 		TavolataDAOImplPostgres TAVDAO = new TavolataDAOImplPostgres();
 		TAVDAO.inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto).getId_Tavolo(),data));
@@ -536,7 +549,7 @@ public class Controller {
 		
 		
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.inserimentoMultiploCamerieriInServizio(indiciScelti, camerieriDisponibili, data, tavoli.get(tavoloScelto));
+		CDAO.inserimentoMultiploCamerieriInServizio(camerieriScelti, data, tavoli.get(tavoloScelto));
 		
 		frameSelezioneCamerieri.setVisible(false);
 		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
@@ -593,6 +606,7 @@ public class Controller {
 	public void bottoneConfermaModificheDatiTavoloPremuto(Tavolo tavoloScelto, int numeroCorrente,
 			int capacitaCorrente) {
 		try {
+			
 			tavoloDao.modificaDatiTavolo(tavoloScelto, numeroCorrente, capacitaCorrente);
 			frameModificaDatiTavolo.setVisible(false);
 			frameTavoli = new InterfacciaTavoli(this, tavoloScelto.getSala_App());
@@ -603,7 +617,8 @@ public class Controller {
 		
 	}
 
-	public void bottoneIndietroModificaDatiTavoloPremuto(Sala salaCorrente) {
+	public void bottoneIndietroModificaDatiTavoloPremuto(Sala salaCorrente) 
+	{
 		frameModificaDatiTavolo.setVisible(false);
 		frameTavoli = new InterfacciaTavoli(this, salaCorrente);
 	}
@@ -612,7 +627,7 @@ public class Controller {
 	{
 		return framesAggiuntaAvventore;
 	}
-
+	
 	public void generaCalendarioLicenziamentoCameriere(Cameriere cameriere) {
 		frameSelezioneDataCameriere = new InterfacciaSelezioneDataCameriere(this, true, cameriere);
 	}
@@ -632,5 +647,77 @@ public class Controller {
 		frameGestioneCamerieri.setVisible(true);
 		frameGestioneCamerieri.ripresaInterfaccia();
 	}
-
+	
+	public void bottoneRimuoviAvventoreVisualizzazioneOccupazione(String data, int id_tavolo,Avventori avventore)
+	{
+		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
+		ADAO.rimuoviAvventoreDaElencoAvventori(id_tavolo, data, avventore);
+	}
+	
+	public void bottoneAggiungiAvventoreVisualizzazioneOccupazione(String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
+	{
+		frameVisualizzaOccupazione.setVisible(false);
+		framesAggiuntaAvventore = new ArrayList<InterfacciaAggiuntaDatiAvventore>();
+		framesAggiuntaAvventore.add(new InterfacciaAggiuntaDatiAvventore(this,0, tavoli, tavoloScelto, data));
+		framesAggiuntaAvventore.get(0).impostaBottoniCorretti(framesAggiuntaAvventore.size());
+		framesAggiuntaAvventore.get(0).setDiVisualizzazione(true);
+		framesAggiuntaAvventore.get(0).setVisible(true);
+	}
+	
+	public void bottoneConfermaAggiuntaAvventoreDiVisualizzazionePremuto(ArrayList<Tavolo> tavoli, int tavoloScelto, String dataScelta) throws CampiNonCorrettiException
+	{
+		int i=0;
+		boolean controlloCampiNonVuoti = true;
+		boolean controlloAlmenoUnTelefono = false;
+		boolean formatoNTelGiusto = true;
+		boolean noApostrofi = true;
+		boolean formatoCidGiusto = true;
+		boolean doppieCID= false;
+		while(i<framesAggiuntaAvventore.size() && controlloCampiNonVuoti && formatoCidGiusto && formatoNTelGiusto && noApostrofi)
+		{
+			if(framesAggiuntaAvventore.get(i).getNome().getText().contains(new StringBuffer("'")) || framesAggiuntaAvventore.get(i).getCognome().getText().contains(new StringBuffer("'"))) noApostrofi = false;
+			if(framesAggiuntaAvventore.get(i).getCid().getText().isBlank() || framesAggiuntaAvventore.get(i).getCognome().getText().isBlank() || framesAggiuntaAvventore.get(i).getNome().getText().isBlank()) controlloCampiNonVuoti = false;
+			if(!framesAggiuntaAvventore.get(i).getNtel().getText().isBlank()) controlloAlmenoUnTelefono = true;
+			if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", framesAggiuntaAvventore.get(i).getNtel().getText())) formatoNTelGiusto = false;
+			if(!Pattern.matches("C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]",framesAggiuntaAvventore.get(i).getCid().getText())) formatoCidGiusto =false;
+			i++;
+		}
+		i = 0;
+		while(i<framesAggiuntaAvventore.size() && !doppieCID)
+		{
+			for (int j = i+1 ; j< framesAggiuntaAvventore.size(); j++)
+			{
+				if (framesAggiuntaAvventore.get(i).getCid().getText().equals(framesAggiuntaAvventore.get(j).getCid().getText())) doppieCID = true;
+			}
+			i++;
+		}
+		
+		System.out.println("Campi vuoti ="+controlloCampiNonVuoti+" telefono = "+controlloAlmenoUnTelefono+" CID = "+formatoCidGiusto);
+		if(controlloCampiNonVuoti && controlloAlmenoUnTelefono && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi)
+		{
+			AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
+			ADAO.aggiungiNuovoavventoreAllaTavolata(tavoli.get(tavoloScelto).getId_Tavolo(), dataScelta, new Avventori(framesAggiuntaAvventore.get(0).getNome().getText(), framesAggiuntaAvventore.get(0).getCognome().getText(), framesAggiuntaAvventore.get(0).getCid().getText(), framesAggiuntaAvventore.get(0).getNtel().getText()));
+			framesAggiuntaAvventore.get(framesAggiuntaAvventore.size()-1).setVisible(false);
+			frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this, tavoli, tavoloScelto, dataScelta);
+		}
+		else
+		{
+		    throw new CampiNonCorrettiException();
+		}
+	}
+	
+	public void bottoneAggiungiCameriereInterfacciaVisualizzazioneOccupazione(ArrayList<Tavolo> tavoli, int tavoloScelto, String data)
+	{
+		frameVisualizzaOccupazione.setVisible(false);
+		frameSelezioneCamerieri = new InterfacciaSelezioneCamerieri(this,tavoli,tavoloScelto,data);
+		frameSelezioneCamerieri.setDiVisualizzazione(true);
+	}
+	
+	public void bottoneConfermaSelezioneCameriereDiVisualizzazione(ArrayList<Cameriere> lista,ArrayList<Tavolo> tavoli, int tavoloScelto,String dataScelta)
+	{
+		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
+		CDAO.inserimentoMultiploCamerieriInServizio(lista, dataScelta, tavoli.get(tavoloScelto));
+		frameSelezioneCamerieri.setVisible(false);
+		frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this,tavoli,tavoloScelto,dataScelta);
+	}
 }  

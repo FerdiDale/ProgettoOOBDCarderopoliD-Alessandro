@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -30,10 +31,15 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 	private JButton bottoneRimuoviCameriere;
 	private int indiceListaCamerieri = -1;
 	private int indiceListaAvventori = -1;
+	private JButton bottoneRimuoviAvventore;
+	private JButton bottoneAggiungiAvventore;
+	private JButton bottoneAggiungiCameriere;
 	
 	public InterfacciaVisualizzazioneOccupazione(Controller controller, ArrayList<Tavolo> tavoli, int tavoloScelto, String dataScelta) 
 	{
-		int scrematuraArray = 0;
+		super("Tavolata del tavolo "+ tavoli.get(tavoloScelto).getNumero()+" in data "+ dataScelta+".");
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 330);
 		getContentPane().setLayout(null);
@@ -61,9 +67,10 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		indicazioneCamerieri.setBounds(310, 20, 164, 14);
 		getContentPane().add(indicazioneCamerieri);
 		
-		JButton bottoneAggiungiCameriere = new JButton("Aggiungi cameriere");
+		bottoneAggiungiCameriere = new JButton("Aggiungi cameriere");
 		bottoneAggiungiCameriere.setBounds(310, 156, 164, 23);
 		getContentPane().add(bottoneAggiungiCameriere);
+		bottoneAggiungiCameriere.addActionListener(new GestioneBottoni());
 		
 		bottoneRimuoviCameriere = new JButton("Rimuovi cameriere");
 		bottoneRimuoviCameriere.setBounds(310, 190, 164, 23);
@@ -71,13 +78,15 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		bottoneRimuoviCameriere.setEnabled(false);
 		bottoneRimuoviCameriere.addActionListener(new GestioneBottoni());
 		
-		JButton bottoneAggiungiAvventore = new JButton("Aggiungi avventore");
+		bottoneAggiungiAvventore = new JButton("Aggiungi avventore");
 		bottoneAggiungiAvventore.setBounds(10, 156, 170, 23);
 		getContentPane().add(bottoneAggiungiAvventore);
+		bottoneAggiungiAvventore.addActionListener(new GestioneBottoni());
 		
-		JButton bottoneRimuoviAvventore = new JButton("Rimuovi avventore");
+		bottoneRimuoviAvventore = new JButton("Rimuovi avventore");
 		bottoneRimuoviAvventore.setBounds(10, 190, 170, 23);
 		getContentPane().add(bottoneRimuoviAvventore);
+		bottoneRimuoviAvventore.addActionListener(new GestioneBottoni());
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 257, 89, 23);
@@ -92,8 +101,11 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		modelloListaCameriere.removeAllElements();
 		modelloListaCameriere.addAll(arrayCameriere);
 		
+		listaAvventori.addListSelectionListener(new GestioneListe());
 		listaCamerieri.addListSelectionListener(new GestioneListe());
 		System.out.println(arrayAvventori+ " "+ arrayCameriere);
+		
+		
 		
 		setVisible(true);
 		setResizable(false);
@@ -116,6 +128,22 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 				modelloListaCameriere.addAll(arrayCameriere);
 			
 			}
+			else if(e.getSource() == bottoneRimuoviAvventore)
+			{
+				theController.bottoneRimuoviAvventoreVisualizzazioneOccupazione(dataScelta,tavoli.get(tavoloScelto).getId_Tavolo(), arrayAvventori.get(indiceListaAvventori));
+				arrayAvventori.remove(indiceListaAvventori);
+				modelloListaAvventori.removeAllElements();
+				modelloListaAvventori.addAll(arrayAvventori);
+				
+			}
+			else if(e.getSource() == bottoneAggiungiAvventore)
+			{
+				theController.bottoneAggiungiAvventoreVisualizzazioneOccupazione(dataScelta, tavoli, tavoloScelto);
+			}
+			else if(e.getSource() == bottoneAggiungiCameriere)
+			{
+				theController.bottoneAggiungiCameriereInterfacciaVisualizzazioneOccupazione(tavoli, tavoloScelto, dataScelta);
+			}
 		}
 	}
 	
@@ -134,9 +162,31 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 				{
 					bottoneRimuoviCameriere.setEnabled(true);
 					indiceListaCamerieri = listaCamerieri.getSelectedIndex();
+					listaAvventori.clearSelection();
+					indiceListaAvventori = -1;
+					bottoneRimuoviAvventore.setEnabled(false);
 				}
 				
 			}
+			else if (e.getSource() == listaAvventori)
+			{
+				if(listaAvventori.getSelectedIndex() == -1)
+				{
+					bottoneRimuoviAvventore.setEnabled(false);
+					indiceListaAvventori = -1;
+				}
+				else
+				{
+					listaCamerieri.clearSelection();;
+					bottoneRimuoviAvventore.setEnabled(true);
+					indiceListaAvventori = listaAvventori.getSelectedIndex();
+					System.out.println(indiceListaAvventori+ "     "+ listaAvventori);
+					indiceListaCamerieri = -1;
+					bottoneRimuoviCameriere.setEnabled(false);
+				}
+			}
+			if(arrayCameriere.size() == 1) bottoneRimuoviCameriere.setEnabled(false);
+			if(arrayAvventori.size() == 1) bottoneRimuoviAvventore.setEnabled(false);
 		}
 	}
 	

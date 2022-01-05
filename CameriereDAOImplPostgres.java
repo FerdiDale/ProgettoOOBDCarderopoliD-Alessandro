@@ -81,8 +81,8 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		}
 		catch (SQLException e)
 		{
-			OperazioneFallitaException ex = new OperazioneFallitaException();
-			ex.stampaMessaggio();
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 			return false;
 		}
 		
@@ -99,7 +99,7 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		catch(SQLException e)
 		{
 			if (e.getSQLState().equals("23514")) 
-				return "Data_Licenziamento_Precedente";
+				return "Data_Non_Valida";
 			else
 			{
 				OperazioneFallitaException ex = new OperazioneFallitaException();
@@ -114,17 +114,6 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-			ResultSet risultato = stmt.executeQuery("SELECT COUNT(*) "
-												+ "FROM Cameriere AS C "
-												+ "WHERE  C.CID_Cameriere = '" + c.getCID_Cameriere() + "'"
-												+ "AND C.Id_Ristorante = " + c.getRistorante().getId_Ristorante()+ "; ");
-			risultato.next();
-			if(risultato.getInt(1)!=0){
-				
-				return "CID_Gia_Presente";
-				
-				}
-			
 			stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
 			+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getRistorante().getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
 			return "Nessun_Errore";
@@ -135,13 +124,9 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 			{
 				return "CID_Non_Valido";
 			}
-			else if (e.getSQLState().equals("42601")) 
+			else
 			{
-				return "NomeCognome_Non_Validi";
-			}
-			else 
-			{
-				return "Problema_Di_Connessione";
+				return "Data_Non_Valida";
 			}
 		}
 	}
@@ -183,12 +168,12 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		}
 	}
 	
-	public ArrayList<Cameriere> camerieriAssegnabiliAlTavoloInData(String data)
+	public ArrayList<Cameriere> camerieriAssegnabiliAlTavoloInData(String data, Ristorante ristorante)
 	{
 		ArrayList<Cameriere> risultato = new ArrayList<Cameriere>();
 		try
 		{
-			ResultSet rs = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select id_cameriere,cid_cameriere,nome,cognome from cameriere where data_ammissione<= '"+data+"' AND (data_licenziamento is null OR data_licenziamento >= '"+data+"');" );
+			ResultSet rs = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select id_cameriere,cid_cameriere,nome,cognome from cameriere where data_ammissione<= '"+data+"' AND (data_licenziamento is null OR data_licenziamento >= '"+data+"') AND Id_ristorante = "+ristorante.getId_Ristorante()+";");
 			while(rs.next())
 			{
 				risultato.add(new Cameriere(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
@@ -203,7 +188,7 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 	}
 
 	
-	public void inserimentoMultiploCamerieriInServizio(int[] indiciCamerieri, ArrayList<Cameriere> listaCamerieri,
+	public void inserimentoMultiploCamerieriInServizio(ArrayList<Cameriere> listaCamerieri,
 			String data, Tavolo tavolo)
 	{
 		
@@ -216,17 +201,17 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		}	
 		catch(SQLException e)
 		{
-			
+			JOptionPane.showMessageDialog(null,e);
 		}
-		for(int i= 0; i< indiciCamerieri.length; i++)
+		for(int i= 0; i< listaCamerieri.size(); i++)
 		{
 			try
 			{
-				DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO servizio values("+listaCamerieri.get(indiciCamerieri[i]).getId_Cameriere()+","+tavolata+");");
+				DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO servizio values("+listaCamerieri.get(i).getId_Cameriere()+","+tavolata+");");
 			}
 			catch(SQLException e)
 			{
-				
+				JOptionPane.showMessageDialog(null,e);
 			}
 		}
 	}
