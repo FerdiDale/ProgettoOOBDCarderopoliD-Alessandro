@@ -12,6 +12,8 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +28,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 
 	private JButton bottoneSet;
 	private JTextField textFieldData;
-  private JCalendar calendar; 
+	private JCalendar calendar; 
 	private JLabel istruzioni2;
 	private JLabel istruzioni3;
 	private JLabel istruzioni4;
@@ -39,6 +41,9 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 302, 268);
 		getContentPane().setLayout(null);
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		
 		this.tavoli= tavoli;
 		this.theController = controller;
 		bottoneSet = new JButton("Set");
@@ -98,7 +103,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		{
 			if(e.getSource() == bottoneSet)
 			{
-				textFieldData.setText(String.format("%d-%d-%d",calendar.getDate().getYear()+1900, calendar.getDate().getMonth()+1,calendar.getDayChooser().getDay()));
+				textFieldData.setText(String.format("%s-%s-%s",calendar.getDate().getYear()+1900 <=9 ? String.format("000%d",calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=99? String.format("00%d", calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=999? String.format("0%d", calendar.getDate().getYear()+1900): String.format("%d", calendar.getDate().getYear()+1900) , calendar.getDate().getMonth()+1<=9? String.format("0%d", calendar.getDate().getMonth()+1) : String.format("%d",calendar.getDate().getMonth()+1),calendar.getDayChooser().getDay()<=9? String.format("0%d",calendar.getDayChooser().getDay()): String.format("%d",calendar.getDayChooser().getDay())));
 			}
 			else if(e.getSource()== goNext)
 			{
@@ -108,7 +113,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 			}
 			else if(e.getSource() == bottoneIndietro)
 			{
-				theController.bottoneIndietroInterfacciaSelezioneDataGestioneOccupazionePremuto(tavoli.get(1).getSala_App());
+				theController.bottoneIndietroInterfacciaSelezioneDataGestioneOccupazionePremuto(tavoli.get(0).getSala_App());
 			}
 		}
 	}

@@ -22,6 +22,7 @@ import java.awt.Cursor;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class InterfacciaAggiuntaTavoli extends JFrame {
@@ -55,6 +56,9 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 515);
 		getContentPane().setLayout(null);
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		
 		this.theController = controller;
 		tavoloDaAggiungere.setCapacita(tavoloNuovo.getCapacita());
 		tavoloDaAggiungere.setNumero(tavoloNuovo.getNumero());

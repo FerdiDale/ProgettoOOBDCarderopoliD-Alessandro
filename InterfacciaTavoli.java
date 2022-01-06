@@ -111,6 +111,11 @@ public class InterfacciaTavoli extends JFrame
 			numeri.add(tavoloCurr);
 		}
 		
+		if(tavoli.size() == 0)
+		{
+			bottoneGestisciOccupazione.setEnabled(false);
+		}
+		
 		GestioneBottoni handlerB = new GestioneBottoni();
 		
 		bottoneAggiuntaTavolo.addActionListener(handlerB);
@@ -154,10 +159,6 @@ public class InterfacciaTavoli extends JFrame
 				else if(e.getSource() == bottoneEliminaTavolo)
 				{
 					theController.bottoneEliminaTavoloPremuto(trovaTavoloAssociato(numeroTavoloSelezionato));
-					bottoneGestisciAdiacenze.setEnabled(false);
-					bottoneEliminaTavolo.setEnabled(false);
-					bottoneModificaDatiTavolo.setEnabled(false);
-					tavoli.remove(trovaTavoloAssociato(numeroTavoloSelezionato));
 					areaDiDisegno.remove(trovaLabelTavoloAssociato(numeroTavoloSelezionato));	
 					areaDiDisegno.validate();
 					areaDiDisegno.repaint();

@@ -17,9 +17,9 @@ public interface CameriereDAO
 	
 	public ArrayList<Cameriere> camerieriInServizioAlTavoloInData(int idTavolo, String data);
 	
-	public ArrayList<Cameriere> camerieriAssegnabiliAlTavoloInData(String data);
-	
-	public void inserimentoMultiploCamerieriInServizio(int[] indiciCamerieri, ArrayList<Cameriere> listaCamerieri, String data, Tavolo tavolo);
+	public ArrayList<Cameriere> camerieriAssegnabiliAlTavoloInData(String data, Ristorante ristorante);
 	
 	public boolean cameriereOccupatoDopoDiData (Cameriere cameriere, String data);
+
+	public void inserimentoMultiploCamerieriInServizio(ArrayList<Cameriere> listaCamerieri, String data, Tavolo tavolo);
 }

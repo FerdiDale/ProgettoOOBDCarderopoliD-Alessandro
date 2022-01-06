@@ -17,7 +17,7 @@ public class DB_Builder
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
-			//devono essere tutti minuscoli, altrimenti dara'  errore
+			//devono essere tutti minuscoli, altrimenti dara'ï¿½ errore
 			//(database non esistente)
 			conn.close();
 		}
@@ -28,7 +28,7 @@ public class DB_Builder
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gia'  esistente
+			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gia'ï¿½ esistente
 			else 
 			{
 				JOptionPane.showMessageDialog(null,"C'e' stato un errore, il database non e' stato creato correttamente\n"
