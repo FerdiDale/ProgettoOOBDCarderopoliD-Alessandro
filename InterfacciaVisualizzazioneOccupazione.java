@@ -152,7 +152,10 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 			}
 			else if(e.getSource() == bottoneAggiungiAvventore)
 			{
-				theController.bottoneAggiungiAvventoreVisualizzazioneOccupazione(dataScelta, tavoli, tavoloScelto);
+				ArrayList<String> avventoriAlTavolo = new ArrayList<String>();
+				for (int i = 0; i<arrayAvventori.size();i++) avventoriAlTavolo.add(arrayAvventori.get(i).getN_CID());
+				System.out.println(avventoriAlTavolo);
+				theController.bottoneAggiungiAvventoreVisualizzazioneOccupazione(dataScelta, tavoli, tavoloScelto,avventoriAlTavolo);
 			}
 			else if(e.getSource() == bottoneAggiungiCameriere)
 			{

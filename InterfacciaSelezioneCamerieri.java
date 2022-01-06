@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import java.awt.Color;
 
 public class InterfacciaSelezioneCamerieri extends JFrame 
 {
@@ -37,9 +38,13 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 	private JButton bottoneRimuoviDaiSelezionati;
 	private boolean diVisualizzazione = false;
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public InterfacciaSelezioneCamerieri(Controller controller, ArrayList<Tavolo> tavoli, int tavoloScelto, String data) 
 	{
 		super("Selezione camerieri disponibili in data "+ data);
+		getContentPane().setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 435, 250);
 		getContentPane().setLayout(null);
@@ -72,6 +77,7 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		JScrollPane scrollPaneSelezionati = new JScrollPane();
 		scrollPaneSelezionati.setBounds(239, 41, 170, 119);
 		getContentPane().add(scrollPaneSelezionati);
+		listaCamerieriSelezionati.setBackground(Color.WHITE);
 		
 		scrollPaneSelezionati.setViewportView(listaCamerieriSelezionati);
 		

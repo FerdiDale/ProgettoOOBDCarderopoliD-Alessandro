@@ -32,6 +32,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	private JButton bottoneIndietro;
 	private int dimTot;
 	private boolean diVisualizzazione = false;
+	private ArrayList<String> avventoriDelTavolo;
 	
 
 	public InterfacciaAggiuntaDatiAvventore(Controller controller, int indice, ArrayList<Tavolo> tavoli, int tavoloScelto, String data) 
@@ -133,6 +134,108 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		setResizable(false);
 	}
 	
+	public InterfacciaAggiuntaDatiAvventore(Controller controller, int indice, ArrayList<Tavolo> tavoli, int tavoloScelto, String data, ArrayList<String> avventoriDelTavolo) 
+	{
+		super("Inserimento dati avventore "+ (indice+1));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 380, 220);
+		getContentPane().setLayout(null);
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		
+		this.tavoloScelto = tavoloScelto;
+		this.tavoli = tavoli;
+		this.theController = controller;
+		this.indice = indice;
+		this.data = data;
+		this.diVisualizzazione= true;
+		this.avventoriDelTavolo = avventoriDelTavolo;
+		nome = new JTextField();
+		nome.setBounds(30, 40, 86, 20);
+		getContentPane().add(nome);
+		nome.setColumns(10);
+		JLabel etichettaNome = new JLabel("Nome");
+		etichettaNome.setBounds(30, 15, 61, 14);
+		getContentPane().add(etichettaNome);
+		
+		cognome = new JTextField();
+		cognome.setBounds(30, 100, 86, 20);
+		getContentPane().add(cognome);
+		cognome.setColumns(10);
+		
+		JLabel etichettaCognome = new JLabel("Cognome");
+		etichettaCognome.setBounds(30, 71, 79, 14);
+		getContentPane().add(etichettaCognome);
+		
+		cid = new JTextField();
+		cid.setBounds(180, 40, 86, 20);
+		getContentPane().add(cid);
+		cid.setColumns(10);
+		
+		JLabel etichettaCid = new JLabel("Numero CID");
+		etichettaCid.setBounds(180, 15, 72, 14);
+		getContentPane().add(etichettaCid);
+		
+		ntel = new JTextField();
+		ntel.setBounds(180, 100, 86, 20);
+		getContentPane().add(ntel);
+		ntel.setColumns(10);
+		
+		JLabel etichettaNTel = new JLabel("Numero di telefono");
+		etichettaNTel.setBounds(180, 71, 119, 14);
+		getContentPane().add(etichettaNTel);
+		
+		prossimoAvventore = new JButton("Prossimo");
+		prossimoAvventore.setBounds(237, 147, 117, 23);
+		getContentPane().add(prossimoAvventore);
+		
+		avventorePrecedente = new JButton("Precedente");
+		avventorePrecedente.setBounds(109, 147, 105, 23);
+		getContentPane().add(avventorePrecedente);
+		
+		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBounds(10, 147, 89, 23);
+		getContentPane().add(bottoneIndietro);
+		
+		contaNome = new JLabel("0");
+		contaNome.setBounds(124, 40, 46, 23);
+		getContentPane().add(contaNome);
+		
+		contaCognome = new JLabel("0");
+		contaCognome.setBounds(124, 103, 46, 14);
+		getContentPane().add(contaCognome);
+		
+		contaCid = new JLabel("0");
+		contaCid.setBounds(276, 43, 46, 14);
+		getContentPane().add(contaCid);
+		
+		contaNtel = new JLabel("0");
+		contaNtel.setBounds(276, 103, 46, 14);
+		getContentPane().add(contaNtel);
+		bottoneIndietro.addActionListener(new GestioneBottoni());
+		prossimoAvventore.addActionListener(new GestioneBottoni());
+		avventorePrecedente.addActionListener(new GestioneBottoni());
+	
+		if(indice == 0 ) 
+		{
+			avventorePrecedente.setEnabled(false);
+			avventorePrecedente.setVisible(false);
+		}
+		
+		
+		nome.addKeyListener(new GestoreConta());
+		cognome.addKeyListener(new GestoreConta());
+		cid.addKeyListener(new GestoreConta());
+		ntel.addKeyListener(new GestoreConta());
+		nome.setFocusable(true);
+		cognome.setFocusable(true);
+		ntel.setFocusable(true);
+		cid.setFocusable(true);
+		
+		setResizable(false);
+	}
+	
+	
 	public void impostaBottoniCorretti(int dimTot)
 	{
 		if (indice == dimTot-1)
@@ -175,8 +278,8 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 						{
 							
 							try
-							{
-								theController.bottoneConfermaAggiuntaAvventoriPremuto(tavoli, tavoloScelto, data);
+							{	
+								theController.bottoneConfermaAggiuntaAvventoriPremuto(tavoli, tavoloScelto, data);		
 							}
 							catch(CampiNonCorrettiException c)
 							{
@@ -192,7 +295,8 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 							{
 								try 
 								{
-									theController.bottoneConfermaAggiuntaAvventoreDiVisualizzazionePremuto(tavoli, tavoloScelto, data);
+									if(avventoriDelTavolo.contains(cid.getText())) JOptionPane.showMessageDialog(null,"Esiste gia un avventore con lo stesso numero CID nella tavolata corrente!","Errore!", JOptionPane.ERROR_MESSAGE);
+									else theController.bottoneConfermaAggiuntaAvventoreDiVisualizzazionePremuto(tavoli, tavoloScelto, data);	
 								} catch (CampiNonCorrettiException e2) 
 								{
 									e2.stampaMessaggio();

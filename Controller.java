@@ -654,13 +654,12 @@ public class Controller {
 		ADAO.rimuoviAvventoreDaElencoAvventori(id_tavolo, data, avventore);
 	}
 	
-	public void bottoneAggiungiAvventoreVisualizzazioneOccupazione(String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
+	public void bottoneAggiungiAvventoreVisualizzazioneOccupazione(String data, ArrayList<Tavolo> tavoli, int tavoloScelto,ArrayList<String> avventoriDelTavolo)
 	{
 		frameVisualizzaOccupazione.setVisible(false);
 		framesAggiuntaAvventore = new ArrayList<InterfacciaAggiuntaDatiAvventore>();
-		framesAggiuntaAvventore.add(new InterfacciaAggiuntaDatiAvventore(this,0, tavoli, tavoloScelto, data));
+		framesAggiuntaAvventore.add(new InterfacciaAggiuntaDatiAvventore(this,0, tavoli, tavoloScelto, data, avventoriDelTavolo));
 		framesAggiuntaAvventore.get(0).impostaBottoniCorretti(framesAggiuntaAvventore.size());
-		framesAggiuntaAvventore.get(0).setDiVisualizzazione(true);
 		framesAggiuntaAvventore.get(0).setVisible(true);
 	}
 	

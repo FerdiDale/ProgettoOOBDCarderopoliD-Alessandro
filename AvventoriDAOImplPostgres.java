@@ -70,7 +70,7 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 			}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, "Aggiunta degli avventori all'elenco avventori "+ e);
+			
 		}
 		
 	}
