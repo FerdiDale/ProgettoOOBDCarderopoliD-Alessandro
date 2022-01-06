@@ -215,33 +215,5 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 			}
 		}
 	}
-	
-	public boolean cameriereOccupatoDopoDiData(Cameriere cameriere, String data) {
-		
-		String ultimaOccupazione = null;
-		
-		try
-		{
-			ResultSet risultato = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT MAX (T.Data) FROM Servizio AS S NATURAL JOIN Tavolata AS T WHERE S.Id_Cameriere = "+ cameriere.getId_Cameriere() +" AND T.Data >= '"+data+"';");
-			risultato.next();
-			ultimaOccupazione = risultato.getString(1);
-		}
-		catch(SQLException e)
-		{
-			JOptionPane.showMessageDialog(null, e);
-		}
-		
-		if (ultimaOccupazione == null)
-			return false;
-		else {
-			
-			JOptionPane.showMessageDialog(null, "Questo cameriere e' gia' occupato per servire un tavolo "
-					+ "\nnel giorno " + ultimaOccupazione + " !", "Errore!", JOptionPane.ERROR_MESSAGE);
-
-			return true;
-			
-		}
-		
-	}
 		
 }

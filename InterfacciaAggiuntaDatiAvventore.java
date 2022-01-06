@@ -256,7 +256,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		
 					if(!ntel.getText().isBlank())
 					{						
-						if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",ntel.getText()))	intero = true;
+						if(Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",ntel.getText()))	intero = true;
 						else intero = false;
 					}
 					else

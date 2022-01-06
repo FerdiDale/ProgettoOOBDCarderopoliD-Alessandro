@@ -482,7 +482,7 @@ public class Controller {
 			if(framesAggiuntaAvventore.get(i).getNome().getText().contains(new StringBuffer("'")) || framesAggiuntaAvventore.get(i).getCognome().getText().contains(new StringBuffer("'"))) noApostrofi = false;
 			if(framesAggiuntaAvventore.get(i).getCid().getText().isBlank() || framesAggiuntaAvventore.get(i).getCognome().getText().isBlank() || framesAggiuntaAvventore.get(i).getNome().getText().isBlank()) controlloCampiNonVuoti = false;
 			if(!framesAggiuntaAvventore.get(i).getNtel().getText().isBlank()) controlloAlmenoUnTelefono = true;
-			if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", framesAggiuntaAvventore.get(i).getNtel().getText())) formatoNTelGiusto = false;
+			if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", framesAggiuntaAvventore.get(i).getNtel().getText()) && !framesAggiuntaAvventore.get(i).getNtel().getText().isEmpty()) formatoNTelGiusto = false;
 			if(!Pattern.matches("C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]",framesAggiuntaAvventore.get(i).getCid().getText())) formatoCidGiusto =false;
 			i++;
 		}
@@ -667,9 +667,9 @@ public class Controller {
 	{
 		int i=0;
 		boolean controlloCampiNonVuoti = true;
-		boolean controlloAlmenoUnTelefono = false;
 		boolean formatoNTelGiusto = true;
 		boolean noApostrofi = true;
+		boolean controlloAlmenoUnTelefono = false;
 		boolean formatoCidGiusto = true;
 		boolean doppieCID= false;
 		while(i<framesAggiuntaAvventore.size() && controlloCampiNonVuoti && formatoCidGiusto && formatoNTelGiusto && noApostrofi)
@@ -677,7 +677,7 @@ public class Controller {
 			if(framesAggiuntaAvventore.get(i).getNome().getText().contains(new StringBuffer("'")) || framesAggiuntaAvventore.get(i).getCognome().getText().contains(new StringBuffer("'"))) noApostrofi = false;
 			if(framesAggiuntaAvventore.get(i).getCid().getText().isBlank() || framesAggiuntaAvventore.get(i).getCognome().getText().isBlank() || framesAggiuntaAvventore.get(i).getNome().getText().isBlank()) controlloCampiNonVuoti = false;
 			if(!framesAggiuntaAvventore.get(i).getNtel().getText().isBlank()) controlloAlmenoUnTelefono = true;
-			if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", framesAggiuntaAvventore.get(i).getNtel().getText())) formatoNTelGiusto = false;
+			if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", framesAggiuntaAvventore.get(i).getNtel().getText()) && !framesAggiuntaAvventore.get(i).getNtel().getText().isEmpty()) formatoNTelGiusto = false;
 			if(!Pattern.matches("C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]",framesAggiuntaAvventore.get(i).getCid().getText())) formatoCidGiusto =false;
 			i++;
 		}
@@ -691,8 +691,8 @@ public class Controller {
 			i++;
 		}
 		
-		System.out.println("Campi vuoti ="+controlloCampiNonVuoti+" telefono = "+controlloAlmenoUnTelefono+" CID = "+formatoCidGiusto);
-		if(controlloCampiNonVuoti && controlloAlmenoUnTelefono && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi)
+		System.out.println("Campi vuoti ="+controlloCampiNonVuoti+" CID = "+formatoCidGiusto);
+		if(controlloCampiNonVuoti  && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi && controlloAlmenoUnTelefono)
 		{
 			AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
 			ADAO.aggiungiNuovoavventoreAllaTavolata(tavoli.get(tavoloScelto).getId_Tavolo(), dataScelta, new Avventori(framesAggiuntaAvventore.get(0).getNome().getText(), framesAggiuntaAvventore.get(0).getCognome().getText(), framesAggiuntaAvventore.get(0).getCid().getText(), framesAggiuntaAvventore.get(0).getNtel().getText()));

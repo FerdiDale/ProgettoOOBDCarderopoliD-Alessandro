@@ -16,12 +16,13 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 																									+ "WHERE TA.Id_Tavolo = "+tavolo.getId_Tavolo()+" AND TA.data = '"+data+"' AND EA.Id_Tavolata = TA.Id_Tavolata AND AV.N_Cid = EA.N_Cid;");
 			while(rs.next())
 			{
-				risultato.add(new Avventori(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)));
+				
+				risultato.add(new Avventori(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4) == null ? "" : rs.getString(4)));
 			}
 			return risultato;
 		}
 		catch(SQLException e)
-		{
+		{ 
 			JOptionPane.showMessageDialog(null, e);
 			return risultato;
 		}
@@ -30,7 +31,22 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 	
 	public void inserimentoMultiploAvventori(ArrayList<InterfacciaAggiuntaDatiAvventore> lista)
 	{
-		String queryTotaleAvventori= "INSERT INTO avventori VALUES(";
+		boolean presente;
+		boolean ntel;
+		boolean nontel;
+		int counterAvventoriNtelIniziali = 0;
+		int counterAvventoriNoNtelIniziali = 0;
+		int counterAvventoriNtel;
+		int counterAvventoriNoNtel;
+		for(int i = 0; i<lista.size();i++)
+		{
+			if(lista.get(i).getNtel().getText().isBlank()) counterAvventoriNoNtelIniziali++;
+			else counterAvventoriNtelIniziali++;
+		}
+		counterAvventoriNoNtel = counterAvventoriNoNtelIniziali;
+		counterAvventoriNtel = counterAvventoriNtelIniziali;
+		String queryTotaleAvventoriNoNTel = "INSERT INTO avventori VALUES(";
+		String queryTotaleAvventoriConNTel= "INSERT INTO avventori VALUES(";
 		String queryTotaleElencoAvventori = "INSERT INTO elenco_avventori VALUES(";
 		ResultSet prova;
 		int tavolata=-1;
@@ -45,32 +61,53 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 			JOptionPane.showMessageDialog(null, "Ricerca tavolata in avventori "+ e);
 		}
 		for(int i = 0; i< lista.size();i++)
-			try
-			{
-				prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
-				prova.next();
-				if(prova.getInt(1)<1) 
-					{
-						if(lista.get(i).getNtel().getText().isBlank()) queryTotaleAvventori = queryTotaleAvventori+"'"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"')";
-						else queryTotaleAvventori = queryTotaleAvventori +"'"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"','"+lista.get(i).getNtel().getText()+"')";
-					}
-				 queryTotaleElencoAvventori = queryTotaleElencoAvventori +tavolata+",'"+lista.get(i).getCid().getText()+"')";
-				 if(i == lista.size()-1)
-				 {
-					 queryTotaleElencoAvventori = queryTotaleElencoAvventori + ";";
-					 queryTotaleAvventori = queryTotaleAvventori + ";";
-					 DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleAvventori);
-					 DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleElencoAvventori);
-				 }
-				 else
-				 {
-					 queryTotaleElencoAvventori = queryTotaleElencoAvventori + " ,(";
-					 queryTotaleAvventori = queryTotaleAvventori+" ,(";
-				 }
-			}
-		catch(SQLException e)
 		{
-			
+				try
+				{
+					presente = true;
+					ntel= false;
+					nontel= false;
+					prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+					prova.next();
+					if(prova.getInt(1)<1) 
+						{
+							presente = false;
+							if(lista.get(i).getNtel().getText().isBlank()) 
+								{
+									nontel= true;
+									counterAvventoriNoNtel--;
+									queryTotaleAvventoriNoNTel = queryTotaleAvventoriNoNTel+"'"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"')";
+								}
+							else 
+								{
+									ntel= true;
+									counterAvventoriNtel--;
+									queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel +"'"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"','"+lista.get(i).getNtel().getText()+"')";
+								}
+						}
+					 if(presente) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE avventori SET n_tel = '"+lista.get(i).getNtel().getText()+"' WHERE n_cid = '"+lista.get(i).getCid().getText()+"';");
+					 queryTotaleElencoAvventori = queryTotaleElencoAvventori +tavolata+",'"+lista.get(i).getCid().getText()+"')";
+								
+					
+					if(counterAvventoriNtel>0 && ntel) queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel+" ,(";
+					else if(counterAvventoriNtel == 0 && ntel) queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel+";";
+					if(counterAvventoriNoNtel>0 && nontel) queryTotaleAvventoriNoNTel = queryTotaleAvventoriNoNTel + " ,(";
+					else if(counterAvventoriNoNtel == 0 && nontel) queryTotaleAvventoriNoNTel = queryTotaleAvventoriNoNTel + ";";
+					 if(i == lista.size()-1)
+					 {
+						 queryTotaleElencoAvventori = queryTotaleElencoAvventori + ";";
+						 System.out.println(queryTotaleAvventoriConNTel+"\n"+queryTotaleAvventoriNoNTel+"\n"+queryTotaleElencoAvventori);
+						 if(counterAvventoriNtelIniziali>0) DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleAvventoriConNTel);
+						 if(counterAvventoriNoNtelIniziali>0) DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleAvventoriNoNTel);
+						 DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleElencoAvventori);
+					 }
+					 else queryTotaleElencoAvventori = queryTotaleElencoAvventori + " ,(";
+				
+				}
+			catch(SQLException e)
+			{
+				JOptionPane.showMessageDialog(null, e);
+			}
 		}
 		
 	}

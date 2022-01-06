@@ -56,40 +56,10 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("23505")){
-				NomeSalaUgualeException ecc = new NomeSalaUgualeException();
-				ecc.stampaMessaggio();
-			}
-			else if (e.getSQLState().equals("42601")) 
-			{
-				StringheNonValideException ecc = new StringheNonValideException();
-				ecc.stampaMessaggio();
-			}
+			if (e.getSQLState().equals("23505"))
+				JOptionPane.showMessageDialog(null,"Questo nome e' gia' utilizzato per un'altra sala di questo ristorante!","Attenzione!",JOptionPane.WARNING_MESSAGE);
 			else
-				JOptionPane.showMessageDialog(null,"L'inserimento non e' andato a buon fine. Si prega di riprovare","Errore!",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,"L'inserimento non e' andato a buon fine. Si prega di riavviare l'applicativo e riprovare"+e.getSQLState(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
-	}
-	public void modificaSala(String nome, Sala sala) {
-		try 
-		{
-			Connection c = DB_Connection.getInstance().getConnection();
-			Statement stmt = c.createStatement();
-			stmt.executeUpdate("UPDATE SALA AS S SET Nome = '" + nome + "' WHERE S.Id_Sala = " + sala.getId_Sala() + " ;");
-		}
-		catch(SQLException e)
-		{
-			if (e.getSQLState().equals("23505")) {
-				NomeSalaUgualeException ecc = new NomeSalaUgualeException();
-				ecc.stampaMessaggio();
-			}
-			else if (e.getSQLState().equals("42601")) 
-			{
-				StringheNonValideException ecc = new StringheNonValideException();
-				ecc.stampaMessaggio();
-			}
-			else
-				JOptionPane.showMessageDialog(null,"La modifica non e' andato a buon fine. Si prega di riprovare"+e.getSQLState(),"Errore!",JOptionPane.ERROR_MESSAGE);
-		}
-		
 	}	
 }

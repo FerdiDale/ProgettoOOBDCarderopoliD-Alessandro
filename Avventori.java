@@ -4,7 +4,7 @@ public class Avventori
 	private String Nome;
 	private String Cognome;
 	private String N_CID;
-	private String N_tel;
+	private String N_tel = new String();
 	
 	public Avventori(String nome, String cognome, String n_CID, String n_tel) 
 	{
@@ -17,7 +17,7 @@ public class Avventori
 	
 	public String toString()
 	{
-		return Nome+" "+Cognome+" "+N_CID;
+		return "<html>"+Nome+" "+Cognome+" "+N_CID+ ( N_tel.isEmpty()? "" : "<bold> N. telefono</bold>= <italic>"+N_tel+"</italic> </html>");
 	}
 
 	public String getNome() {

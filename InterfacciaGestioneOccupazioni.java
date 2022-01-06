@@ -40,6 +40,8 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 	private int indiceTavoloSelezionato;
 	private boolean intero;
 	private JLabel iconaInformazioni;
+	private boolean occupato = true;
+	
 	public InterfacciaGestioneOccupazioni(Controller controller,ArrayList<Tavolo> tavoli, String data) 
 	{
 		super("Occupazioni della sala "+tavoli.get(0).getSala_App().getNome()+" del "+ data);
@@ -180,8 +182,8 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 	{
 		boolean tavolo = false;
 		boolean aggiustato = false;
-		boolean occupato = false;
 		int controllo = 0;
+		occupato  = false;
 		if(e.getSource() == background)
 		{
 			vediOccupazione.setEnabled(false);
@@ -298,7 +300,7 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 				intero = false;
 			}
 			
-			if(numeroTavoloSelezionato != 0 && intero) occupaTavolo.setEnabled(true);
+			if(numeroTavoloSelezionato != 0 && intero && !occupato) occupaTavolo.setEnabled(true);
 			
 			else occupaTavolo.setEnabled(false);
 			

@@ -110,24 +110,20 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 					dataCorrente = textFieldData.getText();
 					
 					if (licenziamento) {
-						
-						if (!theController.presentiOccupazioniDiCameriereDopoData(cameriereScelto, dataCorrente)) 
+						System.out.println(cameriereScelto);
+						System.out.println(dataCorrente);
+						String esito = theController.bottoneLicenziaCamerierePremuto(cameriereScelto ,dataCorrente);
+						if(esito.equals("Tutto_Bene"))
 						{
-							
-							String esito = theController.bottoneLicenziaCamerierePremuto(cameriereScelto ,dataCorrente);
-							if(esito.equals("Tutto_Bene"))
-							{
-								theController.confermaSceltaDataCameriere(riferimentoFinestra);
-							}
-							else if(esito.equals("Operazione_Fallita"))
-							{
-								//E' gestito gia' dal DAO
-							}
-							else if (esito.equals("Data_Licenziamento_Precedente"))
-							{
-								JOptionPane.showMessageDialog(null, "Non si puo' licenziare un cameriere prima della sua data di assunzione!("+cameriereScelto.getData_Ammissione()+")", "Informazione", JOptionPane.INFORMATION_MESSAGE);
-							}
-						
+							theController.confermaSceltaDataCameriere(riferimentoFinestra);
+						}
+						else if(esito.equals("Operazione_Fallita"))
+						{
+							//E' gestito gia' dal DAO
+						}
+						else if (esito.equals("Data_Licenziamento_Precedente"))
+						{
+							JOptionPane.showMessageDialog(null, "Non si puo' licenziare un cameriere prima della sua data di assunzione!("+cameriereScelto.getData_Ammissione()+")", "Informazione", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 					else 
