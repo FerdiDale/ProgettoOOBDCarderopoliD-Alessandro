@@ -100,6 +100,82 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		setResizable(false);
 	}
 	
+	public InterfacciaSelezioneCamerieri(Controller controller, ArrayList<Tavolo> tavoli, int tavoloScelto, String data, ArrayList<Integer> camerieriGiaPresenti) 
+	{
+		super("Selezione camerieri disponibili in data "+ data);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 435, 250);
+		getContentPane().setLayout(null);
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		this.data = data;
+		this.tavoli = tavoli;
+		this.theController = controller;
+		this.tavoloScelto = tavoloScelto;
+		this.diVisualizzazione = true;
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 41, 170, 119);
+		getContentPane().add(scrollPane);
+		scrollPane.setViewportView(listaCamerieri);
+		
+		bottoneConfermaSelezione = new JButton("Conferma");
+		bottoneConfermaSelezione.setBounds(274, 178, 101, 23);
+		getContentPane().add(bottoneConfermaSelezione);
+		bottoneConfermaSelezione.addActionListener(new GestoreBottoni());
+	
+		
+		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBounds(10, 178, 89, 23);
+		getContentPane().add(bottoneIndietro);
+		
+		bottoneIndietro.addActionListener(new GestoreBottoni());
+		etichettaCamerieri = new JLabel("Camerieri disponibili");
+		etichettaCamerieri.setBounds(10, 16, 153, 14);
+		getContentPane().add(etichettaCamerieri);
+		
+		JScrollPane scrollPaneSelezionati = new JScrollPane();
+		scrollPaneSelezionati.setBounds(239, 41, 170, 119);
+		getContentPane().add(scrollPaneSelezionati);
+		
+		scrollPaneSelezionati.setViewportView(listaCamerieriSelezionati);
+		
+		bottoneAggiungiAiSelezionati = new JButton(">");
+		bottoneAggiungiAiSelezionati.setBounds(187, 73, 45, 23);
+		getContentPane().add(bottoneAggiungiAiSelezionati);
+		
+		bottoneRimuoviDaiSelezionati = new JButton("<");
+		bottoneRimuoviDaiSelezionati.setBounds(187, 115, 45, 23);
+		getContentPane().add(bottoneRimuoviDaiSelezionati);
+		
+		bottoneAggiungiAiSelezionati.addActionListener(new GestoreBottoni());
+		bottoneRimuoviDaiSelezionati.addActionListener(new GestoreBottoni());
+		
+		listaCamerieri.addListSelectionListener(new GestoreLista());
+		listaCamerieriSelezionati.addListSelectionListener(new GestoreLista());
+		
+		bottoneAggiungiAiSelezionati.setEnabled(false);
+		bottoneRimuoviDaiSelezionati.setEnabled(false);
+	
+	
+		arrayCameriere = theController.estraiCamerieriAssegnabili(data,tavoli.get(tavoloScelto).getSala_App().getRistoranteDiAppartenenza());
+		
+		if (diVisualizzazione)
+		{
+			for(int j=0;j<arrayCameriere.size();j++)
+			{
+				if(camerieriGiaPresenti.contains(arrayCameriere.get(j).getId_Cameriere()))
+				{
+					arrayCameriere.remove(j);
+				}
+			}
+		}
+		
+		modelloListaCameriere.addAll(arrayCameriere);
+		
+		setVisible(true);
+		setResizable(false);
+	}
+	
 	private class GestoreLista implements ListSelectionListener
 	{
 		public void valueChanged(ListSelectionEvent e)
@@ -126,7 +202,7 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 			}	
 			else if(e.getSource() == bottoneConfermaSelezione)
 			{
-				if(diVisualizzazione) theController.bottoneConfermaSelezioneCamerieriPremuto(arrayCameriereSelezionati, data, tavoli, tavoloScelto);
+				if(diVisualizzazione) theController.bottoneConfermaSelezioneCameriereDiVisualizzazione(arrayCameriereSelezionati, tavoli, tavoloScelto, data);
 				else theController.bottoneConfermaSelezioneCamerieriPremuto(arrayCameriereSelezionati, data, tavoli, tavoloScelto);
 			}
 			else if(e.getSource() == bottoneAggiungiAiSelezionati)

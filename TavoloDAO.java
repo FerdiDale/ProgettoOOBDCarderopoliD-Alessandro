@@ -11,5 +11,5 @@ public interface TavoloDAO
 	public void rimpiazzaAdiacenze(Tavolo tavoloProtagonista) throws OperazioneFallitaException;
 	public void modificaDatiTavolo(Tavolo tavoloScelto, int numeroCorrente, int capacitaCorrente) throws OperazioneFallitaException, TavoloNumeroUgualeException;
 	public void eliminaTavolo(Tavolo tavolo) throws OperazioneFallitaException;
-	//public ArrayList<Tavolo> tavoliOccupatiInData(String data, Sala sala);
+	
 }

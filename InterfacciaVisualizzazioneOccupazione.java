@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,6 +32,7 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 	private JButton bottoneRimuoviCameriere;
 	private int indiceListaCamerieri = -1;
 	private int indiceListaAvventori = -1;
+	private int contaNTel = 0;
 	private JButton bottoneRimuoviAvventore;
 	private JButton bottoneAggiungiAvventore;
 	private JButton bottoneAggiungiCameriere;
@@ -87,6 +89,7 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		bottoneRimuoviAvventore.setBounds(10, 190, 170, 23);
 		getContentPane().add(bottoneRimuoviAvventore);
 		bottoneRimuoviAvventore.addActionListener(new GestioneBottoni());
+	
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 257, 89, 23);
@@ -101,11 +104,21 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		modelloListaCameriere.removeAllElements();
 		modelloListaCameriere.addAll(arrayCameriere);
 		
+		for (int i = 0; i<arrayAvventori.size();i++)
+		{
+			if(Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",arrayAvventori.get(i).getN_tel())) contaNTel++;
+		}
+		
 		listaAvventori.addListSelectionListener(new GestioneListe());
 		listaCamerieri.addListSelectionListener(new GestioneListe());
 		System.out.println(arrayAvventori+ " "+ arrayCameriere);
 		
+		if(tavoli.get(tavoloScelto).getCapacita() == arrayAvventori.size()) 
+		{
 		
+			bottoneAggiungiAvventore.setEnabled(false);
+			bottoneAggiungiAvventore.setToolTipText("Capacita' massima del tavolo raggiunta");
+		}
 		
 		setVisible(true);
 		setResizable(false);
@@ -131,6 +144,7 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 			else if(e.getSource() == bottoneRimuoviAvventore)
 			{
 				theController.bottoneRimuoviAvventoreVisualizzazioneOccupazione(dataScelta,tavoli.get(tavoloScelto).getId_Tavolo(), arrayAvventori.get(indiceListaAvventori));
+				if(!arrayAvventori.get(indiceListaAvventori).getN_tel().isBlank()) contaNTel--;
 				arrayAvventori.remove(indiceListaAvventori);
 				modelloListaAvventori.removeAllElements();
 				modelloListaAvventori.addAll(arrayAvventori);
@@ -142,7 +156,12 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 			}
 			else if(e.getSource() == bottoneAggiungiCameriere)
 			{
-				theController.bottoneAggiungiCameriereInterfacciaVisualizzazioneOccupazione(tavoli, tavoloScelto, dataScelta);
+				ArrayList<Integer> idCamerieriPresenti = new ArrayList<Integer>();
+				for(int i = 0;i < arrayCameriere.size(); i++)
+				{
+					idCamerieriPresenti.add(arrayCameriere.get(i).getId_Cameriere());
+				}
+				theController.bottoneAggiungiCameriereInterfacciaVisualizzazioneOccupazione(tavoli, tavoloScelto, dataScelta,idCamerieriPresenti);
 			}
 		}
 	}
@@ -179,14 +198,30 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 				{
 					listaCamerieri.clearSelection();;
 					bottoneRimuoviAvventore.setEnabled(true);
+					bottoneRimuoviAvventore.setToolTipText("");
 					indiceListaAvventori = listaAvventori.getSelectedIndex();
-					System.out.println(indiceListaAvventori+ "     "+ listaAvventori);
 					indiceListaCamerieri = -1;
 					bottoneRimuoviCameriere.setEnabled(false);
 				}
 			}
 			if(arrayCameriere.size() == 1) bottoneRimuoviCameriere.setEnabled(false);
 			if(arrayAvventori.size() == 1) bottoneRimuoviAvventore.setEnabled(false);
+			if(!arrayAvventori.get(indiceListaAvventori!=-1 ? indiceListaAvventori : 0).getN_tel().isBlank() && contaNTel == 1) 
+				{
+					bottoneRimuoviAvventore.setEnabled(false);
+					bottoneRimuoviAvventore.setToolTipText("Non si può rimuovere un avventore con un numero di telefono!");
+				}
+			if(tavoli.get(tavoloScelto).getCapacita() == arrayAvventori.size()) 
+				{
+				
+					bottoneAggiungiAvventore.setEnabled(false);
+					bottoneAggiungiAvventore.setToolTipText("Capacita' massima del tavolo raggiunta");
+				}
+			else
+				{
+					bottoneAggiungiAvventore.setEnabled(true);
+					bottoneAggiungiAvventore.setToolTipText("");
+				}
 		}
 	}
 	

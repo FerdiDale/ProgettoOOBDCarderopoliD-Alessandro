@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -38,8 +39,10 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 	private int buttonUnlockOccupa = -2;
 	private int indiceTavoloSelezionato;
 	private boolean intero;
+	private JLabel iconaInformazioni;
 	public InterfacciaGestioneOccupazioni(Controller controller,ArrayList<Tavolo> tavoli, String data) 
 	{
+		super("Occupazioni della sala "+tavoli.get(0).getSala_App().getNome()+" del "+ data);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 515);
 		getContentPane().setLayout(null);
@@ -125,6 +128,14 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		
 		vediOccupazione.setEnabled(false);
 		occupaTavolo.setEnabled(false);
+		
+		iconaInformazioni = new JLabel();
+		iconaInformazioni.setIcon(UIManager.getIcon("OptionPane.informationIcon"));	
+		iconaInformazioni.setBounds(606, 384, 32, 43);
+		iconaInformazioni.setToolTipText("<html>In rosso: tavoli gia occupati;<br>In marrone tavoli da occupare.<br>Per occupare un tavolo bisogna inserire un numero di occupanti che rispetti la sua capacità.</html>");
+	
+		getContentPane().add(iconaInformazioni);
+		areaDiDisegno.add(panel,0,1);
 		areaDiDisegno.add(background,0,-1);
 		
 		setVisible(true);
@@ -226,7 +237,7 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 			{
 				if(!textFieldNumeroAvventori.getText().isBlank())
 				{
-					if(Integer.parseInt(textFieldNumeroAvventori.getText())>0) intero = true;
+					if(Integer.parseInt(textFieldNumeroAvventori.getText())>0 && Integer.parseInt(textFieldNumeroAvventori.getText())<= tavoli.get(indiceTavoloSelezionato).getCapacita()) intero = true;
 					else intero = false;
 				}
 				else
@@ -253,32 +264,19 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 			
 		}
 		
-		public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		}
-		public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		} public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		} public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {} 
+		public void mouseEntered(MouseEvent e) {} 
+		public void mouseExited(MouseEvent e) {}
 	}
 	private class GestioneTesto implements KeyListener
 	{
 
 	
-		public void keyTyped(KeyEvent e) 
-		{
-			
-			
-		}
+		public void keyTyped(KeyEvent e) {}
 
 	
-		public void keyPressed(KeyEvent e) 
-		{
-			
-		}
+		public void keyPressed(KeyEvent e) {}
 
 		
 		public void keyReleased(KeyEvent e)
@@ -287,7 +285,7 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 			{
 				if(!textFieldNumeroAvventori.getText().isBlank())
 				{
-					if(Integer.parseInt(textFieldNumeroAvventori.getText())>0) intero = true;
+					if(Integer.parseInt(textFieldNumeroAvventori.getText())>0 &&  Integer.parseInt(textFieldNumeroAvventori.getText())<= tavoli.get(indiceTavoloSelezionato).getCapacita()) intero = true;
 					else intero = false;
 				}
 				else

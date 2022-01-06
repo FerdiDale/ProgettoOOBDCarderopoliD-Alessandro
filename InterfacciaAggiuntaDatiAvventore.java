@@ -29,11 +29,14 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	private JLabel contaCognome;
 	private JLabel contaCid;
 	private JLabel contaNtel;
+	private JButton bottoneIndietro;
+	private int dimTot;
 	private boolean diVisualizzazione = false;
 	
 
 	public InterfacciaAggiuntaDatiAvventore(Controller controller, int indice, ArrayList<Tavolo> tavoli, int tavoloScelto, String data) 
 	{
+		super("Inserimento dati avventore "+ (indice+1));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 380, 220);
 		getContentPane().setLayout(null);
@@ -88,7 +91,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		avventorePrecedente.setBounds(109, 147, 105, 23);
 		getContentPane().add(avventorePrecedente);
 		
-		JButton bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 147, 89, 23);
 		getContentPane().add(bottoneIndietro);
 		
@@ -107,7 +110,9 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		contaNtel = new JLabel("0");
 		contaNtel.setBounds(276, 103, 46, 14);
 		getContentPane().add(contaNtel);
+		bottoneIndietro.addActionListener(new GestioneBottoni());
 		prossimoAvventore.addActionListener(new GestioneBottoni());
+		avventorePrecedente.addActionListener(new GestioneBottoni());
 	
 		if(indice == 0 ) 
 		{
@@ -132,6 +137,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	{
 		if (indice == dimTot-1)
 		{
+			this.dimTot = dimTot;
 			prossimoAvventore.setText("Conferma");
 			ultima = true;
 		}
@@ -198,6 +204,11 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 			else if(e.getSource() == avventorePrecedente)
 			{
 				theController.bottoneAvventorePrecedentePremuto(indice);
+			}
+			else if(e.getSource() == bottoneIndietro)
+			{
+				if(diVisualizzazione) theController.bottoneIndietroAggiuntaAvventoreDiVisualizzazionePremuto(tavoli, tavoloScelto, data);
+				else theController.bottoneIndietroAggiuntaAvventorePremuto(tavoli, data, indice);
 			}
 		}
 		

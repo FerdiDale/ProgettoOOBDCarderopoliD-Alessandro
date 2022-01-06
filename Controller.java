@@ -706,11 +706,23 @@ public class Controller {
 		}
 	}
 	
-	public void bottoneAggiungiCameriereInterfacciaVisualizzazioneOccupazione(ArrayList<Tavolo> tavoli, int tavoloScelto, String data)
+	public void bottoneAggiungiCameriereInterfacciaVisualizzazioneOccupazione(ArrayList<Tavolo> tavoli, int tavoloScelto, String data, ArrayList<Integer> camerieriGiaPresenti)
 	{
 		frameVisualizzaOccupazione.setVisible(false);
-		frameSelezioneCamerieri = new InterfacciaSelezioneCamerieri(this,tavoli,tavoloScelto,data);
+		frameSelezioneCamerieri = new InterfacciaSelezioneCamerieri(this,tavoli,tavoloScelto,data, camerieriGiaPresenti);
 		frameSelezioneCamerieri.setDiVisualizzazione(true);
+	}
+	
+	public void bottoneIndietroAggiuntaAvventorePremuto(ArrayList<Tavolo> tavoli, String data,int indice)
+	{
+		framesAggiuntaAvventore.get(indice).setVisible(false);
+		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this, tavoli, data);
+	}
+	
+	public void bottoneIndietroAggiuntaAvventoreDiVisualizzazionePremuto(ArrayList<Tavolo> tavoli, int tavoloScelto, String data)
+	{
+		framesAggiuntaAvventore.get(0).setVisible(false);
+		frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this, tavoli, tavoloScelto, data);
 	}
 	
 	public void bottoneConfermaSelezioneCameriereDiVisualizzazione(ArrayList<Cameriere> lista,ArrayList<Tavolo> tavoli, int tavoloScelto,String dataScelta)

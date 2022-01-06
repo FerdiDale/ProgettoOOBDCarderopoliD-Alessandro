@@ -30,6 +30,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 	
 	public void inserimentoMultiploAvventori(ArrayList<InterfacciaAggiuntaDatiAvventore> lista)
 	{
+		String queryTotaleAvventori= "INSERT INTO avventori VALUES(";
+		String queryTotaleElencoAvventori = "INSERT INTO elenco_avventori VALUES(";
 		ResultSet prova;
 		int tavolata=-1;
 		try
@@ -49,10 +51,22 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 				prova.next();
 				if(prova.getInt(1)<1) 
 					{
-						if(lista.get(i).getNtel().getText().isBlank()) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO Avventori VALUES('"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"');");
-						else DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO Avventori VALUES('"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"','"+lista.get(i).getNtel().getText()+"');");
+						if(lista.get(i).getNtel().getText().isBlank()) queryTotaleAvventori = queryTotaleAvventori+"'"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"')";
+						else queryTotaleAvventori = queryTotaleAvventori +"'"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"','"+lista.get(i).getNtel().getText()+"')";
 					}
-				 DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO elenco_avventori VALUES("+tavolata+",'"+lista.get(i).getCid().getText()+"');");
+				 queryTotaleElencoAvventori = queryTotaleElencoAvventori +tavolata+",'"+lista.get(i).getCid().getText()+"')";
+				 if(i == lista.size()-1)
+				 {
+					 queryTotaleElencoAvventori = queryTotaleElencoAvventori + ";";
+					 queryTotaleAvventori = queryTotaleAvventori + ";";
+					 DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleAvventori);
+					 DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleElencoAvventori);
+				 }
+				 else
+				 {
+					 queryTotaleElencoAvventori = queryTotaleElencoAvventori + " ,(";
+					 queryTotaleAvventori = queryTotaleAvventori+" ,(";
+				 }
 			}
 		catch(SQLException e)
 		{
