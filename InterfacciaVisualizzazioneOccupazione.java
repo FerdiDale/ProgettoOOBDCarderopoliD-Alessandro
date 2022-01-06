@@ -93,7 +93,6 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		modelloListaCameriere.addAll(arrayCameriere);
 		
 		listaCamerieri.addListSelectionListener(new GestioneListe());
-		System.out.println(arrayAvventori+ " "+ arrayCameriere);
 		
 		setVisible(true);
 		setResizable(false);

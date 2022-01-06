@@ -33,6 +33,7 @@ public class InterfacciaSale extends JFrame
 	private JScrollPane scorrimentoPerlistavisibile;
 	private Controller theController;
 	private JButton tornaIndietro;
+	private JButton bottoneModificaSala;
 	
 	public InterfacciaSale(Controller c, Ristorante ristorante) 
 	{
@@ -72,7 +73,12 @@ public class InterfacciaSale extends JFrame
 	    tornaIndietro = new JButton("Indietro");
 	    tornaIndietro.setBounds(290, 136, 120, 17);
 	    getContentPane().add(tornaIndietro);
+	    
+	    bottoneModificaSala = new JButton("Modifica nome sala");
+	    bottoneModificaSala.setBounds(273, 77, 151, 23);
+	    getContentPane().add(bottoneModificaSala);
 	    GestoreClickMouse handler = new GestoreClickMouse();
+	    if (elementoSelezionato == -1) bottoneModificaSala.setEnabled(false);
 		
 		GestoreSelezioneLista selezione = new GestoreSelezioneLista();
 		listaVisibile.addListSelectionListener(selezione);
@@ -82,6 +88,7 @@ public class InterfacciaSale extends JFrame
 		AggiuntaSala.addActionListener(handler);
 		GestioneCamerieri.addActionListener(handler);
 		VediTavoli.addActionListener(handler);
+		bottoneModificaSala.addActionListener(handler);
 
 		listaSale.clear();
 		listaSale = theController.EstraiSaleRistorante(ristorante);
@@ -122,6 +129,11 @@ public class InterfacciaSale extends JFrame
 				Sala corrente = listaSale.get(elementoSelezionato);
 				theController.bottoneVediTavoliPremuto(corrente);
 			}
+			else if (e.getSource() == bottoneModificaSala)
+			{
+				Sala corrente = listaSale.get(elementoSelezionato);
+				theController.bottoneModificaSalaPremuto(corrente);
+			}
 		}
 	}
 		
@@ -132,6 +144,7 @@ public class InterfacciaSale extends JFrame
 			elementoSelezionato = listaVisibile.getSelectedIndex();
 			RimuoviSala.setEnabled(true);
 			VediTavoli.setEnabled(true);
+			bottoneModificaSala.setEnabled(true);
 		}
 	}
 }
