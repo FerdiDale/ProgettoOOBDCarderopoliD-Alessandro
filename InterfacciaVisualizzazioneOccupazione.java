@@ -111,7 +111,6 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		
 		listaAvventori.addListSelectionListener(new GestioneListe());
 		listaCamerieri.addListSelectionListener(new GestioneListe());
-		System.out.println(arrayAvventori+ " "+ arrayCameriere);
 		
 		if(tavoli.get(tavoloScelto).getCapacita() == arrayAvventori.size()) 
 		{

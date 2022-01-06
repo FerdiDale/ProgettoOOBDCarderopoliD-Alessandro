@@ -103,6 +103,7 @@ public class InterfacciaTavoli extends JFrame
 			tavoloCurr.setOpaque(true);
 			tavoloCurr.setBounds(tavoli.get(i).getPosX(), tavoli.get(i).getPosY(), tavoli.get(i).getDimX(), tavoli.get(i).getDimY());
 			tavoloCurr.addMouseListener(handler);
+			tavoloCurr.setToolTipText("Capacita': " + tavoli.get(i).getCapacita());
 
 			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			areaDiDisegno.add(tavoloCurr,0,1);
@@ -124,6 +125,8 @@ public class InterfacciaTavoli extends JFrame
 		bottoneIndietro.addActionListener(handlerB);
 		bottoneModificaDatiTavolo.addActionListener(handlerB);
 		bottoneEliminaTavolo.addActionListener(handlerB);
+		
+		areaDiDisegno.addMouseListener(new gestoreSfondo());
 
 		setVisible(true);
 		setResizable(false);
@@ -226,6 +229,46 @@ public class InterfacciaTavoli extends JFrame
 		} public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		}
+	}
+	
+	private class gestoreSfondo implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
+			for (JLabel labelTavolo : numeri) {
+				labelTavolo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			}
+			bottoneGestisciAdiacenze.setEnabled(false);
+			bottoneEliminaTavolo.setEnabled(false);
+			bottoneModificaDatiTavolo.setEnabled(false);
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 	
 	public Tavolo trovaTavoloAssociato (int numeroTavolo) {

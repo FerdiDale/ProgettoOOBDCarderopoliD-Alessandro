@@ -39,6 +39,9 @@ public class Controller {
 	private ArrayList<InterfacciaAggiuntaDatiAvventore> framesAggiuntaAvventore;
 	private InterfacciaSelezioneCamerieri frameSelezioneCamerieri;
 	private InterfacciaSelezioneDataCameriere frameSelezioneDataCameriere;
+	private InterfacciaModificaSala frameModificaSala;
+	private SalaDAOImplPostgres salaDao = new SalaDAOImplPostgres();
+	private CameriereDAOImplPostgres cameriereDao = new CameriereDAOImplPostgres();
 	
 	public static void main(String[] args) {
 
@@ -464,7 +467,6 @@ public class Controller {
 			framesAggiuntaAvventore.get(i).impostaBottoniCorretti(framesAggiuntaAvventore.size());
 			
 		}
-		System.out.println(framesAggiuntaAvventore.size());
 		framesAggiuntaAvventore.get(0).setVisible(true);
 	}
 	
@@ -495,8 +497,7 @@ public class Controller {
 			}
 			i++;
 		}
-		
-		System.out.println("Campi vuoti ="+controlloCampiNonVuoti+" telefono = "+controlloAlmenoUnTelefono+" CID = "+formatoCidGiusto);
+
 		if(controlloCampiNonVuoti && controlloAlmenoUnTelefono && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi)
 		{
 			framesAggiuntaAvventore.get(framesAggiuntaAvventore.size()-1).setVisible(false);
@@ -646,6 +647,26 @@ public class Controller {
 		frameSelezioneDataCameriere.setVisible(false);
 		frameGestioneCamerieri.setVisible(true);
 		frameGestioneCamerieri.ripresaInterfaccia();
+	}
+
+	public void bottoneModificaSalaPremuto(Sala corrente) {
+		frameModificaSala = new InterfacciaModificaSala(this, corrente);
+		frameSale.setVisible(false);		
+	}
+
+	public void interfacciaModificaSalaOkPremuto(String nome, Sala sala) {
+		salaDao.modificaSala(nome, sala);
+		frameModificaSala.setVisible(false);
+		frameSale = new InterfacciaSale(this, sala.getRistoranteDiAppartenenza());
+	}
+
+	public void bottoneTornaIndietroInterfacciaModificaSalaPremuto(Ristorante ristorante) {
+		frameModificaSala.setVisible(false);
+		frameSale = new InterfacciaSale(this, ristorante);
+	}
+
+	public boolean presentiOccupazioniDiCameriereDopoData(Cameriere cameriereScelto, String dataCorrente) {
+		return cameriereDao.cameriereOccupatoDopoDiData(cameriereScelto, dataCorrente);
 	}
 	
 	public void bottoneRimuoviAvventoreVisualizzazioneOccupazione(String data, int id_tavolo,Avventori avventore)
