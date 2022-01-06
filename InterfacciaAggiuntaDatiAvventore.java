@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class InterfacciaAggiuntaDatiAvventore extends JFrame 
 {
@@ -252,24 +253,18 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		{
 			if(e.getSource() == prossimoAvventore)
 			{
-				try
-				{
+		
 					if(!ntel.getText().isBlank())
-					{
-						Integer.parseInt(ntel.getText());
-						
-						if(ntel.getText().length() == 10)	intero = true;
+					{						
+						if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",ntel.getText()))	intero = true;
 						else intero = false;
 					}
 					else
 					{
 						intero = true;
 					}
-				}
-				catch(NumberFormatException n)
-				{
-					intero = false;
-				}
+			
+		
 				if(cid.getText().length() != 9 || nome.getText().length() >30 || cognome.getText().length() > 30 || !intero) JOptionPane.showMessageDialog(null, "Si controllino le dimensioni dei campi (nome e cognome devono essere lunghi al piu 30, mentre CID deve essere lungo esattamente 9 caratteri, numero di telefono esattamente 10 caratteri decimali OPPURE vuoto");
 					
 				else
@@ -297,7 +292,8 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 								{
 									if(avventoriDelTavolo.contains(cid.getText())) JOptionPane.showMessageDialog(null,"Esiste gia un avventore con lo stesso numero CID nella tavolata corrente!","Errore!", JOptionPane.ERROR_MESSAGE);
 									else theController.bottoneConfermaAggiuntaAvventoreDiVisualizzazionePremuto(tavoli, tavoloScelto, data);	
-								} catch (CampiNonCorrettiException e2) 
+								}
+								catch (CampiNonCorrettiException e2) 
 								{
 									e2.stampaMessaggio();
 								}

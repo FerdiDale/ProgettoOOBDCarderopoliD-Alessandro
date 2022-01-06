@@ -106,7 +106,7 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 			numeri.add(tavoloCurr);
 		}
 		
-		tavoliOccupati = theController.estrazioneSaleOccupateInData(tavoli.get(0).getSala_App(), data);
+		tavoliOccupati = theController.estrazioneTavoliOccupatiInData(tavoli.get(0).getSala_App(), data);
 		
 		for (int i = 0; i<tavoliOccupati.size(); i++)
 		{
