@@ -1,6 +1,4 @@
 import javax.swing.JFrame;
-
-
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -9,14 +7,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-
 import com.toedter.calendar.JCalendar;
-
 public class InterfacciaAggiuntaCamerieri extends JFrame
 {
 	private SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
@@ -82,7 +80,8 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		bottoneOk.setBounds(296, 389, 89, 23);
 		bottoneOk.setEnabled(false);
 		getContentPane().add(bottoneOk);
-		
+		bottoneOk.setEnabled(false);
+
 		textFieldNome.setFocusable(true);
 		textFieldCognome.setFocusable(true);
 		textFieldCID.setFocusable(true);
@@ -104,20 +103,20 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().add(nCaratteriCID);
 		
 		GestoreTesti handler = new GestoreTesti();
-
 		textFieldDataAssunzione = new JTextField();
 		textFieldDataAssunzione.setBounds(116, 99, 172, 23);
 		textFieldDataAssunzione.setBackground(Color.white);
 		textFieldDataAssunzione.setEditable(false);
 		textFieldDataAssunzione.setOpaque(true);
 		textFieldDataAssunzione.setColumns(10);
-		
-		textFieldNome.addKeyListener(handler);
-		textFieldCognome.addKeyListener(handler);
-		textFieldCID.addKeyListener(handler);
-		
+
+		textFieldNome.getDocument().addDocumentListener(handler);
+		textFieldCognome.getDocument().addDocumentListener(handler);
+		textFieldCID.getDocument().addDocumentListener(handler);
+		textFieldDataAssunzione.getDocument().addDocumentListener(handler);	
+
 		GestoreBottoni handlerA = new GestoreBottoni();
-		
+
 		bottoneOk.addActionListener(handlerA);
 		tornaIndietro.addActionListener(handlerA);
 		
@@ -168,7 +167,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 				{
 					valido = false;
 				}
-				if (valido && textFieldCognome.getText().length()<= 30 && textFieldNome.getText().length() <=30 && textFieldCID.getText().length()==9 && !textFieldDataAssunzione.getText().isEmpty())
+				if (valido && textFieldCognome.getText().length()<= 30 && textFieldNome.getText().length() <=30 && textFieldCID.getText().length()==9 )
 					{
 						Cameriere inAggiunta = new Cameriere(textFieldCID.getText(),textFieldNome.getText(),textFieldCognome.getText(), ristorante.getId_Ristorante());
 						inAggiunta.setData_Ammissione(textFieldDataAssunzione.getText());
@@ -186,7 +185,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 							nCaratteriCID.setText("");
 							nCaratteriNome.setText("");
 							nCaratteriCognome.setText("");
-							JOptionPane.showMessageDialog(null,"Il cameriere è stato aggiunto correttamente al database","Conferma",JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Il cameriere Ã¨ stato aggiunto correttamente al database","Conferma",JOptionPane.INFORMATION_MESSAGE);
 						}
 						else if (esito.equals("CID_Non_Valido"))
 						{
@@ -215,54 +214,72 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 						}
 				}
 				else
-				JOptionPane.showMessageDialog(null, "Si prega di controllare le dimensioni dei valori nelle caselle di testo (Nome, Cognome al più 30, CID deve essere esattamente 9. Ci si assicuri inoltre di aver rispettato il formato della data.", "Errore!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Si prega di controllare le dimensioni dei valori nelle caselle di testo (Nome, Cognome al piÃ¹ 30, CID deve essere esattamente 9.", "Errore!", JOptionPane.ERROR_MESSAGE);
 			}
 			else if (e.getSource() == tornaIndietro)
 			{
-				theController.bottoneTornaIndietroAggiuntaCamerieriPremuto(ristorante);
-			}
-			if(e.getSource() == bottoneSet)
-			{
-				textFieldDataAssunzione.setText(String.format("%s-%s-%s",calendar.getDate().getYear()+1900 <=9 ? String.format("000%d",calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=99? String.format("00%d", calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=999? String.format("0%d", calendar.getDate().getYear()+1900): String.format("%d", calendar.getDate().getYear()+1900) , calendar.getDate().getMonth()+1<=9? String.format("0%d", calendar.getDate().getMonth()+1) : String.format("%d",calendar.getDate().getMonth()+1),calendar.getDayChooser().getDay()<=9? String.format("0%d",calendar.getDayChooser().getDay()): String.format("%d",calendar.getDayChooser().getDay())));
-			}
+	@@ -232,64 +228,41 @@ else if (e.getSource() == tornaIndietro)
 		}
 	}
-	
-	private class GestoreTesti implements KeyListener
-	{
-		public void keyPressed(KeyEvent e)
-		{
-			if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || textFieldCID.getText().isBlank())
-			{
-				bottoneOk.setEnabled(false);
-			}
-			else
-				bottoneOk.setEnabled(true);
-		}
-		public void keyTyped(KeyEvent e)
-		{
-			
-		}
-		public void keyReleased(KeyEvent e)
-		{
-			if (e.getSource() == textFieldNome)
+
+
+	private class GestoreTesti implements DocumentListener{
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+
+			if (e.getDocument() == textFieldNome.getDocument())
 			{
 				nCaratteriNome.setText(String.format("%d", textFieldNome.getText().length()));
 			}
-			else if(e.getSource() == textFieldCognome)
+			else if(e.getDocument() == textFieldCognome.getDocument())
 			{
 				nCaratteriCognome.setText(String.format("%d", textFieldCognome.getText().length()));
 			}
-			else if(e.getSource() == textFieldCID)
+			else if(e.getDocument() == textFieldCID.getDocument())
 			{
 				nCaratteriCID.setText(String.format("%d", textFieldCID.getText().length()));
 			}
-			if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || textFieldCID.getText().isBlank())
+			if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || 
+					textFieldCID.getText().isBlank() || textFieldDataAssunzione.getText().isBlank())
 			{
 				bottoneOk.setEnabled(false);
 			}
 			else
 				bottoneOk.setEnabled(true);
+
 		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+
+			if (e.getDocument() == textFieldNome.getDocument())
+			{
+				nCaratteriNome.setText(String.format("%d", textFieldNome.getText().length()));
+			}
+			else if(e.getDocument() == textFieldCognome.getDocument())
+			{
+				nCaratteriCognome.setText(String.format("%d", textFieldCognome.getText().length()));
+			}
+			else if(e.getDocument() == textFieldCID.getDocument())
+			{
+				nCaratteriCID.setText(String.format("%d", textFieldCID.getText().length()));
+			}
+			if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || 
+					textFieldCID.getText().isBlank() || textFieldDataAssunzione.getText().isBlank())
+			{
+				bottoneOk.setEnabled(false);
+			}
+			else
+				bottoneOk.setEnabled(true);
+
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 }
