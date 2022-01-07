@@ -36,15 +36,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		boolean nontel;
 		int counterAvventoriNtelIniziali = 0;
 		int counterAvventoriNoNtelIniziali = 0;
-		int counterAvventoriNtel;
-		int counterAvventoriNoNtel;
-		for(int i = 0; i<lista.size();i++)
-		{
-			if(lista.get(i).getNtel().getText().isBlank()) counterAvventoriNoNtelIniziali++;
-			else counterAvventoriNtelIniziali++;
-		}
-		counterAvventoriNoNtel = counterAvventoriNoNtelIniziali;
-		counterAvventoriNtel = counterAvventoriNtelIniziali;
+		int counterAvventoriNtel = 0;
+		int counterAvventoriNoNtel = 0;
 		String queryTotaleAvventoriNoNTel = "INSERT INTO avventori VALUES(";
 		String queryTotaleAvventoriConNTel= "INSERT INTO avventori VALUES(";
 		String queryTotaleElencoAvventori = "INSERT INTO elenco_avventori VALUES(";
@@ -55,6 +48,25 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 			ResultSet tavolataDB =DB_Connection.getInstance().getConnection().createStatement().executeQuery("select id_tavolata from tavolata where id_tavolo = "+lista.get(0).getTavoli().get(lista.get(0).getTavoloScelto()).getId_Tavolo()+" AND data = '"+lista.get(0).getData()+"';");
 			tavolataDB.next();
 			tavolata = tavolataDB.getInt(1);
+			for(int i = 0; i<lista.size();i++)
+			{
+				if(lista.get(i).getNtel().getText().isBlank())
+					{
+						prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+						prova.next();
+						if(prova.getInt(1)==0)
+						counterAvventoriNoNtelIniziali++;
+					}
+				else 
+					{
+						prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+						prova.next();
+						if(prova.getInt(1)==0)
+						counterAvventoriNtelIniziali++;
+					}
+			}
+			counterAvventoriNoNtel = counterAvventoriNoNtelIniziali;
+			counterAvventoriNtel = counterAvventoriNtelIniziali;
 		}
 		catch(SQLException e)
 		{
@@ -124,7 +136,6 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		{
 			JOptionPane.showMessageDialog(null, "rimozione elenco avventori "+ e);
 		}
-		//FAi un unico inserimento di tutte le righe in una volta
 	}
 	
 
