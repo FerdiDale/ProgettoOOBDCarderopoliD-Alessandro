@@ -1,4 +1,6 @@
 import javax.swing.JFrame;
+
+
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -14,7 +16,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+
 import com.toedter.calendar.JCalendar;
+
 public class InterfacciaAggiuntaCamerieri extends JFrame
 {
 	private SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
@@ -81,7 +85,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		bottoneOk.setEnabled(false);
 		getContentPane().add(bottoneOk);
 		bottoneOk.setEnabled(false);
-
+		
 		textFieldNome.setFocusable(true);
 		textFieldCognome.setFocusable(true);
 		textFieldCID.setFocusable(true);
@@ -101,25 +105,26 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		nCaratteriCID = new JLabel("");
 		nCaratteriCID.setBounds(106, 103, 46, 14);
 		getContentPane().add(nCaratteriCID);
-		
+
 		GestoreTesti handler = new GestoreTesti();
+
 		textFieldDataAssunzione = new JTextField();
 		textFieldDataAssunzione.setBounds(116, 99, 172, 23);
 		textFieldDataAssunzione.setBackground(Color.white);
 		textFieldDataAssunzione.setEditable(false);
 		textFieldDataAssunzione.setOpaque(true);
 		textFieldDataAssunzione.setColumns(10);
-
+		
 		textFieldNome.getDocument().addDocumentListener(handler);
 		textFieldCognome.getDocument().addDocumentListener(handler);
 		textFieldCID.getDocument().addDocumentListener(handler);
 		textFieldDataAssunzione.getDocument().addDocumentListener(handler);	
-
+		
 		GestoreBottoni handlerA = new GestoreBottoni();
-
+		
 		bottoneOk.addActionListener(handlerA);
 		tornaIndietro.addActionListener(handlerA);
-		
+
 		bottoneSet = new JButton("Set");
 		bottoneSet.setBounds(296, 129, 66, 23);
 		getContentPane().add(bottoneSet);
@@ -218,16 +223,21 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 			}
 			else if (e.getSource() == tornaIndietro)
 			{
-	@@ -232,64 +228,41 @@ else if (e.getSource() == tornaIndietro)
+				theController.bottoneTornaIndietroAggiuntaCamerieriPremuto(ristorante);
+			}
+			if(e.getSource() == bottoneSet)
+			{
+				textFieldDataAssunzione.setText(String.format("%s-%s-%s",calendar.getDate().getYear()+1900 <=9 ? String.format("000%d",calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=99? String.format("00%d", calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=999? String.format("0%d", calendar.getDate().getYear()+1900): String.format("%d", calendar.getDate().getYear()+1900) , calendar.getDate().getMonth()+1<=9? String.format("0%d", calendar.getDate().getMonth()+1) : String.format("%d",calendar.getDate().getMonth()+1),calendar.getDayChooser().getDay()<=9? String.format("0%d",calendar.getDayChooser().getDay()): String.format("%d",calendar.getDayChooser().getDay())));
+			}
 		}
 	}
-
-
+	
+	
 	private class GestoreTesti implements DocumentListener{
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-
+			
 			if (e.getDocument() == textFieldNome.getDocument())
 			{
 				nCaratteriNome.setText(String.format("%d", textFieldNome.getText().length()));
@@ -247,12 +257,12 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 			}
 			else
 				bottoneOk.setEnabled(true);
-
+			
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-
+			
 			if (e.getDocument() == textFieldNome.getDocument())
 			{
 				nCaratteriNome.setText(String.format("%d", textFieldNome.getText().length()));
@@ -272,14 +282,14 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 			}
 			else
 				bottoneOk.setEnabled(true);
-
+			
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
-
+			
 		}
-
+		
 	}
 }
