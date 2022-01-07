@@ -89,6 +89,7 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		bottoneRimuoviAvventore.setBounds(10, 190, 170, 23);
 		getContentPane().add(bottoneRimuoviAvventore);
 		bottoneRimuoviAvventore.addActionListener(new GestioneBottoni());
+		bottoneRimuoviAvventore.setEnabled(false);
 	
 		
 		bottoneIndietro = new JButton("Indietro");

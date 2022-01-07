@@ -112,6 +112,8 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 					if (licenziamento) {
 						if (!theController.presentiOccupazioniDiCameriereDopoData(cameriereScelto, dataCorrente)) 
 						{
+							
+							System.out.println("Ok");
 
 							String esito = theController.bottoneLicenziaCamerierePremuto(cameriereScelto ,dataCorrente);
 							if(esito.equals("Tutto_Bene"))

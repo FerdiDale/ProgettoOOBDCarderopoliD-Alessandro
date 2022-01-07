@@ -606,11 +606,10 @@ public class Controller {
 		}
 	}
 
-	public void bottoneConfermaModificheDatiTavoloPremuto(Tavolo tavoloScelto, int numeroCorrente,
-			int capacitaCorrente) {
+	public void bottoneConfermaModificheDatiTavoloPremuto(Tavolo tavoloScelto, int numeroCorrente) {
 		try {
 			
-			tavoloDao.modificaDatiTavolo(tavoloScelto, numeroCorrente, capacitaCorrente);
+			tavoloDao.modificaDatiTavolo(tavoloScelto, numeroCorrente);
 			frameModificaDatiTavolo.setVisible(false);
 			frameTavoli = new InterfacciaTavoli(this, tavoloScelto.getSala_App());
 			
@@ -718,7 +717,7 @@ public class Controller {
 		if(controlloCampiNonVuoti  && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi && controlloAlmenoUnTelefono)
 		{
 			AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
-			ADAO.aggiungiNuovoavventoreAllaTavolata(tavoli.get(tavoloScelto).getId_Tavolo(), dataScelta, new Avventori(framesAggiuntaAvventore.get(0).getNome().getText(), framesAggiuntaAvventore.get(0).getCognome().getText(), framesAggiuntaAvventore.get(0).getCid().getText(), framesAggiuntaAvventore.get(0).getNtel().getText()));
+			ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore);
 			framesAggiuntaAvventore.get(framesAggiuntaAvventore.size()-1).setVisible(false);
 			frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this, tavoli, tavoloScelto, dataScelta);
 		}

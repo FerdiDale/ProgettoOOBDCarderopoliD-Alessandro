@@ -81,13 +81,12 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		}
 		catch (SQLException e)
 		{
-			OperazioneFallitaException ecc = new OperazioneFallitaException();
-			ecc.stampaMessaggio();
+			OperazioneFallitaException ex = new OperazioneFallitaException();
+			ex.stampaMessaggio();
 			return false;
 		}
 		
 	}
-
 	public String licenziaCameriereAssunto(Cameriere c,String data)
 	{
 		try
@@ -99,7 +98,7 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		catch(SQLException e)
 		{
 			if (e.getSQLState().equals("23514")) 
-				return "Data_Non_Valida";
+				return "Data_Licenziamento_Precedente";
 			else
 			{
 				OperazioneFallitaException ex = new OperazioneFallitaException();
@@ -114,6 +113,17 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
+			ResultSet risultato = stmt.executeQuery("SELECT COUNT(*) "
+												+ "FROM Cameriere AS C "
+												+ "WHERE  C.CID_Cameriere = '" + c.getCID_Cameriere() + "'"
+												+ "AND C.Id_Ristorante = " + c.getRistorante().getId_Ristorante()+ "; ");
+			risultato.next();
+			if(risultato.getInt(1)!=0){
+				
+				return "CID_Gia_Presente";
+				
+				}
+			
 			stmt.executeUpdate("INSERT INTO Cameriere(CID_Cameriere,Nome,Cognome,Id_Ristorante,Data_Ammissione) "
 			+ "VALUES ('"+c.getCID_Cameriere()+"','"+c.getNome()+"','"+c.getCognome()+"',"+c.getRistorante().getId_Ristorante()+",DATE '"+c.getData_Ammissione()+"');");
 			return "Nessun_Errore";
@@ -124,9 +134,13 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 			{
 				return "CID_Non_Valido";
 			}
-			else
+			else if (e.getSQLState().equals("42601")) 
 			{
-				return "Data_Non_Valida";
+				return "NomeCognome_Non_Validi";
+			}
+			else 
+			{
+				return "Problema_Di_Connessione";
 			}
 		}
 	}
@@ -235,6 +249,7 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 			return false;
 		else {
 
+			System.out.println("Ciao");
 			JOptionPane.showMessageDialog(null, "Questo cameriere e' gia' occupato per servire un tavolo "
 					+ "\nnel giorno " + ultimaOccupazione + " !", "Errore!", JOptionPane.ERROR_MESSAGE);
 

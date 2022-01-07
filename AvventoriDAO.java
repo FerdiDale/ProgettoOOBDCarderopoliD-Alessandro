@@ -8,5 +8,4 @@ public interface AvventoriDAO
 	
 	public void rimuoviAvventoreDaElencoAvventori(int id_tavolo, String data, Avventori cliente);
 	
-	public void aggiungiNuovoavventoreAllaTavolata(int id_tavolo,String data, Avventori avventore);
 }
