@@ -95,10 +95,10 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		listaCamerieri.addListSelectionListener(new GestoreLista());
 		listaCamerieriSelezionati.addListSelectionListener(new GestoreLista());
 		
+		bottoneConfermaSelezione.setEnabled(false);
 		bottoneAggiungiAiSelezionati.setEnabled(false);
 		bottoneRimuoviDaiSelezionati.setEnabled(false);
 		
-		//dall'array cameriere devi toglierci quelli che già stanno nella lista, altrimenti si arrabbia tanto
 		arrayCameriere = theController.estraiCamerieriAssegnabili(data,tavoli.get(tavoloScelto).getSala_App().getRistoranteDiAppartenenza());
 		modelloListaCameriere.addAll(arrayCameriere);
 		
@@ -159,6 +159,7 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		listaCamerieri.addListSelectionListener(new GestoreLista());
 		listaCamerieriSelezionati.addListSelectionListener(new GestoreLista());
 		
+		bottoneConfermaSelezione.setEnabled(false);
 		bottoneAggiungiAiSelezionati.setEnabled(false);
 		bottoneRimuoviDaiSelezionati.setEnabled(false);
 	
@@ -221,6 +222,7 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 				modelloListaCameriere.addAll(arrayCameriere);
 				bottoneAggiungiAiSelezionati.setEnabled(false);
 				bottoneRimuoviDaiSelezionati.setEnabled(false);
+				bottoneConfermaSelezione.setEnabled(true);
 			}
 			else if(e.getSource() == bottoneRimuoviDaiSelezionati)
 			{
@@ -232,6 +234,7 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 				modelloListaCameriereSelezionati.addAll(arrayCameriereSelezionati);
 				bottoneAggiungiAiSelezionati.setEnabled(false);
 				bottoneRimuoviDaiSelezionati.setEnabled(false);
+				if(arrayCameriereSelezionati.size()==0) bottoneConfermaSelezione.setEnabled(false);
 			}
 		}
 	}

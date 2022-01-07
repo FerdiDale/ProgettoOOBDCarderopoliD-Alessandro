@@ -1,7 +1,5 @@
 import java.sql.*;
-
 import javax.swing.JOptionPane;
-
 public class DB_Builder 
 {
 	
@@ -17,7 +15,7 @@ public class DB_Builder
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
-			//devono essere tutti minuscoli, altrimenti dara'� errore
+			//devono essere tutti minuscoli, altrimenti dara' errore
 			//(database non esistente)
 			conn.close();
 		}
@@ -28,7 +26,7 @@ public class DB_Builder
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gia'� esistente
+			if (e.getSQLState().equals("42P04")) preesistente = true; //Stato di SQL in caso di Database gia' esistente
 			else 
 			{
 				JOptionPane.showMessageDialog(null,"C'e' stato un errore, il database non e' stato creato correttamente\n"
@@ -51,7 +49,7 @@ public class DB_Builder
 								+ "PRIMARY KEY(Id_Ristorante),"
 								+ "CONSTRAINT CivicoSensato CHECK (N_Civico>0), "
 								+ "CONSTRAINT UnicaLocalita UNIQUE(Via, N_Civico, Citta));");
-				
+
 				stmt.executeUpdate("CREATE TABLE Sala"
 								+ "(Id_Sala SERIAL,"
 								+ "Nome VARCHAR(40) NOT NULL,"
@@ -71,7 +69,7 @@ public class DB_Builder
 								+ "			 ON DELETE CASCADE              ON UPDATE CASCADE, "
 								+ "CONSTRAINT DatiSensati CHECK(Capacita>0 AND Numero>0), "
 								+ "CONSTRAINT TavoloPerSala UNIQUE(Id_Sala,Numero));");
-			
+
 				stmt.executeUpdate("CREATE TABLE Adiacenza"
 								+ "(Id_Tavolo1 INTEGER NOT NULL,"
 								+ "Id_Tavolo2 INTEGER NOT NULL,"
@@ -135,7 +133,7 @@ public class DB_Builder
 						          + "CONSTRAINT dimensioniSensate CHECK (PosX>0 AND Posy>0 AND DimX>0 AND DimY>0), "
 						          + "CONSTRAINT delTavolo FOREIGN KEY(Id_Tavolo) REFERENCES Tavolo(Id_Tavolo) "
 						          + "                     ON DELETE CASCADE                 ON UPDATE CASCADE);");
-				
+
 				stmt.executeUpdate ("CREATE FUNCTION InserisciSimmetrico() RETURNS TRIGGER "
 								+" AS $$ "
 								+ "DECLARE "
@@ -151,12 +149,12 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql; ");
-					
+
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaInserimento "
 								+ "AFTER INSERT ON Adiacenza "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION InserisciSimmetrico();"); 
-				
+
 				stmt.executeUpdate ("CREATE FUNCTION CancellaSimmetrico() RETURNS TRIGGER "
 								+ " AS $$ "
 								+ "DECLARE "
@@ -172,12 +170,12 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql; ");
-				
+
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaCancellazione "
 								+ "AFTER DELETE ON Adiacenza "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION CancellaSimmetrico();"); 
-						
+
 				stmt.executeUpdate ("CREATE FUNCTION ModificaSimmetrico() RETURNS TRIGGER "
 								+ "AS $$ "
 								+ "DECLARE "
@@ -194,12 +192,12 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql; "); 
-				
+
 				stmt.executeUpdate("CREATE TRIGGER SimmetriaModifica "
 								+ "AFTER UPDATE ON Adiacenza "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION ModificaSimmetrico();"); 
-			
+
 				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataInserimento() RETURNS TRIGGER "
 								+ "as $$ "
 								+ "DECLARE "
@@ -215,12 +213,12 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql; ");
-				
+
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioInserimento "
 								+ "AFTER INSERT ON Servizio "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION ConsistenzaServizioTavolataInserimento(); ");
-			
+
 				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataModificaServizio() RETURNS TRIGGER "
 								+ "as $$ "
 								+ "DECLARE "
@@ -237,12 +235,12 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql; ");
-				
+
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioUpdate "
 								+ "AFTER UPDATE ON Servizio "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION  ConsistenzaServizioTavolataModificaServizio(); ");
-				
+
 				stmt.executeUpdate("CREATE FUNCTION ConsistenzaServizioTavolataModificaAmmissioneLicenziamento() RETURNS TRIGGER "
 								+ "AS $$ "
 								+ "DECLARE "
@@ -264,13 +262,13 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql;");
-				
+
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaServizioAggiornamentoAmmissioneLicenziamento "
 								+ "AFTER UPDATE ON Cameriere "
 								+ "FOR EACH ROW "
 								+ "WHEN (OLD.Data_Ammissione <> NEW.Data_Ammissione OR OLD.Data_Licenziamento <> NEW.Data_Licenziamento) "
 								+ "EXECUTE FUNCTION  ConsistenzaServizioTavolataModificaAmmissioneLicenziamento(); ");
-			
+
 				stmt.executeUpdate("CREATE FUNCTION RimuoviDataAmmissioneSbagliata() RETURNS TRIGGER "
 								+ "AS $$ "
 								+ "DECLARE "
@@ -285,13 +283,13 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql; ");
-				
-				
+
+
 				stmt.executeUpdate("CREATE TRIGGER ConsistenzaDateInserimentoCameriere "
 								+ "AFTER INSERT ON Cameriere "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION  RimuoviDataAmmissioneSbagliata(); ");
-				
+
 				stmt.executeUpdate("CREATE FUNCTION NoTavolatePiuGrandiDiCapacita() RETURNS TRIGGER "
 								+ "AS $$ "
 								+ "DECLARE "
@@ -308,12 +306,12 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql; ");
-				
+
 				stmt.executeUpdate("CREATE TRIGGER TriggerNoTavolatePiuGrandi "
 								+ "AFTER INSERT ON Elenco_Avventori "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION NoTavolatePiuGrandiDiCapacita(); ");
-				
+
 				stmt.executeUpdate("CREATE FUNCTION NoTavolateSenzaNumeriDiTelefono() RETURNS TRIGGER "
 								+ "AS $$ "
 								+ "DECLARE "
@@ -329,7 +327,7 @@ public class DB_Builder
 								+ "RETURN NEW; "
 								+ "END; "
 								+ "$$ LANGUAGE plpgsql; ");
-				
+
 				stmt.executeUpdate("CREATE TRIGGER TriggerNoNumeriDiTelefono "
 								+ "AFTER INSERT ON Elenco_Avventori "
 								+ "FOR EACH ROW "

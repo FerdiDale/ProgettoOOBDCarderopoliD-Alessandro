@@ -2,13 +2,11 @@ import java.awt.BorderLayout;
 import javax.swing.event.*;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-
 import java.util.ArrayList;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.GridLayout;
 import java.awt.Color;
 import javax.swing.JList;
@@ -18,7 +16,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
-
 public class InterfacciaSale extends JFrame 
 {
 	private Ristorante ristorante;
@@ -34,7 +31,7 @@ public class InterfacciaSale extends JFrame
 	private Controller theController;
 	private JButton tornaIndietro;
 	private JButton bottoneModificaSala;
-	
+
 	public InterfacciaSale(Controller c, Ristorante ristorante) 
 	{
 		super("Sale del ristorante "+ ristorante.getNome());
@@ -73,13 +70,13 @@ public class InterfacciaSale extends JFrame
 	    tornaIndietro = new JButton("Indietro");
 	    tornaIndietro.setBounds(290, 136, 120, 17);
 	    getContentPane().add(tornaIndietro);
-	    
+
 	    bottoneModificaSala = new JButton("Modifica nome sala");
 	    bottoneModificaSala.setBounds(273, 77, 151, 23);
 	    getContentPane().add(bottoneModificaSala);
 	    GestoreClickMouse handler = new GestoreClickMouse();
 	    if (elementoSelezionato == -1) bottoneModificaSala.setEnabled(false);
-		
+
 		GestoreSelezioneLista selezione = new GestoreSelezioneLista();
 		listaVisibile.addListSelectionListener(selezione);
 		
@@ -99,7 +96,6 @@ public class InterfacciaSale extends JFrame
 		setResizable(false);
 		setVisible(true);
 	}
-
 	private class GestoreClickMouse implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -136,7 +132,7 @@ public class InterfacciaSale extends JFrame
 			}
 		}
 	}
-		
+
 	private class GestoreSelezioneLista implements ListSelectionListener
 	{
 		public void valueChanged(ListSelectionEvent e)

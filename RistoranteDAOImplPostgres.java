@@ -2,9 +2,7 @@
 
 import java.sql.*;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 public class RistoranteDAOImplPostgres implements RistoranteDAO {
 	
 	public ArrayList<Ristorante> estraiTuttiRistoranti() throws OperazioneFallitaException{
@@ -40,7 +38,7 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 			throw ecc;
 		}
 	}
-	
+
 	public void inserisciRistorante(String nome, String via, Integer n_Civico, String citta) throws OperazioneFallitaException, RistoranteUgualeException, StringheNonValideException{
 		try
 		{

@@ -1,5 +1,4 @@
 import java.awt.Color;
-
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import javax.swing.JFrame;
@@ -16,10 +15,8 @@ import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JLayeredPane;
-
 public class InterfacciaTavoli extends JFrame 
 { 
-
 	private Controller theController;
 	private Sala sala;
 	private ArrayList<Tavolo> tavoli = new ArrayList<Tavolo>();
@@ -34,7 +31,6 @@ public class InterfacciaTavoli extends JFrame
 	private JLayeredPane areaDiDisegno;
 	private JButton bottoneModificaDatiTavolo;
 	private JButton bottoneEliminaTavolo;
-
 	public InterfacciaTavoli(Controller c, Sala salaCorrente) {
   
 		super("Visualizzazione tavoli di "+ salaCorrente.getNome());
@@ -59,7 +55,6 @@ public class InterfacciaTavoli extends JFrame
 		bottoneGestisciAdiacenze.setEnabled(false);
 		
 		bottoneIndietro = new JButton("Indietro");
-
 		bottoneIndietro.setBounds(10, 482, 89, 23);
 		getContentPane().add(bottoneIndietro);
 		
@@ -90,7 +85,6 @@ public class InterfacciaTavoli extends JFrame
 		background.setBounds(0, 0, 659, 362);
 		background.setBackground(Color.white);
 		background.setOpaque(true);
-
 		areaDiDisegno.add(background, 0,-1);
 		
 		gestoreIcone handler = new gestoreIcone();
@@ -107,7 +101,6 @@ public class InterfacciaTavoli extends JFrame
 
 			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			areaDiDisegno.add(tavoloCurr,0,1);
-
 			numeri.add(tavoloCurr);
 		}
 		
@@ -125,13 +118,12 @@ public class InterfacciaTavoli extends JFrame
 		bottoneIndietro.addActionListener(handlerB);
 		bottoneModificaDatiTavolo.addActionListener(handlerB);
 		bottoneEliminaTavolo.addActionListener(handlerB);
-		
+
 		areaDiDisegno.addMouseListener(new gestoreSfondo());
 
 		setVisible(true);
 		setResizable(false);
 	}
-
 	private class GestioneBottoni implements ActionListener
 		{
 			public void actionPerformed(ActionEvent e)
@@ -230,49 +222,49 @@ public class InterfacciaTavoli extends JFrame
 		// TODO Auto-generated method stub
 		}
 	}
-	
+
 	private class gestoreSfondo implements MouseListener{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
+
 			for (JLabel labelTavolo : numeri) {
 				labelTavolo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			}
 			bottoneGestisciAdiacenze.setEnabled(false);
 			bottoneEliminaTavolo.setEnabled(false);
 			bottoneModificaDatiTavolo.setEnabled(false);
-			
+
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 	}
-	
+
 	public Tavolo trovaTavoloAssociato (int numeroTavolo) {
-		
+
 		Tavolo tavoloTrovato = null;
 		
 		for (Tavolo tavolo : tavoli) {

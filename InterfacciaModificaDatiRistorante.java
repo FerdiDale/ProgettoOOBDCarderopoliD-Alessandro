@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,16 +19,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class InterfacciaModificaDatiRistorante extends JFrame {
-
 	private JPanel contentPane;
 	private Controller theController;
 	private JTextField inputNomeRistorante;
 	private JTextField inputCittaRistorante;
 	private JTextField inputViaRistorante;
 	private JTextField inputN_CivicoRistorante;
-	
+
 	private JButton bottoneConfermaModificaRistorante;
-	
+
 	private JLabel labelN_CivicoRistorante;
 	private JLabel labelViaRistorante;
 	private JLabel labelCittaRistorante;
@@ -54,7 +52,6 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
 		JLabel lblNewLabel = new JLabel("Modifica i dati desiderati");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel.setBounds(10, 11, 520, 26);
@@ -69,7 +66,7 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		JLabel labelNomeRistorante = new JLabel("Nome");
 		labelNomeRistorante.setBounds(10, 55, 235, 20);
 		contentPane.add(labelNomeRistorante);
-		
+
 		inputCittaRistorante = new JTextField();
 		inputCittaRistorante.setBounds(206, 86, 260, 20);
 		contentPane.add(inputCittaRistorante);
@@ -79,7 +76,7 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		JLabel labelCittaRistorante = new JLabel("Citta'");
 		labelCittaRistorante.setBounds(10, 86, 235, 20);
 		contentPane.add(labelCittaRistorante);
-		
+
 		inputViaRistorante = new JTextField();
 		inputViaRistorante.setText("");
 		inputViaRistorante.setBounds(206, 117, 260, 20);
@@ -90,7 +87,7 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		JLabel labelViaRistorante = new JLabel("Via");
 		labelViaRistorante.setBounds(10, 117, 235, 20);
 		contentPane.add(labelViaRistorante);
-		
+
 		inputN_CivicoRistorante = new JTextField();
 		inputN_CivicoRistorante.setText("");
 		inputN_CivicoRistorante.setBounds(206, 148, 260, 20);
@@ -101,13 +98,13 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		JLabel labelN_CivicoRistorante = new JLabel("Numero Civico");
 		labelN_CivicoRistorante.setBounds(10, 148, 235, 20);
 		contentPane.add(labelN_CivicoRistorante);
-		
+
 		bottoneConfermaModificaRistorante = new JButton("Ok");
 		bottoneConfermaModificaRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (bottoneConfermaModificaRistorante.isEnabled()) {
-					
+
 					try
 					{
 						Integer idCurr = ristoranteCorrente.getId_Ristorante();
@@ -138,13 +135,13 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 						JOptionPane.showMessageDialog(null, "Il numero civico deve essere un numero!",
 								"Attenzione!", JOptionPane.WARNING_MESSAGE);
 					}
-					
+
 				}
 			}
 		});
 		bottoneConfermaModificaRistorante.setBounds(467, 179, 63, 23);
 		contentPane.add(bottoneConfermaModificaRistorante);
-		
+
 		JButton bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -153,33 +150,33 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		});
 		bottoneIndietro.setBounds(10, 179, 89, 23);
 		contentPane.add(bottoneIndietro);
-		
+
 		nCaratteriNomeRistorante = new JLabel(String.format("%d", inputNomeRistorante.getText().length()));
 		nCaratteriNomeRistorante.setBounds(494, 58, 36, 14);
 		contentPane.add(nCaratteriNomeRistorante);
-		
+
 		nCaratteriCitta = new JLabel(String.format("%d", inputCittaRistorante.getText().length()));
 		nCaratteriCitta.setBounds(494, 89, 36, 14);
 		contentPane.add(nCaratteriCitta);
-		
+
 		nCaratteriVia = new JLabel(String.format("%d", inputViaRistorante.getText().length()));
 		nCaratteriVia.setBounds(494, 120, 36, 14);
 		contentPane.add(nCaratteriVia);
-		
+
 		inputNomeRistorante.getDocument().addDocumentListener(new GestoreTesti());
 		inputCittaRistorante.getDocument().addDocumentListener(new GestoreTesti());
 		inputViaRistorante.getDocument().addDocumentListener(new GestoreTesti());
 		inputN_CivicoRistorante.getDocument().addDocumentListener(new GestoreTesti());
-		
+
 		setVisible(true);
 		setResizable(false);
 	}
-	
+
 	private class GestoreTesti implements DocumentListener{
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			
+
 			if (e.getDocument() == inputNomeRistorante.getDocument())
 			{
 				nCaratteriNomeRistorante.setText(String.format("%d", inputNomeRistorante.getText().length()));
@@ -199,12 +196,12 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 			}
 			else
 				bottoneConfermaModificaRistorante.setEnabled(true);
-			
+
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			
+
 			if (e.getDocument() == inputNomeRistorante.getDocument())
 			{
 				nCaratteriNomeRistorante.setText(String.format("%d", inputNomeRistorante.getText().length()));
@@ -224,14 +221,14 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 			}
 			else
 				bottoneConfermaModificaRistorante.setEnabled(true);
-			
+
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 	}
 }

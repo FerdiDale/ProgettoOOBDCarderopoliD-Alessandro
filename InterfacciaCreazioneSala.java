@@ -60,9 +60,9 @@ public class InterfacciaCreazioneSala extends JFrame
 		BottoneOk.addActionListener(GestoreNomeSala);
 		tornaIndietro.addActionListener(GestoreNomeSala);
 		setVisible(true);
-		
+
 	}
-	
+
 	private class GestoreBottoni implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -97,9 +97,7 @@ public class InterfacciaCreazioneSala extends JFrame
 			}
 		}
 	}
-
 	private class ContaCaratteri implements DocumentListener{
-
 		@Override
 		public void insertUpdate(DocumentEvent e) {
 			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
@@ -110,7 +108,6 @@ public class InterfacciaCreazioneSala extends JFrame
 		public void removeUpdate(DocumentEvent e) {
 			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
 		}
-
 		@Override
 		public void changedUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub

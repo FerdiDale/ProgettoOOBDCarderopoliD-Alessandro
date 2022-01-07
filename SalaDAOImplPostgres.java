@@ -1,9 +1,6 @@
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import java.sql.*;
-
 public class SalaDAOImplPostgres implements SalaDAO 
 {
 public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
@@ -90,6 +87,6 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 			else
 				JOptionPane.showMessageDialog(null,"La modifica non e' andato a buon fine. Si prega di riprovare"+e.getSQLState(),"Errore!",JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 	}	
 }
