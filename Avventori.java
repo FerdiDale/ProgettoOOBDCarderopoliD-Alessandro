@@ -17,7 +17,7 @@ public class Avventori
 	
 	public String toString()
 	{
-		return "<html>"+Nome+" "+Cognome+" "+N_CID+ ( N_tel.isEmpty()? "" : "<bold> N. telefono</bold>= <italic>"+N_tel+"</italic> </html>");
+		return "<html>"+Nome+" "+Cognome+" "+N_CID+ ( N_tel.isEmpty()? "" : "<b> N. telefono</b>= <i>"+N_tel+"</i> </html>");
 	}
 
 	public String getNome() {
