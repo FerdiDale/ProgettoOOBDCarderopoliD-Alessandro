@@ -1,26 +1,22 @@
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
-
 public class InterfacciaCreazioneSala extends JFrame
 {
 	private JButton BottoneOk;
 	private JButton tornaIndietro;
 	private Ristorante ristorante;
-	private JTextField textField;
 	private JTextField NomeSala;
 	private Controller theController;
-	private int id_ristorante;
 	private JLabel contaCaratteri;
-	
+
 	public InterfacciaCreazioneSala(Ristorante ristorante, Controller theController) 
 	{
 		super("Aggiunta Sala");
@@ -49,45 +45,28 @@ public class InterfacciaCreazioneSala extends JFrame
 		tornaIndietro = new JButton("Indietro");
 		tornaIndietro.setBounds(10, 64, 89, 23);
 		getContentPane().add(tornaIndietro);
-		
-		
+
+
 		ContaCaratteri key = new ContaCaratteri();
-		NomeSala.addKeyListener(key);
+		NomeSala.getDocument().addDocumentListener(new ContaCaratteri());
 		NomeSala.setFocusable(true);
 		contaCaratteri = new JLabel("0");
 		contaCaratteri.setBounds(106, 33, 46, 14);
-		getContentPane().add(contaCaratteri);
-		BottoneOk.addActionListener(GestoreNomeSala);
-		tornaIndietro.addActionListener(GestoreNomeSala);
-		setVisible(true);
-		
-	}
-	
-	private class GestoreBottoni implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			if(e.getSource()==BottoneOk)
-			{	
-				boolean nomeTroppoLungo = false;
-				if(NomeSala.getText().isBlank())
-				{
-					JOptionPane.showMessageDialog(null,"Non puoi inserire una sala senza nome!","Errore", JOptionPane.ERROR_MESSAGE);
-				}
-				else
+	@@ -78,17 +78,16 @@ public void actionPerformed(ActionEvent e)
 				{
 					if(NomeSala.getText().length()>40)
 						nomeTroppoLungo = true;
-				}
-				if (nomeTroppoLungo)
-				{
-					JOptionPane.showMessageDialog(null,"Il nome inserito e'  troppo lungo (piu' di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
-					NomeSala.selectAll();
-					NomeSala.replaceSelection("");
-				}
-				else
-				{
-					theController.interfacciaCreazioneSalaOkPremuto(NomeSala.getText(), ristorante);
+
+					if (nomeTroppoLungo)
+					{
+						JOptionPane.showMessageDialog(null,"Il nome inserito e'  troppo lungo (piu' di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
+						NomeSala.selectAll();
+						NomeSala.replaceSelection("");
+					}
+					else
+					{
+						theController.interfacciaCreazioneSalaOkPremuto(NomeSala.getText(), ristorante);
+					}
 				}
 			}
 			else
@@ -96,20 +75,24 @@ public class InterfacciaCreazioneSala extends JFrame
 			}
 		}
 	}
-	private class ContaCaratteri implements KeyListener
-	{
-		public void keyPressed(KeyEvent e)
-		{
-			
+
+	private class ContaCaratteri implements DocumentListener{
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
+
 		}
-		
-		public void keyReleased(KeyEvent e)
-		{
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
 			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
 		}
-		public void keyTyped(KeyEvent e)
-		{
-			
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			// TODO Auto-generated method stub
 		}
+
 	}
 }
