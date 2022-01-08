@@ -43,12 +43,6 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		getContentPane().add(numeroTavolo);
 		numeroTavolo.setText(((Integer)tavoloScelto.getNumero()).toString());
 
-		capacitaTavolo = new JTextField();
-		capacitaTavolo.setBounds(10, 75, 86, 20);
-		getContentPane().add(capacitaTavolo);
-		capacitaTavolo.setColumns(10);
-		capacitaTavolo.setText(((Integer)tavoloScelto.getCapacita()).toString());
-		
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(10, 106, 89, 23);
 		getContentPane().add(bottoneOk);
@@ -64,10 +58,6 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		etichettaNumeroTavolo.setBounds(10, 11, 163, 14);
 		getContentPane().add(etichettaNumeroTavolo);
 		
-		JLabel etichettaCapienzaTavolo = new JLabel("Capienza del tavolo");
-		etichettaCapienzaTavolo.setBounds(10, 54, 94, 20);
-		getContentPane().add(etichettaCapienzaTavolo);
-		
 		setVisible(true);
 		setResizable(false);
 	}
@@ -80,14 +70,13 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 			{
 				boolean valoriValidi = false;
 				
-				if(numeroTavolo.getText().isBlank()== false && capacitaTavolo.getText().isBlank()==false)
+				if(numeroTavolo.getText().isBlank()== false)
 				{
 					try 
 					{
 						numeroCorrente = Integer.parseInt(numeroTavolo.getText());
-						capacitaCorrente = Integer.parseInt(capacitaTavolo.getText());
 						
-						if (numeroCorrente>0 && capacitaCorrente>0)
+						if (numeroCorrente>0)
 							valoriValidi = true;
 						else
 							valoriValidi = false;
@@ -98,7 +87,7 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 					}
 				}
 			
-				if(valoriValidi) theController.bottoneConfermaModificheDatiTavoloPremuto(tavoloScelto, numeroCorrente, capacitaCorrente);
+				if(valoriValidi) theController.bottoneConfermaModificheDatiTavoloPremuto(tavoloScelto, numeroCorrente);
 				else JOptionPane.showMessageDialog(null,"Non sono stati inseriti dei numeri validi. Riprovare.","Errore!", JOptionPane.ERROR_MESSAGE);
 			}
 			
