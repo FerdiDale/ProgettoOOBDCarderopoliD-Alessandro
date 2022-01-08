@@ -97,8 +97,9 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 									queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel +"'"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"','"+lista.get(i).getNtel().getText()+"')";
 								}
 						}
-					if(presente && !lista.get(i).getNtel().getText().isBlank()) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE avventori SET n_tel = '"+lista.get(i).getNtel().getText()+"' WHERE n_cid = '"+lista.get(i).getCid().getText()+"';"); 					 queryTotaleElencoAvventori = queryTotaleElencoAvventori +tavolata+",'"+lista.get(i).getCid().getText()+"')";
-								
+            
+					 if(presente && !lista.get(i).getNtel().getText().isBlank()) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE avventori SET n_tel = '"+lista.get(i).getNtel().getText()+"' WHERE n_cid = '"+lista.get(i).getCid().getText()+"';");
+					 queryTotaleElencoAvventori = queryTotaleElencoAvventori +tavolata+",'"+lista.get(i).getCid().getText()+"')";						
 					
 					if(counterAvventoriNtel>0 && ntel) queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel+" ,(";
 					else if(counterAvventoriNtel == 0 && ntel) queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel+";";
@@ -134,23 +135,6 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		catch(SQLException e)
 		{
 			JOptionPane.showMessageDialog(null, "rimozione elenco avventori "+ e);
-		}
-	}
-	
-
-	
-	public void aggiungiNuovoavventoreAllaTavolata(int id_tavolo, String data, Avventori avventore) 
-	{
-		try
-		{
-			ResultSet tavolataDB = DB_Connection.getInstance().getConnection().createStatement().executeQuery("select id_tavolata from tavolata where id_tavolo = "+id_tavolo+" AND data = '"+data+"';");
-			tavolataDB.next();
-			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("insert into avventori values('"+avventore.getNome()+"','"+avventore.getCognome()+"','"+avventore.getN_CID()+"','"+avventore.getN_tel()+"');");
-			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("insert into elenco_avventori values("+tavolataDB.getInt(1)+",'"+avventore.getN_CID()+"');");
-		}
-		catch(SQLException e)
-		{
-			JOptionPane.showMessageDialog(null, "Aggiunta avventore" +e);
 		}
 	}
 }

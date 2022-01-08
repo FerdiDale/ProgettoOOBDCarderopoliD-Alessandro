@@ -18,9 +18,11 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 	Controller theController;
 	Tavolo tavoloScelto;
 	private JTextField numeroTavolo;
+	private JTextField capacitaTavolo;
 	private JButton bottoneOk;
 	private JButton bottoneIndietro;
 	int numeroCorrente;
+	int capacitaCorrente;
 
 	/**
 	 * Create the frame.
@@ -40,7 +42,7 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		numeroTavolo.setBounds(10, 30, 86, 20);
 		getContentPane().add(numeroTavolo);
 		numeroTavolo.setText(((Integer)tavoloScelto.getNumero()).toString());
-		
+
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(10, 106, 89, 23);
 		getContentPane().add(bottoneOk);

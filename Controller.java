@@ -1,4 +1,4 @@
-
+import java.sql.*;
 import java.util.regex.*;
 
 import javax.swing.JOptionPane;
@@ -49,7 +49,6 @@ public class Controller {
 		{
 			DB_Builder costruttore = new DB_Builder();
 			Controller controllore = new Controller();
-
 		}
 		catch(ErroreIniziale e)
 		{
@@ -699,7 +698,7 @@ public class Controller {
 			if(framesAggiuntaAvventore.get(i).getNome().getText().contains(new StringBuffer("'")) || framesAggiuntaAvventore.get(i).getCognome().getText().contains(new StringBuffer("'"))) noApostrofi = false;
 			if(framesAggiuntaAvventore.get(i).getCid().getText().isBlank() || framesAggiuntaAvventore.get(i).getCognome().getText().isBlank() || framesAggiuntaAvventore.get(i).getNome().getText().isBlank()) controlloCampiNonVuoti = false;
 			if(!framesAggiuntaAvventore.get(i).getNtel().getText().isBlank()) controlloAlmenoUnTelefono = true;
-			if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", framesAggiuntaAvventore.get(i).getNtel().getText()) && !framesAggiuntaAvventore.get(i).getNtel().getText().isEmpty()) formatoNTelGiusto = false;
+			if(!Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", framesAggiuntaAvventore.get(i).getNtel().getText()) && !framesAggiuntaAvventore.get(i).getNtel().getText().isBlank()) formatoNTelGiusto = false;
 			if(!Pattern.matches("C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]",framesAggiuntaAvventore.get(i).getCid().getText())) formatoCidGiusto =false;
 			i++;
 		}
