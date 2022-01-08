@@ -139,12 +139,13 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		
 	}
 
-	public void modificaDatiTavolo(Tavolo tavoloScelto, int numeroCorrente) throws OperazioneFallitaException, TavoloNumeroUgualeException {
+	public void modificaDatiTavolo(Tavolo tavoloScelto, int numeroCorrente, int capacitaCorrente) throws OperazioneFallitaException, TavoloNumeroUgualeException {
 		
 		try
 		{
 			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE TAVOLO AS T "
-															+ "SET Numero = " + numeroCorrente + " "
+															+ " SET Capacita = " + capacitaCorrente + " , "
+															+ "Numero = " + numeroCorrente + " "
 															+ "WHERE T.Id_Tavolo = " + tavoloScelto.getId_Tavolo() + " ;");
 			
 		}

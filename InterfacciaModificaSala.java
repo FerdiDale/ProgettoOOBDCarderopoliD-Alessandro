@@ -60,7 +60,7 @@ public class InterfacciaModificaSala extends JFrame {
 		ContaCaratteri key = new ContaCaratteri();
 		NomeSala.getDocument().addDocumentListener(key);
 		NomeSala.setFocusable(true);
-		contaCaratteri = new JLabel(String.format("%d", NomeSala.getText().length()));
+		contaCaratteri = new JLabel("0");
 		contaCaratteri.setBounds(106, 33, 46, 14);
 		getContentPane().add(contaCaratteri);
 		BottoneOk.addActionListener(GestoreNomeSala);
