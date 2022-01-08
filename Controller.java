@@ -605,11 +605,10 @@ public class Controller {
 		}
 	}
 
-	public void bottoneConfermaModificheDatiTavoloPremuto(Tavolo tavoloScelto, int numeroCorrente,
-			int capacitaCorrente) {
+	public void bottoneConfermaModificheDatiTavoloPremuto(Tavolo tavoloScelto, int numeroCorrente) {
 		try {
 			
-			tavoloDao.modificaDatiTavolo(tavoloScelto, numeroCorrente, capacitaCorrente);
+			tavoloDao.modificaDatiTavolo(tavoloScelto, numeroCorrente);
 			frameModificaDatiTavolo.setVisible(false);
 			frameTavoli = new InterfacciaTavoli(this, tavoloScelto.getSala_App());
 			
