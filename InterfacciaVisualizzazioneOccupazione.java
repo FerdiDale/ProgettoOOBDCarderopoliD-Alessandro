@@ -90,7 +90,6 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		getContentPane().add(bottoneRimuoviAvventore);
 		bottoneRimuoviAvventore.addActionListener(new GestioneBottoni());
 		bottoneRimuoviAvventore.setEnabled(false);
-	
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 257, 89, 23);
@@ -213,7 +212,7 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 			if(!arrayAvventori.get(indiceListaAvventori!=-1 ? indiceListaAvventori : 0).getN_tel().isBlank() && contaNTel == 1) 
 				{
 					bottoneRimuoviAvventore.setEnabled(false);
-					bottoneRimuoviAvventore.setToolTipText("Non si può rimuovere un avventore con un numero di telefono!");
+					bottoneRimuoviAvventore.setToolTipText("Non si puÃ² rimuovere un avventore con un numero di telefono!");
 				}
 			if(tavoli.get(tavoloScelto).getCapacita() == arrayAvventori.size()) 
 				{
