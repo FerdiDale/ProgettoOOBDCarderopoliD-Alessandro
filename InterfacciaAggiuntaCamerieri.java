@@ -190,7 +190,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 							nCaratteriCID.setText("");
 							nCaratteriNome.setText("");
 							nCaratteriCognome.setText("");
-							JOptionPane.showMessageDialog(null,"Il cameriere è stato aggiunto correttamente al database","Conferma",JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Il cameriere e' stato aggiunto correttamente al database","Conferma",JOptionPane.INFORMATION_MESSAGE);
 						}
 						else if (esito.equals("CID_Non_Valido"))
 						{
@@ -219,7 +219,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 						}
 				}
 				else
-				JOptionPane.showMessageDialog(null, "Si prega di controllare le dimensioni dei valori nelle caselle di testo (Nome, Cognome al più 30, CID deve essere esattamente 9.", "Errore!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Si prega di controllare le dimensioni dei valori nelle caselle di testo (Nome, Cognome al piu' 30, CID deve essere esattamente 9.", "Errore!", JOptionPane.ERROR_MESSAGE);
 			}
 			else if (e.getSource() == tornaIndietro)
 			{

@@ -107,6 +107,9 @@ public class InterfacciaSale extends JFrame
 				theController.bottoneRimozioneSalaPremuto(corrente);
 				modelloLista.removeAllElements();
 				modelloLista.addAll(listaSale);
+				VediTavoli.setEnabled(false);
+				bottoneModificaSala.setEnabled(false);
+				RimuoviSala.setEnabled(false);
 			}
 			else if (e.getSource() == AggiuntaSala)
 			{

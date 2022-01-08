@@ -151,9 +151,13 @@ public class InterfacciaTavoli extends JFrame
 				else if(e.getSource() == bottoneEliminaTavolo)
 				{
 					theController.bottoneEliminaTavoloPremuto(trovaTavoloAssociato(numeroTavoloSelezionato));
+					tavoli.remove(trovaTavoloAssociato(numeroTavoloSelezionato));
 					areaDiDisegno.remove(trovaLabelTavoloAssociato(numeroTavoloSelezionato));	
 					areaDiDisegno.validate();
 					areaDiDisegno.repaint();
+					bottoneGestisciAdiacenze.setEnabled(false);
+					bottoneEliminaTavolo.setEnabled(false);
+					bottoneModificaDatiTavolo.setEnabled(false);
 				}
 				else if(e.getSource() == bottoneIndietro)
 				{
