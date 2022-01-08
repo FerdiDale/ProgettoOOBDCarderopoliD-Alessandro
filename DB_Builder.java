@@ -96,8 +96,9 @@ public class DB_Builder
 				stmt.executeUpdate("CREATE TABLE Elenco_Avventori"
 								+ "(Id_Tavolata INTEGER NOT NULL,"
 								+ "N_CID CHAR(9) NOT NULL CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
-								+ "CONSTRAINT InTavolata FOREIGN KEY(Id_Tavolata) REFERENCES Tavolata(Id_Tavolata) ON DELETE CASCADE ON UPDATE CASCADE,"
-								+ "CONSTRAINT DiAvventore FOREIGN KEY(N_CID) REFERENCES Avventori(N_CID) ON DELETE CASCADE ON UPDATE CASCADE);");
+								+ "CONSTRAINT InTavolata FOREIGN KEY(Id_Tavolata) REFERENCES Tavolata(Id_Tavolata) ON DELETE CASCADE ON UPDATE CASCADE, "
+								+ "CONSTRAINT DiAvventore FOREIGN KEY(N_CID) REFERENCES Avventori(N_CID) ON DELETE CASCADE ON UPDATE CASCADE, "
+								+ "CONSTRAINT UnicoPerTavolata UNIQUE (Id_Tavolata, N_CID) );");
 			
 				stmt.executeUpdate("CREATE VIEW N_Avventori AS "
 								+ "SELECT T.Id_Tavolata, COUNT (EA.N_CID) AS Num "
@@ -125,7 +126,7 @@ public class DB_Builder
 								+ "                        ON DELETE CASCADE                  ON UPDATE CASCADE);");
 				
 				stmt.executeUpdate("CREATE TABLE Posizioni"
-						          +"(Id_Tavolo INTEGER NOT NULL PRIMARY KEY,"
+						          +"(Id_Tavolo INTEGER NOT NULL UNIQUE,"
 						          + "PosX INTEGER NOT NULL,"
 						          +"PosY INTEGER NOT NULL,"
 						          +"DimX INTEGER NOT NULL,"
@@ -300,8 +301,9 @@ public class DB_Builder
 								+ "WHERE N_TA.Num>TAV.Capacita; "
 								+ "IF (Counting>0) THEN "
 								+ "	DELETE "
-								+ "	FROM TAVOLATA AS TA "
-								+ "	WHERE TA.Id_Tavolata = NEW.Id_Tavolata; "
+								+ "	FROM Elenco_Avventori AS EA "
+								+ "	WHERE EA.Id_Tavolata = NEW.Id_Tavolata "
+								+ " AND EA.N_CID = NEW.N_CID; "
 								+ "END IF; "
 								+ "RETURN NEW; "
 								+ "END; "
@@ -317,10 +319,10 @@ public class DB_Builder
 								+ "DECLARE "
 								+ "Counting integer; "
 								+ "BEGIN "
-								+ "SELECT COUNT(AV.N_tel) INTO Counting "
-								+ "FROM Elenco_Avventori AS E_A, Tavolata AS TA, AVVENTORI AS AV "
-								+ " WHERE E_A.Id_Tavolata = TA.Id_Tavolata AND AV.N_CID = E_A.N_CID AND TA.Id_Tavolata = NEW.Id_Tavolata; "
-								+ "IF (Counting=0) THEN "
+								+ "SELECT COUNT(AV.N_Tel) INTO Counting "
+								+ "FROM Elenco_Avventori AS E_A, AVVENTORI AS AV "
+								+ "WHERE AV.N_CID = E_A.N_CID AND E_A.Id_Tavolata = NEW.Id_Tavolata; "
+								+ "IF (Counting = 0) THEN "
 								+ "	DELETE "
 								+ "	FROM TAVOLATA AS TA "
 								+ "	WHERE TA.Id_Tavolata = NEW.Id_Tavolata; "
@@ -333,12 +335,70 @@ public class DB_Builder
 								+ "AFTER INSERT ON Elenco_Avventori "
 								+ "FOR EACH ROW "
 								+ "EXECUTE FUNCTION NoTavolateSenzaNumeriDiTelefono();");
+				
+				stmt.executeUpdate("CREATE FUNCTION ImpedireModificaTavolataSenzaNumeriDiTelefono() RETURNS TRIGGER "
+						+ "AS $$ "
+						+ "DECLARE "
+						+ "CursoreNumeriTelefono CURSOR IS SELECT COUNT(AV.N_Tel) AS Numeri, TA.Id_Tavolata "
+						+ "								FROM AVVENTORI AS AV, TAVOLATA AS TA, ELENCO_AVVENTORI AS EA "
+						+ "								WHERE NEW.N_CID IN (SELECT EA2.N_CID FROM ELENCO_AVVENTORI AS EA2 WHERE EA2.Id_Tavolata = TA.Id_Tavolata) "
+						+ "								AND AV.N_CID = EA.N_CID AND TA.ID_TAVOLATA = EA.ID_TAVOLATA "
+						+ "								GROUP BY TA.Id_Tavolata; "
+						+ "NessunProblema BOOLEAN := true; "
+						+ "BEGIN  "
+						+ "FOR NumeriTavolataCorrente IN CursoreNumeriTelefono "
+						+ "LOOP "
+						+ "IF (NumeriTavolataCorrente.Numeri = 0) THEN  "
+						+ "NessunProblema = false; "
+						+ "END IF;  "
+						+ "END LOOP; "
+						+ "IF (NessunProblema = false) THEN "
+						+ "UPDATE AVVENTORI AS AV "
+						+ "SET N_TEL = OLD.N_TEL "
+						+ "WHERE AV.N_CID = NEW.N_CID; "
+						+ "END IF; "
+						+ "RETURN NEW; "
+						+ "END; "
+						+ "$$ LANGUAGE plpgsql;");
+				
+				stmt.executeUpdate("CREATE TRIGGER TriggerModificaNumeriDiTelefono "
+						+ "AFTER UPDATE OF N_Tel ON AVVENTORI "
+						+ "FOR EACH ROW "
+						+ "WHEN (NEW.N_Tel IS NULL AND OLD.N_TEL IS NOT NULL) "
+						+ "EXECUTE FUNCTION ImpedireModificaTavolataSenzaNumeriDiTelefono();");
+				
+				stmt.executeUpdate("CREATE FUNCTION ImpedisciModificaTavolatePiuGrandiDiCapacita() RETURNS TRIGGER "
+						+ "AS $$ "
+						+ "DECLARE "
+						+ "Counting integer; "
+						+ "BEGIN  "
+						+ "SELECT COUNT(*) INTO Counting "
+						+ "FROM (N_Avventori AS N_A JOIN Tavolata AS TA ON N_A.Id_Tavolata = TA.Id_Tavolata) AS N_TA JOIN Tavolo AS TAV ON N_TA.Id_Tavolo = TAV.Id_Tavolo "
+						+ "WHERE N_TA.Num>TAV.Capacita; "
+						+ "IF (Counting>0) THEN "
+						+ "	UPDATE ELENCO_AVVENTORI AS EA "
+						+ "	SET Id_Tavolata = OLD.Id_Tavolata "
+						+ "	WHERE EA.N_CID = OLD.N_CID AND EA.Id_Tavolata = NEW.Id_Tavolata; "
+						+ "END IF; "
+						+ "RETURN NEW; "
+						+ "END; "
+						+ "$$ LANGUAGE plpgsql; ");
+				
+				stmt.executeUpdate("CREATE TRIGGER TriggerModificaNoTavolatePiuGrandi "
+						+ "AFTER UPDATE OF Id_Tavolata ON Elenco_Avventori "
+						+ "FOR EACH ROW "
+						+ "WHEN (NEW.Id_Tavolata <> OLD.Id_Tavolata) "
+						+ "EXECUTE FUNCTION ImpedisciModificaTavolatePiuGrandiDiCapacita();");
+				
+				stmt.executeUpdate("CREATE INDEX Indice_Data_Occupazioni ON TAVOLATA (DATA);");
+				
 
 			}
 			catch(SQLException e)
 			{
 				CreazioneErrataDatabaseException ecc = new CreazioneErrataDatabaseException();
 				ecc.stampaMessaggio();
+				System.out.println(e.getMessage());
 			}
 		}
 	}

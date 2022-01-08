@@ -97,9 +97,9 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 									queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel +"'"+lista.get(i).getNome().getText()+"','"+lista.get(i).getCognome().getText()+"','"+lista.get(i).getCid().getText()+"','"+lista.get(i).getNtel().getText()+"')";
 								}
 						}
+            
 					 if(presente && !lista.get(i).getNtel().getText().isBlank()) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE avventori SET n_tel = '"+lista.get(i).getNtel().getText()+"' WHERE n_cid = '"+lista.get(i).getCid().getText()+"';");
-					 queryTotaleElencoAvventori = queryTotaleElencoAvventori +tavolata+",'"+lista.get(i).getCid().getText()+"')";
-								
+					 queryTotaleElencoAvventori = queryTotaleElencoAvventori +tavolata+",'"+lista.get(i).getCid().getText()+"')";						
 					
 					if(counterAvventoriNtel>0 && ntel) queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel+" ,(";
 					else if(counterAvventoriNtel == 0 && ntel) queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel+";";
