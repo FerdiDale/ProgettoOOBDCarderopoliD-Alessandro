@@ -1,7 +1,6 @@
 
 public class Cameriere 
 {
-
 	private int Id_Cameriere;
 	private String CID_Cameriere;
 	private String Nome;
@@ -83,6 +82,6 @@ public class Cameriere
 	}
 	public String toString()
 	{
-		return Nome+" "+Cognome+" "+CID_Cameriere;
+		return Nome + " " + Cognome + " " + CID_Cameriere;
 	}
 }

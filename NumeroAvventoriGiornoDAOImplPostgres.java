@@ -14,18 +14,18 @@ public class NumeroAvventoriGiornoDAOImplPostgres implements NumeroAvventoriGior
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
 			ResultSet risultatoQuery;
 			risultatoQuery = stmt.executeQuery(" SELECT EXTRACT (DAY FROM T.DATA) AS GIORNO, "
-			+   "COUNT (E_A.N_CID) AS NUMAVVENTORI "
-			+	"FROM TAVOLATA AS T NATURAL JOIN ELENCO_AVVENTORI AS E_A "
-			+	" NATURAL JOIN TAVOLO AS TAV NATURAL JOIN SALA AS S "
-			+	"WHERE EXTRACT (YEAR FROM T.DATA) = " + annoScelto.toString()
-			+	" AND S.Id_Ristorante = " + ristoranteScelto.getId_Ristorante()
-			+	" AND EXTRACT (MONTH FROM T.DATA) = " + meseScelto.toString()
-			+	" GROUP BY EXTRACT (DAY FROM T.DATA); ");
+										+   "COUNT (E_A.N_CID) AS NUMAVVENTORI "
+										+	"FROM TAVOLATA AS T NATURAL JOIN ELENCO_AVVENTORI AS E_A "
+										+	" NATURAL JOIN TAVOLO AS TAV NATURAL JOIN SALA AS S "
+										+	"WHERE EXTRACT (YEAR FROM T.DATA) = " + annoScelto.toString()
+										+	" AND S.Id_Ristorante = " + ristoranteScelto.getId_Ristorante()
+										+	" AND EXTRACT (MONTH FROM T.DATA) = " + meseScelto.toString()
+										+	" GROUP BY EXTRACT (DAY FROM T.DATA); ");
 			
 			while(risultatoQuery.next()) {
-				Integer giornoCurr = risultatoQuery.getInt(1);
-				Integer numAvventoriCurr = risultatoQuery.getInt(2);
-				NumeroAvventoriGiorno statisticheCorrenti = new NumeroAvventoriGiorno(numAvventoriCurr, giornoCurr, meseScelto, annoScelto);
+				Integer giornoCorrente = risultatoQuery.getInt(1);
+				Integer numAvventoriCorrente = risultatoQuery.getInt(2);
+				NumeroAvventoriGiorno statisticheCorrenti = new NumeroAvventoriGiorno(numAvventoriCorrente, giornoCorrente, meseScelto, annoScelto);
 				listaStatistiche.add(statisticheCorrenti);
 			}
 			

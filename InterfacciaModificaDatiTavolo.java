@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,22 +16,22 @@ import javax.swing.border.EmptyBorder;
 public class InterfacciaModificaDatiTavolo extends JFrame {
 
 	private JPanel contentPane;
-	Controller theController;
-	Tavolo tavoloScelto;
-	private JTextField numeroTavolo;
-	private JTextField capacitaTavolo;
+	private Controller theController;
+	private Tavolo tavoloScelto;
+	private JTextField textFieldNumeroTavolo;
 	private JButton bottoneOk;
 	private JButton bottoneIndietro;
-	int numeroCorrente;
-	int capacitaCorrente;
+	private int numeroCorrente;
+	private JLabel etichettaNumeroTavolo;
 
-	/**
-	 * Create the frame.
-	 */
 	public InterfacciaModificaDatiTavolo(Controller c, Tavolo tavoloCorrente) {
 		
 		theController = c;
 		tavoloScelto = tavoloCorrente;
+		
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -38,10 +39,10 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		numeroTavolo = new JTextField();
-		numeroTavolo.setBounds(10, 30, 86, 20);
-		getContentPane().add(numeroTavolo);
-		numeroTavolo.setText(((Integer)tavoloScelto.getNumero()).toString());
+		textFieldNumeroTavolo = new JTextField();
+		textFieldNumeroTavolo.setBounds(10, 30, 86, 20);
+		getContentPane().add(textFieldNumeroTavolo);
+		textFieldNumeroTavolo.setText(((Integer)tavoloScelto.getNumero()).toString());
 
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(10, 106, 89, 23);
@@ -54,7 +55,7 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		bottoneOk.addActionListener(new GestoreBottoni());
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
-		JLabel etichettaNumeroTavolo = new JLabel("Numero del tavolo");
+		etichettaNumeroTavolo = new JLabel("Numero del tavolo");
 		etichettaNumeroTavolo.setBounds(10, 11, 163, 14);
 		getContentPane().add(etichettaNumeroTavolo);
 		
@@ -70,11 +71,11 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 			{
 				boolean valoriValidi = false;
 				
-				if(numeroTavolo.getText().isBlank()== false)
+				if(textFieldNumeroTavolo.getText().isBlank()== false)
 				{
 					try 
 					{
-						numeroCorrente = Integer.parseInt(numeroTavolo.getText());
+						numeroCorrente = Integer.parseInt(textFieldNumeroTavolo.getText());
 						
 						if (numeroCorrente>0)
 							valoriValidi = true;

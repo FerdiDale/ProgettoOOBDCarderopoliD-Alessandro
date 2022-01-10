@@ -12,7 +12,8 @@ public class TavolataDAOImplPostgres implements TavolataDAO
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 	}
 }

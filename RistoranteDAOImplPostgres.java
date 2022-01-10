@@ -11,22 +11,17 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		{
 			ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-			ResultSet risultatoQuery;
-			risultatoQuery = stmt.executeQuery("SELECT * FROM RISTORANTE");
+			ResultSet risultatoQuery = stmt.executeQuery("SELECT * FROM RISTORANTE");
 			
 			while(risultatoQuery.next()) {
-				Ristorante ristoranteCurr = new Ristorante();
-				Integer idCurr = risultatoQuery.getInt(1);
-				String nomeCurr = risultatoQuery.getString(2);
-				String viaCurr = risultatoQuery.getString(3);
-				Integer n_CivicoCurr = risultatoQuery.getInt(4);
-				String cittaCurr = risultatoQuery.getString(5);
-				ristoranteCurr.setId_Ristorante(idCurr);
-				ristoranteCurr.setNome(nomeCurr);
-				ristoranteCurr.setVia(viaCurr);
-				ristoranteCurr.setN_Civico(n_CivicoCurr);
-				ristoranteCurr.setCitta(cittaCurr);
-				listaRistoranti.add(ristoranteCurr);
+				
+				Integer idCorrente = risultatoQuery.getInt(1);
+				String nomeCorrente = risultatoQuery.getString(2);
+				String viaCorrente = risultatoQuery.getString(3);
+				Integer n_CivicoCorrente = risultatoQuery.getInt(4);
+				String cittaCorrente = risultatoQuery.getString(5);
+				Ristorante ristoranteCorrente = new Ristorante(idCorrente, nomeCorrente, cittaCorrente, viaCorrente, n_CivicoCorrente);
+				listaRistoranti.add(ristoranteCorrente);
 			}
 			
 			return listaRistoranti;

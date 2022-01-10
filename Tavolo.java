@@ -11,9 +11,7 @@ public class Tavolo
 	private int DimX;
 	private int DimY;
 	private ArrayList<Tavolo> TavoliAdiacenti = new ArrayList<Tavolo>();
-	
-	//metti tavoliAdiacenti
-	
+		
 	public Tavolo(int id_Tavolo, int numero, int capacita, int posX, int posY, int dimX, int dimY, Sala sala) {
 		super();
 		Id_Tavolo = id_Tavolo;

@@ -23,13 +23,13 @@ public class InterfacciaSale extends JFrame
 	private DefaultListModel<Sala> modelloLista = new DefaultListModel<Sala>();
 	private JList<Sala> listaVisibile = new JList<>(modelloLista);
 	private int elementoSelezionato = -1;
-	private JButton GestioneCamerieri;
-	private JButton RimuoviSala ;
-	private JButton VediTavoli ;
-	private JButton AggiuntaSala;
-	private JScrollPane scorrimentoPerlistavisibile;
+	private JButton bottoneGestioneCamerieri;
+	private JButton bottoneRimuoviSala ;
+	private JButton bottoneVediTavoli ;
+	private JButton bottoneAggiuntaSala;
+	private JScrollPane scorrimentoPerListaVisibile;
 	private Controller theController;
-	private JButton tornaIndietro;
+	private JButton bottoneIndietro;
 	private JButton bottoneModificaSala;
 
 	public InterfacciaSale(Controller c, Ristorante ristorante) 
@@ -43,33 +43,33 @@ public class InterfacciaSale extends JFrame
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
-		AggiuntaSala = new JButton("Aggiungi sala");
-		AggiuntaSala.setBounds(290, 9, 120, 23);
-		getContentPane().add(AggiuntaSala);
+		bottoneAggiuntaSala = new JButton("Aggiungi sala");
+		bottoneAggiuntaSala.setBounds(290, 9, 120, 23);
+		getContentPane().add(bottoneAggiuntaSala);
 		
-		GestioneCamerieri = new JButton("Gestisci camerieri");
-		GestioneCamerieri.setBounds(273, 43, 151, 23);
-	    getContentPane().add(GestioneCamerieri);
+		bottoneGestioneCamerieri = new JButton("Gestisci camerieri");
+		bottoneGestioneCamerieri.setBounds(273, 43, 151, 23);
+	    getContentPane().add(bottoneGestioneCamerieri);
 		
-		RimuoviSala = new JButton("Rimuovi sala selezionata");
-		RimuoviSala.setBounds(234, 195, 176, 55);
-		if (elementoSelezionato == -1) RimuoviSala.setEnabled(false);
-		getContentPane().add(RimuoviSala);
+		bottoneRimuoviSala = new JButton("Rimuovi sala selezionata");
+		bottoneRimuoviSala.setBounds(234, 195, 176, 55);
+		if (elementoSelezionato == -1) bottoneRimuoviSala.setEnabled(false);
+		getContentPane().add(bottoneRimuoviSala);
 		
-		VediTavoli = new JButton("Vedi i tavoli della sala selezionata");
-		VediTavoli.setBounds(10, 195, 205, 55);
-		getContentPane().add(VediTavoli);
-		if (elementoSelezionato == -1) VediTavoli.setEnabled(false);
+		bottoneVediTavoli = new JButton("Vedi i tavoli della sala selezionata");
+		bottoneVediTavoli.setBounds(10, 195, 205, 55);
+		getContentPane().add(bottoneVediTavoli);
+		if (elementoSelezionato == -1) bottoneVediTavoli.setEnabled(false);
 		
-		scorrimentoPerlistavisibile = new JScrollPane();
-		scorrimentoPerlistavisibile.setBounds(10, 11, 253, 170);
-	    getContentPane().add(scorrimentoPerlistavisibile);
+		scorrimentoPerListaVisibile = new JScrollPane();
+		scorrimentoPerListaVisibile.setBounds(10, 11, 253, 170);
+	    getContentPane().add(scorrimentoPerListaVisibile);
 		
-	    scorrimentoPerlistavisibile.setViewportView(listaVisibile);
+	    scorrimentoPerListaVisibile.setViewportView(listaVisibile);
 	    
-	    tornaIndietro = new JButton("Indietro");
-	    tornaIndietro.setBounds(290, 136, 120, 17);
-	    getContentPane().add(tornaIndietro);
+	    bottoneIndietro = new JButton("Indietro");
+	    bottoneIndietro.setBounds(290, 136, 120, 17);
+	    getContentPane().add(bottoneIndietro);
 
 	    bottoneModificaSala = new JButton("Modifica nome sala");
 	    bottoneModificaSala.setBounds(273, 77, 151, 23);
@@ -80,11 +80,11 @@ public class InterfacciaSale extends JFrame
 		GestoreSelezioneLista selezione = new GestoreSelezioneLista();
 		listaVisibile.addListSelectionListener(selezione);
 		
-		tornaIndietro.addActionListener(handler);
-		RimuoviSala.addActionListener(handler);
-		AggiuntaSala.addActionListener(handler);
-		GestioneCamerieri.addActionListener(handler);
-		VediTavoli.addActionListener(handler);
+		bottoneIndietro.addActionListener(handler);
+		bottoneRimuoviSala.addActionListener(handler);
+		bottoneAggiuntaSala.addActionListener(handler);
+		bottoneGestioneCamerieri.addActionListener(handler);
+		bottoneVediTavoli.addActionListener(handler);
 		bottoneModificaSala.addActionListener(handler);
 
 		listaSale.clear();
@@ -100,30 +100,30 @@ public class InterfacciaSale extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if (e.getSource() == RimuoviSala)
+			if (e.getSource() == bottoneRimuoviSala)
 			{
 				Sala corrente = listaSale.get(elementoSelezionato);
 				listaSale.remove(elementoSelezionato);
 				theController.bottoneRimozioneSalaPremuto(corrente);
 				modelloLista.removeAllElements();
 				modelloLista.addAll(listaSale);
-				VediTavoli.setEnabled(false);
+				bottoneVediTavoli.setEnabled(false);
 				bottoneModificaSala.setEnabled(false);
-				RimuoviSala.setEnabled(false);
+				bottoneRimuoviSala.setEnabled(false);
 			}
-			else if (e.getSource() == AggiuntaSala)
+			else if (e.getSource() == bottoneAggiuntaSala)
 			{
 				theController.bottoneAggiuntaSalaPremuto(ristorante);
 			}
-			else if (e.getSource() == GestioneCamerieri)
+			else if (e.getSource() == bottoneGestioneCamerieri)
 			{
 				theController.bottoneGestioneCamerieriPremuto(ristorante);
 			}
-			else if (e.getSource() == tornaIndietro)
+			else if (e.getSource() == bottoneIndietro)
 			{
 				theController.bottoneTornaIndietroSalePremuto();
 			}
-			else if (e.getSource() == VediTavoli)
+			else if (e.getSource() == bottoneVediTavoli)
 			{
 				Sala corrente = listaSale.get(elementoSelezionato);
 				theController.bottoneVediTavoliPremuto(corrente);
@@ -141,8 +141,8 @@ public class InterfacciaSale extends JFrame
 		public void valueChanged(ListSelectionEvent e)
 		{
 			elementoSelezionato = listaVisibile.getSelectedIndex();
-			RimuoviSala.setEnabled(true);
-			VediTavoli.setEnabled(true);
+			bottoneRimuoviSala.setEnabled(true);
+			bottoneVediTavoli.setEnabled(true);
 			bottoneModificaSala.setEnabled(true);
 		}
 	}

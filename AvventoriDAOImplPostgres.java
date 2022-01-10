@@ -24,7 +24,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		}
 		catch(SQLException e)
 		{ 
-			JOptionPane.showMessageDialog(null, e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 			return risultato;
 		}
 	}
@@ -38,7 +39,7 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		boolean valido = true;
 		int counterAvventoriNtelIniziali = 0;
 		int counterAvventoriNoNtelIniziali = 0;
-		int removalNTel = 0; //per rimuovere dagli avventori inseribili con numero di telefono (inizialmente tutti) quelli che si trovano gi‡ nel db. Altrimenti la query risulterebbe errata
+		int removalNTel = 0; //per rimuovere dagli avventori inseribili con numero di telefono (inizialmente tutti) quelli che si trovano gi√† nel db. Altrimenti la query risulterebbe errata
 		int removalNoNTel = 0; //stesso ma per quelli senza numero di telefono
 		int counterAvventoriNtel = 0;
 		int counterAvventoriNoNtel = 0;
@@ -46,9 +47,9 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		String queryTotaleAvventoriConNTel= "INSERT INTO avventori VALUES(";
 		ArrayList<String> elencoAvventori = new ArrayList<String>();
 		ArrayList<Integer> giaEseguiti = new ArrayList<Integer>();
-		System.out.println("Numero di avventori = "+ lista.size());
 		ResultSet prova;
 		int tavolata=-1;
+    
 		try
 		{
 			ResultSet tavolataDB =DB_Connection.getInstance().getConnection().createStatement().executeQuery("select id_tavolata from tavolata where id_tavolo = "+lista.get(0).getTavoli().get(lista.get(0).getTavoloScelto()).getId_Tavolo()+" AND data = '"+lista.get(0).getData()+"';");
@@ -76,7 +77,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, "Ricerca tavolata in avventori "+ e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 		for(int i = 0; i< lista.size();i++)
 		{
@@ -105,7 +107,7 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 							}
 	            
 						elencoAvventori.add("call unicotavperdata('"+lista.get(i).getCid().getText()+"',"+tavolata+");");	
-						System.out.println("Ë stato aggiunto un nuovo elemento ad elenco avventori");
+						System.out.println("√® stato aggiunto un nuovo elemento ad elenco avventori");
 						
 						 if(presente && !lista.get(i).getNtel().getText().isBlank()) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE avventori   SET n_tel = '"+lista.get(i).getNtel().getText()+"' WHERE n_cid = '"+lista.get(i).getCid().getText()+"';");
 									
@@ -125,7 +127,6 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 					JOptionPane.showMessageDialog(null, e);
 				}
 		}
-				System.out.println(elencoAvventori);
 			 for (int j = 0; j<elencoAvventori.size(); j++)
 			 {
 				if(!giaEseguiti.contains(j) && valido)	 
@@ -135,9 +136,9 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 					 }
 					 catch(SQLException e)
 					 {
-						 if(Pattern.matches(".*L avventore si trova gi‡ in un altra tavolata nella data scelta!(.*\n.*)*", e.getMessage())) 
+						 if(Pattern.matches(".*L avventore si trova gi√† in un altra tavolata nella data scelta!(.*\n.*)*", e.getMessage())) 
 							 {
-							 	JOptionPane.showMessageDialog(null, "L'avventore con CID "+ lista.get(j).getCid().getText()+" Ë presente in un altra tavolata in questa data. Non sar‡ inserito nella tavolata corrente.","Informazione",JOptionPane.INFORMATION_MESSAGE);
+							 	JOptionPane.showMessageDialog(null, "L'avventore con CID "+ lista.get(j).getCid().getText()+" √® presente in un altra tavolata in questa data. Non sar√† inserito nella tavolata corrente.","Informazione",JOptionPane.INFORMATION_MESSAGE);
 							 	if(lista.get(j).getNtel().getText().isBlank()) counterAvventoriNoNtelIniziali --;
 							 	else 
 							 	{//Se ci sta ancora qualche avventore con un numero di telefono, lo inserisco per non attivare il trigger e lo salvo nell'arraylist per non inserirlo 2 volte
@@ -154,19 +155,19 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 										 		}
 										 		catch(SQLException l)
 										 		{
-										 			if(Pattern.matches(".*L avventore si trova gi‡ in un altra tavolata nella data scelta!(.*\n.*)*", e.getMessage())) 
+										 			if(Pattern.matches(".*L avventore si trova gi√† in un altra tavolata nella data scelta!(.*\n.*)*", e.getMessage())) 
 													 {
-													 	JOptionPane.showMessageDialog(null, "L'avventore con CID "+ lista.get(j).getCid().getText()+" Ë presente in un altra tavolata in questa data. Non sar‡ inserito nella tavolata corrente.","Informazione",JOptionPane.INFORMATION_MESSAGE);
+													 	JOptionPane.showMessageDialog(null, "L'avventore con CID "+ lista.get(j).getCid().getText()+" √® presente in un altra tavolata in questa data. Non sar√† inserito nella tavolata corrente.","Informazione",JOptionPane.INFORMATION_MESSAGE);
 													 	counterAvventoriNtelIniziali --;
 													 }
-										 			if(counterAvventoriNtelIniziali == 0)  JOptionPane.showMessageDialog(null, "La tavolata corrente non ha clienti con numero di telefono inseribili, per cui non verr‡ registrata. Si prega di riprovare.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
+										 			if(counterAvventoriNtelIniziali == 0)  JOptionPane.showMessageDialog(null, "La tavolata corrente non ha clienti con numero di telefono inseribili, per cui non verr√† registrata. Si prega di riprovare.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
 										 		}	 	
 									 	}
 							 		 else  if(counterAvventoriNtelIniziali == 0 && mode == 0)
 									 	{
 							 			 	valido = false;
 							 			 	//gestisci la situazione dall'aggiunta dell'avventore singolo
-								 			JOptionPane.showMessageDialog(null, "La tavolata corrente non ha clienti con numero di telefono inseribili, per cui non verr‡ registrata. Si prega di riprovare.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
+								 			JOptionPane.showMessageDialog(null, "La tavolata corrente non ha clienti con numero di telefono inseribili, per cui non verr√† registrata. Si prega di riprovare.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
 											 try
 											 {
 												 DB_Connection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM Tavolata WHERE id_tavolata = "+ tavolata+";");
@@ -193,7 +194,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, "rimozione elenco avventori "+ e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 	}
 }

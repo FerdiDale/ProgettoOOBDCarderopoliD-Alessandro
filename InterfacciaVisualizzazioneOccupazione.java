@@ -36,6 +36,10 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 	private JButton bottoneRimuoviAvventore;
 	private JButton bottoneAggiungiAvventore;
 	private JButton bottoneAggiungiCameriere;
+	private JScrollPane scrollPaneAvventori;
+	private JScrollPane scrollPaneCamerieri;
+	private JLabel indicazioneAvventori;
+	private JLabel indicazioneCamerieri;
 	
 	public InterfacciaVisualizzazioneOccupazione(Controller controller, ArrayList<Tavolo> tavoli, int tavoloScelto, String dataScelta) 
 	{
@@ -49,23 +53,23 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		this.dataScelta= dataScelta;
 		this.tavoloScelto = tavoloScelto;
 		this.tavoli = tavoli;
-		JScrollPane scrollPaneAvventori = new JScrollPane();
+		scrollPaneAvventori = new JScrollPane();
 		scrollPaneAvventori.setBounds(10, 45, 170, 100);
 		getContentPane().add(scrollPaneAvventori);
 
 		scrollPaneAvventori.setViewportView(listaAvventori);
 		
-		JScrollPane scrollPaneCamerieri = new JScrollPane();
+		scrollPaneCamerieri = new JScrollPane();
 		scrollPaneCamerieri.setBounds(310, 45, 164, 100);
 		getContentPane().add(scrollPaneCamerieri);
 		
 		scrollPaneCamerieri.setViewportView(listaCamerieri);
 		
-		JLabel indicazioneAvventori = new JLabel("Avventori");
+		indicazioneAvventori = new JLabel("Avventori");
 		indicazioneAvventori.setBounds(10, 20, 170, 14);
 		getContentPane().add(indicazioneAvventori);
 		
-		JLabel indicazioneCamerieri = new JLabel("Camerieri che hanno servito");
+		indicazioneCamerieri = new JLabel("Camerieri che hanno servito");
 		indicazioneCamerieri.setBounds(310, 20, 164, 14);
 		getContentPane().add(indicazioneCamerieri);
 		
@@ -104,14 +108,14 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		modelloListaCameriere.removeAllElements();
 		modelloListaCameriere.addAll(arrayCameriere);
 		
-		for (int i = 0; i<arrayAvventori.size();i++)
+		for (Avventori avventoreCorrente : arrayAvventori)
 		{
-			if(Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",arrayAvventori.get(i).getN_tel())) contaNTel++;
+			if(Pattern.matches("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", avventoreCorrente.getN_tel())) contaNTel++;
+
 		}
 		
 		listaAvventori.addListSelectionListener(new GestioneListe());
 		listaCamerieri.addListSelectionListener(new GestioneListe());
-		System.out.println(arrayAvventori+ " "+ arrayCameriere);
 		
 		if(tavoli.get(tavoloScelto).getCapacita() == arrayAvventori.size()) 
 		{
@@ -153,17 +157,15 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 			else if(e.getSource() == bottoneAggiungiAvventore)
 			{
 				ArrayList<String> avventoriAlTavolo = new ArrayList<String>();
-				for (int i = 0; i<arrayAvventori.size();i++) avventoriAlTavolo.add(arrayAvventori.get(i).getN_CID());
-				System.out.println(avventoriAlTavolo);
+				for (Avventori avventoreCorrente : arrayAvventori) avventoriAlTavolo.add(avventoreCorrente.getN_CID());
 				theController.bottoneAggiungiAvventoreVisualizzazioneOccupazione(dataScelta, tavoli, tavoloScelto,avventoriAlTavolo);
 			}
 			else if(e.getSource() == bottoneAggiungiCameriere)
 			{
 				ArrayList<Integer> idCamerieriPresenti = new ArrayList<Integer>();
-				for(int i = 0;i < arrayCameriere.size(); i++)
-				{
-					idCamerieriPresenti.add(arrayCameriere.get(i).getId_Cameriere());
-				}
+				
+				for (Cameriere cameriereCorrente : arrayCameriere) idCamerieriPresenti.add(cameriereCorrente.getId_Cameriere());
+
 				theController.bottoneAggiungiCameriereInterfacciaVisualizzazioneOccupazione(tavoli, tavoloScelto, dataScelta,idCamerieriPresenti);
 			}
 		}

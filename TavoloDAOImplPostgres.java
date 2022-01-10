@@ -21,7 +21,8 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null,e.getMessage());
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 		return risultato;
 	}
@@ -84,7 +85,8 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 			return risultato;
 		}
 	}
@@ -101,10 +103,10 @@ public class TavoloDAOImplPostgres implements TavoloDAO
 					+ " WHERE Id_Tavolo1 = " + tavoloScelto.getId_Tavolo() + " ;");
 			
 			while(risultatoQuery.next()) {
-				Tavolo tavoloCurr = new Tavolo(risultatoQuery.getInt(1), risultatoQuery.getInt(2),
+				Tavolo tavoloCorrente = new Tavolo(risultatoQuery.getInt(1), risultatoQuery.getInt(2),
 						 tavoloScelto.getSala_App() , risultatoQuery.getInt(4));
 				
-				adiacenti.add(tavoloCurr);
+				adiacenti.add(tavoloCorrente);
 			}
 			
 			return adiacenti;

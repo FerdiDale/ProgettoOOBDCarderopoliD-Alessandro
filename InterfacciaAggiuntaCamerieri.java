@@ -38,6 +38,11 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 	private JLabel istruzioni3;
 	private JLabel istruzioni4;
 	private JButton bottoneSet;
+	private JLabel etichettaNome;
+	private JLabel etichettaCognome;
+	private JLabel etichettaCID;
+	private JLabel etichettaDataAssunzione;
+	private JLabel istruzioni;
 	
 	public InterfacciaAggiuntaCamerieri(Ristorante ristorante, Controller theController)
 	{
@@ -49,7 +54,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		setIconImage(icona.getImage());
 		setBounds(20,20,415,464);
 		
-		JLabel etichettaNome = new JLabel("Nome");
+		etichettaNome = new JLabel("Nome");
 		etichettaNome.setBounds(10, 11, 46, 14);
 		getContentPane().add(etichettaNome);
 		
@@ -58,7 +63,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().add(textFieldNome);
 		textFieldNome.setColumns(30);
 		
-		JLabel etichettaCognome = new JLabel("Cognome");
+		etichettaCognome = new JLabel("Cognome");
 		etichettaCognome.setBounds(136, 11, 149, 14);
 		getContentPane().add(etichettaCognome);
 		
@@ -67,7 +72,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().add(textFieldCognome);
 		textFieldCognome.setColumns(30);
 		
-		JLabel etichettaCID = new JLabel("Numero CID");
+		etichettaCID = new JLabel("Numero CID");
 		etichettaCID.setBounds(10, 75, 86, 14);
 		getContentPane().add(etichettaCID);
 		
@@ -76,7 +81,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().add(textFieldCID);
 		textFieldCID.setColumns(9);
 		
-		JLabel etichettaDataAssunzione = new JLabel("Data di assunzione");
+		etichettaDataAssunzione = new JLabel("Data di assunzione");
 		etichettaDataAssunzione.setBounds(116, 75, 149, 14);
 		getContentPane().add(etichettaDataAssunzione);
 		
@@ -97,16 +102,19 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		nCaratteriNome = new JLabel("");
 		nCaratteriNome.setBounds(106, 39, 46, 14);
 		getContentPane().add(nCaratteriNome);
+		nCaratteriNome.setText("0");
 		
 		nCaratteriCognome = new JLabel("");
 		nCaratteriCognome.setBounds(296, 39, 46, 14);
 		getContentPane().add(nCaratteriCognome);
+		nCaratteriCognome.setText("0");
 		
 		nCaratteriCID = new JLabel("");
 		nCaratteriCID.setBounds(106, 103, 46, 14);
 		getContentPane().add(nCaratteriCID);
+		nCaratteriCID.setText("0");
 
-		GestoreTesti handler = new GestoreTesti();
+		GestoreTesti handlerTesti = new GestoreTesti();
 
 		textFieldDataAssunzione = new JTextField();
 		textFieldDataAssunzione.setBounds(116, 99, 172, 23);
@@ -115,15 +123,15 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldDataAssunzione.setOpaque(true);
 		textFieldDataAssunzione.setColumns(10);
 		
-		textFieldNome.getDocument().addDocumentListener(handler);
-		textFieldCognome.getDocument().addDocumentListener(handler);
-		textFieldCID.getDocument().addDocumentListener(handler);
-		textFieldDataAssunzione.getDocument().addDocumentListener(handler);	
+		textFieldNome.getDocument().addDocumentListener(handlerTesti);
+		textFieldCognome.getDocument().addDocumentListener(handlerTesti);
+		textFieldCID.getDocument().addDocumentListener(handlerTesti);
+		textFieldDataAssunzione.getDocument().addDocumentListener(handlerTesti);	
 		
-		GestoreBottoni handlerA = new GestoreBottoni();
+		GestoreBottoni handlerBottoni = new GestoreBottoni();
 		
-		bottoneOk.addActionListener(handlerA);
-		tornaIndietro.addActionListener(handlerA);
+		bottoneOk.addActionListener(handlerBottoni);
+		tornaIndietro.addActionListener(handlerBottoni);
 
 		bottoneSet = new JButton("Set");
 		bottoneSet.setBounds(296, 129, 66, 23);
@@ -134,7 +142,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		
 		getContentPane().add(textFieldDataAssunzione);
 		
-		JLabel istruzioni = new JLabel("Scegliere una data dal calendario.");
+		istruzioni = new JLabel("Scegliere una data dal calendario.");
 		istruzioni.setBounds(116, 133, 235, 14);
 		getContentPane().add(istruzioni);
 		
@@ -287,7 +295,6 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		

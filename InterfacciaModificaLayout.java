@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,7 +29,7 @@ public class InterfacciaModificaLayout extends JFrame {
 	private Controller theController;
 	private Sala sala;
 	private ArrayList<Tavolo> tavoli = new ArrayList<Tavolo>();
-	private ArrayList<JLabel> numeri = new ArrayList<JLabel>();
+	private ArrayList<JLabel> tavoliGrafici = new ArrayList<JLabel>();
 	private JButton bottoneConferma;
 	private JLabel background;
 	private JLayeredPane areaDiDisegno;
@@ -43,13 +44,15 @@ public class InterfacciaModificaLayout extends JFrame {
 	private ArrayList<EstensoreEst> listaEtichetteEst = new ArrayList<EstensoreEst>();
 	private ArrayList<EstensoreSud> listaEtichetteSud = new ArrayList<EstensoreSud>();
 	private ArrayList<EstensoreSudEst> listaEtichetteSudEst = new ArrayList<EstensoreSudEst>();
-	private InterfacciaModificaLayout riferimentoFinestra = this;
-	/**
-	* Create the frame.
-	*/
+	private JButton bottoneIndietro;
+
 	public InterfacciaModificaLayout(Controller c, Sala salaCorrente) {
 		super("Modifica layout di "+ salaCorrente.getNome());
 		getContentPane().setLayout(null);
+		
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		
 		theController = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 452);
@@ -59,24 +62,24 @@ public class InterfacciaModificaLayout extends JFrame {
 		bottoneConferma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if (presentiSovrapposizioni(numeri))
+				if (presentiSovrapposizioni(tavoliGrafici))
 					
 					JOptionPane.showMessageDialog(null, "Ci sono dei tavoli sovrapposti!",
 							"Attenzione!", JOptionPane.WARNING_MESSAGE);
 				
-				if (presentiTavoliTroppoPiccoli(numeri))
+				if (presentiTavoliTroppoPiccoli(tavoliGrafici))
 					JOptionPane.showMessageDialog(null, "Ci sono dei tavoli troppo piccoli!",
 							"Attenzione!", JOptionPane.WARNING_MESSAGE);
 				
-				if (presentiTavoliFuoriFinestra(numeri, areaDiDisegno))
+				if (presentiTavoliFuoriFinestra(tavoliGrafici, areaDiDisegno))
 					JOptionPane.showMessageDialog(null, "Ci sono dei tavoli che fuoriescono dalla finestra!",
 							"Attenzione!", JOptionPane.WARNING_MESSAGE);
 				
-				if (!presentiTavoliFuoriFinestra(numeri, areaDiDisegno) &&
-						!presentiTavoliTroppoPiccoli(numeri) &&
-						!presentiSovrapposizioni(numeri)) {
+				if (!presentiTavoliFuoriFinestra(tavoliGrafici, areaDiDisegno) &&
+						!presentiTavoliTroppoPiccoli(tavoliGrafici) &&
+						!presentiSovrapposizioni(tavoliGrafici)) {
 					
-					for (JLabel numero : numeri) {
+					for (JLabel numero : tavoliGrafici) {
 						for (Tavolo tavolo : tavoli) {
 							if (tavolo.getNumero() == (Integer.parseInt(numero.getText()))) {
 								tavolo.setPosX(numero.getX());
@@ -100,7 +103,7 @@ public class InterfacciaModificaLayout extends JFrame {
 		areaDiDisegno.setBounds(10, 11, 659, 362);
 		getContentPane().add(areaDiDisegno);
 		
-		JButton bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				theController.modificaLayoutIndietroPremuto(sala);
@@ -119,34 +122,34 @@ public class InterfacciaModificaLayout extends JFrame {
 		tavoli = theController.EstrazioneTavoliSala(salaCorrente);
 		for (Tavolo tavolo: tavoli)
 		{
-			JLabel tavoloCurr = new JLabel(String.format("%d",tavolo.getNumero()));
-			tavoloCurr.setBackground(new Color(129,116,37));
-			tavoloCurr.setOpaque(true);
-			tavoloCurr.setBounds(tavolo.getPosX(), tavolo.getPosY(), tavolo.getDimX(), tavolo.getDimY());
-			tavoloCurr.addMouseListener(handler);
-			tavoloCurr.addMouseMotionListener(handler);
-			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-			tavoloCurr.setHorizontalAlignment(SwingConstants.CENTER);
+			JLabel tavoloCorrente = new JLabel(String.format("%d",tavolo.getNumero()));
+			tavoloCorrente.setBackground(new Color(129,116,37));
+			tavoloCorrente.setOpaque(true);
+			tavoloCorrente.setBounds(tavolo.getPosX(), tavolo.getPosY(), tavolo.getDimX(), tavolo.getDimY());
+			tavoloCorrente.addMouseListener(handler);
+			tavoloCorrente.addMouseMotionListener(handler);
+			tavoloCorrente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			tavoloCorrente.setHorizontalAlignment(SwingConstants.CENTER);
 			
-			EstensoreEst etichettaDestra = new EstensoreEst(tavoloCurr);
+			EstensoreEst etichettaDestra = new EstensoreEst(tavoloCorrente);
 			etichettaDestra.setBounds(tavolo.getPosX()+tavolo.getDimX()-3, (tavolo.getPosY()+tavolo.getDimY()/2) -3, 6, 6);
 			etichettaDestra.setOpaque(true);
 			etichettaDestra.setBackground(Color.WHITE);
 			etichettaDestra.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 			
-			EstensoreSud etichettaSotto = new EstensoreSud(tavoloCurr);
+			EstensoreSud etichettaSotto = new EstensoreSud(tavoloCorrente);
 			etichettaSotto.setBounds((tavolo.getPosX()+tavolo.getDimX()/2)-3, tavolo.getPosY()+tavolo.getDimY() -3, 6, 6);
 			etichettaSotto.setOpaque(true);
 			etichettaSotto.setBackground(Color.WHITE);
 			etichettaSotto.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 			
-			EstensoreSudEst etichettaAngolo = new EstensoreSudEst(tavoloCurr);
+			EstensoreSudEst etichettaAngolo = new EstensoreSudEst(tavoloCorrente);
 			etichettaAngolo.setBounds(tavolo.getPosX()+tavolo.getDimX()-3, tavolo.getPosY()+tavolo.getDimY() -3, 6, 6);
 			etichettaAngolo.setOpaque(true);
 			etichettaAngolo.setBackground(Color.WHITE);
 			etichettaAngolo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 			
-			areaDiDisegno.add(tavoloCurr,0,1);
+			areaDiDisegno.add(tavoloCorrente,0,1);
 			areaDiDisegno.add(etichettaDestra,0,0);
 			areaDiDisegno.add(etichettaSotto,0,0);
 			areaDiDisegno.add(etichettaAngolo,0,0);
@@ -154,7 +157,7 @@ public class InterfacciaModificaLayout extends JFrame {
 			listaEtichetteEst.add(etichettaDestra);
 			listaEtichetteSud.add(etichettaSotto);
 			listaEtichetteSudEst.add(etichettaAngolo);
-			numeri.add(tavoloCurr);
+			tavoliGrafici.add(tavoloCorrente);
 		}
 		
 		setVisible(true);
@@ -178,13 +181,13 @@ public class InterfacciaModificaLayout extends JFrame {
 		{
 			boolean tavolo = false;
 			int controllo = -1;
-			while(!tavolo && controllo < numeri.size())
+			while(!tavolo && controllo < tavoliGrafici.size())
 				{
 					controllo++;
-					if(e.getSource() == numeri.get(controllo))
+					if(e.getSource() == tavoliGrafici.get(controllo))
 					{
 						tavolo = true;
-						tavoloSelezionato = numeri.get(controllo);
+						tavoloSelezionato = tavoliGrafici.get(controllo);
 					}
 				}
 			
@@ -237,7 +240,6 @@ public class InterfacciaModificaLayout extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -276,22 +278,7 @@ public class InterfacciaModificaLayout extends JFrame {
 		@Override
 		public void mouseExited(MouseEvent e) {
 			
-			/*boolean tavolo = false;
-			int controllo = -1;
-			while(!tavolo && controllo < numeri.size())
-				{
-					controllo++;
-					if(e.getSource() == numeri.get(controllo))
-					{
-						tavolo = true;
-						tavoloSelezionato = numeri.get(controllo);
-					}
-				}
-			
-			if(tavolo)
-			{
-			riferimentoFinestra.setCursor(null);	
-			}*/
+		
 		}	
 
 		@Override
@@ -360,37 +347,7 @@ public class InterfacciaModificaLayout extends JFrame {
 		}
 		@Override
 		public void mouseMoved(MouseEvent e) {
-		/*	boolean tavolo = false;
-			int controllo = -1;
-			while(!tavolo && controllo < numeri.size())
-				{
-					controllo++;
-					if(e.getSource() == numeri.get(controllo))
-					{
-						tavolo = true;
-						tavoloSelezionato = numeri.get(controllo);
-					}
-				}
-			
-			if(tavolo)
-			{
-				if (e.getPoint().distance(tavoloSelezionato.getWidth(),tavoloSelezionato.getHeight())<=6) {
-					//Angolo in basso a destra
-					riferimentoFinestra.setCursor(Cursor.SE_RESIZE_CURSOR);
-				}
-				else if (Math.abs(e.getY()-tavoloSelezionato.getHeight())<=6) {
-					//Lato in basso
-					riferimentoFinestra.setCursor(Cursor.S_RESIZE_CURSOR);
-				}
-				else if (Math.abs(e.getX()-tavoloSelezionato.getWidth())<=6) {
-					//Lato a destra
-					riferimentoFinestra.setCursor(Cursor.E_RESIZE_CURSOR);
-				}
-				else {
-					//Centro
-					riferimentoFinestra.setCursor(Cursor.MOVE_CURSOR);
-				}	
-			}*/
+		
 		}
 	}
 	
@@ -518,18 +475,18 @@ public class InterfacciaModificaLayout extends JFrame {
 	
 	private class EstensoreEst extends JLabel{
 		
-		private JLabel tavoloAssociato;
+		private JLabel tavoloGraficoAssociato;
 		
 		public JLabel getTavoloAssociato() {
-			return tavoloAssociato;
+			return tavoloGraficoAssociato;
 		}
 
 		public void setTavoloAssociato(JLabel tavoloAssociato) {
-			this.tavoloAssociato = tavoloAssociato;
+			this.tavoloGraficoAssociato = tavoloAssociato;
 		}
 
 		EstensoreEst(JLabel tavolo){
-			this.tavoloAssociato = tavolo;
+			this.tavoloGraficoAssociato = tavolo;
 		}
 		
 	}

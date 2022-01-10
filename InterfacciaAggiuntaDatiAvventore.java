@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
@@ -17,13 +19,14 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	private JTextField cognome;
 	private JTextField cid;
 	private JTextField ntel;
-	private JButton prossimoAvventore;
-	private JButton avventorePrecedente;
+	private JButton bottoneProssimoAvventore;
+	private JButton bottoneAvventorePrecedente;
 	private boolean ultima = false;
 	private int indice;
 	private boolean intero;
 	private Controller theController;
 	private ArrayList<Tavolo> tavoli;
+	private int dimensioneTotale;
 	private int tavoloScelto;
 	private String data;
 	private JLabel contaNome;
@@ -31,9 +34,12 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	private JLabel contaCid;
 	private JLabel contaNtel;
 	private JButton bottoneIndietro;
-	private int dimTot;
 	private boolean diVisualizzazione = false;
 	private ArrayList<String> avventoriDelTavolo;
+	private JLabel etichettaCid;
+	private JLabel etichettaNome;
+	private JLabel etichettaCognome;
+	private JLabel etichettaNTel;
 	
 
 	public InterfacciaAggiuntaDatiAvventore(Controller controller, int indice, ArrayList<Tavolo> tavoli, int tavoloScelto, String data) 
@@ -54,7 +60,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		nome.setBounds(30, 40, 86, 20);
 		getContentPane().add(nome);
 		nome.setColumns(10);
-		JLabel etichettaNome = new JLabel("Nome");
+		etichettaNome = new JLabel("Nome");
 		etichettaNome.setBounds(30, 15, 61, 14);
 		getContentPane().add(etichettaNome);
 		
@@ -63,7 +69,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().add(cognome);
 		cognome.setColumns(10);
 		
-		JLabel etichettaCognome = new JLabel("Cognome");
+		etichettaCognome = new JLabel("Cognome");
 		etichettaCognome.setBounds(30, 71, 79, 14);
 		getContentPane().add(etichettaCognome);
 		
@@ -72,7 +78,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().add(cid);
 		cid.setColumns(10);
 		
-		JLabel etichettaCid = new JLabel("Numero CID");
+		etichettaCid = new JLabel("Numero CID");
 		etichettaCid.setBounds(180, 15, 72, 14);
 		getContentPane().add(etichettaCid);
 		
@@ -81,17 +87,17 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().add(ntel);
 		ntel.setColumns(10);
 		
-		JLabel etichettaNTel = new JLabel("Numero di telefono");
+		etichettaNTel = new JLabel("Numero di telefono");
 		etichettaNTel.setBounds(180, 71, 119, 14);
 		getContentPane().add(etichettaNTel);
 		
-		prossimoAvventore = new JButton("Prossimo");
-		prossimoAvventore.setBounds(237, 147, 117, 23);
-		getContentPane().add(prossimoAvventore);
+		bottoneProssimoAvventore = new JButton("Prossimo");
+		bottoneProssimoAvventore.setBounds(237, 147, 117, 23);
+		getContentPane().add(bottoneProssimoAvventore);
 		
-		avventorePrecedente = new JButton("Precedente");
-		avventorePrecedente.setBounds(109, 147, 105, 23);
-		getContentPane().add(avventorePrecedente);
+		bottoneAvventorePrecedente = new JButton("Precedente");
+		bottoneAvventorePrecedente.setBounds(109, 147, 105, 23);
+		getContentPane().add(bottoneAvventorePrecedente);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 147, 89, 23);
@@ -113,20 +119,20 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		contaNtel.setBounds(276, 103, 46, 14);
 		getContentPane().add(contaNtel);
 		bottoneIndietro.addActionListener(new GestioneBottoni());
-		prossimoAvventore.addActionListener(new GestioneBottoni());
-		avventorePrecedente.addActionListener(new GestioneBottoni());
+		bottoneProssimoAvventore.addActionListener(new GestioneBottoni());
+		bottoneAvventorePrecedente.addActionListener(new GestioneBottoni());
 	
 		if(indice == 0 ) 
 		{
-			avventorePrecedente.setEnabled(false);
-			avventorePrecedente.setVisible(false);
+			bottoneAvventorePrecedente.setEnabled(false);
+			bottoneAvventorePrecedente.setVisible(false);
 		}
 		
 		
-		nome.addKeyListener(new GestoreConta());
-		cognome.addKeyListener(new GestoreConta());
-		cid.addKeyListener(new GestoreConta());
-		ntel.addKeyListener(new GestoreConta());
+		nome.getDocument().addDocumentListener(new GestoreConta());
+		cognome.getDocument().addDocumentListener(new GestoreConta());
+		cid.getDocument().addDocumentListener(new GestoreConta());
+		ntel.getDocument().addDocumentListener(new GestoreConta());
 		nome.setFocusable(true);
 		cognome.setFocusable(true);
 		ntel.setFocusable(true);
@@ -155,7 +161,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		nome.setBounds(30, 40, 86, 20);
 		getContentPane().add(nome);
 		nome.setColumns(10);
-		JLabel etichettaNome = new JLabel("Nome");
+		etichettaNome = new JLabel("Nome");
 		etichettaNome.setBounds(30, 15, 61, 14);
 		getContentPane().add(etichettaNome);
 		
@@ -164,7 +170,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().add(cognome);
 		cognome.setColumns(10);
 		
-		JLabel etichettaCognome = new JLabel("Cognome");
+		etichettaCognome = new JLabel("Cognome");
 		etichettaCognome.setBounds(30, 71, 79, 14);
 		getContentPane().add(etichettaCognome);
 		
@@ -173,7 +179,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().add(cid);
 		cid.setColumns(10);
 		
-		JLabel etichettaCid = new JLabel("Numero CID");
+		etichettaCid = new JLabel("Numero CID");
 		etichettaCid.setBounds(180, 15, 72, 14);
 		getContentPane().add(etichettaCid);
 		
@@ -182,17 +188,17 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().add(ntel);
 		ntel.setColumns(10);
 		
-		JLabel etichettaNTel = new JLabel("Numero di telefono");
+		etichettaNTel = new JLabel("Numero di telefono");
 		etichettaNTel.setBounds(180, 71, 119, 14);
 		getContentPane().add(etichettaNTel);
 		
-		prossimoAvventore = new JButton("Prossimo");
-		prossimoAvventore.setBounds(237, 147, 117, 23);
-		getContentPane().add(prossimoAvventore);
+		bottoneProssimoAvventore = new JButton("Prossimo");
+		bottoneProssimoAvventore.setBounds(237, 147, 117, 23);
+		getContentPane().add(bottoneProssimoAvventore);
 		
-		avventorePrecedente = new JButton("Precedente");
-		avventorePrecedente.setBounds(109, 147, 105, 23);
-		getContentPane().add(avventorePrecedente);
+		bottoneAvventorePrecedente = new JButton("Precedente");
+		bottoneAvventorePrecedente.setBounds(109, 147, 105, 23);
+		getContentPane().add(bottoneAvventorePrecedente);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 147, 89, 23);
@@ -214,20 +220,20 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		contaNtel.setBounds(276, 103, 46, 14);
 		getContentPane().add(contaNtel);
 		bottoneIndietro.addActionListener(new GestioneBottoni());
-		prossimoAvventore.addActionListener(new GestioneBottoni());
-		avventorePrecedente.addActionListener(new GestioneBottoni());
+		bottoneProssimoAvventore.addActionListener(new GestioneBottoni());
+		bottoneAvventorePrecedente.addActionListener(new GestioneBottoni());
 	
 		if(indice == 0 ) 
 		{
-			avventorePrecedente.setEnabled(false);
-			avventorePrecedente.setVisible(false);
+			bottoneAvventorePrecedente.setEnabled(false);
+			bottoneAvventorePrecedente.setVisible(false);
 		}
 		
 		
-		nome.addKeyListener(new GestoreConta());
-		cognome.addKeyListener(new GestoreConta());
-		cid.addKeyListener(new GestoreConta());
-		ntel.addKeyListener(new GestoreConta());
+		nome.getDocument().addDocumentListener(new GestoreConta());
+		cognome.getDocument().addDocumentListener(new GestoreConta());
+		cid.getDocument().addDocumentListener(new GestoreConta());
+		ntel.getDocument().addDocumentListener(new GestoreConta());
 		nome.setFocusable(true);
 		cognome.setFocusable(true);
 		ntel.setFocusable(true);
@@ -241,8 +247,8 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	{
 		if (indice == dimTot-1)
 		{
-			this.dimTot = dimTot;
-			prossimoAvventore.setText("Conferma");
+			this.dimensioneTotale = dimTot;
+			bottoneProssimoAvventore.setText("Conferma");
 			ultima = true;
 		}
 	}
@@ -251,7 +257,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource() == prossimoAvventore)
+			if(e.getSource() == bottoneProssimoAvventore)
 			{
 		
 					if(!ntel.getText().isBlank())
@@ -302,7 +308,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 					}
 
 			}
-			else if(e.getSource() == avventorePrecedente)
+			else if(e.getSource() == bottoneAvventorePrecedente)
 			{
 				theController.bottoneAvventorePrecedentePremuto(indice);
 			}
@@ -315,69 +321,58 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		
 	}
 	
-	private class GestoreConta implements KeyListener
+	private class GestoreConta implements DocumentListener
 	{
-		public void keyTyped(KeyEvent e) 
-		{
-			if(e.getSource() == nome)
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+
+			if(e.getDocument() == nome.getDocument())
 			{
 				contaNome.setText(String.format("%d", nome.getText().length()));
 			}
-			else if(e.getSource() == cognome)
+			else if(e.getDocument() == cognome.getDocument())
 			{	
 				contaCognome.setText(String.format("%d", cognome.getText().length()));
 			}
-			else if(e.getSource() == cid)
+			else if(e.getDocument() == cid.getDocument())
 			{
 				contaCid.setText(String.format("%d", cid.getText().length()));
 			}
-			else if(e.getSource() == ntel)
+			else if(e.getDocument() == ntel.getDocument())
 			{
 				contaNtel.setText(String.format("%d", ntel.getText().length()));
 			}
+			
 		}
 
-		
-		public void keyPressed(KeyEvent e)
-		{
-			if(e.getSource() == nome)
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+
+			if(e.getDocument() == nome.getDocument())
 			{
 				contaNome.setText(String.format("%d", nome.getText().length()));
 			}
-			else if(e.getSource() == cognome)
+			else if(e.getDocument() == cognome.getDocument())
 			{	
 				contaCognome.setText(String.format("%d", cognome.getText().length()));
 			}
-			else if(e.getSource() == cid)
+			else if(e.getDocument() == cid.getDocument())
 			{
 				contaCid.setText(String.format("%d", cid.getText().length()));
 			}
-			else if(e.getSource() == ntel)
+			else if(e.getDocument() == ntel.getDocument())
 			{
 				contaNtel.setText(String.format("%d", ntel.getText().length()));
 			}
+			
 		}
 
-		
-		public void keyReleased(KeyEvent e) 
-		{
-			if(e.getSource() == nome)
-			{
-				contaNome.setText(String.format("%d", nome.getText().length()));
-			}
-			else if(e.getSource() == cognome)
-			{	
-				contaCognome.setText(String.format("%d", cognome.getText().length()));
-			}
-			else if(e.getSource() == cid)
-			{
-				contaCid.setText(String.format("%d", cid.getText().length()));
-			}
-			else if(e.getSource() == ntel)
-			{
-				contaNtel.setText(String.format("%d", ntel.getText().length()));
-			}
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			
 		}
+		
 	}
 
 	public JTextField getNome() {
@@ -429,11 +424,11 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 	}
 
 	public JButton getProssimoAvventore() {
-		return prossimoAvventore;
+		return bottoneProssimoAvventore;
 	}
 
 	public void setProssimoAvventore(JButton prossimoAvventore) {
-		this.prossimoAvventore = prossimoAvventore;
+		this.bottoneProssimoAvventore = prossimoAvventore;
 	}
 
 	public boolean isDiVisualizzazione() {

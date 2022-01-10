@@ -29,10 +29,15 @@ public class InterfacciaStatistichePerMese extends JFrame {
 	private Controller theController;
 	private JTextField textFieldMeseCorrente;
 	private JTextField textFieldAnnoCorrente;
-	
-	/**
-	 * Create the frame.
-	 */
+	private JPanel panel;
+	private JButton bottoneAumentaMese;
+	private JButton bottoneDiminuisciMese;
+	private JButton bottonePassaggioAdAnno;
+	private JButton bottoneDiminuisciAnno;
+	private JButton bottoneAumentaAnno;
+	private JFreeChart grafico;
+	private ChartPanel pannelloGrafico;
+
 	public InterfacciaStatistichePerMese(Controller c, Integer annoScelto, Integer meseScelto, Ristorante ristoranteScelto) {
 		
 		theController = c;
@@ -47,24 +52,20 @@ public class InterfacciaStatistichePerMese extends JFrame {
 		
 		modellaStatistiche (ristoranteScelto);
 
-		JPanel panel =  new JPanel();
+		panel =  new JPanel();
 		panel.setBounds(0, 0, 824, 461);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JButton bottoneAumentaMese = new JButton(">");
+		bottoneAumentaMese = new JButton(">");
 		bottoneAumentaMese.setBounds(534, 407, 48, 43);
 		panel.add(bottoneAumentaMese);
 		
-		JButton bottoneDiminuisciMese = new JButton("<");
+		bottoneDiminuisciMese = new JButton("<");
 		bottoneDiminuisciMese.setBounds(217, 407, 48, 43);
 		panel.add(bottoneDiminuisciMese);
 		
-		JLabel immagineStatistiche = new JLabel("");
-		immagineStatistiche.setBounds(46, 62, 720, 334);
-		panel.add(immagineStatistiche);
-		
-		JButton bottonePassaggioAdAnno = new JButton("Torna alla visualizzazione delle statistiche per anno");
+		bottonePassaggioAdAnno = new JButton("Torna alla visualizzazione delle statistiche per anno");
 		bottonePassaggioAdAnno.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -118,7 +119,7 @@ public class InterfacciaStatistichePerMese extends JFrame {
 			}
 		});
 		
-		JButton bottoneDiminuisciAnno = new JButton("<");
+		bottoneDiminuisciAnno = new JButton("<");
 		bottoneDiminuisciAnno.setBounds(217, 458, 48, 43);
 		panel.add(bottoneDiminuisciAnno);
 		bottoneDiminuisciAnno.addMouseListener(new MouseAdapter() {
@@ -176,7 +177,7 @@ public class InterfacciaStatistichePerMese extends JFrame {
 			}
 		});
 		
-		JButton bottoneAumentaAnno = new JButton(">");
+		bottoneAumentaAnno = new JButton(">");
 		bottoneAumentaAnno.setBounds(534, 458, 48, 43);
 		panel.add(bottoneAumentaAnno);
 		bottoneAumentaAnno.addMouseListener(new MouseAdapter() {
@@ -250,8 +251,8 @@ public class InterfacciaStatistichePerMese extends JFrame {
 		
 		DefaultCategoryDataset statisticheCorrenti = new DefaultCategoryDataset();
 		statisticheCorrenti = theController.ricavaStatistiche(annoCorrente, meseCorrente.getValoreNumerico(), ristoranteScelto);
-		JFreeChart grafico = creaGrafico(statisticheCorrenti);
-		ChartPanel pannelloGrafico = new ChartPanel(grafico);
+		grafico = creaGrafico(statisticheCorrenti);
+		pannelloGrafico = new ChartPanel(grafico);
 		pannelloGrafico.setVisible(true);
 		pannelloGrafico.setBounds(31, 50, 756, 357);
 	    pannelloGrafico.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));

@@ -6,6 +6,20 @@ public class Ristorante {
 	Integer N_Civico;
 	String Citta;
 	
+	public Ristorante(Integer id, String nome, String citta, String via,
+			Integer n_Civico) {
+
+		this.Id_Ristorante = id;
+		this.Nome = nome;
+		this.Citta = citta;
+		this.Via = via;
+		this.N_Civico = n_Civico;
+		
+	}
+	
+	public Ristorante() {
+	}
+
 	public Integer getId_Ristorante() {
 		return Id_Ristorante;
 	}

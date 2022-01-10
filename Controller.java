@@ -17,20 +17,16 @@ public class Controller {
 	private InterfacciaRistoranti frameRistoranti;
     private InterfacciaAggiuntaRistorante frameAggiuntaRistorante;
     private InterfacciaModificaDatiRistorante frameModificaRistorante;
-	private RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
-	private NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
     private InterfacciaSale frameSale;
 	private InterfacciaAggiuntaSala frameCreateS;
 	private InterfacciaGestioneCamerieri frameGestioneCamerieri;
 	private InterfacciaStatistichePerAnno frameStatistichePerAnno; 
 	private InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
 	private InterfacciaStatistichePerMese frameStatistichePerMese;
-	private NumeroAvventoriGiornoDAOImplPostgres numeroAvventoriGiornoDao = new NumeroAvventoriGiornoDAOImplPostgres();
 	private InterfacciaTavoli frameTavoli;
 	private InterfacciaModificaLayout frameModificaLayout;
-	private TavoloDAOImplPostgres tavoloDao = new TavoloDAOImplPostgres();
 	private InterfacciaAggiuntaTavoli frameAggiuntaTavoli;
-	private InterfacciaAggiuntaDatiNuovoTavolo frameACNT;
+	private InterfacciaAggiuntaDatiNuovoTavolo frameAggiuntaDatiNuovoTavolo;
 	private InterfacciaSelezioneDataOccupazione frameSelezioneDataOccupazione;
 	private InterfacciaGestioneOccupazioni frameGestioneOccupazioni;
 	private InterfacciaAdiacenze frameAdiacenze;
@@ -40,8 +36,16 @@ public class Controller {
 	private InterfacciaSelezioneCamerieri frameSelezioneCamerieri;
 	private InterfacciaSelezioneDataCameriere frameSelezioneDataCameriere;
 	private InterfacciaModificaSala frameModificaSala;
+
+	private RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
 	private SalaDAOImplPostgres salaDao = new SalaDAOImplPostgres();
+	private TavoloDAOImplPostgres tavoloDao = new TavoloDAOImplPostgres();
 	private CameriereDAOImplPostgres cameriereDao = new CameriereDAOImplPostgres();
+	private NumeroAvventoriGiornoDAOImplPostgres numeroAvventoriGiornoDao = new NumeroAvventoriGiornoDAOImplPostgres();
+	private NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
+	private AvventoriDAOImplPostgres avventoriDao = new AvventoriDAOImplPostgres();
+	private TavolataDAOImplPostgres tavolataDao = new TavolataDAOImplPostgres();
+	
 	
 	public static void main(String[] args) {
 
@@ -100,8 +104,7 @@ public class Controller {
   
 	public void bottoneRimozioneSalaPremuto(Sala c)
 	{
-			SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
-			SDAO.RimuoviSalaRistorante(c);
+			salaDao.RimuoviSalaRistorante(c);
 	}
 	
 	public void bottoneAggiuntaSalaPremuto(Ristorante ristorante)
@@ -112,10 +115,16 @@ public class Controller {
 	
 	public void interfacciaCreazioneSalaOkPremuto(String nomeSala, Ristorante ristorante)
 	{
-		frameCreateS.setVisible(false);
-		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
-		SDAO.AggiuntaSalaRistorante(nomeSala, ristorante.getId_Ristorante());
-		frameSale = new InterfacciaSale(this,ristorante);
+		
+		try {
+
+			salaDao.AggiuntaSalaRistorante(nomeSala, ristorante.getId_Ristorante());
+			frameCreateS.setVisible(false);
+			frameSale = new InterfacciaSale(this,ristorante);
+		} catch (ErrorePersonalizzato e) {
+			e.stampaMessaggio();
+		}
+		
 	}
 	
 	public void bottoneGestioneCamerieriPremuto(Ristorante ristorante)
@@ -150,32 +159,27 @@ public class Controller {
 	
 	public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristorante)
 	{
-		SalaDAOImplPostgres SDAO = new SalaDAOImplPostgres();
-		return SDAO.EstraiSaleRistorante(ristorante);
+		return salaDao.EstraiSaleRistorante(ristorante);
 	}
 	
 	public ArrayList<Cameriere> EstraiCamerieriInServizioC(Ristorante ristorante)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.EstraiCamerieriInServizio(ristorante);
+		return cameriereDao.EstraiCamerieriInServizio(ristorante);
 	}
 	
 	public ArrayList<Cameriere> EstraiCamerieriLicenziatiC(Ristorante ristorante)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.EstraiCamerieriLicenziati(ristorante);
+		return cameriereDao.EstraiCamerieriLicenziati(ristorante);
 	}
 	
 	public boolean bottoneRiassumiCamerierePremuto(Cameriere c,String data)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		 return CDAO.riassumiCameriereLicenziato(c,data);
+		 return cameriereDao.riassumiCameriereLicenziato(c,data);
 	}
 	
 	public String bottoneLicenziaCamerierePremuto(Cameriere c, String data)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.licenziaCameriereAssunto(c, data);
+		return cameriereDao.licenziaCameriereAssunto(c, data);
 	}
 	
 	public void bottoneAggiungiCamerierePremuto(Ristorante r)
@@ -192,8 +196,7 @@ public class Controller {
 	
 	public String bottoneOkAggiuntaCamerieriPremutoSuccessful(Cameriere cameriere)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.assumiNuovoCameriere(cameriere);
+		return cameriereDao.assumiNuovoCameriere(cameriere);
 	}
 	
 	public void bottoneEliminaRistorantePremuto(Ristorante ristoranteCorrente) {
@@ -220,39 +223,30 @@ public class Controller {
 	public ArrayList<Ristorante> inizializzazioneRistoranti() {
 		
 		ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
-		boolean errore = false;
 		
-		do {
-			try
-			{
-				listaRistoranti = ristoranteDao.estraiTuttiRistoranti();
-				errore = false;
-			}
-			catch (OperazioneFallitaException ecc)
-			{
-				errore = true;
-			}
-		} while (errore);
+		try
+		{
+			listaRistoranti = ristoranteDao.estraiTuttiRistoranti();
+		}
+		catch (OperazioneFallitaException ecc)
+		{
+			ecc.stampaMessaggio();
+		}
 		
 		return listaRistoranti;
 	}
 
 	public DefaultCategoryDataset ricavaStatistiche(Integer anno, Ristorante ristorante) {
 		ArrayList<NumeroAvventoriMese> listaCorrenteStatistiche = new ArrayList<NumeroAvventoriMese>();
-		boolean errore = false;
 		
-		do {
-			try
-			{
-				errore= false;
-				listaCorrenteStatistiche = numeroAvventoriMeseDao.estraiStatisticheAnno(anno, ristorante);
-			}
-			catch (OperazioneFallitaException e)
-			{
-				errore = true;
-			}
-			
-		} while(errore);
+		try
+		{
+			listaCorrenteStatistiche = numeroAvventoriMeseDao.estraiStatisticheAnno(anno, ristorante);
+		}
+		catch (OperazioneFallitaException e)
+		{
+			e.stampaMessaggio();
+		}
 		
 		DefaultCategoryDataset risultato = new DefaultCategoryDataset();
 		
@@ -265,25 +259,19 @@ public class Controller {
 	
 	public DefaultCategoryDataset ricavaStatistiche(Integer anno, Integer mese, Ristorante ristorante) {
 		ArrayList<NumeroAvventoriGiorno> listaCorrenteStatistiche = new ArrayList<NumeroAvventoriGiorno>();
-		boolean errore = false;
-		
-		do {
-			try
-			{
-				errore= false;
-				listaCorrenteStatistiche = numeroAvventoriGiornoDao.estraiStatisticheMese(anno, mese, ristorante);
-			}
-			catch (OperazioneFallitaException e)
-			{
-				errore = true;
-			}
-			
-		} while(errore);
-		
 		DefaultCategoryDataset risultato = new DefaultCategoryDataset();
 		
-		for (NumeroAvventoriGiorno numeroCorrente : listaCorrenteStatistiche) {
-			risultato.setValue(numeroCorrente.getNumAvventori(), "Numero di avventori", numeroCorrente.getGiorno());
+		try
+		{
+			listaCorrenteStatistiche = numeroAvventoriGiornoDao.estraiStatisticheMese(anno, mese, ristorante);
+			for (NumeroAvventoriGiorno numeroCorrente : listaCorrenteStatistiche) {
+				risultato.setValue(numeroCorrente.getNumAvventori(), "Numero di avventori", numeroCorrente.getGiorno());
+			}
+			
+		}
+		catch (OperazioneFallitaException e)
+		{
+			e.stampaMessaggio();
 		}
 		
 		return risultato;
@@ -326,8 +314,7 @@ public class Controller {
 	
 	public ArrayList<Tavolo> EstrazioneTavoliSala(Sala sala)
 	{
-		TavoloDAOImplPostgres TDAO = new TavoloDAOImplPostgres();
-		return TDAO.EstraiTavoliSala(sala);
+		return tavoloDao.EstraiTavoliSala(sala);
 	}
   
 	public void bottoneModificaLayoutPremuto(Sala sala) {
@@ -347,6 +334,7 @@ public class Controller {
 			tavoloDao.modificaPosizioniTavoli (tavoli);
 			frameModificaLayout.setVisible(false);
 			frameTavoli = new InterfacciaTavoli(this, sala);
+			
 		} catch (OperazioneFallitaException e) 
 		{
 			e.stampaMessaggio();
@@ -357,18 +345,18 @@ public class Controller {
 	public void bottoneAggiuntaTavoloPremuto(Sala salaScelta, ArrayList<Tavolo> tavoliGiaEsistenti)
 	{
 		frameTavoli.setVisible(false);
-		frameACNT = new InterfacciaAggiuntaDatiNuovoTavolo(this,salaScelta,tavoliGiaEsistenti);
+		frameAggiuntaDatiNuovoTavolo = new InterfacciaAggiuntaDatiNuovoTavolo(this,salaScelta,tavoliGiaEsistenti);
 	}
 	
 	public void bottoneOkInterfacciaAggiuntaCapienzaNumeroNuovoTavoloPremuto(Tavolo tavolo,Sala salaScelta, ArrayList<Tavolo> tavoliGiaEsistenti)
 	{
-		frameACNT.setVisible(false);
+		frameAggiuntaDatiNuovoTavolo.setVisible(false);
 		frameAggiuntaTavoli = new InterfacciaAggiuntaTavoli(tavolo,salaScelta,tavoliGiaEsistenti,this);
 	}
 	
 	public void bottoneIndietroInterfacciaAggiuntaCapienzaNumeroNuovoTavoloPremuto(Sala salaScelta)
 	{
-		frameACNT.setVisible(false);
+		frameAggiuntaDatiNuovoTavolo.setVisible(false);
 		frameTavoli = new InterfacciaTavoli(this,salaScelta);
 	}
 	
@@ -376,8 +364,7 @@ public class Controller {
 	{
 		try
 		{
-			TavoloDAOImplPostgres TDAO = new TavoloDAOImplPostgres();
-			TDAO.inserisciNuovoTavolo(nuovoTavolo);
+			tavoloDao.inserisciNuovoTavolo(nuovoTavolo);
 		}
 		catch(TavoloNumeroUgualeException e)
 		{
@@ -418,8 +405,7 @@ public class Controller {
 
 	public ArrayList<Integer> estrazioneTavoliOccupatiInData(Sala sala, String data)
 	{
-		TavoloDAOImplPostgres TDAO= new TavoloDAOImplPostgres();
-		return TDAO.tavoliOccupatiInData(data, sala);
+		return tavoloDao.tavoliOccupatiInData(data, sala);
 	}
 	
 	public ArrayList<Avventori> estrazioneAvventoriDelTavoloInData(Tavolo tavolo, String data)
@@ -442,14 +428,12 @@ public class Controller {
 	
 	public void bottoneRimuoviCameriereVisualizzazioneOccupazione(String data,int idTavolo, Cameriere cameriereScelto)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.rimuoviCameriereDalTavoloInData(cameriereScelto, data, idTavolo);
+		cameriereDao.rimuoviCameriereDalTavoloInData(cameriereScelto, data, idTavolo);
 	}
 	
 	public ArrayList<Cameriere> estrazioneCamerieriInServizioAlTavoloinData(int idTavolo, String data)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.camerieriInServizioAlTavoloInData(idTavolo, data);
+		return cameriereDao.camerieriInServizioAlTavoloInData(idTavolo, data);
 	}
 	
 	public void bottoneOccupaGestioneOccupazionePremuto(int numeroAvv, ArrayList<Tavolo> tavoli, int tavoloScelto, String data)
@@ -458,7 +442,6 @@ public class Controller {
 		framesAggiuntaAvventore = new ArrayList<InterfacciaAggiuntaDatiAvventore>();
 		for (int i = 0; i< numeroAvv; i++)
 		{
-			System.out.println(tavoloScelto);
 			framesAggiuntaAvventore.add(new InterfacciaAggiuntaDatiAvventore(this,i,tavoli,tavoloScelto,data));
 		}
 		for (int i = 0; i<numeroAvv; i++)
@@ -466,7 +449,6 @@ public class Controller {
 			framesAggiuntaAvventore.get(i).impostaBottoniCorretti(framesAggiuntaAvventore.size());
 			
 		}
-		System.out.println(framesAggiuntaAvventore.size());
 		framesAggiuntaAvventore.get(0).setVisible(true);
 	}
 	
@@ -498,7 +480,6 @@ public class Controller {
 			i++;
 		}
 		
-		System.out.println("Campi vuoti ="+controlloCampiNonVuoti+" telefono = "+controlloAlmenoUnTelefono+" CID = "+formatoCidGiusto);
 		if(controlloCampiNonVuoti && controlloAlmenoUnTelefono && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi)
 		{
 			framesAggiuntaAvventore.get(framesAggiuntaAvventore.size()-1).setVisible(false);
@@ -513,8 +494,7 @@ public class Controller {
 	
 	public ArrayList<Cameriere> estraiCamerieriAssegnabili(String data, Ristorante ristorante)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		return CDAO.camerieriAssegnabiliAlTavoloInData(data, ristorante);
+		return cameriereDao.camerieriAssegnabiliAlTavoloInData(data, ristorante);
 	}
 	
 	public void bottoneIndietroSelezioneCamerieriPremuto(ArrayList<Tavolo> tavoli, String data)
@@ -543,15 +523,11 @@ public class Controller {
 	
 	public void bottoneConfermaSelezioneCamerieriPremuto(ArrayList<Cameriere> camerieriScelti, String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
 	{
-		TavolataDAOImplPostgres TAVDAO = new TavolataDAOImplPostgres();
-		TAVDAO.inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto).getId_Tavolo(),data));
-		
+		tavolataDao .inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto).getId_Tavolo(),data));
 		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
-		ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore,0);
+		ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore,0);		
 		
-		
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.inserimentoMultiploCamerieriInServizio(camerieriScelti, data, tavoli.get(tavoloScelto));
+		cameriereDao.inserimentoMultiploCamerieriInServizio(camerieriScelti, data, tavoli.get(tavoloScelto));
 		
 		frameSelezioneCamerieri.setVisible(false);
 		frameGestioneOccupazioni = new InterfacciaGestioneOccupazioni(this,tavoli,data);
@@ -655,9 +631,13 @@ public class Controller {
 	}
 
 	public void interfacciaModificaSalaOkPremuto(String nome, Sala sala) {
-		salaDao.modificaSala(nome, sala);
-		frameModificaSala.setVisible(false);
-		frameSale = new InterfacciaSale(this, sala.getRistoranteDiAppartenenza());
+		try {
+			salaDao.modificaSala(nome, sala);
+			frameModificaSala.setVisible(false);
+			frameSale = new InterfacciaSale(this, sala.getRistoranteDiAppartenenza());
+		} catch (ErrorePersonalizzato e) {
+			e.stampaMessaggio();
+		}
 	}
 
 	public void bottoneTornaIndietroInterfacciaModificaSalaPremuto(Ristorante ristorante) {
@@ -671,8 +651,7 @@ public class Controller {
 	
 	public void bottoneRimuoviAvventoreVisualizzazioneOccupazione(String data, int id_tavolo,Avventori avventore)
 	{
-		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
-		ADAO.rimuoviAvventoreDaElencoAvventori(id_tavolo, data, avventore);
+		avventoriDao.rimuoviAvventoreDaElencoAvventori(id_tavolo, data, avventore);
 	}
 	
 	public void bottoneAggiungiAvventoreVisualizzazioneOccupazione(String data, ArrayList<Tavolo> tavoli, int tavoloScelto,ArrayList<String> avventoriDelTavolo)
@@ -712,7 +691,6 @@ public class Controller {
 			i++;
 		}
 		
-		System.out.println("Campi vuoti ="+controlloCampiNonVuoti+" CID = "+formatoCidGiusto);
 		if(controlloCampiNonVuoti  && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi && controlloAlmenoUnTelefono)
 		{
 			AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
@@ -747,9 +725,16 @@ public class Controller {
 	
 	public void bottoneConfermaSelezioneCameriereDiVisualizzazione(ArrayList<Cameriere> lista,ArrayList<Tavolo> tavoli, int tavoloScelto,String dataScelta)
 	{
-		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
-		CDAO.inserimentoMultiploCamerieriInServizio(lista, dataScelta, tavoli.get(tavoloScelto));
+		cameriereDao.inserimentoMultiploCamerieriInServizio(lista, dataScelta, tavoli.get(tavoloScelto));
 		frameSelezioneCamerieri.setVisible(false);
 		frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this,tavoli,tavoloScelto,dataScelta);
+	}
+
+	public void bottoneIndietroSelezioneCameriereDiVisualizzazione(ArrayList<Tavolo> tavoli, int tavoloScelto,
+			String data) {
+		
+		frameSelezioneCamerieri.setVisible(false);
+		frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this, tavoli, tavoloScelto, data);
+		
 	}
 }  

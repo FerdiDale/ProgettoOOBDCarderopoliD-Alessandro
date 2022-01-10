@@ -6,5 +6,7 @@ public interface SalaDAO
 	
 	public void RimuoviSalaRistorante(Sala s);
 	
-	public void AggiuntaSalaRistorante(String nomeSala, int id_ristorante);
+	public void AggiuntaSalaRistorante(String nomeSala, int id_ristorante) throws ErrorePersonalizzato;
+	
+	public void modificaSala(String nome, Sala sala) throws ErrorePersonalizzato;
 }

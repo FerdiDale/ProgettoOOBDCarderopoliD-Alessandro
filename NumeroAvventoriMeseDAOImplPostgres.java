@@ -14,17 +14,17 @@ public class NumeroAvventoriMeseDAOImplPostgres implements NumeroAvventoriMeseDA
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
 			ResultSet risultatoQuery;
 			risultatoQuery = stmt.executeQuery(" SELECT EXTRACT (MONTH FROM T.DATA) AS MESE, "
-			+   "COUNT (E_A.N_CID) AS NUMAVVENTORI "
-			+	"FROM TAVOLATA AS T NATURAL JOIN ELENCO_AVVENTORI AS E_A "
-			+	" NATURAL JOIN TAVOLO AS TAV NATURAL JOIN SALA AS S "
-			+	"WHERE EXTRACT (YEAR FROM T.DATA) = " + annoScelto.toString()
-			+	" AND S.Id_Ristorante = " + ristoranteScelto.getId_Ristorante()
-			+	" GROUP BY EXTRACT (MONTH FROM T.DATA); ");
+										+   "COUNT (E_A.N_CID) AS NUMAVVENTORI "
+										+	"FROM TAVOLATA AS T NATURAL JOIN ELENCO_AVVENTORI AS E_A "
+										+	" NATURAL JOIN TAVOLO AS TAV NATURAL JOIN SALA AS S "
+										+	"WHERE EXTRACT (YEAR FROM T.DATA) = " + annoScelto.toString()
+										+	" AND S.Id_Ristorante = " + ristoranteScelto.getId_Ristorante()
+										+	" GROUP BY EXTRACT (MONTH FROM T.DATA); ");
 			
 			while(risultatoQuery.next()) {
-				Integer meseCurr = risultatoQuery.getInt(1);
-				Integer numAvventoriCurr = risultatoQuery.getInt(2);
-				NumeroAvventoriMese statisticheCorrenti = new NumeroAvventoriMese(numAvventoriCurr, meseCurr, annoScelto);
+				Integer meseCorrente = risultatoQuery.getInt(1);
+				Integer numAvventoriCorrente = risultatoQuery.getInt(2);
+				NumeroAvventoriMese statisticheCorrenti = new NumeroAvventoriMese(numAvventoriCorrente, meseCorrente, annoScelto);
 				listaStatistiche.add(statisticheCorrenti);
 			}
 			

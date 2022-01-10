@@ -14,12 +14,13 @@ import javax.swing.JButton;
 
 public class InterfacciaAggiuntaSala extends JFrame
 {
-	private JButton BottoneOk;
-	private JButton tornaIndietro;
+	private JButton bottoneOk;
+	private JButton bottoneIndietro;
 	private Ristorante ristorante;
-	private JTextField NomeSala;
+	private JTextField nomeSala;
 	private Controller theController;
 	private JLabel contaCaratteri;
+	private JLabel etichettaInserisciNome;
 	
 	public InterfacciaAggiuntaSala(Ristorante ristorante, Controller theController) 
 	{
@@ -33,32 +34,30 @@ public class InterfacciaAggiuntaSala extends JFrame
 		setIconImage(icona.getImage());
 		setBounds(10,10,320,154);
 		
-		NomeSala = new JTextField();
-		NomeSala.setBounds(10, 30, 86, 20);
-		NomeSala.setColumns(40);
-	    getContentPane().add(NomeSala);
+		nomeSala = new JTextField();
+		nomeSala.setBounds(10, 30, 86, 20);
+		nomeSala.setColumns(40);
+	    getContentPane().add(nomeSala);
 		
-		JLabel EtichettaInserisciNome = new JLabel("Nome della sala");
-		EtichettaInserisciNome.setBounds(10, 11, 200, 14);
-		getContentPane().add(EtichettaInserisciNome);
+		etichettaInserisciNome = new JLabel("Nome della sala");
+		etichettaInserisciNome.setBounds(10, 11, 200, 14);
+		getContentPane().add(etichettaInserisciNome);
 		
-		BottoneOk = new JButton("Ok");
-		BottoneOk.setBounds(107, 65, 53, 20);
-		getContentPane().add(BottoneOk);
+		bottoneOk = new JButton("Ok");
+		bottoneOk.setBounds(107, 65, 53, 20);
+		getContentPane().add(bottoneOk);
 		
-		tornaIndietro = new JButton("Indietro");
-		tornaIndietro.setBounds(10, 64, 89, 23);
-		getContentPane().add(tornaIndietro);
+		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBounds(10, 64, 89, 23);
+		getContentPane().add(bottoneIndietro);
 		
-		
-		ContaCaratteri key = new ContaCaratteri();
-		NomeSala.getDocument().addDocumentListener(new ContaCaratteri());
-		NomeSala.setFocusable(true);
+		nomeSala.getDocument().addDocumentListener(new ContaCaratteri());
+		nomeSala.setFocusable(true);
 		contaCaratteri = new JLabel("0");
 		contaCaratteri.setBounds(106, 33, 46, 14);
 		getContentPane().add(contaCaratteri);
-		BottoneOk.addActionListener(GestoreNomeSala);
-		tornaIndietro.addActionListener(GestoreNomeSala);
+		bottoneOk.addActionListener(GestoreNomeSala);
+		bottoneIndietro.addActionListener(GestoreNomeSala);
 		setVisible(true);
 
 	}
@@ -67,27 +66,28 @@ public class InterfacciaAggiuntaSala extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource()==BottoneOk)
+			if(e.getSource()==bottoneOk)
 			{	
 				boolean nomeTroppoLungo = false;
-				if(NomeSala.getText().isBlank())
+				if(nomeSala.getText().isBlank())
 				{
 					JOptionPane.showMessageDialog(null,"Non puoi inserire una sala senza nome!","Errore", JOptionPane.ERROR_MESSAGE);
 				}
 				else
 				{
-					if(NomeSala.getText().length()>40)
+					if(nomeSala.getText().length()>40)
 						nomeTroppoLungo = true;
 				
 					if (nomeTroppoLungo)
 					{
-						JOptionPane.showMessageDialog(null,"Il nome inserito e'  troppo lungo (piu' di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
-						NomeSala.selectAll();
-						NomeSala.replaceSelection("");
+						JOptionPane.showMessageDialog(null,"Il nome inserito e'  troppo lungo (piu' di 40 caratteri). "
+								+ "Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
+						nomeSala.selectAll();
+						nomeSala.replaceSelection("");
 					}
 					else
 					{
-						theController.interfacciaCreazioneSalaOkPremuto(NomeSala.getText(), ristorante);
+						theController.interfacciaCreazioneSalaOkPremuto(nomeSala.getText(), ristorante);
 					}
 				}
 			}
@@ -100,17 +100,17 @@ public class InterfacciaAggiuntaSala extends JFrame
 	private class ContaCaratteri implements DocumentListener{
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
+			contaCaratteri.setText(String.format("%d", nomeSala.getText().length()));
 			
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
+			contaCaratteri.setText(String.format("%d", nomeSala.getText().length()));
 		}
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			// TODO Auto-generated method stub
+			
 		}
 		
 	}

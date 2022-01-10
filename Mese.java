@@ -31,8 +31,10 @@ public class Mese{
 	}
 	
 	public void setDaStringa(String meseStringa) throws MeseErratoException {
+		
 		String meseStringaFormattato = meseStringa.toUpperCase();
 		MeseErratoException ecc = new MeseErratoException();
+		
 		switch(meseStringaFormattato) {
 		case "GENNAIO": this.valoreNumerico = 1;
 			break;

@@ -22,6 +22,8 @@ public class InterfacciaAggiuntaDatiNuovoTavolo extends JFrame {
 	private Controller theController;
 	private Sala salaDiAppartenenza;
 	private ArrayList<Tavolo> tavoliGiaEsistenti;
+	JLabel etichettaNumeroTavolo;
+	JLabel etichettaCapienzaTavolo;
 	
 	public InterfacciaAggiuntaDatiNuovoTavolo(Controller controller, Sala sala, ArrayList<Tavolo> tavoliGiaEsistenti)
 	{
@@ -56,11 +58,11 @@ public class InterfacciaAggiuntaDatiNuovoTavolo extends JFrame {
 		bottoneOk.addActionListener(new GestoreBottoni());
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
-		JLabel etichettaNumeroTavolo = new JLabel("Numero del tavolo");
+		etichettaNumeroTavolo = new JLabel("Numero del tavolo");
 		etichettaNumeroTavolo.setBounds(10, 11, 163, 14);
 		getContentPane().add(etichettaNumeroTavolo);
 		
-		JLabel etichettaCapienzaTavolo = new JLabel("Capienza del tavolo");
+		etichettaCapienzaTavolo = new JLabel("Capienza del tavolo");
 		etichettaCapienzaTavolo.setBounds(10, 61, 46, 14);
 		getContentPane().add(etichettaCapienzaTavolo);
 		
