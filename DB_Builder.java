@@ -11,7 +11,7 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "Antonio22");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
@@ -391,6 +391,27 @@ public class DB_Builder
 						+ "EXECUTE FUNCTION ImpedisciModificaTavolatePiuGrandiDiCapacita();");
 				
 				stmt.executeUpdate("CREATE INDEX Indice_Data_Occupazioni ON TAVOLATA (DATA);");
+				
+				stmt.executeUpdate("CREATE PROCEDURE  unicoTavPerData(CID elenco_avventori.n_cid%TYPE, tavolata elenco_avventori.id_tavolata%TYPE)"
+								+ "as $$"
+								+ "DECLARE"
+								+ "Conta integer;"
+								+ "DataScelta DATE;"
+								+ "BEGIN"
+								+ "INSERT INTO ELENCO_AVVENTORI VALUES(tavolata,CID);"
+								+ "SELECT tav.data into DataScelta"
+								+ "FROM tavolata as tav"
+								+ "WHERE tav.id_tavolata = tavolata;"
+								+ "SELECT COUNT(*) into Conta"
+								+ "FROM Elenco_avventori as EA, Tavolata as TAV\n"
+								+ "WHERE EA.id_tavolata = TAV.id_tavolata AND EA.n_cid = CID AND TAV.data = DataScelta;"
+								+ "assert Conta = 1 , 'L avventore si trova già in un altra tavolata nella data scelta!';"
+								+ "if(Conta >1) then"
+								+ "	ROLLBACK;\n"
+								+ "END IF;"
+								+ "COMMIT;"
+								+ "END;"
+								+ "$$ language plpgsql;");
 				
 
 			}
