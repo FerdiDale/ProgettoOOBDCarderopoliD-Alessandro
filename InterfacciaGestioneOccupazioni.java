@@ -162,7 +162,6 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		{
 			if(e.getSource()==occupaTavolo)
 			{
-				System.out.println(indiceTavoloSelezionato);
 				theController.bottoneOccupaGestioneOccupazionePremuto(Integer.parseInt(textFieldNumeroAvventori.getText()), tavoli,indiceTavoloSelezionato, data);
 			}
 			else if(e.getSource() == vediOccupazione)

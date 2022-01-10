@@ -20,7 +20,7 @@ public class Controller {
 	private RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
 	private NumeroAvventoriMeseDAOImplPostgres numeroAvventoriMeseDao = new NumeroAvventoriMeseDAOImplPostgres();
     private InterfacciaSale frameSale;
-	private InterfacciaCreazioneSala frameCreateS;
+	private InterfacciaAggiuntaSala frameCreateS;
 	private InterfacciaGestioneCamerieri frameGestioneCamerieri;
 	private InterfacciaStatistichePerAnno frameStatistichePerAnno; 
 	private InterfacciaAggiuntaCamerieri frameAggiuntaCamerieri;
@@ -30,7 +30,7 @@ public class Controller {
 	private InterfacciaModificaLayout frameModificaLayout;
 	private TavoloDAOImplPostgres tavoloDao = new TavoloDAOImplPostgres();
 	private InterfacciaAggiuntaTavoli frameAggiuntaTavoli;
-	private InterfacciaAggiuntaCapienzaNumeroNuovoTavolo frameACNT;
+	private InterfacciaAggiuntaDatiNuovoTavolo frameACNT;
 	private InterfacciaSelezioneDataOccupazione frameSelezioneDataOccupazione;
 	private InterfacciaGestioneOccupazioni frameGestioneOccupazioni;
 	private InterfacciaAdiacenze frameAdiacenze;
@@ -106,7 +106,7 @@ public class Controller {
 	
 	public void bottoneAggiuntaSalaPremuto(Ristorante ristorante)
 	{		
-		frameCreateS = new InterfacciaCreazioneSala(ristorante,this);
+		frameCreateS = new InterfacciaAggiuntaSala(ristorante,this);
 		frameSale.setVisible(false);
 	}
 	
@@ -357,7 +357,7 @@ public class Controller {
 	public void bottoneAggiuntaTavoloPremuto(Sala salaScelta, ArrayList<Tavolo> tavoliGiaEsistenti)
 	{
 		frameTavoli.setVisible(false);
-		frameACNT = new InterfacciaAggiuntaCapienzaNumeroNuovoTavolo(this,salaScelta,tavoliGiaEsistenti);
+		frameACNT = new InterfacciaAggiuntaDatiNuovoTavolo(this,salaScelta,tavoliGiaEsistenti);
 	}
 	
 	public void bottoneOkInterfacciaAggiuntaCapienzaNumeroNuovoTavoloPremuto(Tavolo tavolo,Sala salaScelta, ArrayList<Tavolo> tavoliGiaEsistenti)
@@ -547,7 +547,7 @@ public class Controller {
 		TAVDAO.inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto).getId_Tavolo(),data));
 		
 		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
-		ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore);
+		ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore,0);
 		
 		
 		CameriereDAOImplPostgres CDAO = new CameriereDAOImplPostgres();
@@ -716,7 +716,7 @@ public class Controller {
 		if(controlloCampiNonVuoti  && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi && controlloAlmenoUnTelefono)
 		{
 			AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
-			ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore);
+			ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore,1);
 			framesAggiuntaAvventore.get(framesAggiuntaAvventore.size()-1).setVisible(false);
 			frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this, tavoli, tavoloScelto, dataScelta);
 		}
