@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,23 +29,27 @@ public class InterfacciaAdiacenze extends JFrame {
 	private Sala sala;
 	private Tavolo tavoloProtagonista;
 	private ArrayList<Tavolo> tavoli = new ArrayList<Tavolo>();
-	private ArrayList<JLabel> numeri = new ArrayList<JLabel>();
+	private ArrayList<JLabel> tavoliGrafici = new ArrayList<JLabel>();
 	private JLabel background;
 	private JLayeredPane areaDiDisegno;
 	private JLabel tavoloSelezionato;
 	private Tavolo tavoloEntitaSelezionato;
+	private JButton bottoneIndietro;
+	private JButton bottoneConferma;
 	
-	/**
-	 * Create the frame.
-	 */
-	public InterfacciaAdiacenze(Controller c, Tavolo tavoloCorrente) {
-		super("Adiacenze del tavolo numero " + tavoloCorrente.getNumero() + " della sala "+ tavoloCorrente.getSala_App().getNome());
+	
+	public InterfacciaAdiacenze(Controller c, Tavolo tavoloScelto) {
+		super("Adiacenze del tavolo numero " + tavoloScelto.getNumero() + " della sala "+ tavoloScelto.getSala_App().getNome());
 		getContentPane().setLayout(null);
+		
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		
 		theController = c;
-		tavoloProtagonista = tavoloCorrente;
+		tavoloProtagonista = tavoloScelto;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 452);
-		this.sala = tavoloCorrente.getSala_App();
+		this.sala = tavoloScelto.getSala_App();
 		getContentPane().setLayout(null);
 		
 		areaDiDisegno = new JLayeredPane();
@@ -54,7 +59,7 @@ public class InterfacciaAdiacenze extends JFrame {
 		panel.setBounds(0, 0, 659, 362);
 		areaDiDisegno.add(panel, 0);
 		
-		JButton bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				theController.adiacenzeIndietroPremuto(sala);
@@ -65,7 +70,7 @@ public class InterfacciaAdiacenze extends JFrame {
 		
 		gestoreIcone handler = new gestoreIcone();
 		
-		JButton bottoneConferma = new JButton("Conferma");
+		bottoneConferma = new JButton("Conferma");
 		bottoneConferma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				theController.bottoneConfermaModificheAdiacenzePremuto(tavoloProtagonista);
@@ -83,23 +88,23 @@ public class InterfacciaAdiacenze extends JFrame {
 		tavoloProtagonista.setTavoliAdiacenti(theController.estraiTavoliAdiacenti (tavoloProtagonista));
 		for (Tavolo tavolo: tavoli)
 		{
-			JLabel tavoloCurr = new JLabel(String.format("%d",tavolo.getNumero()));
-			tavoloCurr.addMouseListener(handler);
-			tavoloCurr.setBackground(new Color(129,116,37));
-			tavoloCurr.setOpaque(true);
-			tavoloCurr.setBounds(tavolo.getPosX(), tavolo.getPosY(), tavolo.getDimX(), tavolo.getDimY());
-			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-			tavoloCurr.setHorizontalAlignment(SwingConstants.CENTER);
+			JLabel tavoloCorrente = new JLabel(String.format("%d",tavolo.getNumero()));
+			tavoloCorrente.addMouseListener(handler);
+			tavoloCorrente.setBackground(new Color(129,116,37));
+			tavoloCorrente.setOpaque(true);
+			tavoloCorrente.setBounds(tavolo.getPosX(), tavolo.getPosY(), tavolo.getDimX(), tavolo.getDimY());
+			tavoloCorrente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			tavoloCorrente.setHorizontalAlignment(SwingConstants.CENTER);
 			
 			
 			for (Tavolo tavoloAdiacente : tavoloProtagonista.getTavoliAdiacenti()) {
 				if (tavoloAdiacente.getNumero() == (tavolo.getNumero()))
-					tavoloCurr.setBackground(Color.YELLOW);
+					tavoloCorrente.setBackground(Color.YELLOW);
 			}
 			
-			areaDiDisegno.add(tavoloCurr,0,1);
+			areaDiDisegno.add(tavoloCorrente,0,1);
 	
-			numeri.add(tavoloCurr);
+			tavoliGrafici.add(tavoloCorrente);
 			
 		}
 		
@@ -124,13 +129,13 @@ public class InterfacciaAdiacenze extends JFrame {
 		{
 			boolean tavolo = false;
 			int controllo = -1;
-			while(!tavolo && controllo < numeri.size())
+			while(!tavolo && controllo < tavoliGrafici.size())
 				{
 					controllo++;
-					if(e.getSource() == numeri.get(controllo))
+					if(e.getSource() == tavoliGrafici.get(controllo))
 					{
 						tavolo = true;
-						tavoloSelezionato = numeri.get(controllo);
+						tavoloSelezionato = tavoliGrafici.get(controllo);
 						tavoloEntitaSelezionato = trovaTavoloAssociato(Integer.parseInt(tavoloSelezionato.getText()));
 					}
 				}
@@ -169,7 +174,6 @@ public class InterfacciaAdiacenze extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 

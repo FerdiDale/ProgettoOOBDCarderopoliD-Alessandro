@@ -29,17 +29,22 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	private JList<Cameriere> listaLicenziati = new JList<Cameriere>(modelloListaLicenziati);
 	private ArrayList<Cameriere> arrayListAssunti = new ArrayList<Cameriere>();
 	private ArrayList<Cameriere> arrayListLicenziati = new ArrayList<Cameriere>();
-	private JButton RiassumiCameriere;
-	private JButton LicenziaCameriere;
-	private JButton AggiuntaCameriere;
+	private JButton bottoneRiassumiCameriere;
+	private JButton bottoneLicenziaCameriere;
+	private JButton bottoneAggiuntaCameriere;
 	private int indiceListaAssunti = -1;
 	private int indiceListaLicenziati = -1;
 	private GestioneBottoniETesti handlerB = new GestioneBottoniETesti();
 	private	GestioneListe handlerL = new GestioneListe();
+	private JScrollPane scrollPaneAssunti;
+	private JScrollPane scrollPaneLicenziati;
+	private JLabel etichettaLicenziati;
+	private JLabel etichettaAssunti;
+	private JButton tornaIndietro;
 	
 	
 	public InterfacciaGestioneCamerieri(Ristorante ristorante, Controller theController)
-	{//BISOGNA GESTIRE QUANDO UN CAMERIERE VIENE LICENZIATO DOPO AVER OCCUPATO UN TAVOLO
+	{
 		super("Gestione camerieri di "+ristorante.getNome());
 		getContentPane().setLayout(null);
 		setBounds(100, 100, 540, 404);
@@ -50,40 +55,40 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
-		JScrollPane scrollPaneAssunti = new JScrollPane();
+		scrollPaneAssunti = new JScrollPane();
 		scrollPaneAssunti.setBounds(10, 35, 225, 105);
 		getContentPane().add(scrollPaneAssunti);
 		
 		
 		scrollPaneAssunti.setViewportView(listaAssunti);
 		
-		JScrollPane scrollPaneLicenziati = new JScrollPane();
+		scrollPaneLicenziati = new JScrollPane();
 		scrollPaneLicenziati.setBounds(10, 182, 225, 105);
 		getContentPane().add(scrollPaneLicenziati);
 		
 		scrollPaneLicenziati.setViewportView(listaLicenziati);
 		
-		JLabel Assunti = new JLabel("Correntemente assunti");
-		Assunti.setBounds(10, 10, 350, 14);
-		getContentPane().add(Assunti);
+		etichettaAssunti = new JLabel("Correntemente assunti");
+		etichettaAssunti.setBounds(10, 10, 350, 14);
+		getContentPane().add(etichettaAssunti);
 		
-		JLabel Licenziati = new JLabel("Licenziati");
-		Licenziati.setBounds(10, 157, 99, 14);
-		getContentPane().add(Licenziati);
+		etichettaLicenziati = new JLabel("Licenziati");
+		etichettaLicenziati.setBounds(10, 157, 99, 14);
+		getContentPane().add(etichettaLicenziati);
 		
-		AggiuntaCameriere = new JButton("Aggiungi Cameriere");
-		AggiuntaCameriere.setBounds(287, 33, 160, 23);
-		getContentPane().add(AggiuntaCameriere);
+		bottoneAggiuntaCameriere = new JButton("Aggiungi Cameriere");
+		bottoneAggiuntaCameriere.setBounds(287, 33, 160, 23);
+		getContentPane().add(bottoneAggiuntaCameriere);
 		
-		RiassumiCameriere = new JButton("Riassumi Cameriere");
-		RiassumiCameriere.setBounds(287, 234, 160, 23);
-		RiassumiCameriere.setEnabled(false);
-		getContentPane().add(RiassumiCameriere);
+		bottoneRiassumiCameriere = new JButton("Riassumi Cameriere");
+		bottoneRiassumiCameriere.setBounds(287, 234, 160, 23);
+		bottoneRiassumiCameriere.setEnabled(false);
+		getContentPane().add(bottoneRiassumiCameriere);
 		
-		LicenziaCameriere = new JButton("Licenzia Cameriere");
-		LicenziaCameriere.setBounds(287, 67, 160, 23);
-		LicenziaCameriere.setEnabled(false);
-		getContentPane().add(LicenziaCameriere);
+		bottoneLicenziaCameriere = new JButton("Licenzia Cameriere");
+		bottoneLicenziaCameriere.setBounds(287, 67, 160, 23);
+		bottoneLicenziaCameriere.setEnabled(false);
+		getContentPane().add(bottoneLicenziaCameriere);
 		
 		arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
 		arrayListLicenziati = theController.EstraiCamerieriLicenziatiC(ristorante);
@@ -94,16 +99,16 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		modelloListaAssunti.addAll(arrayListAssunti);
 		modelloListaLicenziati.addAll(arrayListLicenziati);
 		
-		JButton tornaIndietro = new JButton("Indietro");
+		tornaIndietro = new JButton("Indietro");
 		tornaIndietro.setBounds(10, 331, 89, 23);
 		getContentPane().add(tornaIndietro);
 		
 		listaLicenziati.addListSelectionListener(handlerL);
-		RiassumiCameriere.addActionListener(handlerB);
+		bottoneRiassumiCameriere.addActionListener(handlerB);
 		tornaIndietro.addActionListener(handlerB);
-		LicenziaCameriere.addActionListener(handlerB);
+		bottoneLicenziaCameriere.addActionListener(handlerB);
 		listaAssunti.addListSelectionListener(handlerL);
-		AggiuntaCameriere.addActionListener(handlerB);
+		bottoneAggiuntaCameriere.addActionListener(handlerB);
 
 		
 		setVisible(true);
@@ -115,15 +120,15 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource() == RiassumiCameriere)
+			if(e.getSource() == bottoneRiassumiCameriere)
 			{
 				theController.generaCalendarioAssunzioneCameriere(arrayListLicenziati.get(indiceListaLicenziati));
 			}
-			else if(e.getSource() == LicenziaCameriere)
+			else if(e.getSource() == bottoneLicenziaCameriere)
 			{
 				theController.generaCalendarioLicenziamentoCameriere(arrayListAssunti.get(indiceListaAssunti));
 			}
-			else if (e.getSource() == AggiuntaCameriere)
+			else if (e.getSource() == bottoneAggiuntaCameriere)
 			{
 				theController.bottoneAggiungiCamerierePremuto(ristorante);
 				ripresaInterfaccia();
@@ -146,13 +151,13 @@ public class InterfacciaGestioneCamerieri extends JFrame
 				
 				if (indiceListaLicenziati == -1) {
 					
-					RiassumiCameriere.setEnabled(false);
+					bottoneRiassumiCameriere.setEnabled(false);
 					
 				}
 				else {
 				
-					RiassumiCameriere.setEnabled(true);
-					LicenziaCameriere.setEnabled(false);
+					bottoneRiassumiCameriere.setEnabled(true);
+					bottoneLicenziaCameriere.setEnabled(false);
 					listaAssunti.clearSelection();
 					
 				}
@@ -163,12 +168,12 @@ public class InterfacciaGestioneCamerieri extends JFrame
 				
 				if (indiceListaAssunti == -1) 
 				{
-					LicenziaCameriere.setEnabled(false);
+					bottoneLicenziaCameriere.setEnabled(false);
 				}
 				else 
 				{
-					LicenziaCameriere.setEnabled(true);
-					RiassumiCameriere.setEnabled(false);
+					bottoneLicenziaCameriere.setEnabled(true);
+					bottoneRiassumiCameriere.setEnabled(false);
 					listaLicenziati.clearSelection();
 						
 				}
@@ -188,7 +193,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		modelloListaLicenziati.addAll(arrayListLicenziati);
 		listaAssunti.addListSelectionListener(handlerL);
 		listaLicenziati.addListSelectionListener(handlerL);
-		LicenziaCameriere.setEnabled(false);
-		RiassumiCameriere.setEnabled(false);
+		bottoneLicenziaCameriere.setEnabled(false);
+		bottoneRiassumiCameriere.setEnabled(false);
 	}
 }

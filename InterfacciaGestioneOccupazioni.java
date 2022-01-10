@@ -33,14 +33,15 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 	private ArrayList<Integer> tavoliOccupati;
 	private JButton bottoneIndietro;
 	private JTextField textFieldNumeroAvventori;
-	private JButton vediOccupazione;
-	private JButton occupaTavolo;
+	private JButton bottoneVediOccupazione;
+	private JButton bottoneOccupaTavolo;
 	private String data;
-	private int buttonUnlockOccupa = -2;
 	private int indiceTavoloSelezionato;
-	private boolean intero;
+	private boolean interoCorretto;
 	private JLabel iconaInformazioni;
 	private boolean occupato = true;
+	private JLabel numeroOccupanti;
+	private pannelloTavoli panel;
 	
 	public InterfacciaGestioneOccupazioni(Controller controller,ArrayList<Tavolo> tavoli, String data) 
 	{
@@ -63,15 +64,15 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		getContentPane().add(bottoneIndietro);
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
-		vediOccupazione = new JButton("Vedi occupazione");
-		vediOccupazione.setBounds(10, 384, 130, 23);
-		getContentPane().add(vediOccupazione);
-		vediOccupazione.addActionListener(new GestoreBottoni());
+		bottoneVediOccupazione = new JButton("Vedi occupazione");
+		bottoneVediOccupazione.setBounds(10, 384, 130, 23);
+		getContentPane().add(bottoneVediOccupazione);
+		bottoneVediOccupazione.addActionListener(new GestoreBottoni());
 		
-		occupaTavolo = new JButton("Occupare");
-		occupaTavolo.setBounds(195, 384, 105, 23);
-		getContentPane().add(occupaTavolo);
-		occupaTavolo.addActionListener(new GestoreBottoni());
+		bottoneOccupaTavolo = new JButton("Occupare");
+		bottoneOccupaTavolo.setBounds(195, 384, 105, 23);
+		getContentPane().add(bottoneOccupaTavolo);
+		bottoneOccupaTavolo.addActionListener(new GestoreBottoni());
 		
 		
 		
@@ -82,7 +83,7 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		textFieldNumeroAvventori.addKeyListener(new GestioneTesto());
 		textFieldNumeroAvventori.setFocusable(true);
 		
-		JLabel numeroOccupanti = new JLabel("Numero di avventori");
+		numeroOccupanti = new JLabel("Numero di avventori");
 		numeroOccupanti.setBounds(195, 408, 105, 14);
 		getContentPane().add(numeroOccupanti);
 		background = new JLabel();
@@ -91,21 +92,21 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		background.setOpaque(true);
 		background.addMouseListener(new GestoreIcone());
 		
-		pannelloTavoli panel = new pannelloTavoli();
+		panel = new pannelloTavoli();
 		panel.setBounds(0, 0, 659, 362);
 		
 		GestoreIcone handler = new GestoreIcone();
 		
 		for (int i = 0; i<tavoli.size(); i++)
 		{
-			JLabel tavoloCurr = new JLabel(String.format("%d",tavoli.get(i).getNumero()),SwingConstants.CENTER);
-			tavoloCurr.setBackground(new Color(129,116,37));
-			tavoloCurr.setOpaque(true);
-			tavoloCurr.setBounds(tavoli.get(i).getPosX(), tavoli.get(i).getPosY(), tavoli.get(i).getDimX(), tavoli.get(i).getDimY());
-			tavoloCurr.addMouseListener(handler);
-			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-			areaDiDisegno.add(tavoloCurr,0,1);
-			numeri.add(tavoloCurr);
+			JLabel tavoloCorrente = new JLabel(String.format("%d",tavoli.get(i).getNumero()),SwingConstants.CENTER);
+			tavoloCorrente.setBackground(new Color(129,116,37));
+			tavoloCorrente.setOpaque(true);
+			tavoloCorrente.setBounds(tavoli.get(i).getPosX(), tavoli.get(i).getPosY(), tavoli.get(i).getDimX(), tavoli.get(i).getDimY());
+			tavoloCorrente.addMouseListener(handler);
+			tavoloCorrente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			areaDiDisegno.add(tavoloCorrente,0,1);
+			numeri.add(tavoloCorrente);
 		}
 		
 		tavoliOccupati = theController.estrazioneTavoliOccupatiInData(tavoli.get(0).getSala_App(), data);
@@ -128,8 +129,8 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 			}
 		}
 		
-		vediOccupazione.setEnabled(false);
-		occupaTavolo.setEnabled(false);
+		bottoneVediOccupazione.setEnabled(false);
+		bottoneOccupaTavolo.setEnabled(false);
 		
 		iconaInformazioni = new JLabel();
 		iconaInformazioni.setIcon(UIManager.getIcon("OptionPane.informationIcon"));	
@@ -160,12 +161,11 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource()==occupaTavolo)
+			if(e.getSource()==bottoneOccupaTavolo)
 			{
-				System.out.println(indiceTavoloSelezionato);
 				theController.bottoneOccupaGestioneOccupazionePremuto(Integer.parseInt(textFieldNumeroAvventori.getText()), tavoli,indiceTavoloSelezionato, data);
 			}
-			else if(e.getSource() == vediOccupazione)
+			else if(e.getSource() == bottoneVediOccupazione)
 			{
 				theController.bottoneVisualizzaOccupazioneGestioneOccupazione(tavoli, data, indiceTavoloSelezionato);
 			}
@@ -186,7 +186,7 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		occupato  = false;
 		if(e.getSource() == background)
 		{
-			vediOccupazione.setEnabled(false);
+			bottoneVediOccupazione.setEnabled(false);
 		}
 		if(numeroTavoloSelezionato!= 0)
 		{
@@ -232,36 +232,36 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		if(e.getSource() == background)
 		{
 			numeroTavoloSelezionato = 0;
-			vediOccupazione.setEnabled(false);
+			bottoneVediOccupazione.setEnabled(false);
 		}
 		
 			try
 			{
 				if(!textFieldNumeroAvventori.getText().isBlank())
 				{
-					if(Integer.parseInt(textFieldNumeroAvventori.getText())>0 && Integer.parseInt(textFieldNumeroAvventori.getText())<= tavoli.get(indiceTavoloSelezionato).getCapacita()) intero = true;
-					else intero = false;
+					if(Integer.parseInt(textFieldNumeroAvventori.getText())>0 && Integer.parseInt(textFieldNumeroAvventori.getText())<= tavoli.get(indiceTavoloSelezionato).getCapacita()) interoCorretto = true;
+					else interoCorretto = false;
 				}
 				else
 				{
-					intero = false;
+					interoCorretto = false;
 				}
 			}
 			catch(NumberFormatException n)
 			{
-				intero = false;
+				interoCorretto = false;
 			}
 		
-			if(numeroTavoloSelezionato != 0 && intero) occupaTavolo.setEnabled(true);
+			if(numeroTavoloSelezionato != 0 && interoCorretto) bottoneOccupaTavolo.setEnabled(true);
 			
-			else occupaTavolo.setEnabled(false);
+			else bottoneOccupaTavolo.setEnabled(false);
 			
 			if(occupato) 
 				{
-					vediOccupazione.setEnabled(true);
-					occupaTavolo.setEnabled(false);
+					bottoneVediOccupazione.setEnabled(true);
+					bottoneOccupaTavolo.setEnabled(false);
 				}
-			else vediOccupazione.setEnabled(false);
+			else bottoneVediOccupazione.setEnabled(false);
 			
 			
 		}
@@ -287,24 +287,23 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 			{
 				if(!textFieldNumeroAvventori.getText().isBlank())
 				{
-					if(Integer.parseInt(textFieldNumeroAvventori.getText())>0 &&  Integer.parseInt(textFieldNumeroAvventori.getText())<= tavoli.get(indiceTavoloSelezionato).getCapacita()) intero = true;
-					else intero = false;
+					if(Integer.parseInt(textFieldNumeroAvventori.getText())>0 &&  Integer.parseInt(textFieldNumeroAvventori.getText())<= tavoli.get(indiceTavoloSelezionato).getCapacita()) interoCorretto = true;
+					else interoCorretto = false;
 				}
 				else
 				{
-					intero = false;
+					interoCorretto = false;
 				}
 			}
 			catch(NumberFormatException n)
 			{
-				intero = false;
+				interoCorretto = false;
 			}
 			
-			if(numeroTavoloSelezionato != 0 && intero && !occupato) occupaTavolo.setEnabled(true);
+			if(numeroTavoloSelezionato != 0 && interoCorretto && !occupato) bottoneOccupaTavolo.setEnabled(true);
 			
-			else occupaTavolo.setEnabled(false);
+			else bottoneOccupaTavolo.setEnabled(false);
 			
-			System.out.println(intero+ " "+ numeroTavoloSelezionato+" "+textFieldNumeroAvventori.getText());
 		}
 		
 	}

@@ -29,7 +29,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 
 	private JLabel background;
 	private JLayeredPane areaDiDisegno;
-	private ArrayList<JLabel> numeri = new ArrayList<JLabel>();
+	private ArrayList<JLabel> tavoliGrafici = new ArrayList<JLabel>();
 	private boolean paintTable = false;
 	private int posXInizialeT;
 	private int posYInizialeT;
@@ -50,9 +50,9 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 	private InterfacciaAggiuntaTavoli riferimentoF = this;
 	private boolean inizializzazzioneTavolo = false;
 	
-	public InterfacciaAggiuntaTavoli(Tavolo tavoloNuovo,Sala salaCurr, ArrayList<Tavolo> tavoliGiaPresenti, Controller controller) 
+	public InterfacciaAggiuntaTavoli(Tavolo tavoloNuovo,Sala salaCorrente, ArrayList<Tavolo> tavoliGiaPresenti, Controller controller) 
 	{
-		super("Aggiunta tavolo alla sala "+ salaCurr.getNome());
+		super("Aggiunta tavolo alla sala "+ salaCorrente.getNome());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 515);
 		getContentPane().setLayout(null);
@@ -62,7 +62,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		this.theController = controller;
 		tavoloDaAggiungere.setCapacita(tavoloNuovo.getCapacita());
 		tavoloDaAggiungere.setNumero(tavoloNuovo.getNumero());
-		tavoloDaAggiungere.setSala_App(salaCurr);
+		tavoloDaAggiungere.setSala_App(salaCorrente);
 		
 		pannelloTavoli panel = new pannelloTavoli();
 		panel.setBounds(0, 0, 659, 362);
@@ -90,22 +90,22 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		background.setOpaque(true);
 		
 		GestioneDisegnoSecondoClick handlerDD = new GestioneDisegnoSecondoClick();
-		InizializzazzioneDisegno handlerD = new InizializzazzioneDisegno();
+		InizializzazioneDisegno handlerD = new InizializzazioneDisegno();
 		
 		background.addMouseMotionListener(handlerDD);
 		background.addMouseListener(handlerD);
 		
-		
-		for (int i = 0; i<tavoliGiaPresenti.size(); i++)
+		for (Tavolo tavolo : tavoliGiaPresenti) 
 		{
-			JLabel tavoloCurr = new JLabel(String.format("%d",tavoliGiaPresenti.get(i).getNumero()),SwingConstants.CENTER);
-			tavoloCurr.setBackground(new Color(129,116,37));
-			tavoloCurr.setOpaque(true);
-			tavoloCurr.setBounds(tavoliGiaPresenti.get(i).getPosX(), tavoliGiaPresenti.get(i).getPosY(), tavoliGiaPresenti.get(i).getDimX(), tavoliGiaPresenti.get(i).getDimY());
-			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-			areaDiDisegno.add(tavoloCurr,0,1);
-			numeri.add(tavoloCurr);
+			JLabel tavoloGraficoCorrente = new JLabel(String.format("%d",tavolo.getNumero()),SwingConstants.CENTER);
+			tavoloGraficoCorrente.setBackground(new Color(129,116,37));
+			tavoloGraficoCorrente.setOpaque(true);
+			tavoloGraficoCorrente.setBounds(tavolo.getPosX(), tavolo.getPosY(), tavolo.getDimX(), tavolo.getDimY());
+			tavoloGraficoCorrente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			areaDiDisegno.add(tavoloGraficoCorrente,0,1);
+			tavoliGrafici.add(tavoloGraficoCorrente);
 		}
+		
 		areaDiDisegno.add(panel, 0, 1);
 		areaDiDisegno.add(background,0,-1);
 		
@@ -170,8 +170,8 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 			if(e.getSource()==bottoneOk)
 			{
 				
-				numeri.add(nuovoTavolo);
-				if(!presentiSovrapposizioni(numeri) && !presentiTavoliFuoriFinestra(numeri,areaDiDisegno))
+				tavoliGrafici.add(nuovoTavolo);
+				if(!presentiSovrapposizioni(tavoliGrafici) && !presentiTavoliFuoriFinestra(tavoliGrafici,areaDiDisegno))
 				{
 					tavoloDaAggiungere.setPosX(posXInizialeT);
 					tavoloDaAggiungere.setPosY(posYInizialeT);
@@ -181,7 +181,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 				}
 				else
 				{
-					numeri.remove(numeri.size()-1);
+					tavoliGrafici.remove(tavoliGrafici.size()-1);
 					JOptionPane.showMessageDialog(null,"Il tavolo si trova su altri tavoli oppure si trova fuori dall'area di disegno. Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -206,16 +206,14 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		}
 	}
 	
-	private class InizializzazzioneDisegno implements MouseListener
+	private class InizializzazioneDisegno implements MouseListener
 	{
-		//private boolean ridimensionamento = false;
 		public void mouseClicked(MouseEvent e) 
 		{
 			if(e.getSource() == background)
 			{
 				if(paintTable == false && tavoloDisegnato == false) 
 					{
-						//riferimentoF.setCursor(Cursor.NW_RESIZE_CURSOR);
 						paintTable = true;
 						posXInizialeT = e.getX();
 						posYInizialeT = e.getY();
@@ -224,20 +222,20 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 						nuovoTavolo.setOpaque(true);
 						nuovoTavolo.setBackground(new Color(129,116,37));
 						nuovoTavolo.addMouseMotionListener(new GestioneDisegnoSecondoClick());
-						nuovoTavolo.addMouseListener(new InizializzazzioneDisegno());
+						nuovoTavolo.addMouseListener(new InizializzazioneDisegno());
 						nuovoTavolo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 						nuovaEtichettaADestra = new JLabel();
 						nuovaEtichettaInBasso = new JLabel();
 						nuovaEtichettaInBassoADestra = new JLabel();
 						nuovaEtichettaInBassoADestra.addMouseMotionListener(new GestioneDisegnoSecondoClick());
-						nuovaEtichettaInBassoADestra.addMouseListener(new InizializzazzioneDisegno());
+						nuovaEtichettaInBassoADestra.addMouseListener(new InizializzazioneDisegno());
 						nuovaEtichettaADestra.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 						nuovaEtichettaInBasso.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 						nuovaEtichettaInBassoADestra.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 						nuovaEtichettaADestra.addMouseMotionListener(new GestioneDisegnoSecondoClick());
-						nuovaEtichettaADestra.addMouseListener(new InizializzazzioneDisegno());
+						nuovaEtichettaADestra.addMouseListener(new InizializzazioneDisegno());
 						nuovaEtichettaInBasso.addMouseMotionListener(new GestioneDisegnoSecondoClick());
-						nuovaEtichettaInBasso.addMouseListener(new InizializzazzioneDisegno());
+						nuovaEtichettaInBasso.addMouseListener(new InizializzazioneDisegno());
 						nuovaEtichettaADestra.setBackground(new Color(192,192,192));
 						nuovaEtichettaInBasso.setBackground(new Color(192,192,192));
 						nuovaEtichettaInBassoADestra.setBackground(new Color(192,192,192));
@@ -284,18 +282,15 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 			else if(e.getSource() == nuovaEtichettaADestra)
 			{
 				posXInizialeS = e.getX();
-			//	ridimensionamento = true;
 			}
 			else if(e.getSource()== nuovaEtichettaInBasso)
 			{
 				posYInizialeS = e.getY();
-			//	ridimensionamento = true;
 			}
 			else if(e.getSource()== nuovaEtichettaInBassoADestra)
 			{
 				posXInizialeS=e.getX();
 				posYInizialeS=e.getY();
-			//	ridimensionamento = true;
 			}
 
 		}
@@ -309,26 +304,6 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 
 		public void mouseEntered(MouseEvent e) 
 		{
-			/*if(e.getSource()==nuovoTavolo)
-			{
-				riferimentoF.setCursor(Cursor.MOVE_CURSOR);
-			}
-			else if(e.getSource()== nuovaEtichettaADestra)
-			{
-				riferimentoF.setCursor(Cursor.E_RESIZE_CURSOR);
-			}
-			else if(e.getSource() == nuovaEtichettaInBasso)
-			{
-				riferimentoF.setCursor(Cursor.N_RESIZE_CURSOR);
-			}
-			else if(e.getSource() == nuovaEtichettaInBassoADestra)
-			{
-				riferimentoF.setCursor(Cursor.NW_RESIZE_CURSOR);
-			}
-			else if(e.getSource() == background && ridimensionamento == false)
-			{
-				riferimentoF.setCursor(Cursor.DEFAULT_CURSOR);
-			}*/
 		}
 
 
@@ -362,7 +337,6 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 						nuovaEtichettaADestra.setLocation(posXInizialeT+dimXF-3,posYInizialeT+dimYF/2 -3);
 						nuovaEtichettaInBassoADestra.setLocation(posXInizialeT+dimXF -3, posYInizialeT+dimYF -3);
 						nuovaEtichettaInBasso.setLocation(posXInizialeT+dimXF/2 -3, posYInizialeT+dimYF -3);
-					//	riferimentoF.setCursor(Cursor.E_RESIZE_CURSOR);
 				}
 			}
 			else if (e.getSource() == nuovaEtichettaInBasso)

@@ -23,7 +23,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		}
 		catch(SQLException e)
 		{ 
-			JOptionPane.showMessageDialog(null, e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 			return risultato;
 		}
 	}
@@ -41,7 +42,7 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		String queryTotaleAvventoriNoNTel = "INSERT INTO avventori VALUES(";
 		String queryTotaleAvventoriConNTel= "INSERT INTO avventori VALUES(";
 		String queryTotaleElencoAvventori = "INSERT INTO elenco_avventori VALUES(";
-		ResultSet prova;
+		ResultSet risultato;
 		int tavolata=-1;
 		try
 		{
@@ -52,16 +53,16 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 			{
 				if(lista.get(i).getNtel().getText().isBlank())
 					{
-						prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
-						prova.next();
-						if(prova.getInt(1)==0)
+						risultato = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+						risultato.next();
+						if(risultato.getInt(1)==0)
 						counterAvventoriNoNtelIniziali++;
 					}
 				else 
 					{
-						prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
-						prova.next();
-						if(prova.getInt(1)==0)
+						risultato = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+						risultato.next();
+						if(risultato.getInt(1)==0)
 						counterAvventoriNtelIniziali++;
 					}
 			}
@@ -70,7 +71,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, "Ricerca tavolata in avventori "+ e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 		for(int i = 0; i< lista.size();i++)
 		{
@@ -79,9 +81,9 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 					presente = true;
 					ntel= false;
 					nontel= false;
-					prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
-					prova.next();
-					if(prova.getInt(1)<1) 
+					risultato = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+					risultato.next();
+					if(risultato.getInt(1)<1) 
 						{
 							presente = false;
 							if(lista.get(i).getNtel().getText().isBlank()) 
@@ -108,7 +110,6 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 					 if(i == lista.size()-1)
 					 {
 						 queryTotaleElencoAvventori = queryTotaleElencoAvventori + ";";
-						 System.out.println(queryTotaleAvventoriConNTel+"\n"+queryTotaleAvventoriNoNTel+"\n"+queryTotaleElencoAvventori);
 						 if(counterAvventoriNtelIniziali>0) DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleAvventoriConNTel);
 						 if(counterAvventoriNoNtelIniziali>0) DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleAvventoriNoNTel);
 						 DB_Connection.getInstance().getConnection().createStatement().executeUpdate(queryTotaleElencoAvventori);
@@ -118,7 +119,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 				}
 			catch(SQLException e)
 			{
-				JOptionPane.showMessageDialog(null, e);
+				OperazioneFallitaException ecc = new OperazioneFallitaException();
+				ecc.stampaMessaggio();
 			}
 		}
 		
@@ -134,7 +136,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, "rimozione elenco avventori "+ e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 	}
 }

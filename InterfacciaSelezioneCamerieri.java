@@ -22,9 +22,9 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 	private DefaultListModel<Cameriere> modelloListaCameriere = new DefaultListModel<Cameriere>();
 	private ArrayList<Cameriere> arrayCameriere;
 	private JList<Cameriere> listaCamerieri = new JList<Cameriere>(modelloListaCameriere);
-	private DefaultListModel<Cameriere> modelloListaCameriereSelezionati = new DefaultListModel<Cameriere>();
+	private DefaultListModel<Cameriere> modelloListaCamerieriSelezionati = new DefaultListModel<Cameriere>();
 	private ArrayList<Cameriere> arrayCameriereSelezionati = new ArrayList<Cameriere>();
-	private JList<Cameriere> listaCamerieriSelezionati = new JList<Cameriere>(modelloListaCameriereSelezionati);
+	private JList<Cameriere> listaCamerieriSelezionati = new JList<Cameriere>(modelloListaCamerieriSelezionati);
 	private Controller theController;
 	private JButton bottoneIndietro;
 	private JButton bottoneConfermaSelezione;
@@ -32,15 +32,14 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 	private ArrayList<Tavolo> tavoli;
 	private JLabel etichettaCamerieri;
 	private int tavoloScelto;
-	private int indiceDiSelezioneC;
-	private int indiceDiSelezioneS;
+	private int indiceDiSelezioneCamerieri;
+	private int indiceDiSelezioneSelezionati;
 	private JButton bottoneAggiungiAiSelezionati;
 	private JButton bottoneRimuoviDaiSelezionati;
 	private boolean diVisualizzazione = false;
+	private JScrollPane scrollPaneCamerieri;
+	private JScrollPane scrollPaneCamerieriSelezionati;
 	
-	/**
-	 * @wbp.parser.constructor
-	 */
 	public InterfacciaSelezioneCamerieri(Controller controller, ArrayList<Tavolo> tavoli, int tavoloScelto, String data) 
 	{
 		super("Selezione camerieri disponibili in data "+ data);
@@ -54,10 +53,10 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		this.tavoli = tavoli;
 		this.theController = controller;
 		this.tavoloScelto = tavoloScelto;
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 41, 170, 119);
-		getContentPane().add(scrollPane);
-		scrollPane.setViewportView(listaCamerieri);
+		scrollPaneCamerieri = new JScrollPane();
+		scrollPaneCamerieri.setBounds(10, 41, 170, 119);
+		getContentPane().add(scrollPaneCamerieri);
+		scrollPaneCamerieri.setViewportView(listaCamerieri);
 		
 		bottoneConfermaSelezione = new JButton("Conferma");
 		bottoneConfermaSelezione.setBounds(274, 178, 101, 23);
@@ -74,12 +73,12 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		etichettaCamerieri.setBounds(10, 16, 153, 14);
 		getContentPane().add(etichettaCamerieri);
 		
-		JScrollPane scrollPaneSelezionati = new JScrollPane();
-		scrollPaneSelezionati.setBounds(239, 41, 170, 119);
-		getContentPane().add(scrollPaneSelezionati);
+		scrollPaneCamerieriSelezionati = new JScrollPane();
+		scrollPaneCamerieriSelezionati.setBounds(239, 41, 170, 119);
+		getContentPane().add(scrollPaneCamerieriSelezionati);
 		listaCamerieriSelezionati.setBackground(Color.WHITE);
 		
-		scrollPaneSelezionati.setViewportView(listaCamerieriSelezionati);
+		scrollPaneCamerieriSelezionati.setViewportView(listaCamerieriSelezionati);
 		
 		bottoneAggiungiAiSelezionati = new JButton(">");
 		bottoneAggiungiAiSelezionati.setBounds(187, 73, 45, 23);
@@ -119,10 +118,10 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		this.theController = controller;
 		this.tavoloScelto = tavoloScelto;
 		this.diVisualizzazione = true;
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 41, 170, 119);
-		getContentPane().add(scrollPane);
-		scrollPane.setViewportView(listaCamerieri);
+		scrollPaneCamerieri = new JScrollPane();
+		scrollPaneCamerieri.setBounds(10, 41, 170, 119);
+		getContentPane().add(scrollPaneCamerieri);
+		scrollPaneCamerieri.setViewportView(listaCamerieri);
 		
 		bottoneConfermaSelezione = new JButton("Conferma");
 		bottoneConfermaSelezione.setBounds(274, 178, 101, 23);
@@ -139,11 +138,11 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		etichettaCamerieri.setBounds(10, 16, 153, 14);
 		getContentPane().add(etichettaCamerieri);
 		
-		JScrollPane scrollPaneSelezionati = new JScrollPane();
-		scrollPaneSelezionati.setBounds(239, 41, 170, 119);
-		getContentPane().add(scrollPaneSelezionati);
+		scrollPaneCamerieriSelezionati = new JScrollPane();
+		scrollPaneCamerieriSelezionati.setBounds(239, 41, 170, 119);
+		getContentPane().add(scrollPaneCamerieriSelezionati);
 		
-		scrollPaneSelezionati.setViewportView(listaCamerieriSelezionati);
+		scrollPaneCamerieriSelezionati.setViewportView(listaCamerieriSelezionati);
 		
 		bottoneAggiungiAiSelezionati = new JButton(">");
 		bottoneAggiungiAiSelezionati.setBounds(187, 73, 45, 23);
@@ -168,15 +167,19 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		
 		if (diVisualizzazione)
 		{
-			for(int j=0;j<arrayCameriere.size();j++)
-			{
+			int j = 0;
+			
+			do {
+				
 				if(camerieriGiaPresenti.contains(arrayCameriere.get(j).getId_Cameriere()))
 				{
 					arrayCameriere.remove(j);
 				}
-			}
+				else j++;
+				
+			} while (j<arrayCameriere.size());
 		}
-		
+				
 		modelloListaCameriere.addAll(arrayCameriere);
 		
 		setVisible(true);
@@ -187,13 +190,13 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 	{
 		public void valueChanged(ListSelectionEvent e)
 		{
-			indiceDiSelezioneC = listaCamerieri.getSelectedIndex();
-			indiceDiSelezioneS = listaCamerieriSelezionati.getSelectedIndex();
+			indiceDiSelezioneCamerieri = listaCamerieri.getSelectedIndex();
+			indiceDiSelezioneSelezionati = listaCamerieriSelezionati.getSelectedIndex();
 			
-			if(indiceDiSelezioneC != -1) bottoneAggiungiAiSelezionati.setEnabled(true);
+			if(indiceDiSelezioneCamerieri != -1) bottoneAggiungiAiSelezionati.setEnabled(true);
 			else bottoneAggiungiAiSelezionati.setEnabled(false);	
 			
-			if(indiceDiSelezioneS != -1) bottoneRimuoviDaiSelezionati.setEnabled(true);
+			if(indiceDiSelezioneSelezionati != -1) bottoneRimuoviDaiSelezionati.setEnabled(true);
 			else bottoneRimuoviDaiSelezionati.setEnabled(false);
 		}
 		
@@ -205,7 +208,10 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		{
 			if(e.getSource() == bottoneIndietro)
 			{
-				theController.bottoneIndietroSelezioneCamerieriPremuto(tavoli,data);
+				if (diVisualizzazione)
+					theController.bottoneIndietroSelezioneCameriereDiVisualizzazione(tavoli, tavoloScelto, data);
+				else
+					theController.bottoneIndietroSelezioneCamerieriPremuto(tavoli,data);
 			}	
 			else if(e.getSource() == bottoneConfermaSelezione)
 			{
@@ -214,10 +220,10 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 			}
 			else if(e.getSource() == bottoneAggiungiAiSelezionati)
 			{
-				arrayCameriereSelezionati.add(arrayCameriere.get(indiceDiSelezioneC));
-				modelloListaCameriereSelezionati.removeAllElements();
-				modelloListaCameriereSelezionati.addAll(arrayCameriereSelezionati);
-				arrayCameriere.remove(indiceDiSelezioneC);
+				arrayCameriereSelezionati.add(arrayCameriere.get(indiceDiSelezioneCamerieri));
+				modelloListaCamerieriSelezionati.removeAllElements();
+				modelloListaCamerieriSelezionati.addAll(arrayCameriereSelezionati);
+				arrayCameriere.remove(indiceDiSelezioneCamerieri);
 				modelloListaCameriere.removeAllElements();
 				modelloListaCameriere.addAll(arrayCameriere);
 				bottoneAggiungiAiSelezionati.setEnabled(false);
@@ -226,12 +232,12 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 			}
 			else if(e.getSource() == bottoneRimuoviDaiSelezionati)
 			{
-				arrayCameriere.add(arrayCameriereSelezionati.get(indiceDiSelezioneS));
+				arrayCameriere.add(arrayCameriereSelezionati.get(indiceDiSelezioneSelezionati));
 				modelloListaCameriere.removeAllElements();
 				modelloListaCameriere.addAll(arrayCameriere);
-				arrayCameriereSelezionati.remove(indiceDiSelezioneS);
-				modelloListaCameriereSelezionati.removeAllElements();
-				modelloListaCameriereSelezionati.addAll(arrayCameriereSelezionati);
+				arrayCameriereSelezionati.remove(indiceDiSelezioneSelezionati);
+				modelloListaCamerieriSelezionati.removeAllElements();
+				modelloListaCamerieriSelezionati.addAll(arrayCameriereSelezionati);
 				bottoneAggiungiAiSelezionati.setEnabled(false);
 				bottoneRimuoviDaiSelezionati.setEnabled(false);
 				if(arrayCameriereSelezionati.size()==0) bottoneConfermaSelezione.setEnabled(false);

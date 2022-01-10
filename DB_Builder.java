@@ -115,7 +115,7 @@ public class DB_Builder
 								+ "Data_Licenziamento DATE DEFAULT NULL,"
 								+ "CONSTRAINT LavoraNel FOREIGN KEY(Id_Ristorante) REFERENCES Ristorante(Id_Ristorante)"
 								+ "                         ON DELETE CASCADE                    ON UPDATE CASCADE,"
-								+ "CONSTRAINT ConsistenzaTemporale CHECK (Data_Ammissione<=Data_Licenziamento));");
+								+ "CONSTRAINT ConsistenzaTemporale CHECK (Data_Ammissione<Data_Licenziamento));");
 						
 				stmt.executeUpdate("CREATE TABLE Servizio "
 								+ "(Id_Cameriere INTEGER NOT NULL, "
@@ -398,7 +398,6 @@ public class DB_Builder
 			{
 				CreazioneErrataDatabaseException ecc = new CreazioneErrataDatabaseException();
 				ecc.stampaMessaggio();
-				System.out.println(e.getMessage());
 			}
 		}
 	}

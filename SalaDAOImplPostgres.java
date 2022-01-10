@@ -14,11 +14,11 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 												+ ristoranteCorrente.getId_Ristorante() +";");  
 				while(rs.next())
 				{
-					Sala casellasingola = new Sala();
-					casellasingola.setId_Sala(rs.getInt(1));
-					casellasingola.setNome(rs.getString(2));
-					casellasingola.setRistoranteDiAppartenenza(ristoranteCorrente);
-					risultato.add(casellasingola);
+					Sala salaCorrente = new Sala();
+					salaCorrente.setId_Sala(rs.getInt(1));
+					salaCorrente.setNome(rs.getString(2));
+					salaCorrente.setRistoranteDiAppartenenza(ristoranteCorrente);
+					risultato.add(salaCorrente);
 				}
 			}
 			catch(SQLException e)
@@ -43,7 +43,7 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 		}
 	}
 	
-	public void AggiuntaSalaRistorante(String nomeSala,int id_ristorante)
+	public void AggiuntaSalaRistorante(String nomeSala,int id_ristorante) throws ErrorePersonalizzato
 	{
 		try 
 		{
@@ -53,20 +53,18 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("23505")){
-				NomeSalaUgualeException ecc = new NomeSalaUgualeException();
-				ecc.stampaMessaggio();
-			}
+			if (e.getSQLState().equals("23505"))
+				throw new NomeSalaUgualeException();
+				
 			else if (e.getSQLState().equals("42601")) 
-			{
-				StringheNonValideException ecc = new StringheNonValideException();
-				ecc.stampaMessaggio();
-			}
-			else
-				JOptionPane.showMessageDialog(null,"L'inserimento non e' andato a buon fine. Si prega di riprovare","Errore!",JOptionPane.ERROR_MESSAGE);
+				throw new StringheNonValideException();
+			
+			else 
+				throw new OperazioneFallitaException();
 		}
 	}
-	public void modificaSala(String nome, Sala sala) {
+	
+	public void modificaSala(String nome, Sala sala) throws ErrorePersonalizzato {
 		try 
 		{
 			Connection c = DB_Connection.getInstance().getConnection();
@@ -75,17 +73,14 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 		}
 		catch(SQLException e)
 		{
-			if (e.getSQLState().equals("23505")) {
-				NomeSalaUgualeException ecc = new NomeSalaUgualeException();
-				ecc.stampaMessaggio();
-			}
+			if (e.getSQLState().equals("23505"))
+				throw new NomeSalaUgualeException();
+				
 			else if (e.getSQLState().equals("42601")) 
-			{
-				StringheNonValideException ecc = new StringheNonValideException();
-				ecc.stampaMessaggio();
-			}
-			else
-				JOptionPane.showMessageDialog(null,"La modifica non e' andato a buon fine. Si prega di riprovare"+e.getSQLState(),"Errore!",JOptionPane.ERROR_MESSAGE);
+				throw new StringheNonValideException();
+			
+			else 
+				throw new OperazioneFallitaException();
 		}
 
 	}	

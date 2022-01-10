@@ -30,11 +30,16 @@ public class InterfacciaRistoranti extends JFrame {
 
 	private Controller theController;
 	private JList<Ristorante> listaVisibile;
-	ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
-	DefaultListModel<Ristorante> modelloLista = new DefaultListModel<Ristorante>();
-	/**
-	 * Create the frame.
-	 */
+	private ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
+	private DefaultListModel<Ristorante> modelloLista = new DefaultListModel<Ristorante>();
+	private JButton bottoneAggiungiRistorante;
+	private JButton bottoneModificaRistorante;
+	private JButton bottoneEliminaRistorante;
+	private JButton bottoneVisualizzaStatisticheRistorante;
+	private JButton bottoneVisualizzaSaleRistorante;
+	private JScrollPane scrollPaneRistoranti;
+
+
 	public InterfacciaRistoranti(Controller c) {
 		setTitle("Ristoranti");
 		theController = c;
@@ -51,7 +56,7 @@ public class InterfacciaRistoranti extends JFrame {
 		listaVisibile.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		listaVisibile.setLayoutOrientation(JList.VERTICAL);
 
-		JButton bottoneAggiungiRistorante = new JButton("Aggiungi un ristorante");
+		bottoneAggiungiRistorante = new JButton("Aggiungi un ristorante");
 		bottoneAggiungiRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -62,7 +67,7 @@ public class InterfacciaRistoranti extends JFrame {
 		getContentPane().add(bottoneAggiungiRistorante);
 		bottoneAggiungiRistorante.setVisible(true);
 		
-		JButton bottoneModificaRistorante = new JButton("Modifica i dati del ristorante selezionato");
+		bottoneModificaRistorante = new JButton("Modifica i dati del ristorante selezionato");
 		bottoneModificaRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -77,7 +82,7 @@ public class InterfacciaRistoranti extends JFrame {
 		bottoneModificaRistorante.setVisible(true);
 		if (listaVisibile.getSelectedIndex()==-1) bottoneModificaRistorante.setEnabled(false);
 		
-		JButton bottoneEliminaRistorante = new JButton("Elimina il ristorante selezionato");
+		bottoneEliminaRistorante = new JButton("Elimina il ristorante selezionato");
 		bottoneEliminaRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -95,7 +100,7 @@ public class InterfacciaRistoranti extends JFrame {
 		bottoneEliminaRistorante.setVisible(true);
 		if (listaVisibile.getSelectedIndex()==-1) bottoneEliminaRistorante.setEnabled(false);
 	
-		JButton bottoneVisualizzaStatisticheRistorante = new JButton("Visualizza statistiche del ristorante selezionato");
+		bottoneVisualizzaStatisticheRistorante = new JButton("Visualizza statistiche del ristorante selezionato");
 		bottoneVisualizzaStatisticheRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -110,7 +115,7 @@ public class InterfacciaRistoranti extends JFrame {
 		bottoneVisualizzaStatisticheRistorante.setVisible(true);
 		if (listaVisibile.getSelectedIndex()==-1) bottoneVisualizzaStatisticheRistorante.setEnabled(false);
 		
-		JButton bottoneVisualizzaSaleRistorante = new JButton("Visualizza sale del ristorante selezionato");
+		bottoneVisualizzaSaleRistorante = new JButton("Visualizza sale del ristorante selezionato");
 		bottoneVisualizzaSaleRistorante.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -153,10 +158,10 @@ public class InterfacciaRistoranti extends JFrame {
 		modelloLista.addAll(listaRistoranti);
 		listaVisibile = new JList<Ristorante>(modelloLista);
 		listaVisibile.setBounds(10, 10, 275, 425);
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 574, 259);
-		getContentPane().add(scrollPane);
-		scrollPane.setViewportView(listaVisibile);
+		scrollPaneRistoranti = new JScrollPane();
+		scrollPaneRistoranti.setBounds(0, 0, 574, 259);
+		getContentPane().add(scrollPaneRistoranti);
+		scrollPaneRistoranti.setViewportView(listaVisibile);
 	
 	}
 }

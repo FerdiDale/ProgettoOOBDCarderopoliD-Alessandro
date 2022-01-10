@@ -20,11 +20,12 @@ import javax.swing.event.DocumentListener;
 public class InterfacciaModificaSala extends JFrame {
 
 	private JButton BottoneOk;
-	private JButton tornaIndietro;
-	private JTextField NomeSala;
+	private JButton bottoneIndietro;
+	private JTextField textFieldNomeSala;
 	private Controller theController;
 	private Sala sala;
 	private JLabel contaCaratteri;
+	private JLabel etichettaInserisciNome;
 	
 	public InterfacciaModificaSala(Controller theController, Sala salaScelta) 
 	{
@@ -38,33 +39,31 @@ public class InterfacciaModificaSala extends JFrame {
 		setIconImage(icona.getImage());
 		setBounds(10,10,320,154);
 		
-		NomeSala = new JTextField();
-		NomeSala.setBounds(10, 30, 86, 20);
-		NomeSala.setColumns(40);
-	    getContentPane().add(NomeSala);
-	    NomeSala.setText(sala.getNome());
+		textFieldNomeSala = new JTextField();
+		textFieldNomeSala.setBounds(10, 30, 86, 20);
+		textFieldNomeSala.setColumns(40);
+	    getContentPane().add(textFieldNomeSala);
+	    textFieldNomeSala.setText(sala.getNome());
 		
-		JLabel EtichettaInserisciNome = new JLabel("Nome della sala");
-		EtichettaInserisciNome.setBounds(10, 11, 200, 14);
-		getContentPane().add(EtichettaInserisciNome);
+		etichettaInserisciNome = new JLabel("Nome della sala");
+		etichettaInserisciNome.setBounds(10, 11, 200, 14);
+		getContentPane().add(etichettaInserisciNome);
 		
 		BottoneOk = new JButton("Ok");
 		BottoneOk.setBounds(107, 65, 53, 20);
 		getContentPane().add(BottoneOk);
 		
-		tornaIndietro = new JButton("Indietro");
-		tornaIndietro.setBounds(10, 64, 89, 23);
-		getContentPane().add(tornaIndietro);
+		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBounds(10, 64, 89, 23);
+		getContentPane().add(bottoneIndietro);
 		
-		
-		ContaCaratteri key = new ContaCaratteri();
-		NomeSala.getDocument().addDocumentListener(key);
-		NomeSala.setFocusable(true);
-		contaCaratteri = new JLabel(String.format("%d", NomeSala.getText().length()));
+		textFieldNomeSala.getDocument().addDocumentListener(new ContaCaratteri());
+		textFieldNomeSala.setFocusable(true);
+		contaCaratteri = new JLabel(String.format("%d", textFieldNomeSala.getText().length()));
 		contaCaratteri.setBounds(106, 33, 46, 14);
 		getContentPane().add(contaCaratteri);
 		BottoneOk.addActionListener(GestoreNomeSala);
-		tornaIndietro.addActionListener(GestoreNomeSala);
+		bottoneIndietro.addActionListener(GestoreNomeSala);
 		setVisible(true);
 		
 	}
@@ -76,24 +75,24 @@ public class InterfacciaModificaSala extends JFrame {
 			if(e.getSource()==BottoneOk)
 			{	
 				boolean nomeTroppoLungo = false;
-				if(NomeSala.getText().isBlank())
+				if(textFieldNomeSala.getText().isBlank())
 				{
 					JOptionPane.showMessageDialog(null,"Non puoi inserire una sala senza nome!","Errore", JOptionPane.ERROR_MESSAGE);
 				}
 				else
 				{
-					if(NomeSala.getText().length()>40)
+					if(textFieldNomeSala.getText().length()>40)
 						nomeTroppoLungo = true;
 				
 					if (nomeTroppoLungo)
 					{
 						JOptionPane.showMessageDialog(null,"Il nome inserito e'  troppo lungo (piu' di 40 caratteri). Si prega di riprovare.", "Errore!", JOptionPane.ERROR_MESSAGE);
-						NomeSala.selectAll();
-						NomeSala.replaceSelection("");
+						textFieldNomeSala.selectAll();
+						textFieldNomeSala.replaceSelection("");
 					}
 					else
 					{
-						theController.interfacciaModificaSalaOkPremuto(NomeSala.getText(), sala);
+						theController.interfacciaModificaSalaOkPremuto(textFieldNomeSala.getText(), sala);
 					}
 				}
 			}
@@ -108,18 +107,18 @@ public class InterfacciaModificaSala extends JFrame {
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
+			contaCaratteri.setText(String.format("%d", textFieldNomeSala.getText().length()));
 			
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			contaCaratteri.setText(String.format("%d", NomeSala.getText().length()));
+			contaCaratteri.setText(String.format("%d", textFieldNomeSala.getText().length()));
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 		

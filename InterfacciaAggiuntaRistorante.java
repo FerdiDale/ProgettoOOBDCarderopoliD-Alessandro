@@ -16,26 +16,27 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 public class InterfacciaAggiuntaRistorante extends JFrame {
+	
 	private JPanel contentPane;
-	private JTextField inputNomeRistorante;
-	private JTextField inputCittaRistorante;
-	private JTextField inputViaRistorante;
-	private JTextField inputN_CivicoRistorante;
+	private JTextField textFieldNomeRistorante;
+	private JTextField textFieldCittaRistorante;
+	private JTextField textFieldViaRistorante;
+	private JTextField textFieldN_CivicoRistorante;
+	
 	private Controller theController;
-	private JButton bottoneConfermaAggiuntaRistorante;
+	
+	private JButton bottoneOk;
+	private JButton bottoneIndietro;
 
-	private JLabel labelN_CivicoRistorante;
-	private JLabel labelViaRistorante;
-	private JLabel labelCittaRistorante;
-	private JLabel labelNomeRistorante;
+	private JLabel etichettaN_CivicoRistorante;
+	private JLabel etichettaViaRistorante;
+	private JLabel etichettaCittaRistorante;
+	private JLabel etichettaNomeRistorante;
 
 	private JLabel nCaratteriNomeRistorante;
 	private JLabel nCaratteriCitta;	
 	private JLabel nCaratteriVia;
 
-	/**
-	 * Create the frame.
-	 */
 	public InterfacciaAggiuntaRistorante(Controller c) {
 		setTitle("Nuovo ristorante");
 		theController = c;
@@ -50,80 +51,80 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		inputNomeRistorante = new JTextField();
-		inputNomeRistorante.setBounds(229, 55, 260, 20);
-		contentPane.add(inputNomeRistorante);
-		inputNomeRistorante.setColumns(10);
-		inputNomeRistorante.getDocument().addDocumentListener(new GestoreTesti());
+		textFieldNomeRistorante = new JTextField();
+		textFieldNomeRistorante.setBounds(229, 55, 260, 20);
+		contentPane.add(textFieldNomeRistorante);
+		textFieldNomeRistorante.setColumns(10);
+		textFieldNomeRistorante.getDocument().addDocumentListener(new GestoreTesti());
 
-		labelNomeRistorante = new JLabel("Nome");
-		labelNomeRistorante.setBounds(10, 55, 235, 20);
-		contentPane.add(labelNomeRistorante);
+		etichettaNomeRistorante = new JLabel("Nome");
+		etichettaNomeRistorante.setBounds(10, 55, 235, 20);
+		contentPane.add(etichettaNomeRistorante);
 
-		inputCittaRistorante = new JTextField();
-		inputCittaRistorante.setBounds(229, 86, 260, 20);
-		contentPane.add(inputCittaRistorante);
-		inputCittaRistorante.setColumns(10);
-		inputCittaRistorante.getDocument().addDocumentListener(new GestoreTesti());
-
-
-		labelCittaRistorante = new JLabel("Citta'");
-		labelCittaRistorante.setBounds(10, 86, 235, 20);
-		contentPane.add(labelCittaRistorante);
-
-		inputViaRistorante = new JTextField();
-		inputViaRistorante.setText("");
-		inputViaRistorante.setBounds(229, 117, 260, 20);
-		contentPane.add(inputViaRistorante);
-		inputViaRistorante.setColumns(10);
-		inputViaRistorante.getDocument().addDocumentListener(new GestoreTesti());
-
-		labelViaRistorante = new JLabel("Via");
-		labelViaRistorante.setBounds(10, 117, 235, 20);
-		contentPane.add(labelViaRistorante);
-
-		inputN_CivicoRistorante = new JTextField();
-		inputN_CivicoRistorante.setText("");
-		inputN_CivicoRistorante.setBounds(229, 148, 260, 20);
-		contentPane.add(inputN_CivicoRistorante);
-		inputN_CivicoRistorante.setColumns(10);
-		inputN_CivicoRistorante.getDocument().addDocumentListener(new GestoreTesti());
-
-		labelN_CivicoRistorante = new JLabel("Numero Civico");
-		labelN_CivicoRistorante.setBounds(10, 148, 235, 20);
-		contentPane.add(labelN_CivicoRistorante);
+		textFieldCittaRistorante = new JTextField();
+		textFieldCittaRistorante.setBounds(229, 86, 260, 20);
+		contentPane.add(textFieldCittaRistorante);
+		textFieldCittaRistorante.setColumns(10);
+		textFieldCittaRistorante.getDocument().addDocumentListener(new GestoreTesti());
 
 
-		bottoneConfermaAggiuntaRistorante = new JButton("Ok");
-		bottoneConfermaAggiuntaRistorante.addMouseListener(new MouseAdapter() {
+		etichettaCittaRistorante = new JLabel("Citta'");
+		etichettaCittaRistorante.setBounds(10, 86, 235, 20);
+		contentPane.add(etichettaCittaRistorante);
+
+		textFieldViaRistorante = new JTextField();
+		textFieldViaRistorante.setText("");
+		textFieldViaRistorante.setBounds(229, 117, 260, 20);
+		contentPane.add(textFieldViaRistorante);
+		textFieldViaRistorante.setColumns(10);
+		textFieldViaRistorante.getDocument().addDocumentListener(new GestoreTesti());
+
+		etichettaViaRistorante = new JLabel("Via");
+		etichettaViaRistorante.setBounds(10, 117, 235, 20);
+		contentPane.add(etichettaViaRistorante);
+
+		textFieldN_CivicoRistorante = new JTextField();
+		textFieldN_CivicoRistorante.setText("");
+		textFieldN_CivicoRistorante.setBounds(229, 148, 260, 20);
+		contentPane.add(textFieldN_CivicoRistorante);
+		textFieldN_CivicoRistorante.setColumns(10);
+		textFieldN_CivicoRistorante.getDocument().addDocumentListener(new GestoreTesti());
+
+		etichettaN_CivicoRistorante = new JLabel("Numero Civico");
+		etichettaN_CivicoRistorante.setBounds(10, 148, 235, 20);
+		contentPane.add(etichettaN_CivicoRistorante);
+
+
+		bottoneOk = new JButton("Ok");
+		bottoneOk.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				if (bottoneConfermaAggiuntaRistorante.isEnabled()) {
+				if (bottoneOk.isEnabled()) {
 
 					try
 					{
-						String nomeCurr = inputNomeRistorante.getText();
-						String cittaCurr = inputCittaRistorante.getText();
-						String viaCurr = inputViaRistorante.getText();
-						Integer n_CivicoCurr = Integer.parseInt(inputN_CivicoRistorante.getText());
-						if (nomeCurr.length()>40) {
+						String nomeCorrente = textFieldNomeRistorante.getText();
+						String cittaCorrente = textFieldCittaRistorante.getText();
+						String viaCorrente = textFieldViaRistorante.getText();
+						Integer n_CivicoCorrente = Integer.parseInt(textFieldN_CivicoRistorante.getText());
+						if (nomeCorrente.length()>40) {
 							JOptionPane.showMessageDialog(null, "Il nome del ristorante puo' contenere al massimo 40 caratteri!",
 									"Attenzione!", JOptionPane.WARNING_MESSAGE);
 						}
-						else if (cittaCurr.length()>40) {
+						else if (cittaCorrente.length()>40) {
 							JOptionPane.showMessageDialog(null, "Il nome della citta' puo' contenere al massimo 40 caratteri!",
 									"Attenzione!", JOptionPane.WARNING_MESSAGE);
 						}
-						else if (viaCurr.length()>40) {
+						else if (viaCorrente.length()>40) {
 							JOptionPane.showMessageDialog(null, "Il nome della via puo' contenere al massimo 40 caratteri!",
 									"Attenzione!", JOptionPane.WARNING_MESSAGE);
 						}
-						else if (n_CivicoCurr<1) {
+						else if (n_CivicoCorrente<1) {
 							JOptionPane.showMessageDialog(null, "Il numero civico deve essere un numero valido!",
 									"Attenzione!", JOptionPane.WARNING_MESSAGE);
 						}
-						else theController.aggiuntaRistoranteOkPremuto(nomeCurr, viaCurr, n_CivicoCurr, cittaCurr);
+						else theController.aggiuntaRistoranteOkPremuto(nomeCorrente, viaCorrente, n_CivicoCorrente, cittaCorrente);
 					}
 					catch (NumberFormatException ecc)
 					{
@@ -133,11 +134,11 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 				}
 			}
 		});
-		bottoneConfermaAggiuntaRistorante.setBounds(467, 179, 63, 23);
-		contentPane.add(bottoneConfermaAggiuntaRistorante);
-		bottoneConfermaAggiuntaRistorante.setEnabled(false);
+		bottoneOk.setBounds(467, 179, 63, 23);
+		contentPane.add(bottoneOk);
+		bottoneOk.setEnabled(false);
 
-		JButton bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				theController.bottoneIndietroAggiungiRistorantePremuto();
@@ -166,56 +167,55 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		@Override
 		public void insertUpdate(DocumentEvent e) {
 
-			if (e.getDocument() == inputNomeRistorante.getDocument())
+			if (e.getDocument() == textFieldNomeRistorante.getDocument())
 			{
-				nCaratteriNomeRistorante.setText(String.format("%d", inputNomeRistorante.getText().length()));
+				nCaratteriNomeRistorante.setText(String.format("%d", textFieldNomeRistorante.getText().length()));
 			}
-			else if(e.getDocument() == inputCittaRistorante.getDocument())
+			else if(e.getDocument() == textFieldCittaRistorante.getDocument())
 			{
-				nCaratteriCitta.setText(String.format("%d", inputCittaRistorante.getText().length()));
+				nCaratteriCitta.setText(String.format("%d", textFieldCittaRistorante.getText().length()));
 			}
-			else if(e.getDocument() == inputViaRistorante.getDocument())
+			else if(e.getDocument() == textFieldViaRistorante.getDocument())
 			{
-				nCaratteriVia.setText(String.format("%d", inputViaRistorante.getText().length()));
+				nCaratteriVia.setText(String.format("%d", textFieldViaRistorante.getText().length()));
 			}
-			if(inputNomeRistorante.getText().isBlank() || inputCittaRistorante.getText().isBlank() || 
-					inputViaRistorante.getText().isBlank() || inputN_CivicoRistorante.getText().isBlank())
+			if(textFieldNomeRistorante.getText().isBlank() || textFieldCittaRistorante.getText().isBlank() || 
+					textFieldViaRistorante.getText().isBlank() || textFieldN_CivicoRistorante.getText().isBlank())
 			{
-				bottoneConfermaAggiuntaRistorante.setEnabled(false);
+				bottoneOk.setEnabled(false);
 			}
 			else
-				bottoneConfermaAggiuntaRistorante.setEnabled(true);
+				bottoneOk.setEnabled(true);
 
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
 
-			if (e.getDocument() == inputNomeRistorante.getDocument())
+			if (e.getDocument() == textFieldNomeRistorante.getDocument())
 			{
-				nCaratteriNomeRistorante.setText(String.format("%d", inputNomeRistorante.getText().length()));
+				nCaratteriNomeRistorante.setText(String.format("%d", textFieldNomeRistorante.getText().length()));
 			}
-			else if(e.getDocument() == inputCittaRistorante.getDocument())
+			else if(e.getDocument() == textFieldCittaRistorante.getDocument())
 			{
-				nCaratteriCitta.setText(String.format("%d", inputCittaRistorante.getText().length()));
+				nCaratteriCitta.setText(String.format("%d", textFieldCittaRistorante.getText().length()));
 			}
-			else if(e.getDocument() == inputViaRistorante.getDocument())
+			else if(e.getDocument() == textFieldViaRistorante.getDocument())
 			{
-				nCaratteriVia.setText(String.format("%d", inputViaRistorante.getText().length()));
+				nCaratteriVia.setText(String.format("%d", textFieldViaRistorante.getText().length()));
 			}
-			if(inputNomeRistorante.getText().isBlank() || inputCittaRistorante.getText().isBlank() || 
-					inputViaRistorante.getText().isBlank() || inputN_CivicoRistorante.getText().isBlank())
+			if(textFieldNomeRistorante.getText().isBlank() || textFieldCittaRistorante.getText().isBlank() || 
+					textFieldViaRistorante.getText().isBlank() || textFieldN_CivicoRistorante.getText().isBlank())
 			{
-				bottoneConfermaAggiuntaRistorante.setEnabled(false);
+				bottoneOk.setEnabled(false);
 			}
 			else
-				bottoneConfermaAggiuntaRistorante.setEnabled(true);
+				bottoneOk.setEnabled(true);
 
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 

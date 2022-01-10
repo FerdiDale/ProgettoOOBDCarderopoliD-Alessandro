@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,7 @@ public class InterfacciaTavoli extends JFrame
 	private Controller theController;
 	private Sala sala;
 	private ArrayList<Tavolo> tavoli = new ArrayList<Tavolo>();
-	private ArrayList<JLabel> numeri = new ArrayList<JLabel>();
+	private ArrayList<JLabel> tavoliGrafici = new ArrayList<JLabel>();
 	private JButton bottoneAggiuntaTavolo;
 	private JButton bottoneIndietro;
 	private JButton bottoneModificaLayout;
@@ -35,6 +36,10 @@ public class InterfacciaTavoli extends JFrame
   
 		super("Visualizzazione tavoli di "+ salaCorrente.getNome());
 		getContentPane().setLayout(null);
+		
+		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
+		setIconImage(icona.getImage());
+		
 		theController = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 555);
@@ -90,18 +95,18 @@ public class InterfacciaTavoli extends JFrame
 		gestoreIcone handler = new gestoreIcone();
 		tavoli = theController.EstrazioneTavoliSala(salaCorrente);
 		
-		for (int i = 0; i<tavoli.size(); i++)
+		for (Tavolo tavolo : tavoli)
 		{
-			JLabel tavoloCurr = new JLabel(String.format("%d",tavoli.get(i).getNumero()),SwingConstants.CENTER);
-			tavoloCurr.setBackground(new Color(129,116,37));
-			tavoloCurr.setOpaque(true);
-			tavoloCurr.setBounds(tavoli.get(i).getPosX(), tavoli.get(i).getPosY(), tavoli.get(i).getDimX(), tavoli.get(i).getDimY());
-			tavoloCurr.addMouseListener(handler);
-			tavoloCurr.setToolTipText("Capacita': " + tavoli.get(i).getCapacita());
+			JLabel tavoloGraficoCorrente = new JLabel(String.format("%d", tavolo.getNumero()),SwingConstants.CENTER);
+			tavoloGraficoCorrente.setBackground(new Color(129,116,37));
+			tavoloGraficoCorrente.setOpaque(true);
+			tavoloGraficoCorrente.setBounds(tavolo.getPosX(), tavolo.getPosY(), tavolo.getDimX(), tavolo.getDimY());
+			tavoloGraficoCorrente.addMouseListener(handler);
+			tavoloGraficoCorrente.setToolTipText("Capacita': " + tavolo.getCapacita());
 
-			tavoloCurr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-			areaDiDisegno.add(tavoloCurr,0,1);
-			numeri.add(tavoloCurr);
+			tavoloGraficoCorrente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			areaDiDisegno.add(tavoloGraficoCorrente,0,1);
+			tavoliGrafici.add(tavoloGraficoCorrente);
 		}
 		
 		if(tavoli.size() == 0)
@@ -187,26 +192,26 @@ public class InterfacciaTavoli extends JFrame
 		int controllo = 0;
 		if(numeroTavoloSelezionato!= 0)
 		{
-			while(controllo<numeri.size() && !aggiustato)
+			while(controllo<tavoliGrafici.size() && !aggiustato)
 			{
 				
-				if(numeri.get(controllo).getText().equals(String.format("%d", numeroTavoloSelezionato)))
+				if(tavoliGrafici.get(controllo).getText().equals(String.format("%d", numeroTavoloSelezionato)))
 				{
 					aggiustato = true;
-					numeri.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+					tavoliGrafici.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 				}
 				controllo++;
 			}
 		}
 		controllo = -1;
-		while(!tavolo && controllo < numeri.size())
+		while(!tavolo && controllo < tavoliGrafici.size())
 			{
 				controllo++;
-				if(e.getSource() == numeri.get(controllo))
+				if(e.getSource() == tavoliGrafici.get(controllo))
 				{
 					tavolo = true;
-					numeroTavoloSelezionato = Integer.parseInt(numeri.get(controllo).getText());
-					numeri.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+					numeroTavoloSelezionato = Integer.parseInt(tavoliGrafici.get(controllo).getText());
+					tavoliGrafici.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
 				}
 			}
 			if(tavolo)
@@ -216,14 +221,14 @@ public class InterfacciaTavoli extends JFrame
 				bottoneModificaDatiTavolo.setEnabled(true);
 			}
 		} public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		}
 		public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		} public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		} public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		}
 	}
 
@@ -232,8 +237,8 @@ public class InterfacciaTavoli extends JFrame
 		@Override
 		public void mouseClicked(MouseEvent e) {
 
-			for (JLabel labelTavolo : numeri) {
-				labelTavolo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			for (JLabel tavoloGrafico : tavoliGrafici) {
+				tavoloGrafico.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 			}
 			bottoneGestisciAdiacenze.setEnabled(false);
 			bottoneEliminaTavolo.setEnabled(false);
@@ -243,25 +248,25 @@ public class InterfacciaTavoli extends JFrame
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
@@ -285,7 +290,7 @@ public class InterfacciaTavoli extends JFrame
 		
 		JLabel tavoloTrovato = null;
 		
-		for (JLabel tavoloGrafico : numeri) {
+		for (JLabel tavoloGrafico : tavoliGrafici) {
 			if (Integer.parseInt(tavoloGrafico.getText()) == numeroTavolo) {
 				tavoloTrovato = tavoloGrafico;
 			}

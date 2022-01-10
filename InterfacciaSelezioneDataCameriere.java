@@ -23,10 +23,11 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 	private JButton bottoneSet;
 	private JTextField textFieldData;
 	private JCalendar calendar; 
+	private JLabel istruzioni;
 	private JLabel istruzioni2;
 	private JLabel istruzioni3;
 	private JLabel istruzioni4;
-	private JButton goNext;
+	private JButton bottoneGoNext;
 	private JButton bottoneIndietro;
 	private Controller theController;
 	private boolean licenziamento;
@@ -59,7 +60,7 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 		
 		getContentPane().add(textFieldData);
 		
-		JLabel istruzioni = new JLabel("Scegliere una data dal calendario.");
+		istruzioni = new JLabel("Scegliere una data dal calendario.");
 		istruzioni.setBounds(10, 5, 235, 14);
 		getContentPane().add(istruzioni);
 		
@@ -75,11 +76,11 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 		istruzioni4.setBounds(2, 185, 284, 14);
 		getContentPane().add(istruzioni4);
 		
-		goNext = new JButton("->");
-		goNext.setBounds(194, 203, 56, 23);
-		getContentPane().add(goNext);
+		bottoneGoNext = new JButton("->");
+		bottoneGoNext.setBounds(194, 203, 56, 23);
+		getContentPane().add(bottoneGoNext);
 		
-		goNext.addActionListener(new GestioneBottone());
+		bottoneGoNext.addActionListener(new GestioneBottone());
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(187, 111, 89, 23);
@@ -101,7 +102,7 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 			{
 				textFieldData.setText(String.format("%s-%s-%s",calendar.getDate().getYear()+1900 <=9 ? String.format("000%d",calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=99? String.format("00%d", calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=999? String.format("0%d", calendar.getDate().getYear()+1900): String.format("%d", calendar.getDate().getYear()+1900) , calendar.getDate().getMonth()+1<=9? String.format("0%d", calendar.getDate().getMonth()+1) : String.format("%d",calendar.getDate().getMonth()+1),calendar.getDayChooser().getDay()<=9? String.format("0%d",calendar.getDayChooser().getDay()): String.format("%d",calendar.getDayChooser().getDay())));
 			}
-			else if(e.getSource()== goNext)
+			else if(e.getSource()== bottoneGoNext)
 			{
 				if(textFieldData.getText().isBlank()) JOptionPane.showMessageDialog(null, "Scegliere prima una data dal calendario.");
 				else
@@ -120,7 +121,7 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 							}
 							else if(esito.equals("Operazione_Fallita"))
 							{
-								//E' gestito gia'Â dal DAO
+								//E' gestito gia' dal DAO
 							}
 							else if (esito.equals("Data_Licenziamento_Precedente"))
 							{

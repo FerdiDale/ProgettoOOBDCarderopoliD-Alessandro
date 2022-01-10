@@ -8,11 +8,13 @@ public class TavolataDAOImplPostgres implements TavolataDAO
 	{
 		try
 		{
-			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO TAVOLATA(id_tavolo,data) VALUES ("+tavolata.getId_tavolo()+",'"+tavolata.getData()+"');");
+			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("INSERT INTO TAVOLATA(id_tavolo,data) "
+																					+ "VALUES ("+tavolata.getId_tavolo()+",'"+tavolata.getData()+"');");
 		}
 		catch(SQLException e)
 		{
-			JOptionPane.showMessageDialog(null, e);
+			OperazioneFallitaException ecc = new OperazioneFallitaException();
+			ecc.stampaMessaggio();
 		}
 	}
 }
