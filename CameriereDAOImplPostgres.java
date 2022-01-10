@@ -239,19 +239,21 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		int tavolata = -1;
 		try
 		{
-			ResultSet tavolataDB = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select id_tavolata from tavolata as tav where tav.data = '"+data+"' AND id_tavolo = "+tavolo.getId_Tavolo()+";");
+			ResultSet tavolataDB = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT id_tavolata "
+																											+ "FROM tavolata AS tav "
+																											+ "WHERE tav.data = '"+data+"' "
+																											+ "AND id_tavolo = "+tavolo.getId_Tavolo()+";");
 			tavolataDB.next();
 			tavolataDB.getInt(1);
 			tavolata =  tavolataDB.getInt(1);
 		}	
 		catch(SQLException e)
 		{
-			OperazioneFallitaException ecc = new OperazioneFallitaException();
-			ecc.stampaMessaggio();
+			//L'eccezione parte solo se i camerieri sono inseriti in una tavolata nonesistente,
+			//cosa che succede ogni volta che vengono inseriti avventori gia' occupati, quindi evitiamo messaggi di errore
 		}
 
-		if(tavolata != -1) //Se è stata eliminata precedentemente per la mancanza di clienti validi, allora non eseguiamo il corpo
-		for(int i= 0; i< listaCamerieri.size(); i++)
+		for(Cameriere cameriereCorrente : listaCamerieri)
 		{
 			try
 			{
@@ -260,8 +262,8 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 			}
 			catch(SQLException e)
 			{
-				OperazioneFallitaException ecc = new OperazioneFallitaException();
-				ecc.stampaMessaggio();
+				//L'eccezione parte solo se i camerieri sono inseriti in una tavolata nonesistente,
+				//cosa che succede ogni volta che vengono inseriti avventori gia' occupati, quindi evitiamo messaggi di errore
 			}
 		}
 	}

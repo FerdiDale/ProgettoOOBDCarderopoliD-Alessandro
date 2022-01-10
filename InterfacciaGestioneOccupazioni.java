@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 public class InterfacciaGestioneOccupazioni extends JFrame 
 {
 	private int numeroTavoloSelezionato;
-	private ArrayList<JLabel> numeri = new ArrayList<JLabel>();
+	private ArrayList<JLabel> tavoliGrafici = new ArrayList<JLabel>();
 	private JLayeredPane areaDiDisegno;
 	private JLabel background;
 	private Controller theController;
@@ -97,16 +97,18 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		
 		GestoreIcone handler = new GestoreIcone();
 		
-		for (int i = 0; i<tavoli.size(); i++)
+		for (Tavolo tavoloCorrente: tavoli)
 		{
-			JLabel tavoloCorrente = new JLabel(String.format("%d",tavoli.get(i).getNumero()),SwingConstants.CENTER);
-			tavoloCorrente.setBackground(new Color(129,116,37));
-			tavoloCorrente.setOpaque(true);
-			tavoloCorrente.setBounds(tavoli.get(i).getPosX(), tavoli.get(i).getPosY(), tavoli.get(i).getDimX(), tavoli.get(i).getDimY());
-			tavoloCorrente.addMouseListener(handler);
-			tavoloCorrente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-			areaDiDisegno.add(tavoloCorrente,0,1);
-			numeri.add(tavoloCorrente);
+			JLabel tavoloGraficoCorrente = new JLabel(String.format("%d",tavoloCorrente.getNumero()),SwingConstants.CENTER);
+			tavoloGraficoCorrente.setBackground(new Color(129,116,37));
+			tavoloGraficoCorrente.setOpaque(true);
+			tavoloGraficoCorrente.setBounds(tavoloCorrente.getPosX(), tavoloCorrente.getPosY(), tavoloCorrente.getDimX(), tavoloCorrente.getDimY());
+			tavoloGraficoCorrente.addMouseListener(handler);
+			tavoloGraficoCorrente.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			tavoloGraficoCorrente.setToolTipText("Capacita': " + tavoloCorrente.getCapacita());
+			
+			areaDiDisegno.add(tavoloGraficoCorrente,0,1);
+			tavoliGrafici.add(tavoloGraficoCorrente);
 		}
 		
 		tavoliOccupati = theController.estrazioneTavoliOccupatiInData(tavoli.get(0).getSala_App(), data);
@@ -117,12 +119,12 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 			{
 				if(tavoliOccupati.get(i)== tavoli.get(j).getNumero())
 				{
-					for (int k = 0; k<numeri.size(); k++)
+					for (int k = 0; k<tavoliGrafici.size(); k++)
 					{
-						if(Integer.parseInt(numeri.get(k).getText()) == tavoli.get(j).getNumero())
+						if(Integer.parseInt(tavoliGrafici.get(k).getText()) == tavoli.get(j).getNumero())
 						{
-							numeri.get(k).setBackground(Color.RED);
-							numeri.get(k).setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+							tavoliGrafici.get(k).setBackground(Color.RED);
+							tavoliGrafici.get(k).setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
 						}
 					}
 				}
@@ -190,28 +192,28 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		}
 		if(numeroTavoloSelezionato!= 0)
 		{
-			while(controllo<numeri.size() && !aggiustato)
+			while(controllo<tavoliGrafici.size() && !aggiustato)
 			{
 				
-				if(numeri.get(controllo).getText().equals(String.format("%d", numeroTavoloSelezionato)))
+				if(tavoliGrafici.get(controllo).getText().equals(String.format("%d", numeroTavoloSelezionato)))
 				{
 					aggiustato = true;
-					numeri.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+					tavoliGrafici.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 				}
 				controllo++;
 			}
 		}
 
 		controllo = 0;
-		while(!tavolo && controllo < numeri.size())
+		while(!tavolo && controllo < tavoliGrafici.size())
 			{
 				
-				if(e.getSource() == numeri.get(controllo))
+				if(e.getSource() == tavoliGrafici.get(controllo))
 				{
 					int controllo2 = 0;
 					boolean trovato = false;
 					tavolo = true;
-					numeroTavoloSelezionato = Integer.parseInt(numeri.get(controllo).getText());
+					numeroTavoloSelezionato = Integer.parseInt(tavoliGrafici.get(controllo).getText());
 					while(!trovato && controllo2<tavoli.size())
 					{
 						if(tavoli.get(controllo2).getNumero() == numeroTavoloSelezionato)
@@ -225,7 +227,7 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 						}
 						controllo2++;
 					}
-					numeri.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+					tavoliGrafici.get(controllo).setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
 				}
 				controllo++;
 			}

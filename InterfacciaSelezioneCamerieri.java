@@ -175,7 +175,8 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 				{
 					arrayCameriere.remove(j);
 				}
-				else j++;
+				else 
+					j++;
 				
 			} while (j<arrayCameriere.size());
 		}
@@ -215,8 +216,10 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 			}	
 			else if(e.getSource() == bottoneConfermaSelezione)
 			{
-				if(diVisualizzazione) theController.bottoneConfermaSelezioneCameriereDiVisualizzazione(arrayCameriereSelezionati, tavoli, tavoloScelto, data);
-				else theController.bottoneConfermaSelezioneCamerieriPremuto(arrayCameriereSelezionati, data, tavoli, tavoloScelto);
+				if(diVisualizzazione) 
+					theController.bottoneConfermaSelezioneCameriereDiVisualizzazione(arrayCameriereSelezionati, tavoli, tavoloScelto, data);
+				else 
+					theController.bottoneConfermaSelezioneCamerieriPremuto(arrayCameriereSelezionati, data, tavoli, tavoloScelto);
 			}
 			else if(e.getSource() == bottoneAggiungiAiSelezionati)
 			{

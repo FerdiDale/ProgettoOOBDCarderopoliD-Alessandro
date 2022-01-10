@@ -47,7 +47,7 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		String queryTotaleAvventoriConNTel= "INSERT INTO avventori VALUES(";
 		ArrayList<String> elencoAvventori = new ArrayList<String>();
 		ArrayList<Integer> giaEseguiti = new ArrayList<Integer>();
-		ResultSet prova;
+		ResultSet risultato;
 		int tavolata=-1;
     
 		try
@@ -60,16 +60,16 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 				if(lista.get(i).getNtel().getText().isBlank())
 					{
 						counterAvventoriNoNtelIniziali++;
-						prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
-						prova.next();
-						if(prova.getInt(1)!=0) removalNoNTel++;
+						risultato = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+						risultato.next();
+						if(risultato.getInt(1)!=0) removalNoNTel++;
 					}
 				else 
 					{
 						counterAvventoriNtelIniziali++;
-						prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
-						prova.next();
-						if(prova.getInt(1)!=0) removalNTel++;
+						risultato = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+						risultato.next();
+						if(risultato.getInt(1)!=0) removalNTel++;
 					}
 			}
 			counterAvventoriNoNtel = counterAvventoriNoNtelIniziali - removalNoNTel;
@@ -87,9 +87,11 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 						presente = true;
 						ntel= false;
 						nontel= false;
-						prova = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select Count(*) from Avventori WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
-						prova.next();
-						if(prova.getInt(1)<1) 
+						risultato = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT COUNT(*)"
+																										+ " FROM Avventori "
+																										+ "WHERE N_CID = '"+lista.get(i).getCid().getText()+"';");
+						risultato.next();
+						if(risultato.getInt(1)<1) 
 							{
 								presente = false;
 								if(lista.get(i).getNtel().getText().isBlank()) 
@@ -106,11 +108,12 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 									}
 							}
 	            
-						elencoAvventori.add("call unicotavperdata('"+lista.get(i).getCid().getText()+"',"+tavolata+");");	
-						System.out.println("è stato aggiunto un nuovo elemento ad elenco avventori");
+						elencoAvventori.add("CALL unicotavperdata('"+lista.get(i).getCid().getText()+"',"+tavolata+");");	
 						
-						 if(presente && !lista.get(i).getNtel().getText().isBlank()) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE avventori   SET n_tel = '"+lista.get(i).getNtel().getText()+"' WHERE n_cid = '"+lista.get(i).getCid().getText()+"';");
-									
+						 if(presente && !lista.get(i).getNtel().getText().isBlank()) DB_Connection.getInstance().getConnection().createStatement().executeUpdate("UPDATE avventori   "
+																																					 		+ "SET n_tel = '"+lista.get(i).getNtel().getText()+"' "
+																																			 				+ "WHERE n_cid = '"+lista.get(i).getCid().getText()+"';");
+																																						
 						
 						if(counterAvventoriNtel>0 && ntel) queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel+" ,(";
 						else if(counterAvventoriNtel == 0 && ntel) queryTotaleAvventoriConNTel = queryTotaleAvventoriConNTel+";";
@@ -124,8 +127,8 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 					}
 				catch(SQLException e)
 				{
-					JOptionPane.showMessageDialog(null, e);
-				}
+					OperazioneFallitaException ecc = new OperazioneFallitaException();
+					ecc.stampaMessaggio();				}
 		}
 			 for (int j = 0; j<elencoAvventori.size(); j++)
 			 {
@@ -136,9 +139,9 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 					 }
 					 catch(SQLException e)
 					 {
-						 if(Pattern.matches(".*L avventore si trova già in un altra tavolata nella data scelta!(.*\n.*)*", e.getMessage())) 
+						 if(Pattern.matches(".*L avventore si trova gia in un altra tavolata nella data scelta!(.*\n.*)*", e.getMessage())) 
 							 {
-							 	JOptionPane.showMessageDialog(null, "L'avventore con CID "+ lista.get(j).getCid().getText()+" è presente in un altra tavolata in questa data. Non sarà inserito nella tavolata corrente.","Informazione",JOptionPane.INFORMATION_MESSAGE);
+							 	JOptionPane.showMessageDialog(null, "L'avventore con CID "+ lista.get(j).getCid().getText()+" e' presente in un altra tavolata in questa data. Non sara'� inserito nella tavolata corrente.","Informazione",JOptionPane.INFORMATION_MESSAGE);
 							 	if(lista.get(j).getNtel().getText().isBlank()) counterAvventoriNoNtelIniziali --;
 							 	else 
 							 	{//Se ci sta ancora qualche avventore con un numero di telefono, lo inserisco per non attivare il trigger e lo salvo nell'arraylist per non inserirlo 2 volte
@@ -151,31 +154,32 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 										 		{
 										 			DB_Connection.getInstance().getConnection().createStatement().executeUpdate(elencoAvventori.get(k));
 										 			giaEseguiti.add(k);
-										 			System.out.println(giaEseguiti);
 										 		}
 										 		catch(SQLException l)
 										 		{
-										 			if(Pattern.matches(".*L avventore si trova già in un altra tavolata nella data scelta!(.*\n.*)*", e.getMessage())) 
+										 			if(Pattern.matches(".*L avventore si trova gia in un altra tavolata nella data scelta!(.*\n.*)*", e.getMessage())) 
 													 {
-													 	JOptionPane.showMessageDialog(null, "L'avventore con CID "+ lista.get(j).getCid().getText()+" è presente in un altra tavolata in questa data. Non sarà inserito nella tavolata corrente.","Informazione",JOptionPane.INFORMATION_MESSAGE);
+													 	JOptionPane.showMessageDialog(null, "L'avventore con CID "+ lista.get(j).getCid().getText()+" e' presente in un altra tavolata in questa data. Non sara'� inserito nella tavolata corrente.","Informazione",JOptionPane.INFORMATION_MESSAGE);
 													 	counterAvventoriNtelIniziali --;
 													 }
-										 			if(counterAvventoriNtelIniziali == 0)  JOptionPane.showMessageDialog(null, "La tavolata corrente non ha clienti con numero di telefono inseribili, per cui non verrà registrata. Si prega di riprovare.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
+										 			if(counterAvventoriNtelIniziali == 0)  JOptionPane.showMessageDialog(null, "La tavolata corrente non ha clienti con numero di telefono inseribili, per cui non verra'� registrata. Si prega di riprovare.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
 										 		}	 	
 									 	}
 							 		 else  if(counterAvventoriNtelIniziali == 0 && mode == 0)
 									 	{
 							 			 	valido = false;
-							 			 	//gestisci la situazione dall'aggiunta dell'avventore singolo
-								 			JOptionPane.showMessageDialog(null, "La tavolata corrente non ha clienti con numero di telefono inseribili, per cui non verrà registrata. Si prega di riprovare.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
+							 			 	//Gestisci la situazione dall'aggiunta dell'avventore singolo
+								 			JOptionPane.showMessageDialog(null, "La tavolata corrente non ha clienti con numero di telefono inseribili, per cui non verra'� registrata. Si prega di riprovare.", "Informazione", JOptionPane.INFORMATION_MESSAGE);
 											 try
 											 {
-												 DB_Connection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM Tavolata WHERE id_tavolata = "+ tavolata+";");
+												 DB_Connection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM Tavolata "
+												 																		+ "WHERE id_tavolata = "+ tavolata+";");
 										 
 											 }
 											 catch(SQLException p)
 											 {
-												 
+												 OperazioneFallitaException ecc = new OperazioneFallitaException();
+													ecc.stampaMessaggio();
 											 }
 									 	}
 							 	}
