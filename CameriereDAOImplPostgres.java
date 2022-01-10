@@ -239,20 +239,19 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		int tavolata = -1;
 		try
 		{
-			ResultSet tavolataDB = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT id_tavolata "
-																											+ "FROM tavolata "
-																											+ "WHERE data = '"+data+"' "
-																											+ "AND id_tavolo = "+tavolo.getId_Tavolo()+";");
+			ResultSet tavolataDB = DB_Connection.getInstance().getConnection().createStatement().executeQuery("Select id_tavolata from tavolata as tav where tav.data = '"+data+"' AND id_tavolo = "+tavolo.getId_Tavolo()+";");
 			tavolataDB.next();
-			tavolata = tavolataDB.getInt(1);
+			tavolataDB.getInt(1);
+			tavolata =  tavolataDB.getInt(1);
 		}	
 		catch(SQLException e)
 		{
 			OperazioneFallitaException ecc = new OperazioneFallitaException();
 			ecc.stampaMessaggio();
 		}
-		
-		for (Cameriere cameriereCorrente : listaCamerieri)
+
+		if(tavolata != -1) //Se è stata eliminata precedentemente per la mancanza di clienti validi, allora non eseguiamo il corpo
+		for(int i= 0; i< listaCamerieri.size(); i++)
 		{
 			try
 			{

@@ -524,9 +524,8 @@ public class Controller {
 	public void bottoneConfermaSelezioneCamerieriPremuto(ArrayList<Cameriere> camerieriScelti, String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
 	{
 		tavolataDao .inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto).getId_Tavolo(),data));
-		
-		avventoriDao.inserimentoMultiploAvventori(framesAggiuntaAvventore);
-		
+		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
+		ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore,0);		
 		
 		cameriereDao.inserimentoMultiploCamerieriInServizio(camerieriScelti, data, tavoli.get(tavoloScelto));
 		
@@ -694,7 +693,8 @@ public class Controller {
 		
 		if(controlloCampiNonVuoti  && formatoCidGiusto && !doppieCID && formatoNTelGiusto && noApostrofi && controlloAlmenoUnTelefono)
 		{
-			avventoriDao.inserimentoMultiploAvventori(framesAggiuntaAvventore);
+			AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
+			ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore,1);
 			framesAggiuntaAvventore.get(framesAggiuntaAvventore.size()-1).setVisible(false);
 			frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this, tavoli, tavoloScelto, dataScelta);
 		}
