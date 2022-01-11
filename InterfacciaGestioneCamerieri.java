@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,10 +49,12 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	{
 		super("Gestione camerieri di "+ristorante.getNome());
 		getContentPane().setLayout(null);
-		setBounds(100, 100, 540, 404);
+		setBounds(100, 100, 444, 370);
 		this.theController=theController;
 		this.ristorante = ristorante;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
@@ -69,7 +73,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		scrollPaneLicenziati.setViewportView(listaLicenziati);
 		
 		etichettaAssunti = new JLabel("Correntemente assunti");
-		etichettaAssunti.setBounds(10, 10, 350, 14);
+		etichettaAssunti.setBounds(10, 10, 167, 14);
 		getContentPane().add(etichettaAssunti);
 		
 		etichettaLicenziati = new JLabel("Licenziati");
@@ -77,16 +81,16 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		getContentPane().add(etichettaLicenziati);
 		
 		bottoneAggiuntaCameriere = new JButton("Aggiungi Cameriere");
-		bottoneAggiuntaCameriere.setBounds(287, 33, 160, 23);
+		bottoneAggiuntaCameriere.setBounds(245, 33, 160, 23);
 		getContentPane().add(bottoneAggiuntaCameriere);
 		
 		bottoneRiassumiCameriere = new JButton("Riassumi Cameriere");
-		bottoneRiassumiCameriere.setBounds(287, 234, 160, 23);
+		bottoneRiassumiCameriere.setBounds(245, 180, 160, 23);
 		bottoneRiassumiCameriere.setEnabled(false);
 		getContentPane().add(bottoneRiassumiCameriere);
 		
 		bottoneLicenziaCameriere = new JButton("Licenzia Cameriere");
-		bottoneLicenziaCameriere.setBounds(287, 67, 160, 23);
+		bottoneLicenziaCameriere.setBounds(245, 62, 160, 23);
 		bottoneLicenziaCameriere.setEnabled(false);
 		getContentPane().add(bottoneLicenziaCameriere);
 		
@@ -100,7 +104,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		modelloListaLicenziati.addAll(arrayListLicenziati);
 		
 		tornaIndietro = new JButton("Indietro");
-		tornaIndietro.setBounds(10, 331, 89, 23);
+		tornaIndietro.setBounds(10, 298, 89, 23);
 		getContentPane().add(tornaIndietro);
 		
 		listaLicenziati.addListSelectionListener(handlerL);

@@ -1,5 +1,6 @@
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -50,6 +51,8 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().setLayout(null);
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		this.tavoloScelto = tavoloScelto;
 		this.tavoli = tavoli;

@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import javax.swing.event.*;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.util.ArrayList;
@@ -36,30 +37,44 @@ public class InterfacciaSale extends JFrame
 	{
 		super("Sale del ristorante "+ ristorante.getNome());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 520, 290);
 		getContentPane().setLayout(null);
 		theController = c;
 		this.ristorante = ristorante;
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		bottoneAggiuntaSala = new JButton("Aggiungi sala");
 		bottoneAggiuntaSala.setBounds(290, 9, 120, 23);
 		getContentPane().add(bottoneAggiuntaSala);
+		bottoneAggiuntaSala.setBackground(new Color(0, 255, 127));
+		bottoneAggiuntaSala.setBorder(null);
+		bottoneAggiuntaSala.setOpaque(true);
 		
 		bottoneGestioneCamerieri = new JButton("Gestisci camerieri");
 		bottoneGestioneCamerieri.setBounds(273, 43, 151, 23);
 	    getContentPane().add(bottoneGestioneCamerieri);
+	    bottoneGestioneCamerieri.setBackground(new Color(0, 255, 127));
+	    bottoneGestioneCamerieri.setBorder(null);
+	    bottoneGestioneCamerieri.setOpaque(true);
 		
 		bottoneRimuoviSala = new JButton("Rimuovi sala selezionata");
 		bottoneRimuoviSala.setBounds(234, 195, 176, 55);
 		if (elementoSelezionato == -1) bottoneRimuoviSala.setEnabled(false);
 		getContentPane().add(bottoneRimuoviSala);
+		bottoneRimuoviSala.setBackground(new Color(0, 255, 127));
+		bottoneRimuoviSala.setBorder(null);
+		bottoneRimuoviSala.setOpaque(true);
 		
 		bottoneVediTavoli = new JButton("Vedi i tavoli della sala selezionata");
 		bottoneVediTavoli.setBounds(10, 195, 205, 55);
 		getContentPane().add(bottoneVediTavoli);
 		if (elementoSelezionato == -1) bottoneVediTavoli.setEnabled(false);
+		bottoneVediTavoli.setBackground(new Color(0, 255, 127));
+		bottoneVediTavoli.setBorder(null);
+		bottoneVediTavoli.setOpaque(true);
 		
 		scorrimentoPerListaVisibile = new JScrollPane();
 		scorrimentoPerListaVisibile.setBounds(10, 11, 253, 170);
@@ -70,12 +85,18 @@ public class InterfacciaSale extends JFrame
 	    bottoneIndietro = new JButton("Indietro");
 	    bottoneIndietro.setBounds(290, 136, 120, 17);
 	    getContentPane().add(bottoneIndietro);
+	    bottoneIndietro.setBackground(new Color(0, 255, 127));
+	    bottoneIndietro.setBorder(null);
+	    bottoneIndietro.setOpaque(true);
 
 	    bottoneModificaSala = new JButton("Modifica nome sala");
 	    bottoneModificaSala.setBounds(273, 77, 151, 23);
 	    getContentPane().add(bottoneModificaSala);
 	    GestoreClickMouse handler = new GestoreClickMouse();
 	    if (elementoSelezionato == -1) bottoneModificaSala.setEnabled(false);
+	    bottoneModificaSala.setBackground(new Color(0, 255, 127));
+	    bottoneModificaSala.setBorder(null);
+	    bottoneModificaSala.setOpaque(true);
 
 		GestoreSelezioneLista selezione = new GestoreSelezioneLista();
 		listaVisibile.addListSelectionListener(selezione);
@@ -92,6 +113,23 @@ public class InterfacciaSale extends JFrame
 		
 		modelloLista.removeAllElements();
 		modelloLista.addAll(listaSale);
+		
+		listaVisibile.setBackground(new Color(20, 20, 40));
+		listaVisibile.setBorder(null);
+		listaVisibile.setSelectionBackground(new Color(40,40,80));
+		listaVisibile.setSelectionForeground(Color.white);
+		listaVisibile.setForeground(Color.white);
+		listaVisibile.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+		scorrimentoPerListaVisibile.setBackground(new Color(20, 20, 40));
+		scorrimentoPerListaVisibile.setBorder(null);
+		scorrimentoPerListaVisibile.setOpaque(true);
+		scorrimentoPerListaVisibile.getHorizontalScrollBar().setOpaque(true);
+		scorrimentoPerListaVisibile.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scorrimentoPerListaVisibile.getHorizontalScrollBar().setBorder(null);
+		scorrimentoPerListaVisibile.getVerticalScrollBar().setOpaque(true);
+		scorrimentoPerListaVisibile.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scorrimentoPerListaVisibile.getVerticalScrollBar().setBorder(null);
 		
 		setResizable(false);
 		setVisible(true);

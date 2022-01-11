@@ -53,12 +53,17 @@ public class InterfacciaModificaLayout extends JFrame {
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		theController = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 695, 452);
 		this.sala = salaCorrente;
 		getContentPane().setLayout(null);
 		bottoneConferma = new JButton("Conferma modifiche");
+		bottoneConferma.setBackground(new Color(0, 255, 127));
+		bottoneConferma.setBorder(null);
+		bottoneConferma.setOpaque(true);
 		bottoneConferma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -104,6 +109,9 @@ public class InterfacciaModificaLayout extends JFrame {
 		getContentPane().add(areaDiDisegno);
 		
 		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setOpaque(true);
 		bottoneIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				theController.modificaLayoutIndietroPremuto(sala);

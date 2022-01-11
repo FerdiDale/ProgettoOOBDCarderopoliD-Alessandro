@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 public class Mese{
 	
-	private Integer valoreNumerico;
+	private Integer ValoreNumerico;
 
 	public String toString(){
-		switch(valoreNumerico) {
+		switch(ValoreNumerico) {
 		case 1: return "Gennaio"; 
 		case 2: return "Febbraio";
 		case 3: return "Marzo";
@@ -23,11 +23,11 @@ public class Mese{
 	}
 
 	public Integer getValoreNumerico() {
-		return valoreNumerico;
+		return ValoreNumerico;
 	}
 
 	public void setValoreNumerico(Integer valoreNumerico) {
-		this.valoreNumerico = valoreNumerico;
+		this.ValoreNumerico = valoreNumerico;
 	}
 	
 	public void setDaStringa(String meseStringa) throws MeseErratoException {
@@ -36,29 +36,29 @@ public class Mese{
 		MeseErratoException ecc = new MeseErratoException();
 		
 		switch(meseStringaFormattato) {
-		case "GENNAIO": this.valoreNumerico = 1;
+		case "GENNAIO": this.ValoreNumerico = 1;
 			break;
-		case "FEBBRAIO": this.valoreNumerico = 2;
+		case "FEBBRAIO": this.ValoreNumerico = 2;
 			break;
-		case "MARZO": this.valoreNumerico = 3;
+		case "MARZO": this.ValoreNumerico = 3;
 			break;
-		case "APRILE": this.valoreNumerico = 4;
+		case "APRILE": this.ValoreNumerico = 4;
 			break;
-		case "MAGGIO": this.valoreNumerico = 5;
+		case "MAGGIO": this.ValoreNumerico = 5;
 			break;
-		case "GIUGNO": this.valoreNumerico = 6;
+		case "GIUGNO": this.ValoreNumerico = 6;
 			break;
-		case "LUGLIO": this.valoreNumerico = 7;
+		case "LUGLIO": this.ValoreNumerico = 7;
 			break;
-		case "AGOSTO": this.valoreNumerico = 8;
+		case "AGOSTO": this.ValoreNumerico = 8;
 			break;
-		case "SETTEMBRE": this.valoreNumerico = 9;
+		case "SETTEMBRE": this.ValoreNumerico = 9;
 			break;
-		case "OTTOBRE": this.valoreNumerico = 10;
+		case "OTTOBRE": this.ValoreNumerico = 10;
 			break;
-		case "NOVEMBRE": this.valoreNumerico = 11;
+		case "NOVEMBRE": this.ValoreNumerico = 11;
 			break;
-		case "DICEMBRE": this.valoreNumerico = 12;
+		case "DICEMBRE": this.ValoreNumerico = 12;
 			break;
 		default: throw ecc;
 		}

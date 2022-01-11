@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
@@ -58,19 +60,27 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		getContentPane().add(scrollPaneCamerieri);
 		scrollPaneCamerieri.setViewportView(listaCamerieri);
 		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		bottoneConfermaSelezione = new JButton("Conferma");
 		bottoneConfermaSelezione.setBounds(274, 178, 101, 23);
 		getContentPane().add(bottoneConfermaSelezione);
 		bottoneConfermaSelezione.addActionListener(new GestoreBottoni());
+		bottoneConfermaSelezione.setBackground(new Color(0, 255, 127));
+		bottoneConfermaSelezione.setBorder(null);
+		bottoneConfermaSelezione.setOpaque(true);
 	
-		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 178, 89, 23);
 		getContentPane().add(bottoneIndietro);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setOpaque(true);
 		
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		etichettaCamerieri = new JLabel("Camerieri disponibili");
 		etichettaCamerieri.setBounds(10, 16, 153, 14);
+		etichettaCamerieri.setForeground(Color.white);
 		getContentPane().add(etichettaCamerieri);
 		
 		scrollPaneCamerieriSelezionati = new JScrollPane();
@@ -83,10 +93,16 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		bottoneAggiungiAiSelezionati = new JButton(">");
 		bottoneAggiungiAiSelezionati.setBounds(187, 73, 45, 23);
 		getContentPane().add(bottoneAggiungiAiSelezionati);
+		bottoneAggiungiAiSelezionati.setBackground(new Color(0, 255, 127));
+		bottoneAggiungiAiSelezionati.setBorder(null);
+		bottoneAggiungiAiSelezionati.setOpaque(true);
 		
 		bottoneRimuoviDaiSelezionati = new JButton("<");
 		bottoneRimuoviDaiSelezionati.setBounds(187, 115, 45, 23);
 		getContentPane().add(bottoneRimuoviDaiSelezionati);
+		bottoneRimuoviDaiSelezionati.setBackground(new Color(0, 255, 127));
+		bottoneRimuoviDaiSelezionati.setBorder(null);
+		bottoneRimuoviDaiSelezionati.setOpaque(true);
 		
 		bottoneAggiungiAiSelezionati.addActionListener(new GestoreBottoni());
 		bottoneRimuoviDaiSelezionati.addActionListener(new GestoreBottoni());
@@ -100,6 +116,40 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		
 		arrayCameriere = theController.estraiCamerieriAssegnabili(data,tavoli.get(tavoloScelto).getSala_App().getRistoranteDiAppartenenza());
 		modelloListaCameriere.addAll(arrayCameriere);
+		
+		listaCamerieriSelezionati.setBackground(new Color(20, 20, 40));
+		listaCamerieriSelezionati.setBorder(null);
+		listaCamerieriSelezionati.setForeground(Color.white);
+		listaCamerieriSelezionati.setSelectionBackground(new Color(40,40,80));
+		listaCamerieriSelezionati.setSelectionForeground(Color.white);
+		listaCamerieriSelezionati.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+		scrollPaneCamerieriSelezionati.setBackground(new Color(20, 20, 40));
+		scrollPaneCamerieriSelezionati.setBorder(null);
+		scrollPaneCamerieriSelezionati.setOpaque(true);
+		scrollPaneCamerieriSelezionati.getHorizontalScrollBar().setOpaque(true);
+		scrollPaneCamerieriSelezionati.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieriSelezionati.getHorizontalScrollBar().setBorder(null);
+		scrollPaneCamerieriSelezionati.getVerticalScrollBar().setOpaque(true);
+		scrollPaneCamerieriSelezionati.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieriSelezionati.getVerticalScrollBar().setBorder(null);
+		
+		listaCamerieri.setBackground(new Color(20, 20, 40));
+		listaCamerieri.setBorder(null);
+		listaCamerieri.setSelectionBackground(new Color(40,40,80));
+		listaCamerieri.setSelectionForeground(Color.white);
+		listaCamerieri.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		listaCamerieri.setForeground(Color.white);
+		
+		scrollPaneCamerieri.setBackground(new Color(20, 20, 40));
+		scrollPaneCamerieri.setBorder(null);
+		scrollPaneCamerieri.setOpaque(true);
+		scrollPaneCamerieri.getHorizontalScrollBar().setOpaque(true);
+		scrollPaneCamerieri.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieri.getHorizontalScrollBar().setBorder(null);
+		scrollPaneCamerieri.getVerticalScrollBar().setOpaque(true);
+		scrollPaneCamerieri.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieri.getVerticalScrollBar().setBorder(null);
 		
 		setVisible(true);
 		setResizable(false);
@@ -123,19 +173,27 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		getContentPane().add(scrollPaneCamerieri);
 		scrollPaneCamerieri.setViewportView(listaCamerieri);
 		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		bottoneConfermaSelezione = new JButton("Conferma");
 		bottoneConfermaSelezione.setBounds(274, 178, 101, 23);
 		getContentPane().add(bottoneConfermaSelezione);
 		bottoneConfermaSelezione.addActionListener(new GestoreBottoni());
-	
+		bottoneConfermaSelezione.setBackground(new Color(0, 255, 127));
+		bottoneConfermaSelezione.setBorder(null);
+		bottoneConfermaSelezione.setOpaque(true);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 178, 89, 23);
 		getContentPane().add(bottoneIndietro);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setOpaque(true);
 		
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		etichettaCamerieri = new JLabel("Camerieri disponibili");
 		etichettaCamerieri.setBounds(10, 16, 153, 14);
+		etichettaCamerieri.setForeground(Color.white);
 		getContentPane().add(etichettaCamerieri);
 		
 		scrollPaneCamerieriSelezionati = new JScrollPane();
@@ -147,10 +205,16 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		bottoneAggiungiAiSelezionati = new JButton(">");
 		bottoneAggiungiAiSelezionati.setBounds(187, 73, 45, 23);
 		getContentPane().add(bottoneAggiungiAiSelezionati);
+		bottoneAggiungiAiSelezionati.setBackground(new Color(0, 255, 127));
+		bottoneAggiungiAiSelezionati.setBorder(null);
+		bottoneAggiungiAiSelezionati.setOpaque(true);
 		
 		bottoneRimuoviDaiSelezionati = new JButton("<");
 		bottoneRimuoviDaiSelezionati.setBounds(187, 115, 45, 23);
 		getContentPane().add(bottoneRimuoviDaiSelezionati);
+		bottoneRimuoviDaiSelezionati.setBackground(new Color(0, 255, 127));
+		bottoneRimuoviDaiSelezionati.setBorder(null);
+		bottoneRimuoviDaiSelezionati.setOpaque(true);
 		
 		bottoneAggiungiAiSelezionati.addActionListener(new GestoreBottoni());
 		bottoneRimuoviDaiSelezionati.addActionListener(new GestoreBottoni());
@@ -161,6 +225,40 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		bottoneConfermaSelezione.setEnabled(false);
 		bottoneAggiungiAiSelezionati.setEnabled(false);
 		bottoneRimuoviDaiSelezionati.setEnabled(false);
+		
+		listaCamerieriSelezionati.setBackground(new Color(20, 20, 40));
+		listaCamerieriSelezionati.setBorder(null);
+		listaCamerieriSelezionati.setForeground(Color.white);
+		listaCamerieriSelezionati.setSelectionBackground(new Color(40,40,80));
+		listaCamerieriSelezionati.setSelectionForeground(Color.white);
+		listaCamerieriSelezionati.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+		scrollPaneCamerieriSelezionati.setBackground(new Color(20, 20, 40));
+		scrollPaneCamerieriSelezionati.setBorder(null);
+		scrollPaneCamerieriSelezionati.setOpaque(true);
+		scrollPaneCamerieriSelezionati.getHorizontalScrollBar().setOpaque(true);
+		scrollPaneCamerieriSelezionati.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieriSelezionati.getHorizontalScrollBar().setBorder(null);
+		scrollPaneCamerieriSelezionati.getVerticalScrollBar().setOpaque(true);
+		scrollPaneCamerieriSelezionati.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieriSelezionati.getVerticalScrollBar().setBorder(null);
+		
+		listaCamerieri.setBackground(new Color(20, 20, 40));
+		listaCamerieri.setBorder(null);
+		listaCamerieri.setSelectionBackground(new Color(40,40,80));
+		listaCamerieri.setSelectionForeground(Color.white);
+		listaCamerieri.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		listaCamerieri.setForeground(Color.white);
+		
+		scrollPaneCamerieri.setBackground(new Color(20, 20, 40));
+		scrollPaneCamerieri.setBorder(null);
+		scrollPaneCamerieri.setOpaque(true);
+		scrollPaneCamerieri.getHorizontalScrollBar().setOpaque(true);
+		scrollPaneCamerieri.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieri.getHorizontalScrollBar().setBorder(null);
+		scrollPaneCamerieri.getVerticalScrollBar().setOpaque(true);
+		scrollPaneCamerieri.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieri.getVerticalScrollBar().setBorder(null);
 	
 	
 		arrayCameriere = theController.estraiCamerieriAssegnabili(data,tavoli.get(tavoloScelto).getSala_App().getRistoranteDiAppartenenza());

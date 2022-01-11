@@ -36,6 +36,7 @@ public class Controller {
 	private InterfacciaSelezioneCamerieri frameSelezioneCamerieri;
 	private InterfacciaSelezioneDataCameriere frameSelezioneDataCameriere;
 	private InterfacciaModificaSala frameModificaSala;
+	private InterfacciaSelezioneDataAggiuntaCameriere frameSelezioneDataAggiuntaCameriere; 
 
 	private RistoranteDAOImplPostgres ristoranteDao = new RistoranteDAOImplPostgres();
 	private SalaDAOImplPostgres salaDao = new SalaDAOImplPostgres();
@@ -523,7 +524,7 @@ public class Controller {
 	
 	public void bottoneConfermaSelezioneCamerieriPremuto(ArrayList<Cameriere> camerieriScelti, String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
 	{
-		tavolataDao .inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto).getId_Tavolo(),data));
+		tavolataDao .inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto),data));
 		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
 		ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore,0);		
 		
@@ -736,5 +737,18 @@ public class Controller {
 		frameSelezioneCamerieri.setVisible(false);
 		frameVisualizzaOccupazione = new InterfacciaVisualizzazioneOccupazione(this, tavoli, tavoloScelto, data);
 		
+	}
+
+	public void bottoneIndietroSceltaDataAggiuntCameriere(InterfacciaSelezioneDataAggiuntaCameriere riferimentoFinestra) {
+		riferimentoFinestra.setVisible(false);
+	}
+
+	public void bottoneConfermaSelezioneDataAggiuntaCameriere(String dataCorrente, InterfacciaSelezioneDataAggiuntaCameriere riferimentoFinestra) {
+		riferimentoFinestra.setVisible(false);
+		frameAggiuntaCamerieri.dataScelta(dataCorrente);		
+	}
+
+	public void bottoneSceltaDataDaAggiuntaCameriere() {
+		frameSelezioneDataAggiuntaCameriere = new InterfacciaSelezioneDataAggiuntaCameriere(this);
 	}
 }  

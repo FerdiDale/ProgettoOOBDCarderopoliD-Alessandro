@@ -1,39 +1,39 @@
 
 public class NumeroAvventoriMese {
 	
-	private Integer numAvventori;
-	private Mese meseCorrente = new Mese();
-	private Integer anno;
+	private Integer NumAvventori;
+	private Mese MeseCorrente = new Mese();
+	private Integer Anno;
 	
 	NumeroAvventoriMese(Integer numeroAvventoriCorrente, Integer meseIntero, Integer annoCorrente){
 		
-		this.numAvventori = numeroAvventoriCorrente;
-		this.meseCorrente.setValoreNumerico(meseIntero);	
-		this.anno = annoCorrente;
+		this.NumAvventori = numeroAvventoriCorrente;
+		this.MeseCorrente.setValoreNumerico(meseIntero);	
+		this.Anno = annoCorrente;
 		
 	}
 	
 	public Integer getNumAvventori() {
-		return numAvventori;
+		return NumAvventori;
 	}
 
 	public void setNumAvventori(Integer numAvventori) {
-		this.numAvventori = numAvventori;
+		this.NumAvventori = numAvventori;
 	}
 
 	public Mese getMese() {
-		return meseCorrente;
+		return MeseCorrente;
 	}
 
 	public void setMese(Mese mese) {
-		this.meseCorrente = mese;
+		this.MeseCorrente = mese;
 	}
 
 	public Integer getAnno() {
-		return anno;
+		return Anno;
 	}
 
 	public void setAnno(Integer anno) {
-		this.anno = anno;
+		this.Anno = anno;
 	}
 }

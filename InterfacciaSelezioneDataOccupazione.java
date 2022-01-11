@@ -45,15 +45,23 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		this.tavoli= tavoli;
 		this.theController = controller;
+		
 		bottoneSet = new JButton("Set");
 		bottoneSet.setBounds(194, 63, 66, 23);
 		getContentPane().add(bottoneSet);
+		bottoneSet.setBackground(new Color(0, 255, 127));
+		bottoneSet.setBorder(null);
+		bottoneSet.setOpaque(true);
+		
 		calendar = new JCalendar();
 		calendar.setBounds(0, 30, 184, 153);
 		getContentPane().add(calendar);
-		
+		calendar.getDayChooser().setDecorationBackgroundColor(new Color (20, 20, 40));
+		calendar.getDayChooser().getDayPanel().setBackground(new Color (20, 20, 40));
 		
 		textFieldData = new JTextField();
 		textFieldData.setBounds(4, 203, 172, 23);
@@ -65,30 +73,40 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		getContentPane().add(textFieldData);
 		
 		istruzioni = new JLabel("Scegliere una data dal calendario.");
+		istruzioni.setForeground(new Color(255, 255, 255));
 		istruzioni.setBounds(10, 5, 235, 14);
 		getContentPane().add(istruzioni);
 		
 		istruzioni2 = new JLabel("Poi, premere");
+		istruzioni2.setForeground(new Color(255, 255, 255));
 		istruzioni2.setBounds(194, 30, 82, 14);
 		getContentPane().add(istruzioni2);
 		
 		istruzioni3 = new JLabel("\"Set\"");
+		istruzioni3.setForeground(new Color(255, 255, 255));
 		istruzioni3.setBounds(194, 42, 82, 14);
 		getContentPane().add(istruzioni3);
 		
 		istruzioni4 = new JLabel("Dopo aver impostato la data, premere la freccia");
+		istruzioni4.setForeground(new Color(255, 255, 255));
 		istruzioni4.setBounds(2, 185, 284, 14);
 		getContentPane().add(istruzioni4);
 		
 		bottoneGoNext = new JButton("->");
 		bottoneGoNext.setBounds(194, 203, 56, 23);
 		getContentPane().add(bottoneGoNext);
+		bottoneGoNext.setBackground(new Color(0, 255, 127));
+		bottoneGoNext.setBorder(null);
+		bottoneGoNext.setOpaque(true);
 		
 		bottoneGoNext.addActionListener(new GestioneBottone());
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(187, 111, 89, 23);
 		getContentPane().add(bottoneIndietro);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setOpaque(true);
 		
 		bottoneIndietro.addActionListener(new GestioneBottone());
 		

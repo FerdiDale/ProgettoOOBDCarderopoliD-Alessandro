@@ -41,6 +41,7 @@ public class InterfacciaAdiacenze extends JFrame {
 	public InterfacciaAdiacenze(Controller c, Tavolo tavoloScelto) {
 		super("Adiacenze del tavolo numero " + tavoloScelto.getNumero() + " della sala "+ tavoloScelto.getSala_App().getNome());
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());

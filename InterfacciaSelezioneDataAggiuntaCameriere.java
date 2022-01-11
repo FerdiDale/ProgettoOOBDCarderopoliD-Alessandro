@@ -1,11 +1,9 @@
 import java.awt.BorderLayout;
-
 import java.awt.Color;
-import java.awt.Dialog;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JCalendar;
 
-public class InterfacciaSelezioneDataCameriere extends JDialog {
+public class InterfacciaSelezioneDataAggiuntaCameriere extends JDialog {
 
 	private JButton bottoneSet;
 	private JTextField textFieldData;
@@ -30,20 +28,16 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 	private JButton bottoneGoNext;
 	private JButton bottoneIndietro;
 	private Controller theController;
-	private boolean licenziamento;
-	private Cameriere cameriereScelto;
 	private String dataCorrente;
-	private InterfacciaSelezioneDataCameriere riferimentoFinestra = this;
+	private InterfacciaSelezioneDataAggiuntaCameriere riferimentoFinestra = this;
 	
-	public InterfacciaSelezioneDataCameriere(Controller controller, boolean licenziamento, Cameriere cameriere)
+	public InterfacciaSelezioneDataAggiuntaCameriere(Controller controller)
 	{
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setModal(true);
 		setBounds(100, 100, 302, 268);
 		getContentPane().setLayout(null);
 		this.theController = controller;
-		this.licenziamento = licenziamento;
-		cameriereScelto = cameriere;
 		
 		bottoneSet = new JButton("Set");
 		bottoneSet.setBounds(194, 63, 66, 23);
@@ -54,11 +48,10 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 		
 		calendar = new JCalendar();
 		calendar.setBounds(0, 30, 184, 153);
-		getContentPane().add(calendar);
+		getContentPane().add(calendar);		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		calendar.getDayChooser().setDecorationBackgroundColor(new Color (20, 20, 40));
 		calendar.getDayChooser().getDayPanel().setBackground(new Color (20, 20, 40));
-		
-		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		textFieldData = new JTextField();
 		textFieldData.setBounds(4, 203, 172, 23);
@@ -71,7 +64,7 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 		
 		istruzioni = new JLabel("Scegliere una data dal calendario.");
 		istruzioni.setForeground(new Color(255, 255, 255));
-		istruzioni.setBounds(10, 5, 235, 14);
+		istruzioni.setBounds(0, 11, 235, 14);
 		getContentPane().add(istruzioni);
 		
 		istruzioni2 = new JLabel("Poi, premere");
@@ -126,43 +119,13 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 				if(textFieldData.getText().isBlank()) JOptionPane.showMessageDialog(null, "Scegliere prima una data dal calendario.");
 				else
 				{
-					
 					dataCorrente = textFieldData.getText();
-					
-					if (licenziamento) {
-						if (!theController.presentiOccupazioniDiCameriereDopoData(cameriereScelto, dataCorrente)) 
-						{
-
-							String esito = theController.bottoneLicenziaCamerierePremuto(cameriereScelto ,dataCorrente);
-							if(esito.equals("Tutto_Bene"))
-							{
-								theController.confermaSceltaDataCameriere(riferimentoFinestra);
-							}
-							else if(esito.equals("Operazione_Fallita"))
-							{
-								//E' gestito gia' dal DAO
-							}
-							else if (esito.equals("Data_Licenziamento_Precedente"))
-							{
-								JOptionPane.showMessageDialog(null, "Non si puo' licenziare un cameriere prima della sua data di assunzione!("+cameriereScelto.getData_Ammissione()+")", "Informazione", JOptionPane.INFORMATION_MESSAGE);
-							}
-
-						}
-					}
-					else 
-					{
-						
-						boolean nessunProblema;
-						nessunProblema = theController.bottoneRiassumiCamerierePremuto(cameriereScelto, dataCorrente);
-						if (nessunProblema) {
-							theController.confermaSceltaDataCameriere(riferimentoFinestra);
-						}
-					}	
+					theController.bottoneConfermaSelezioneDataAggiuntaCameriere(dataCorrente, riferimentoFinestra);					
 				}
 			}
 			else if(e.getSource() == bottoneIndietro)
 			{
-				theController.bottoneIndietroSceltaDataCameriere(riferimentoFinestra);
+				theController.bottoneIndietroSceltaDataAggiuntCameriere(riferimentoFinestra);
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.awt.EventQueue;
@@ -7,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -56,6 +58,8 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		scrollPaneAvventori = new JScrollPane();
 		scrollPaneAvventori.setBounds(10, 45, 170, 100);
 		getContentPane().add(scrollPaneAvventori);
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
 
 		scrollPaneAvventori.setViewportView(listaAvventori);
 		
@@ -66,10 +70,12 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		scrollPaneCamerieri.setViewportView(listaCamerieri);
 		
 		indicazioneAvventori = new JLabel("Avventori");
+		indicazioneAvventori.setForeground(new Color(255, 255, 255));
 		indicazioneAvventori.setBounds(10, 20, 170, 14);
 		getContentPane().add(indicazioneAvventori);
 		
 		indicazioneCamerieri = new JLabel("Camerieri che hanno servito");
+		indicazioneCamerieri.setForeground(new Color(255, 255, 255));
 		indicazioneCamerieri.setBounds(310, 20, 164, 14);
 		getContentPane().add(indicazioneCamerieri);
 		
@@ -77,28 +83,43 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 		bottoneAggiungiCameriere.setBounds(310, 156, 164, 23);
 		getContentPane().add(bottoneAggiungiCameriere);
 		bottoneAggiungiCameriere.addActionListener(new GestioneBottoni());
+		bottoneAggiungiCameriere.setBackground(new Color(0, 255, 127));
+		bottoneAggiungiCameriere.setBorder(null);
+		bottoneAggiungiCameriere.setOpaque(true);
 		
 		bottoneRimuoviCameriere = new JButton("Rimuovi cameriere");
 		bottoneRimuoviCameriere.setBounds(310, 190, 164, 23);
 		getContentPane().add(bottoneRimuoviCameriere);
 		bottoneRimuoviCameriere.setEnabled(false);
 		bottoneRimuoviCameriere.addActionListener(new GestioneBottoni());
+		bottoneRimuoviCameriere.setBackground(new Color(0, 255, 127));
+		bottoneRimuoviCameriere.setBorder(null);
+		bottoneRimuoviCameriere.setOpaque(true);
 		
 		bottoneAggiungiAvventore = new JButton("Aggiungi avventore");
 		bottoneAggiungiAvventore.setBounds(10, 156, 170, 23);
 		getContentPane().add(bottoneAggiungiAvventore);
 		bottoneAggiungiAvventore.addActionListener(new GestioneBottoni());
+		bottoneAggiungiAvventore.setBackground(new Color(0, 255, 127));
+		bottoneAggiungiAvventore.setBorder(null);
+		bottoneAggiungiAvventore.setOpaque(true);
 		
 		bottoneRimuoviAvventore = new JButton("Rimuovi avventore");
 		bottoneRimuoviAvventore.setBounds(10, 190, 170, 23);
 		getContentPane().add(bottoneRimuoviAvventore);
 		bottoneRimuoviAvventore.addActionListener(new GestioneBottoni());
 		bottoneRimuoviAvventore.setEnabled(false);
+		bottoneRimuoviAvventore.setBackground(new Color(0, 255, 127));
+		bottoneRimuoviAvventore.setBorder(null);
+		bottoneRimuoviAvventore.setOpaque(true);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 257, 89, 23);
 		getContentPane().add(bottoneIndietro);
 		bottoneIndietro.addActionListener(new GestioneBottoni());
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setOpaque(true);
 		
 		arrayAvventori = theController.estrazioneAvventoriDelTavoloInData(tavoli.get(tavoloScelto), dataScelta);
 		modelloListaAvventori.removeAllElements();
@@ -123,6 +144,40 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 			bottoneAggiungiAvventore.setEnabled(false);
 			bottoneAggiungiAvventore.setToolTipText("Capacita' massima del tavolo raggiunta");
 		}
+		
+		listaAvventori.setBackground(new Color(20, 20, 40));
+		listaAvventori.setBorder(null);
+		listaAvventori.setSelectionBackground(new Color(40,40,80));
+		listaAvventori.setSelectionForeground(Color.white);
+		listaAvventori.setForeground(Color.white);
+		listaAvventori.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+		scrollPaneAvventori.setBackground(new Color(20, 20, 40));
+		scrollPaneAvventori.setBorder(null);
+		scrollPaneAvventori.setOpaque(true);
+		scrollPaneAvventori.getHorizontalScrollBar().setOpaque(true);
+		scrollPaneAvventori.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneAvventori.getHorizontalScrollBar().setBorder(null);
+		scrollPaneAvventori.getVerticalScrollBar().setOpaque(true);
+		scrollPaneAvventori.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneAvventori.getVerticalScrollBar().setBorder(null);
+		
+		listaCamerieri.setBackground(new Color(20, 20, 40));
+		listaCamerieri.setBorder(null);
+		listaCamerieri.setSelectionBackground(new Color(40,40,80));
+		listaCamerieri.setSelectionForeground(Color.white);
+		listaCamerieri.setForeground(Color.white);
+		listaCamerieri.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+		scrollPaneCamerieri.setBackground(new Color(20, 20, 40));
+		scrollPaneCamerieri.setBorder(null);
+		scrollPaneCamerieri.setOpaque(true);
+		scrollPaneCamerieri.getHorizontalScrollBar().setOpaque(true);
+		scrollPaneCamerieri.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieri.getHorizontalScrollBar().setBorder(null);
+		scrollPaneCamerieri.getVerticalScrollBar().setOpaque(true);
+		scrollPaneCamerieri.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneCamerieri.getVerticalScrollBar().setBorder(null);
 		
 		setVisible(true);
 		setResizable(false);
@@ -214,7 +269,7 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 			if(!arrayAvventori.get(indiceListaAvventori!=-1 ? indiceListaAvventori : 0).getN_tel().isBlank() && contaNTel == 1) 
 				{
 					bottoneRimuoviAvventore.setEnabled(false);
-					bottoneRimuoviAvventore.setToolTipText("Non si può rimuovere un avventore con un numero di telefono!");
+					bottoneRimuoviAvventore.setToolTipText("Non si puo' rimuovere un avventore con un numero di telefono!");
 				}
 			if(tavoli.get(tavoloScelto).getCapacita() == arrayAvventori.size()) 
 				{

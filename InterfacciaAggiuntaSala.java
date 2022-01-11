@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -32,7 +33,9 @@ public class InterfacciaAggiuntaSala extends JFrame
 		this.ristorante = ristorante;
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
-		setBounds(10,10,320,154);
+		setBounds(100,100,320,154);
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		nomeSala = new JTextField();
 		nomeSala.setBounds(10, 30, 86, 20);

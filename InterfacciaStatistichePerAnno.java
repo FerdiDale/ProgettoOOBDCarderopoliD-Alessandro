@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
-
-
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,6 +11,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import javax.swing.JTabbedPane;
@@ -43,9 +44,12 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 
 
 	public InterfacciaStatistichePerAnno(Controller c, Ristorante ristoranteScelto, Integer annoScelto) {
+		super ("Statistiche per anno del ristorante " + ristoranteScelto.getNome());
 		
 		theController = c;
 		annoCorrente = annoScelto;
+
+	
 		
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
@@ -54,12 +58,15 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 		setBounds(100, 100, 840, 500);
 		getContentPane().setLayout(null);
 
+		getContentPane().setBackground(new Color(20, 20, 40));
 		modellaStatistiche(ristoranteScelto);
 		
 		pannello =  new JPanel();
 		pannello.setBounds(0, 0, 824, 461);
 		getContentPane().add(pannello);
 		pannello.setLayout(null);
+		
+		pannello.setBackground(new Color(20, 20, 40));
 		
 		bottoneAumentaAnno = new JButton(">");
 		bottoneAumentaAnno.addMouseListener(new MouseAdapter() {
@@ -77,8 +84,11 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 				textFieldAnnoCorrente.setText(annoCorrente.toString());
 			}
 		});
-		bottoneAumentaAnno.setBounds(534, 407, 48, 43);
+		bottoneAumentaAnno.setBounds(563, 407, 22, 20);
 		pannello.add(bottoneAumentaAnno);
+		bottoneAumentaAnno.setBackground(new Color(0, 255, 127));
+		bottoneAumentaAnno.setBorder(null);
+		bottoneAumentaAnno.setOpaque(true);
 		
 		bottoneDiminuisciAnno = new JButton("<");
 		bottoneDiminuisciAnno.addMouseListener(new MouseAdapter() {
@@ -96,8 +106,11 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 				textFieldAnnoCorrente.setText(annoCorrente.toString());
 			}
 		});
-		bottoneDiminuisciAnno.setBounds(217, 407, 48, 43);
+		bottoneDiminuisciAnno.setBounds(272, 407, 22, 20);
 		pannello.add(bottoneDiminuisciAnno);
+		bottoneDiminuisciAnno.setBackground(new Color(0, 255, 127));
+		bottoneDiminuisciAnno.setBorder(null);
+		bottoneDiminuisciAnno.setOpaque(true);
 		
 		bottonePassaggioAMese = new JButton("Passa alla visualizzazione delle statistiche per mese");
 		bottonePassaggioAMese.addMouseListener(new MouseAdapter() {
@@ -108,9 +121,12 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 		});
 		bottonePassaggioAMese.setBounds(441, 11, 373, 32);
 		pannello.add(bottonePassaggioAMese);
+		bottonePassaggioAMese.setBackground(new Color(0, 255, 127));
+		bottonePassaggioAMese.setBorder(null);
+		bottonePassaggioAMese.setOpaque(true);
 		
 		textFieldAnnoCorrente = new JTextField();
-		textFieldAnnoCorrente.setBounds(264, 407, 271, 43);
+		textFieldAnnoCorrente.setBounds(293, 407, 271, 20);
 		pannello.add(textFieldAnnoCorrente);
 		textFieldAnnoCorrente.setText(annoCorrente.toString());
 		
@@ -155,6 +171,10 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 				}
 			}
 		});
+		
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setOpaque(true);
 
 		setResizable(false);
 		setVisible(true);
@@ -175,6 +195,7 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 	}
 	
 	public JFreeChart creaGrafico(DefaultCategoryDataset datiStatistiche) {
+		
 		 JFreeChart barChart = ChartFactory.createBarChart(
 	                "",
 	                "",
@@ -182,7 +203,15 @@ public class InterfacciaStatistichePerAnno extends JFrame {
 	                datiStatistiche,
 	                PlotOrientation.VERTICAL,
 	                false, true, false);
+		 
+		 barChart.getPlot().setBackgroundPaint(new Color (20, 20, 40));
+		 StandardBarPainter colore = new StandardBarPainter();
+		 ((BarRenderer) barChart.getCategoryPlot().getRenderer()).setBarPainter(colore);
+		 BarRenderer rendererGrafico = (BarRenderer) barChart.getCategoryPlot().getRenderer();
+		 rendererGrafico.setSeriesPaint(0, new Color(0, 255, 127));
 
-	        return barChart;
+	     return barChart;
+	        
+	        
 	}
 }

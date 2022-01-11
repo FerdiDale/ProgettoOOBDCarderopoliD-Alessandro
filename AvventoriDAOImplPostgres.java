@@ -39,7 +39,7 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 		boolean valido = true;
 		int counterAvventoriNtelIniziali = 0;
 		int counterAvventoriNoNtelIniziali = 0;
-		int removalNTel = 0; //per rimuovere dagli avventori inseribili con numero di telefono (inizialmente tutti) quelli che si trovano gi√† nel db. Altrimenti la query risulterebbe errata
+		int removalNTel = 0; //per rimuovere dagli avventori inseribili con numero di telefono (inizialmente tutti) quelli che si trovano gia'† nel db. Altrimenti la query risulterebbe errata
 		int removalNoNTel = 0; //stesso ma per quelli senza numero di telefono
 		int counterAvventoriNtel = 0;
 		int counterAvventoriNoNtel = 0;

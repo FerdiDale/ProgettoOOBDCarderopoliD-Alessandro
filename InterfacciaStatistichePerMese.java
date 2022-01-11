@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,6 +21,9 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarPainter;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class InterfacciaStatistichePerMese extends JFrame {
@@ -39,16 +43,18 @@ public class InterfacciaStatistichePerMese extends JFrame {
 	private ChartPanel pannelloGrafico;
 
 	public InterfacciaStatistichePerMese(Controller c, Integer annoScelto, Integer meseScelto, Ristorante ristoranteScelto) {
+		super ("Statistiche per mese del ristorante " + ristoranteScelto.getNome());
 		
 		theController = c;
 		annoCorrente = annoScelto;
 		meseCorrente.setValoreNumerico(meseScelto);
 		
+		
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 933, 551);
+		setBounds(100, 100, 840, 500);
 		
 		modellaStatistiche (ristoranteScelto);
 
@@ -57,13 +63,21 @@ public class InterfacciaStatistichePerMese extends JFrame {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		panel.setBackground(new Color(20, 20, 40));
+		
 		bottoneAumentaMese = new JButton(">");
-		bottoneAumentaMese.setBounds(534, 407, 48, 43);
+		bottoneAumentaMese.setBounds(556, 407, 18, 20);
 		panel.add(bottoneAumentaMese);
+		bottoneAumentaMese.setBackground(new Color(0, 255, 127));
+		bottoneAumentaMese.setBorder(null);
+		bottoneAumentaMese.setOpaque(true);
 		
 		bottoneDiminuisciMese = new JButton("<");
-		bottoneDiminuisciMese.setBounds(217, 407, 48, 43);
+		bottoneDiminuisciMese.setBounds(269, 407, 18, 20);
 		panel.add(bottoneDiminuisciMese);
+		bottoneDiminuisciMese.setBackground(new Color(0, 255, 127));
+		bottoneDiminuisciMese.setBorder(null);
+		bottoneDiminuisciMese.setOpaque(true);
 		
 		bottonePassaggioAdAnno = new JButton("Torna alla visualizzazione delle statistiche per anno");
 		bottonePassaggioAdAnno.addMouseListener(new MouseAdapter() {
@@ -74,9 +88,12 @@ public class InterfacciaStatistichePerMese extends JFrame {
 		});
 		bottonePassaggioAdAnno.setBounds(441, 11, 373, 32);
 		panel.add(bottonePassaggioAdAnno);
+		bottonePassaggioAdAnno.setBackground(new Color(0, 255, 127));
+		bottonePassaggioAdAnno.setBorder(null);
+		bottonePassaggioAdAnno.setOpaque(true);
 		
 		textFieldMeseCorrente = new JTextField();
-		textFieldMeseCorrente.setBounds(264, 407, 271, 43);
+		textFieldMeseCorrente.setBounds(286, 407, 271, 20);
 		panel.add(textFieldMeseCorrente);
 		textFieldMeseCorrente.setText(meseCorrente.toString());
 		textFieldMeseCorrente.addKeyListener(new KeyAdapter() {
@@ -119,8 +136,9 @@ public class InterfacciaStatistichePerMese extends JFrame {
 			}
 		});
 		
+		
 		bottoneDiminuisciAnno = new JButton("<");
-		bottoneDiminuisciAnno.setBounds(217, 458, 48, 43);
+		bottoneDiminuisciAnno.setBounds(269, 430, 18, 20);
 		panel.add(bottoneDiminuisciAnno);
 		bottoneDiminuisciAnno.addMouseListener(new MouseAdapter() {
 			@Override
@@ -137,10 +155,13 @@ public class InterfacciaStatistichePerMese extends JFrame {
 				textFieldAnnoCorrente.setText(annoCorrente.toString());
 			}
 		});
+		bottoneDiminuisciAnno.setBackground(new Color(0, 255, 127));
+		bottoneDiminuisciAnno.setBorder(null);
+		bottoneDiminuisciAnno.setOpaque(true);
 		
 		textFieldAnnoCorrente = new JTextField();
 		textFieldAnnoCorrente.setText((String) null);
-		textFieldAnnoCorrente.setBounds(264, 458, 271, 43);
+		textFieldAnnoCorrente.setBounds(286, 430, 271, 20);
 		textFieldAnnoCorrente.setText(annoCorrente.toString());
 		panel.add(textFieldAnnoCorrente);
 		textFieldAnnoCorrente.addKeyListener(new KeyAdapter() {
@@ -178,7 +199,7 @@ public class InterfacciaStatistichePerMese extends JFrame {
 		});
 		
 		bottoneAumentaAnno = new JButton(">");
-		bottoneAumentaAnno.setBounds(534, 458, 48, 43);
+		bottoneAumentaAnno.setBounds(556, 430, 18, 20);
 		panel.add(bottoneAumentaAnno);
 		bottoneAumentaAnno.addMouseListener(new MouseAdapter() {
 			@Override
@@ -195,6 +216,9 @@ public class InterfacciaStatistichePerMese extends JFrame {
 				textFieldAnnoCorrente.setText(annoCorrente.toString());
 			}
 		});
+		bottoneAumentaAnno.setBackground(new Color(0, 255, 127));
+		bottoneAumentaAnno.setBorder(null);
+		bottoneAumentaAnno.setOpaque(true);
 		
 		bottoneAumentaMese.addMouseListener(new MouseAdapter() {
 			@Override
@@ -243,6 +267,7 @@ public class InterfacciaStatistichePerMese extends JFrame {
 		});
 		
 		
+		
 		setResizable(false);
 		setVisible(true);
 	}
@@ -256,8 +281,9 @@ public class InterfacciaStatistichePerMese extends JFrame {
 		pannelloGrafico.setVisible(true);
 		pannelloGrafico.setBounds(31, 50, 756, 357);
 	    pannelloGrafico.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-	    pannelloGrafico.setBackground(ChartColor.white);
 	    getContentPane().add(pannelloGrafico);
+	    pannelloGrafico.setBackground(new Color(20, 20, 40));
+	    pannelloGrafico.setOpaque(true);
 	    pannelloGrafico.setLayout(null);
 	    pannelloGrafico.repaint();
 	}
@@ -270,7 +296,13 @@ public class InterfacciaStatistichePerMese extends JFrame {
 	                datiStatistiche,
 	                PlotOrientation.VERTICAL,
 	                false, true, false);
-
+		 
+		 barChart.getPlot().setBackgroundPaint(new Color (20, 20, 40));
+		 StandardBarPainter colore = new StandardBarPainter();
+		 ((BarRenderer) barChart.getCategoryPlot().getRenderer()).setBarPainter(colore);
+		 BarRenderer rendererGrafico = (BarRenderer) barChart.getCategoryPlot().getRenderer();
+		 rendererGrafico.setSeriesPaint(0, new Color(0, 255, 127));
+		 
 	        return barChart;
 	}
 }
