@@ -52,13 +52,13 @@ public class InterfacciaAggiuntaSala extends JFrame
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(107, 65, 53, 20);
 		bottoneOk.setBorder(null);
-		bottoneOk.setBackground(Color.green);
+		bottoneOk.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneOk);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 64, 89, 23);
 		bottoneIndietro.setBorder(null);
-		bottoneIndietro.setBackground(Color.green);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneIndietro);
 		
 		nomeSala.getDocument().addDocumentListener(new ContaCaratteri());

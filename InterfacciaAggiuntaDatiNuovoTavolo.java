@@ -54,13 +54,13 @@ public class InterfacciaAggiuntaDatiNuovoTavolo extends JFrame {
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(10, 106, 89, 23);
 		bottoneOk.setBorder(null);
-		bottoneOk.setBackground(Color.green);
+		bottoneOk.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneOk);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(200, 106, 89, 23);
 		bottoneIndietro.setBorder(null);
-		bottoneIndietro.setBackground(Color.green);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneIndietro);
 		
 		bottoneOk.addActionListener(new GestoreBottoni());
@@ -73,7 +73,7 @@ public class InterfacciaAggiuntaDatiNuovoTavolo extends JFrame {
 		
 		etichettaCapienzaTavolo = new JLabel("Capienza del tavolo");
 		etichettaCapienzaTavolo.setForeground(Color.WHITE);
-		etichettaCapienzaTavolo.setBounds(10, 61, 46, 14);
+		etichettaCapienzaTavolo.setBounds(10, 61, 140, 14);
 		getContentPane().add(etichettaCapienzaTavolo);
 		
 		setVisible(true);

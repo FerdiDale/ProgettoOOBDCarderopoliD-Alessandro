@@ -35,14 +35,14 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
-		getContentPane().setBackground(new Color(20, 20, 40));
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 340, 180);
+		setBounds(100, 100, 340, 146);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		textFieldNumeroTavolo = new JTextField();
 		textFieldNumeroTavolo.setBounds(10, 30, 86, 20);
@@ -50,15 +50,15 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		textFieldNumeroTavolo.setText(((Integer)tavoloScelto.getNumero()).toString());
 
 		bottoneOk = new JButton("Ok");
-		bottoneOk.setBounds(225, 107, 89, 23);
+		bottoneOk.setBounds(225, 73, 89, 23);
 		bottoneOk.setBorder(null);
-		bottoneOk.setBackground(Color.green);
+		bottoneOk.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneOk);
 		
 		bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.setBounds(10, 107, 89, 23);
+		bottoneIndietro.setBounds(10, 73, 89, 23);
 		bottoneIndietro.setBorder(null);
-		bottoneIndietro.setBackground(Color.green);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneIndietro);
 		
 		bottoneOk.addActionListener(new GestoreBottoni());

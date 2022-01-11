@@ -35,7 +35,7 @@ public class InterfacciaSelezioneDataAggiuntaCameriere extends JDialog {
 	{
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setModal(true);
-		setBounds(100, 100, 302, 268);
+		setBounds(100, 100, 302, 307);
 		getContentPane().setLayout(null);
 		this.theController = controller;
 		
@@ -54,7 +54,7 @@ public class InterfacciaSelezioneDataAggiuntaCameriere extends JDialog {
 		calendar.getDayChooser().getDayPanel().setBackground(new Color (20, 20, 40));
 		
 		textFieldData = new JTextField();
-		textFieldData.setBounds(4, 203, 172, 23);
+		textFieldData.setBounds(10, 203, 172, 23);
 		textFieldData.setBackground(Color.white);
 		textFieldData.setEditable(false);
 		textFieldData.setOpaque(true);
@@ -64,7 +64,7 @@ public class InterfacciaSelezioneDataAggiuntaCameriere extends JDialog {
 		
 		istruzioni = new JLabel("Scegliere una data dal calendario.");
 		istruzioni.setForeground(new Color(255, 255, 255));
-		istruzioni.setBounds(0, 11, 235, 14);
+		istruzioni.setBounds(10, 11, 235, 14);
 		getContentPane().add(istruzioni);
 		
 		istruzioni2 = new JLabel("Poi, premere");
@@ -79,7 +79,7 @@ public class InterfacciaSelezioneDataAggiuntaCameriere extends JDialog {
 		
 		istruzioni4 = new JLabel("Dopo aver impostato la data, premere la freccia");
 		istruzioni4.setForeground(new Color(255, 255, 255));
-		istruzioni4.setBounds(2, 185, 284, 14);
+		istruzioni4.setBounds(10, 185, 284, 14);
 		getContentPane().add(istruzioni4);
 		
 		bottoneGoNext = new JButton("->");
@@ -92,7 +92,7 @@ public class InterfacciaSelezioneDataAggiuntaCameriere extends JDialog {
 		bottoneGoNext.addActionListener(new GestioneBottone());
 		
 		bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.setBounds(187, 111, 89, 23);
+		bottoneIndietro.setBounds(14, 237, 89, 23);
 		getContentPane().add(bottoneIndietro);
 		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		bottoneIndietro.setBorder(null);

@@ -3,6 +3,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
@@ -42,7 +43,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	private JScrollPane scrollPaneLicenziati;
 	private JLabel etichettaLicenziati;
 	private JLabel etichettaAssunti;
-	private JButton tornaIndietro;
+	private JButton bottoneIndietro;
 	
 	
 	public InterfacciaGestioneCamerieri(Ristorante ristorante, Controller theController)
@@ -50,7 +51,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		super("Gestione camerieri di "+ristorante.getNome());
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(20,20,40));
-		setBounds(100, 100, 540, 404);
+		setBounds(100, 100, 444, 375);
 
 		this.theController=theController;
 		this.ristorante = ristorante;
@@ -86,9 +87,9 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		getContentPane().add(etichettaLicenziati);
 		
 		bottoneAggiuntaCameriere = new JButton("Aggiungi Cameriere");
-		bottoneAggiuntaCameriere.setBounds(287, 33, 160, 23);
+		bottoneAggiuntaCameriere.setBounds(245, 33, 160, 23);
 		bottoneAggiuntaCameriere.setBorder(null);
-		bottoneAggiuntaCameriere.setBackground(Color.green);
+		bottoneAggiuntaCameriere.setBackground(new Color(0, 255, 127));
 
 		getContentPane().add(bottoneAggiuntaCameriere);
 		
@@ -96,14 +97,14 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		bottoneRiassumiCameriere.setBounds(245, 180, 160, 23);
 		bottoneRiassumiCameriere.setEnabled(false);
 		bottoneRiassumiCameriere.setBorder(null);
-		bottoneRiassumiCameriere.setBackground(Color.green);
+		bottoneRiassumiCameriere.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneRiassumiCameriere);
 		
 		bottoneLicenziaCameriere = new JButton("Licenzia Cameriere");
 		bottoneLicenziaCameriere.setBounds(245, 62, 160, 23);
 		bottoneLicenziaCameriere.setEnabled(false);
 		bottoneLicenziaCameriere.setBorder(null);
-		bottoneLicenziaCameriere.setBackground(Color.green);
+		bottoneLicenziaCameriere.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneLicenziaCameriere);
 		
 		arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
@@ -115,16 +116,52 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		modelloListaAssunti.addAll(arrayListAssunti);
 		modelloListaLicenziati.addAll(arrayListLicenziati);
 		
-		tornaIndietro = new JButton("Indietro");
-		tornaIndietro.setBounds(10, 298, 89, 23);
-		getContentPane().add(tornaIndietro);
+		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBounds(10, 298, 89, 23);
+		getContentPane().add(bottoneIndietro);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		
 		listaLicenziati.addListSelectionListener(handlerL);
 		bottoneRiassumiCameriere.addActionListener(handlerB);
-		tornaIndietro.addActionListener(handlerB);
+		bottoneIndietro.addActionListener(handlerB);
 		bottoneLicenziaCameriere.addActionListener(handlerB);
 		listaAssunti.addListSelectionListener(handlerL);
 		bottoneAggiuntaCameriere.addActionListener(handlerB);
+		
+		listaAssunti.setBackground(new Color(20, 20, 40));
+		listaAssunti.setBorder(null);
+		listaAssunti.setForeground(Color.white);
+		listaAssunti.setSelectionBackground(new Color(40,40,80));
+		listaAssunti.setSelectionForeground(Color.white);
+		listaAssunti.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		
+		scrollPaneAssunti.setBackground(new Color(20, 20, 40));
+		scrollPaneAssunti.setBorder(null);
+		scrollPaneAssunti.setOpaque(true);
+		scrollPaneAssunti.getHorizontalScrollBar().setOpaque(true);
+		scrollPaneAssunti.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneAssunti.getHorizontalScrollBar().setBorder(null);
+		scrollPaneAssunti.getVerticalScrollBar().setOpaque(true);
+		scrollPaneAssunti.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneAssunti.getVerticalScrollBar().setBorder(null);
+		
+		listaLicenziati.setBackground(new Color(20, 20, 40));
+		listaLicenziati.setBorder(null);
+		listaLicenziati.setSelectionBackground(new Color(40,40,80));
+		listaLicenziati.setSelectionForeground(Color.white);
+		listaLicenziati.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		listaLicenziati.setForeground(Color.white);
+		
+		scrollPaneLicenziati.setBackground(new Color(20, 20, 40));
+		scrollPaneLicenziati.setBorder(null);
+		scrollPaneLicenziati.setOpaque(true);
+		scrollPaneLicenziati.getHorizontalScrollBar().setOpaque(true);
+		scrollPaneLicenziati.getHorizontalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneLicenziati.getHorizontalScrollBar().setBorder(null);
+		scrollPaneLicenziati.getVerticalScrollBar().setOpaque(true);
+		scrollPaneLicenziati.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
+		scrollPaneLicenziati.getVerticalScrollBar().setBorder(null);
 
 		
 		setVisible(true);

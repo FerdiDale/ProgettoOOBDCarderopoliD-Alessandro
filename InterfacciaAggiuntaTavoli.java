@@ -57,7 +57,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		super("Aggiunta tavolo alla sala "+ salaCorrente.getNome());
 		getContentPane().setBackground(new Color(20, 20, 40));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 730, 600);
+		setBounds(100, 100, 730, 557);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(20,20,40)); 
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
@@ -80,7 +80,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(580, 429, 89, 35);
 		bottoneOk.setBorder(null);
-		bottoneOk.setBackground(Color.green);
+		bottoneOk.setBackground(new Color(0, 255, 127));
 
 		getContentPane().add(bottoneOk);
 		bottoneOk.setOpaque(true);
@@ -90,7 +90,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 441, 89, 23);
 		bottoneIndietro.setBorder(null);
-		bottoneIndietro.setBackground(Color.green);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 
 		getContentPane().add(bottoneIndietro);
 		bottoneIndietro.setOpaque(true);
@@ -126,7 +126,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		
 		iconaInformazioni = new JLabel();
 		iconaInformazioni.setIcon(UIManager.getIcon("OptionPane.informationIcon"));	
-		iconaInformazioni.setBounds(637, 422, 32, 43);
+		iconaInformazioni.setBounds(637, 473, 32, 43);
 		iconaInformazioni.setToolTipText("<html>Cliccare una volta per scegliere l'origine del tavolo. <br>Cliccare una seconda volta per scegliere il termine del tavolo.<br>Una volta creato il tavolo puo' essere spostato e ridimensionato.</html>");
 		getContentPane().add(iconaInformazioni);
 		

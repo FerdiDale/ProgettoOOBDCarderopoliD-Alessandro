@@ -50,7 +50,7 @@ public class InterfacciaAdiacenze extends JFrame {
 		theController = c;
 		tavoloProtagonista = tavoloScelto;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 730, 600);
+		setBounds(100, 100, 730, 547);
 		this.sala = tavoloScelto.getSala_App();
 		getContentPane().setLayout(null);
 		
@@ -69,7 +69,7 @@ public class InterfacciaAdiacenze extends JFrame {
 		});
 		bottoneIndietro.setBounds(10, 429, 89, 23);
 		bottoneIndietro.setBorder(null);
-		bottoneIndietro.setBackground(Color.green);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneIndietro);
 		
 		gestoreIcone handler = new gestoreIcone();
@@ -82,7 +82,7 @@ public class InterfacciaAdiacenze extends JFrame {
 		});
 		bottoneConferma.setBounds(594, 429, 110, 23);
 		bottoneConferma.setBorder(null);
-		bottoneConferma.setBackground(Color.green);
+		bottoneConferma.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneConferma);
 		background = new JLabel();
 		background.setBounds(0, 0, 694, 407);
@@ -92,8 +92,8 @@ public class InterfacciaAdiacenze extends JFrame {
 		
 		iconaInformazioni = new JLabel();
 		iconaInformazioni.setIcon(UIManager.getIcon("OptionPane.informationIcon"));	
-		iconaInformazioni.setBounds(672, 507, 32, 43);
-		iconaInformazioni.setToolTipText("<html>Cliccare su un tavolo marrone per renderlo adiacente a quello selezionato nella schermata precedente (diventera giallo).<br>Cliccare su un tavolo giallo per non renderlo più adiacente a quello selezionato (diventera marrone).<br></html>");
+		iconaInformazioni.setBounds(672, 463, 32, 43);
+		iconaInformazioni.setToolTipText("<html>Cliccare su un tavolo marrone per renderlo adiacente a quello selezionato nella schermata precedente (diventera' giallo).<br>Cliccare su un tavolo giallo per non renderlo piU' adiacente a quello selezionato (diventera' marrone).<br></html>");
 		getContentPane().add(iconaInformazioni);
 		
 		tavoli = theController.EstrazioneTavoliSala(sala);

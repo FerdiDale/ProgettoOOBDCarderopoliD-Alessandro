@@ -65,21 +65,21 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 527, 105, 23);
 		bottoneIndietro.setBorder(null);
-		bottoneIndietro.setBackground(Color.green);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneIndietro);
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
 		bottoneVediOccupazione = new JButton("Vedi occupazione");
 		bottoneVediOccupazione.setBounds(10, 429, 130, 23);
 		bottoneVediOccupazione.setBorder(null);
-		bottoneVediOccupazione.setBackground(Color.green);
+		bottoneVediOccupazione.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneVediOccupazione);
 		bottoneVediOccupazione.addActionListener(new GestoreBottoni());
 		
 		bottoneOccupaTavolo = new JButton("Occupare");
 		bottoneOccupaTavolo.setBounds(195, 429, 105, 23);
 		bottoneOccupaTavolo.setBorder(null);
-		bottoneOccupaTavolo.setBackground(Color.green);
+		bottoneOccupaTavolo.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneOccupaTavolo);
 		bottoneOccupaTavolo.addActionListener(new GestoreBottoni());
 		

@@ -40,7 +40,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 	public InterfacciaSelezioneDataOccupazione(Controller controller, ArrayList<Tavolo> tavoli)
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 302, 268);
+		setBounds(100, 100, 302, 313);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
@@ -75,7 +75,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		
 		istruzioni = new JLabel("Scegliere una data dal calendario.");
 		istruzioni.setForeground(new Color(255, 255, 255));
-		istruzioni.setBounds(10, 5, 235, 14);
+		istruzioni.setBounds(10, 10, 235, 14);
 		getContentPane().add(istruzioni);
 		
 		istruzioni2 = new JLabel("Poi, premere");
@@ -90,7 +90,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		
 		istruzioni4 = new JLabel("Dopo aver impostato la data, premere la freccia");
 		istruzioni4.setForeground(new Color(255, 255, 255));
-		istruzioni4.setBounds(2, 185, 284, 14);
+		istruzioni4.setBounds(10, 185, 284, 14);
 		getContentPane().add(istruzioni4);
 		
 		bottoneGoNext = new JButton("->");
@@ -103,7 +103,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		bottoneGoNext.addActionListener(new GestioneBottone());
 		
 		bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.setBounds(187, 111, 89, 23);
+		bottoneIndietro.setBounds(14, 240, 89, 23);
 		getContentPane().add(bottoneIndietro);
 		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		bottoneIndietro.setBorder(null);

@@ -102,19 +102,19 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		bottoneProssimoAvventore = new JButton("Prossimo");
 		bottoneProssimoAvventore.setBounds(237, 147, 117, 23);
 		bottoneProssimoAvventore.setBorder(null);
-		bottoneProssimoAvventore.setBackground(Color.green);
+		bottoneProssimoAvventore.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneProssimoAvventore);
 		
 		bottoneAvventorePrecedente = new JButton("Precedente");
 		bottoneAvventorePrecedente.setBounds(109, 147, 105, 23);
 		bottoneAvventorePrecedente.setBorder(null);
-		bottoneAvventorePrecedente.setBackground(Color.green);
+		bottoneAvventorePrecedente.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneAvventorePrecedente);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 147, 89, 23);
 		bottoneIndietro.setBorder(null);
-		bottoneIndietro.setBackground(Color.green);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		
 		getContentPane().add(bottoneIndietro);
 		
@@ -159,10 +159,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		
 		setResizable(false);
 	}
-	
-	/**
-	 * @wbp.parser.constructor
-	 */
+
 	public InterfacciaAggiuntaDatiAvventore(Controller controller, int indice, ArrayList<Tavolo> tavoli, int tavoloScelto, String data, ArrayList<String> avventoriDelTavolo) 
 	{
 		super("Inserimento dati avventore "+ (indice+1));
@@ -222,19 +219,19 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		bottoneProssimoAvventore = new JButton("Prossimo");
 		bottoneProssimoAvventore.setBounds(237, 147, 117, 23);
 		bottoneProssimoAvventore.setBorder(null);
-		bottoneProssimoAvventore.setBackground(Color.green);
+		bottoneProssimoAvventore.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneProssimoAvventore);
 		
 		bottoneAvventorePrecedente = new JButton("Precedente");
 		bottoneAvventorePrecedente.setBounds(109, 147, 105, 23);
 		bottoneAvventorePrecedente.setBorder(null);
-		bottoneAvventorePrecedente.setBackground(Color.green);
+		bottoneAvventorePrecedente.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneAvventorePrecedente);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 147, 89, 23);
 		bottoneIndietro.setBorder(null);
-		bottoneIndietro.setBackground(Color.green);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneIndietro);
 		
 		contaNome = new JLabel("0");
@@ -304,12 +301,15 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 					}
 					else 
 					{
-						if (indice == 0) intero = false;
-						else intero = true;
+						if (indice == 0) 
+								intero = false;
+						else 
+							intero = true;
 					}
 			
 		
-				if(cid.getText().length() != 9 || nome.getText().length() >30 || cognome.getText().length() > 30 || !intero) JOptionPane.showMessageDialog(null, "Si controllino le dimensioni dei campi (nome e cognome devono essere lunghi al piu 30, mentre CID deve essere lungo esattamente 9 caratteri, numero di telefono esattamente 10 caratteri decimali OPPURE vuoto");
+				if(cid.getText().length() != 9 || nome.getText().length() >30 || cognome.getText().length() > 30 || !intero) JOptionPane.showMessageDialog(null, "Si controllino le dimensioni dei campi e di non aver inserito caratteri non validi come l'apostrofo. \nNome e cognome devono essere lunghi al piu 30, mentre CID deve essere lungo esattamente 9 caratteri, numero di telefono esattamente 10 caratteri decimali OPPURE vuoto."
+						+ "\n(Il primo avventore di una tavolata deve inserire necessariamente il numero di telefono!)");
 					
 				else
 					{

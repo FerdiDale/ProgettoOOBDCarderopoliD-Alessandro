@@ -37,7 +37,7 @@ public class InterfacciaSale extends JFrame
 	{
 		super("Sale del ristorante "+ ristorante.getNome());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 520, 290);
+		setBounds(100, 100, 520, 301);
 
 		getContentPane().setLayout(null);
 		theController = c;
@@ -48,21 +48,21 @@ public class InterfacciaSale extends JFrame
 		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		bottoneAggiuntaSala = new JButton("Aggiungi sala");
-		bottoneAggiuntaSala.setBounds(328, 9, 120, 23);
+		bottoneAggiuntaSala.setBounds(295, 77, 191, 23);
 		getContentPane().add(bottoneAggiuntaSala);
 		bottoneAggiuntaSala.setBackground(new Color(0, 255, 127));
 		bottoneAggiuntaSala.setBorder(null);
 		bottoneAggiuntaSala.setOpaque(true);
 		
 		bottoneGestioneCamerieri = new JButton("Gestisci camerieri");
-		bottoneGestioneCamerieri.setBounds(309, 43, 151, 23);
+		bottoneGestioneCamerieri.setBounds(295, 11, 191, 23);
 	    getContentPane().add(bottoneGestioneCamerieri);
 	    bottoneGestioneCamerieri.setBackground(new Color(0, 255, 127));
 	    bottoneGestioneCamerieri.setBorder(null);
 	    bottoneGestioneCamerieri.setOpaque(true);
 		
 		bottoneRimuoviSala = new JButton("Rimuovi sala selezionata");
-		bottoneRimuoviSala.setBounds(295, 177, 176, 55);
+		bottoneRimuoviSala.setBounds(295, 145, 191, 23);
 		if (elementoSelezionato == -1) bottoneRimuoviSala.setEnabled(false);
 		getContentPane().add(bottoneRimuoviSala);
 		bottoneRimuoviSala.setBackground(new Color(0, 255, 127));
@@ -70,7 +70,7 @@ public class InterfacciaSale extends JFrame
 		bottoneRimuoviSala.setOpaque(true);
 		
 		bottoneVediTavoli = new JButton("Vedi i tavoli della sala selezionata");
-		bottoneVediTavoli.setBounds(269, 111, 233, 55);
+		bottoneVediTavoli.setBounds(295, 198, 191, 23);
 		getContentPane().add(bottoneVediTavoli);
 		if (elementoSelezionato == -1) bottoneVediTavoli.setEnabled(false);
 		bottoneVediTavoli.setBackground(new Color(0, 255, 127));
@@ -84,14 +84,14 @@ public class InterfacciaSale extends JFrame
 	    scorrimentoPerListaVisibile.setViewportView(listaVisibile);
 	    
 	    bottoneIndietro = new JButton("Indietro");
-	    bottoneIndietro.setBounds(10, 223, 120, 17);
+	    bottoneIndietro.setBounds(10, 234, 120, 17);
 	    getContentPane().add(bottoneIndietro);
 	    bottoneIndietro.setBackground(new Color(0, 255, 127));
 	    bottoneIndietro.setBorder(null);
 	    bottoneIndietro.setOpaque(true);
 
 	    bottoneModificaSala = new JButton("Modifica nome sala");
-	    bottoneModificaSala.setBounds(309, 77, 151, 23);
+	    bottoneModificaSala.setBounds(295, 111, 191, 23);
 	    getContentPane().add(bottoneModificaSala);
 	    GestoreClickMouse handler = new GestoreClickMouse();
 	    if (elementoSelezionato == -1) bottoneModificaSala.setEnabled(false);

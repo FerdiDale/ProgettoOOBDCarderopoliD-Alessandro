@@ -11,7 +11,9 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		{
 			ArrayList<Ristorante> listaRistoranti = new ArrayList<Ristorante>();
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-			ResultSet risultatoQuery = stmt.executeQuery("SELECT * FROM RISTORANTE");
+			ResultSet risultatoQuery = stmt.executeQuery("SELECT * "
+														+ "FROM RISTORANTE "
+														+ "ORDER BY Nome;");
 			
 			while(risultatoQuery.next()) {
 				
@@ -66,9 +68,12 @@ public class RistoranteDAOImplPostgres implements RistoranteDAO {
 		try
 		{
 			Statement stmt = DB_Connection.getInstance().getConnection().createStatement();
-			stmt.executeUpdate("UPDATE Ristorante AS R SET "
-					+ "Nome = " + "'" + nome + "'" + ", " + "Via = " + "'" + via+ "'" + ", " 
-					+ "N_Civico = " + n_Civico + ", " + "Citta = " + "'" + citta +"'" +
+			stmt.executeUpdate("UPDATE Ristorante AS R "
+					+ "SET "
+					+ "Nome = " + "'" + nome + "'" + ", " 
+					+ "Via = " + "'" + via+ "'" + ", " 
+					+ "N_Civico = " + n_Civico + ", " 
+					+ "Citta = " + "'" + citta +"'" +
 					"WHERE Id_Ristorante = " + ristorante.getId_Ristorante() + ";");
 		}
 		catch (SQLException e)

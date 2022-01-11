@@ -58,7 +58,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		
 		etichettaNome = new JLabel("Nome");
 		etichettaNome.setForeground(Color.WHITE);
-		etichettaNome.setBounds(10, 11, 46, 14);
+		etichettaNome.setBounds(33, 11, 46, 14);
 
 		getContentPane().add(etichettaNome);
 		
@@ -69,7 +69,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		
 		etichettaCognome = new JLabel("Cognome");
 		etichettaCognome.setForeground(Color.WHITE);
-		etichettaCognome.setBounds(136, 11, 149, 14);
+		etichettaCognome.setBounds(224, 11, 149, 14);
 
 		getContentPane().add(etichettaCognome);
 		
@@ -80,7 +80,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		
 		etichettaCID = new JLabel("Numero CID");
 		etichettaCID.setForeground(Color.WHITE);
-		etichettaCID.setBounds(10, 75, 86, 14);
+		etichettaCID.setBounds(33, 75, 86, 14);
 
 		getContentPane().add(etichettaCID);
 		
@@ -91,7 +91,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		
 		etichettaDataAssunzione = new JLabel("Data di assunzione");
 		etichettaDataAssunzione.setForeground(Color.WHITE);
-		etichettaDataAssunzione.setBounds(116, 75, 149, 14);
+		etichettaDataAssunzione.setBounds(224, 75, 149, 14);
 
 		getContentPane().add(etichettaDataAssunzione);
 		
@@ -99,7 +99,8 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		bottoneOk.setBounds(296, 172, 89, 23);
 		bottoneOk.setEnabled(false);
 		getContentPane().add(bottoneOk);
-		bottoneOk.setEnabled(false);
+		bottoneOk.setBorder(null);
+		bottoneOk.setBackground(new Color(0, 255, 127));
 		
 		textFieldNome.setFocusable(true);
 		textFieldCognome.setFocusable(true);
@@ -108,24 +109,26 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(30, 172, 89, 23);
 		getContentPane().add(bottoneIndietro);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		
 		nCaratteriNome = new JLabel("");
 		nCaratteriNome.setForeground(Color.WHITE);
-		nCaratteriNome.setBounds(106, 39, 46, 14);
+		nCaratteriNome.setBounds(185, 39, 46, 14);
 
 		getContentPane().add(nCaratteriNome);
 		nCaratteriNome.setText("0");
 		
 		nCaratteriCognome = new JLabel("");
 		nCaratteriCognome.setForeground(Color.WHITE);
-		nCaratteriCognome.setBounds(296, 39, 46, 14);
+		nCaratteriCognome.setBounds(395, 39, 46, 14);
 
 		getContentPane().add(nCaratteriCognome);
 		nCaratteriCognome.setText("0");
 		
 		nCaratteriCID = new JLabel("");
 		nCaratteriCID.setForeground(Color.WHITE);
-		nCaratteriCID.setBounds(106, 103, 46, 14);
+		nCaratteriCID.setBounds(185, 103, 46, 14);
 
 		getContentPane().add(nCaratteriCID);
 		nCaratteriCID.setText("0");
@@ -133,6 +136,8 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		bottoneData = new JButton("Scegli una data");
 		bottoneData.setBounds(224, 99, 161, 23);
 		getContentPane().add(bottoneData);
+		bottoneData.setBorder(null);
+		bottoneData.setBackground(new Color(0, 255, 127));
 
 		GestoreTesti handlerTesti = new GestoreTesti();
 		

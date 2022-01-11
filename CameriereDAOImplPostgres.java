@@ -14,7 +14,8 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 			ResultSet risultatoQuery= stmt.executeQuery("SELECT * "
 													+ "FROM Cameriere "
 													+ "WHERE Id_Ristorante = "+ristorante.getId_Ristorante()+" "
-													+ "AND Data_Licenziamento IS NULL;");
+													+ "AND Data_Licenziamento IS NULL "
+													+ "ORDER BY Cognome, Nome;");
 			while(risultatoQuery.next())
 			{
 				Cameriere attuale = new Cameriere(risultatoQuery.getInt(1),risultatoQuery.getString(2),risultatoQuery.getString(3),risultatoQuery.getString(4),
@@ -42,7 +43,8 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 													+ "AND CID_Cameriere NOT IN (SELECT CID_Cameriere "
 																			+ "FROM Cameriere AS C "
 																			+ "WHERE C.Data_Licenziamento IS NULL "
-																			+ "AND C.Id_Ristorante = " + ristorante.getId_Ristorante() + ");");
+																			+ "AND C.Id_Ristorante = " + ristorante.getId_Ristorante() + ") "
+													+ "ORDER BY Cognome, Nome;");
 			while(risultatoQuery.next())
 			{
 				Cameriere attuale = new Cameriere(risultatoQuery.getString(1),risultatoQuery.getString(2),risultatoQuery.getString(3),risultatoQuery.getInt(4));
@@ -192,7 +194,9 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 			tavolata.next();
 			ResultSet rs = DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT CA.Nome, CA.Cognome, CA.id_cameriere, CA.cid_Cameriere "
 																									+ "FROM Cameriere as CA, Servizio AS S "
-																									+ "WHERE S.id_tavolata = "+tavolata.getInt(1)+" AND S.id_cameriere = CA.id_cameriere;");
+																									+ "WHERE S.id_tavolata = "+tavolata.getInt(1)+" "
+																									+ "AND S.id_cameriere = CA.id_cameriere "
+																									+ "ORDER BY Cognome, Nome;");
 			while(rs.next())
 			{
 				risultato.add(new Cameriere(rs.getInt(3),rs.getString(4),rs.getString(1),rs.getString(2)));
@@ -216,7 +220,8 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 																								+ "FROM cameriere "
 																								+ "WHERE data_ammissione<= '"+data+"' "
 																								+ "AND (data_licenziamento is null OR data_licenziamento >= '"+data+"') "
-																								+ "AND Id_ristorante = "+ristorante.getId_Ristorante()+";");
+																								+ "AND Id_ristorante = "+ristorante.getId_Ristorante()+" "
+																								+ "ORDER BY Cognome, Nome;");
 			while(rs.next())
 			{
 				risultato.add(new Cameriere(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));

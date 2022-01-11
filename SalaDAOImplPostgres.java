@@ -10,8 +10,10 @@ public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
 			{	
 				Connection c = DB_Connection.getInstance().getConnection();
 				Statement stmt = c.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM Sala WHERE Id_Ristorante = " 
-												+ ristoranteCorrente.getId_Ristorante() +";");  
+				ResultSet rs = stmt.executeQuery("SELECT * "
+												+ "FROM Sala "
+												+ "WHERE Id_Ristorante = " + ristoranteCorrente.getId_Ristorante() +" "
+												+ "ORDER BY Nome;");  
 				while(rs.next())
 				{
 					Sala salaCorrente = new Sala();

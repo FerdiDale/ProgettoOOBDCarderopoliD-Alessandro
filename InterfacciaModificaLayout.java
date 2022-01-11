@@ -59,7 +59,7 @@ public class InterfacciaModificaLayout extends JFrame {
 		
 		theController = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 730, 600);
+		setBounds(100, 100, 730, 501);
 		this.sala = salaCorrente;
 		getContentPane().setLayout(null);
 		bottoneConferma = new JButton("Conferma modifiche");
