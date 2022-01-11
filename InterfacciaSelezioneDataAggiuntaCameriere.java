@@ -1,30 +1,22 @@
 import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import com.toedter.components.JLocaleChooser;
-import com.toedter.calendar.JYearChooser;
-import com.toedter.calendar.JMonthChooser;
-import com.toedter.calendar.JDayChooser;
 import javax.swing.JTextField;
-import java.awt.Color;
-public class InterfacciaSelezioneDataOccupazione extends JFrame
-{
+import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JCalendar;
+
+public class InterfacciaSelezioneDataAggiuntaCameriere extends JDialog {
 
 	private JButton bottoneSet;
 	private JTextField textFieldData;
@@ -35,20 +27,16 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 	private JLabel istruzioni4;
 	private JButton bottoneGoNext;
 	private JButton bottoneIndietro;
-	private ArrayList<Tavolo> tavoli;
 	private Controller theController;
-	public InterfacciaSelezioneDataOccupazione(Controller controller, ArrayList<Tavolo> tavoli)
+	private String dataCorrente;
+	private InterfacciaSelezioneDataAggiuntaCameriere riferimentoFinestra = this;
+	
+	public InterfacciaSelezioneDataAggiuntaCameriere(Controller controller)
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setModal(true);
 		setBounds(100, 100, 302, 268);
 		getContentPane().setLayout(null);
-		getContentPane().setBackground(new Color(20,20,40));
-		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
-		setIconImage(icona.getImage());
-		
-		getContentPane().setBackground(new Color(20, 20, 40));
-		
-		this.tavoli= tavoli;
 		this.theController = controller;
 		
 		bottoneSet = new JButton("Set");
@@ -60,7 +48,8 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		
 		calendar = new JCalendar();
 		calendar.setBounds(0, 30, 184, 153);
-		getContentPane().add(calendar);
+		getContentPane().add(calendar);		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		calendar.getDayChooser().setDecorationBackgroundColor(new Color (20, 20, 40));
 		calendar.getDayChooser().getDayPanel().setBackground(new Color (20, 20, 40));
 		
@@ -75,7 +64,7 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 		
 		istruzioni = new JLabel("Scegliere una data dal calendario.");
 		istruzioni.setForeground(new Color(255, 255, 255));
-		istruzioni.setBounds(10, 5, 235, 14);
+		istruzioni.setBounds(0, 11, 235, 14);
 		getContentPane().add(istruzioni);
 		
 		istruzioni2 = new JLabel("Poi, premere");
@@ -128,13 +117,17 @@ public class InterfacciaSelezioneDataOccupazione extends JFrame
 			else if(e.getSource()== bottoneGoNext)
 			{
 				if(textFieldData.getText().isBlank()) JOptionPane.showMessageDialog(null, "Scegliere prima una data dal calendario.");
-				else theController.bottoneGoNextInterfacciaSelezioneDataGestioneOccupazionePremuto(tavoli, textFieldData.getText());
-					
+				else
+				{
+					dataCorrente = textFieldData.getText();
+					theController.bottoneConfermaSelezioneDataAggiuntaCameriere(dataCorrente, riferimentoFinestra);					
+				}
 			}
 			else if(e.getSource() == bottoneIndietro)
 			{
-				theController.bottoneIndietroInterfacciaSelezioneDataGestioneOccupazionePremuto(tavoli.get(0).getSala_App());
+				theController.bottoneIndietroSceltaDataAggiuntCameriere(riferimentoFinestra);
 			}
 		}
 	}
+
 }

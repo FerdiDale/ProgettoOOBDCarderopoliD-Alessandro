@@ -1,25 +1,26 @@
 
 public class Tavolata 
 {
-	private int id_tavolata;
-	private int id_tavolo;
-	private String data;
-	public int getId_tavolo() {
-		return id_tavolo;
-	}
-	public void setId_tavolo(int id_tavolo) {
-		this.id_tavolo = id_tavolo;
-	}
+	private int Id_Tavolata;
+	private Tavolo TavoloAssociato;
+	private String Data;
+	
 	public String getData() {
-		return data;
+		return Data;
 	}
 	public void setData(String data) {
-		this.data = data;
+		this.Data = data;
 	}
-	public Tavolata(int id_tavolo, String data) {
+	public Tavolo getTavoloAssociato() {
+		return TavoloAssociato;
+	}
+	public void setTavoloAssociato(Tavolo tavoloAssociato) {
+		this.TavoloAssociato = tavoloAssociato;
+	}
+	public Tavolata(Tavolo tavolo, String data) {
 		super();
-		this.id_tavolo = id_tavolo;
-		this.data = data;
+		this.TavoloAssociato = tavolo;
+		this.Data = data;
 	}
 	
 	

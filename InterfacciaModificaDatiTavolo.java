@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -26,12 +27,15 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 	private JLabel etichettaNumeroTavolo;
 
 	public InterfacciaModificaDatiTavolo(Controller c, Tavolo tavoloCorrente) {
+		super ("Modifica i dati del tavolo numero " + tavoloCorrente.getNumero());
 		
 		theController = c;
 		tavoloScelto = tavoloCorrente;
 		
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 340, 180);

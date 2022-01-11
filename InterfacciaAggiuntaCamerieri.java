@@ -28,22 +28,18 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 	private JTextField textFieldNome;
 	private JTextField textFieldCognome;
 	private JTextField textFieldCID;
-	private JTextField textFieldDataAssunzione;
+	
 	private JButton bottoneOk;
-	private JButton tornaIndietro;
+	private JButton bottoneIndietro;
+	private JButton bottoneData;
+	
 	private JLabel nCaratteriNome;
 	private JLabel nCaratteriCognome;
 	private JLabel nCaratteriCID;
-	private JCalendar calendar; 
-	private JLabel istruzioni2;
-	private JLabel istruzioni3;
-	private JLabel istruzioni4;
-	private JButton bottoneSet;
 	private JLabel etichettaNome;
 	private JLabel etichettaCognome;
 	private JLabel etichettaCID;
 	private JLabel etichettaDataAssunzione;
-	private JLabel istruzioni;
 	
 	public InterfacciaAggiuntaCamerieri(Ristorante ristorante, Controller theController)
 	{
@@ -51,49 +47,56 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().setForeground(Color.WHITE);
 		this.theController = theController;
 		this.ristorante = ristorante;
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
-		setBounds(20,20,415,464);
+		setBounds(100,100,442,244);
 		
 		etichettaNome = new JLabel("Nome");
 		etichettaNome.setForeground(Color.WHITE);
 		etichettaNome.setBounds(10, 11, 46, 14);
+
 		getContentPane().add(etichettaNome);
 		
 		textFieldNome = new JTextField();
-		textFieldNome.setBounds(10, 36, 86, 20);
+		textFieldNome.setBounds(33, 36, 142, 20);
 		getContentPane().add(textFieldNome);
 		textFieldNome.setColumns(30);
 		
 		etichettaCognome = new JLabel("Cognome");
 		etichettaCognome.setForeground(Color.WHITE);
 		etichettaCognome.setBounds(136, 11, 149, 14);
+
 		getContentPane().add(etichettaCognome);
 		
 		textFieldCognome = new JTextField();
-		textFieldCognome.setBounds(136, 36, 86, 20);
+		textFieldCognome.setBounds(224, 36, 161, 20);
 		getContentPane().add(textFieldCognome);
 		textFieldCognome.setColumns(30);
 		
 		etichettaCID = new JLabel("Numero CID");
 		etichettaCID.setForeground(Color.WHITE);
 		etichettaCID.setBounds(10, 75, 86, 14);
+
 		getContentPane().add(etichettaCID);
 		
 		textFieldCID = new JTextField();
-		textFieldCID.setBounds(10, 100, 86, 20);
+		textFieldCID.setBounds(33, 100, 142, 20);
 		getContentPane().add(textFieldCID);
 		textFieldCID.setColumns(9);
 		
 		etichettaDataAssunzione = new JLabel("Data di assunzione");
 		etichettaDataAssunzione.setForeground(Color.WHITE);
 		etichettaDataAssunzione.setBounds(116, 75, 149, 14);
+
 		getContentPane().add(etichettaDataAssunzione);
 		
 		bottoneOk = new JButton("Ok");
-		bottoneOk.setBounds(296, 389, 89, 23);
+		bottoneOk.setBounds(296, 172, 89, 23);
 		bottoneOk.setEnabled(false);
 		getContentPane().add(bottoneOk);
 		bottoneOk.setEnabled(false);
@@ -102,91 +105,46 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldCognome.setFocusable(true);
 		textFieldCID.setFocusable(true);
 		
-		tornaIndietro = new JButton("Indietro");
-		tornaIndietro.setBounds(10, 389, 89, 23);
-		getContentPane().add(tornaIndietro);
+		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBounds(30, 172, 89, 23);
+		getContentPane().add(bottoneIndietro);
 		
 		nCaratteriNome = new JLabel("");
 		nCaratteriNome.setForeground(Color.WHITE);
 		nCaratteriNome.setBounds(106, 39, 46, 14);
+
 		getContentPane().add(nCaratteriNome);
 		nCaratteriNome.setText("0");
 		
 		nCaratteriCognome = new JLabel("");
 		nCaratteriCognome.setForeground(Color.WHITE);
 		nCaratteriCognome.setBounds(296, 39, 46, 14);
+
 		getContentPane().add(nCaratteriCognome);
 		nCaratteriCognome.setText("0");
 		
 		nCaratteriCID = new JLabel("");
 		nCaratteriCID.setForeground(Color.WHITE);
 		nCaratteriCID.setBounds(106, 103, 46, 14);
+
 		getContentPane().add(nCaratteriCID);
 		nCaratteriCID.setText("0");
+		
+		bottoneData = new JButton("Scegli una data");
+		bottoneData.setBounds(224, 99, 161, 23);
+		getContentPane().add(bottoneData);
 
 		GestoreTesti handlerTesti = new GestoreTesti();
-
-		textFieldDataAssunzione = new JTextField();
-		textFieldDataAssunzione.setBounds(116, 99, 172, 23);
-		textFieldDataAssunzione.setBackground(Color.white);
-		textFieldDataAssunzione.setEditable(false);
-		textFieldDataAssunzione.setOpaque(true);
-		textFieldDataAssunzione.setColumns(10);
 		
 		textFieldNome.getDocument().addDocumentListener(handlerTesti);
 		textFieldCognome.getDocument().addDocumentListener(handlerTesti);
 		textFieldCID.getDocument().addDocumentListener(handlerTesti);
-		textFieldDataAssunzione.getDocument().addDocumentListener(handlerTesti);	
 		
 		GestoreBottoni handlerBottoni = new GestoreBottoni();
 		
 		bottoneOk.addActionListener(handlerBottoni);
-		tornaIndietro.addActionListener(handlerBottoni);
-
-		bottoneSet = new JButton("Set");
-		bottoneSet.setBounds(296, 129, 66, 23);
-		bottoneSet.setBorder(null);
-		bottoneSet.setBackground(Color.green);
-		getContentPane().add(bottoneSet);
-		calendar = new JCalendar();
-		calendar.getDayChooser().setWeekOfYearVisible(false);
-		calendar.getDayChooser().setDecorationBackgroundColor(new Color (20, 20, 40));
-		calendar.getMonthChooser().getSpinner().setForeground(new Color (20, 20, 40));
-		calendar.getMonthChooser().getSpinner().setBackground(new Color (20, 20, 40));
-		calendar.getYearChooser().getSpinner().setForeground(new Color (20, 20, 40));
-		calendar.getYearChooser().getSpinner().setBackground(new Color (20, 20, 40));
-		calendar.getDayChooser().getDayPanel().setBackground(new Color (20, 20, 40));
-		calendar.setBounds(200, 200, 184, 153);
-		getContentPane().add(calendar);
-		
-		getContentPane().add(textFieldDataAssunzione);
-		
-		istruzioni = new JLabel("Scegliere una data dal calendario.");
-		istruzioni.setForeground(Color.WHITE);
-		istruzioni.setBounds(116, 133, 235, 14);
-		getContentPane().add(istruzioni);
-		
-		istruzioni2 = new JLabel("Poi, premere");
-		istruzioni2.setForeground(Color.WHITE);
-		istruzioni2.setBounds(116, 181, 82, 14);
-		getContentPane().add(istruzioni2);
-		
-		istruzioni3 = new JLabel("\"Set\"");
-		istruzioni3.setForeground(Color.WHITE);
-		istruzioni3.setBounds(187, 181, 82, 14);
-		getContentPane().add(istruzioni3);
-		
-		istruzioni4 = new JLabel("Dopo aver impostato la data, premere la freccia");
-		istruzioni4.setForeground(Color.WHITE);
-		istruzioni4.setBounds(116, 156, 284, 14);
-		getContentPane().add(istruzioni4);
-		
-		tornaIndietro.setBorder(null);
-		tornaIndietro.setBackground(Color.green);
-		bottoneOk.setBorder(null);
-		bottoneOk.setBackground(Color.green);
-		
-		bottoneSet.addActionListener(new GestoreBottoni());
+		bottoneIndietro.addActionListener(handlerBottoni);
+		bottoneData.addActionListener(handlerBottoni);
 		
 		setResizable(false);
 		setVisible(true);
@@ -202,7 +160,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 				boolean valido = true;
 				try
 				{
-					formatoData.parse(textFieldDataAssunzione.getText());
+					formatoData.parse(bottoneData.getText());
 				}
 				catch(ParseException p)
 				{
@@ -211,7 +169,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 				if (valido && textFieldCognome.getText().length()<= 30 && textFieldNome.getText().length() <=30 && textFieldCID.getText().length()==9 )
 					{
 						Cameriere inAggiunta = new Cameriere(textFieldCID.getText(),textFieldNome.getText(),textFieldCognome.getText(), ristorante.getId_Ristorante());
-						inAggiunta.setData_Ammissione(textFieldDataAssunzione.getText());
+						inAggiunta.setData_Ammissione(bottoneData.getText());
 						esito = theController.bottoneOkAggiuntaCamerieriPremutoSuccessful(inAggiunta);
 						if(esito.equals("Nessun_Errore"))
 						{
@@ -221,8 +179,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 							textFieldCognome.replaceSelection("");
 							textFieldCID.selectAll();
 							textFieldCID.replaceSelection("");
-							textFieldDataAssunzione.selectAll();
-							textFieldDataAssunzione.replaceSelection("");
+							bottoneData.setText("Scegli una data");
 							nCaratteriCID.setText("");
 							nCaratteriNome.setText("");
 							nCaratteriCognome.setText("");
@@ -257,13 +214,21 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 				else
 				JOptionPane.showMessageDialog(null, "Si prega di controllare le dimensioni dei valori nelle caselle di testo (Nome, Cognome al piu' 30, CID deve essere esattamente 9.", "Errore!", JOptionPane.ERROR_MESSAGE);
 			}
-			else if (e.getSource() == tornaIndietro)
+			else if (e.getSource() == bottoneIndietro)
 			{
 				theController.bottoneTornaIndietroAggiuntaCamerieriPremuto(ristorante);
 			}
-			if(e.getSource() == bottoneSet)
+			else if (e.getSource() == bottoneData)
 			{
-				textFieldDataAssunzione.setText(String.format("%s-%s-%s",calendar.getDate().getYear()+1900 <=9 ? String.format("000%d",calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=99? String.format("00%d", calendar.getDate().getYear()+1900) : calendar.getDate().getYear()+1900 <=999? String.format("0%d", calendar.getDate().getYear()+1900): String.format("%d", calendar.getDate().getYear()+1900) , calendar.getDate().getMonth()+1<=9? String.format("0%d", calendar.getDate().getMonth()+1) : String.format("%d",calendar.getDate().getMonth()+1),calendar.getDayChooser().getDay()<=9? String.format("0%d",calendar.getDayChooser().getDay()): String.format("%d",calendar.getDayChooser().getDay())));
+				if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || 
+						textFieldCID.getText().isBlank())
+				{
+					bottoneOk.setEnabled(false);
+				}
+				else
+					bottoneOk.setEnabled(true);
+				
+				theController.bottoneSceltaDataDaAggiuntaCameriere();
 			}
 		}
 	}
@@ -287,7 +252,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 				nCaratteriCID.setText(String.format("%d", textFieldCID.getText().length()));
 			}
 			if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || 
-					textFieldCID.getText().isBlank() || textFieldDataAssunzione.getText().isBlank())
+					textFieldCID.getText().isBlank() || bottoneData.getText().equals("Scegli una data"))
 			{
 				bottoneOk.setEnabled(false);
 			}
@@ -312,7 +277,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 				nCaratteriCID.setText(String.format("%d", textFieldCID.getText().length()));
 			}
 			if(textFieldNome.getText().isBlank() || textFieldCognome.getText().isBlank() || 
-					textFieldCID.getText().isBlank() || textFieldDataAssunzione.getText().isBlank())
+					textFieldCID.getText().isBlank() || bottoneData.getText().equals("Scegli una data"))
 			{
 				bottoneOk.setEnabled(false);
 			}
@@ -326,5 +291,10 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 			
 		}
 		
+	}
+
+
+	public void dataScelta(String dataCorrente) {
+		bottoneData.setText(dataCorrente);
 	}
 }

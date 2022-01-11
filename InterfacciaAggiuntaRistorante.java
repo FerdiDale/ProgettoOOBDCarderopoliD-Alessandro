@@ -45,16 +45,19 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 556, 250);
+		setBounds(100, 100, 556, 210);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		getContentPane().setBackground(new Color(20,20,40));
 
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		textFieldNomeRistorante = new JTextField();
-		textFieldNomeRistorante.setBounds(229, 55, 260, 20);
+		textFieldNomeRistorante.setBounds(229, 11, 260, 20);
 		contentPane.add(textFieldNomeRistorante);
 		textFieldNomeRistorante.setColumns(10);
 		textFieldNomeRistorante.getDocument().addDocumentListener(new GestoreTesti());
@@ -65,7 +68,7 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		contentPane.add(etichettaNomeRistorante);
 
 		textFieldCittaRistorante = new JTextField();
-		textFieldCittaRistorante.setBounds(229, 86, 260, 20);
+		textFieldCittaRistorante.setBounds(229, 42, 260, 20);
 		contentPane.add(textFieldCittaRistorante);
 		textFieldCittaRistorante.setColumns(10);
 		textFieldCittaRistorante.getDocument().addDocumentListener(new GestoreTesti());
@@ -74,11 +77,12 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		etichettaCittaRistorante = new JLabel("Citta'");
 		etichettaCittaRistorante.setForeground(Color.WHITE);
 		etichettaCittaRistorante.setBounds(10, 86, 235, 20);
+
 		contentPane.add(etichettaCittaRistorante);
 
 		textFieldViaRistorante = new JTextField();
 		textFieldViaRistorante.setText("");
-		textFieldViaRistorante.setBounds(229, 117, 260, 20);
+		textFieldViaRistorante.setBounds(229, 73, 260, 20);
 		contentPane.add(textFieldViaRistorante);
 		textFieldViaRistorante.setColumns(10);
 		textFieldViaRistorante.getDocument().addDocumentListener(new GestoreTesti());
@@ -86,11 +90,12 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		etichettaViaRistorante = new JLabel("Via");
 		etichettaViaRistorante.setForeground(Color.WHITE);
 		etichettaViaRistorante.setBounds(10, 117, 235, 20);
+
 		contentPane.add(etichettaViaRistorante);
 
 		textFieldN_CivicoRistorante = new JTextField();
 		textFieldN_CivicoRistorante.setText("");
-		textFieldN_CivicoRistorante.setBounds(229, 148, 260, 20);
+		textFieldN_CivicoRistorante.setBounds(229, 104, 260, 20);
 		contentPane.add(textFieldN_CivicoRistorante);
 		textFieldN_CivicoRistorante.setColumns(10);
 		textFieldN_CivicoRistorante.getDocument().addDocumentListener(new GestoreTesti());
@@ -98,6 +103,7 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		etichettaN_CivicoRistorante = new JLabel("Numero Civico");
 		etichettaN_CivicoRistorante.setForeground(Color.WHITE);
 		etichettaN_CivicoRistorante.setBounds(10, 148, 235, 20);
+
 		contentPane.add(etichettaN_CivicoRistorante);
 
 
@@ -139,9 +145,11 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 				}
 			}
 		});
+
 		bottoneOk.setBounds(467, 179, 63, 23);
 		bottoneOk.setBorder(null);
 		bottoneOk.setBackground(Color.green);
+    
 		contentPane.add(bottoneOk);
 		bottoneOk.setEnabled(false);
 
@@ -151,21 +159,23 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 				theController.bottoneIndietroAggiungiRistorantePremuto();
 			}
 		});
+
 		bottoneIndietro.setBounds(10, 179, 89, 23);
 		bottoneIndietro.setBorder(null);
 		bottoneIndietro.setBackground(Color.green);
+
 		contentPane.add(bottoneIndietro);
 
 		nCaratteriNomeRistorante = new JLabel("0");
-		nCaratteriNomeRistorante.setBounds(494, 58, 36, 14);
+		nCaratteriNomeRistorante.setBounds(494, 14, 36, 14);
 		contentPane.add(nCaratteriNomeRistorante);
 
 		nCaratteriCitta = new JLabel("0");
-		nCaratteriCitta.setBounds(494, 89, 36, 14);
+		nCaratteriCitta.setBounds(494, 45, 36, 14);
 		contentPane.add(nCaratteriCitta);
 
 		nCaratteriVia = new JLabel("0");
-		nCaratteriVia.setBounds(494, 120, 36, 14);
+		nCaratteriVia.setBounds(494, 76, 36, 14);
 		contentPane.add(nCaratteriVia);
 
 		setVisible(true);

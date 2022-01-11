@@ -36,6 +36,8 @@ public class InterfacciaAggiuntaDatiNuovoTavolo extends JFrame {
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		this.theController=controller;
 		this.salaDiAppartenenza=sala;
 		this.tavoliGiaEsistenti = tavoliGiaEsistenti;

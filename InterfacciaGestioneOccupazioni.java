@@ -56,6 +56,8 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		this.tavoli = tavoli;
 		this.data = data;
 		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		areaDiDisegno = new JLayeredPane();
 		areaDiDisegno.setBounds(10, 11, 694, 407);
 		getContentPane().add(areaDiDisegno);

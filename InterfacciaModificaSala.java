@@ -1,5 +1,5 @@
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +29,7 @@ public class InterfacciaModificaSala extends JFrame {
 	
 	public InterfacciaModificaSala(Controller theController, Sala salaScelta) 
 	{
-		super("Modifica Sala " + salaScelta.getNome());
+		super("Modifica i dati della sala " + salaScelta.getNome());
 		setResizable(false);
 		getContentPane().setLayout(null);
 		GestoreBottoni GestoreNomeSala = new GestoreBottoni();
@@ -37,7 +37,9 @@ public class InterfacciaModificaSala extends JFrame {
 		this.sala = salaScelta;
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
-		setBounds(10,10,320,154);
+		setBounds(100,100,320,154);
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		textFieldNomeSala = new JTextField();
 		textFieldNomeSala.setBounds(10, 30, 86, 20);
@@ -46,20 +48,28 @@ public class InterfacciaModificaSala extends JFrame {
 	    textFieldNomeSala.setText(sala.getNome());
 		
 		etichettaInserisciNome = new JLabel("Nome della sala");
+		etichettaInserisciNome.setForeground(new Color(255, 255, 255));
 		etichettaInserisciNome.setBounds(10, 11, 200, 14);
 		getContentPane().add(etichettaInserisciNome);
 		
 		BottoneOk = new JButton("Ok");
 		BottoneOk.setBounds(107, 65, 53, 20);
 		getContentPane().add(BottoneOk);
+		BottoneOk.setBackground(new Color(0, 255, 127));
+		BottoneOk.setBorder(null);
+		BottoneOk.setOpaque(true);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 64, 89, 23);
 		getContentPane().add(bottoneIndietro);
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setOpaque(true);
 		
 		textFieldNomeSala.getDocument().addDocumentListener(new ContaCaratteri());
 		textFieldNomeSala.setFocusable(true);
 		contaCaratteri = new JLabel(String.format("%d", textFieldNomeSala.getText().length()));
+		contaCaratteri.setForeground(new Color(255, 255, 255));
 		contaCaratteri.setBounds(106, 33, 46, 14);
 		getContentPane().add(contaCaratteri);
 		BottoneOk.addActionListener(GestoreNomeSala);

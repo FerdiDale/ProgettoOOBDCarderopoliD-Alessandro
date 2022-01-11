@@ -11,6 +11,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import org.postgresql.jdbc.PgResultSet.CursorResultHandler;
 
@@ -49,10 +50,12 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 	private Tavolo tavoloDaAggiungere = new Tavolo();
 	private InterfacciaAggiuntaTavoli riferimentoF = this;
 	private boolean inizializzazzioneTavolo = false;
+	private JLabel iconaInformazioni;
 	
 	public InterfacciaAggiuntaTavoli(Tavolo tavoloNuovo,Sala salaCorrente, ArrayList<Tavolo> tavoliGiaPresenti, Controller controller) 
 	{
 		super("Aggiunta tavolo alla sala "+ salaCorrente.getNome());
+		getContentPane().setBackground(new Color(20, 20, 40));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 730, 600);
 		getContentPane().setLayout(null);
@@ -78,13 +81,20 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		bottoneOk.setBounds(580, 429, 89, 35);
 		bottoneOk.setBorder(null);
 		bottoneOk.setBackground(Color.green);
+
 		getContentPane().add(bottoneOk);
+		bottoneOk.setOpaque(true);
+		bottoneOk.setBorder(null);
+		bottoneOk.setEnabled(false);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 441, 89, 23);
 		bottoneIndietro.setBorder(null);
 		bottoneIndietro.setBackground(Color.green);
+
 		getContentPane().add(bottoneIndietro);
+		bottoneIndietro.setOpaque(true);
+		bottoneIndietro.setBorder(null);
 		
 		bottoneOk.addActionListener(new GestoreBottoni());
 		bottoneIndietro.addActionListener(new GestoreBottoni());
@@ -113,6 +123,12 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		
 		areaDiDisegno.add(panel, 0, 1);
 		areaDiDisegno.add(background,0,-1);
+		
+		iconaInformazioni = new JLabel();
+		iconaInformazioni.setIcon(UIManager.getIcon("OptionPane.informationIcon"));	
+		iconaInformazioni.setBounds(637, 422, 32, 43);
+		iconaInformazioni.setToolTipText("<html>Cliccare una volta per scegliere l'origine del tavolo. <br>Cliccare una seconda volta per scegliere il termine del tavolo.<br>Una volta creato il tavolo puo' essere spostato e ridimensionato.</html>");
+		getContentPane().add(iconaInformazioni);
 		
 		setResizable(false);
 		setVisible(true);
@@ -259,6 +275,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 							nuovaEtichettaADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT+dimYF/2 -3,6,6);
 							nuovaEtichettaInBasso.setBounds(posXInizialeT+dimXF/2 -3,posYInizialeT+dimYF -3,6,6);
 							nuovaEtichettaInBassoADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT + dimYF -3,6,6);
+							bottoneOk.setEnabled(true);
 					 	}
 					 	else
 					 	{

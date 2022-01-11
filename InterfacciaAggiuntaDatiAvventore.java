@@ -53,6 +53,8 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
+		getContentPane().setBackground(new Color(20, 20, 40));
+		
 		this.tavoloScelto = tavoloScelto;
 		this.tavoli = tavoli;
 		this.theController = controller;

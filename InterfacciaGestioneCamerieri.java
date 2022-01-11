@@ -51,9 +51,12 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(20,20,40));
 		setBounds(100, 100, 540, 404);
+
 		this.theController=theController;
 		this.ristorante = ristorante;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
@@ -74,6 +77,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		etichettaAssunti = new JLabel("Correntemente assunti");
 		etichettaAssunti.setForeground(Color.WHITE);
 		etichettaAssunti.setBounds(10, 10, 350, 14);
+
 		getContentPane().add(etichettaAssunti);
 		
 		etichettaLicenziati = new JLabel("Licenziati");
@@ -85,17 +89,18 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		bottoneAggiuntaCameriere.setBounds(287, 33, 160, 23);
 		bottoneAggiuntaCameriere.setBorder(null);
 		bottoneAggiuntaCameriere.setBackground(Color.green);
+
 		getContentPane().add(bottoneAggiuntaCameriere);
 		
 		bottoneRiassumiCameriere = new JButton("Riassumi Cameriere");
-		bottoneRiassumiCameriere.setBounds(287, 234, 160, 23);
+		bottoneRiassumiCameriere.setBounds(245, 180, 160, 23);
 		bottoneRiassumiCameriere.setEnabled(false);
 		bottoneRiassumiCameriere.setBorder(null);
 		bottoneRiassumiCameriere.setBackground(Color.green);
 		getContentPane().add(bottoneRiassumiCameriere);
 		
 		bottoneLicenziaCameriere = new JButton("Licenzia Cameriere");
-		bottoneLicenziaCameriere.setBounds(287, 67, 160, 23);
+		bottoneLicenziaCameriere.setBounds(245, 62, 160, 23);
 		bottoneLicenziaCameriere.setEnabled(false);
 		bottoneLicenziaCameriere.setBorder(null);
 		bottoneLicenziaCameriere.setBackground(Color.green);
@@ -111,7 +116,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		modelloListaLicenziati.addAll(arrayListLicenziati);
 		
 		tornaIndietro = new JButton("Indietro");
-		tornaIndietro.setBounds(10, 331, 89, 23);
+		tornaIndietro.setBounds(10, 298, 89, 23);
 		getContentPane().add(tornaIndietro);
 		
 		listaLicenziati.addListSelectionListener(handlerL);

@@ -34,7 +34,10 @@ public class InterfacciaAggiuntaSala extends JFrame
 		this.ristorante = ristorante;
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
-		setBounds(10,10,259,154);
+		setBounds(100,100,320,154);
+		
+		getContentPane().setBackground(new Color(20, 20, 40));
+
 		
 		nomeSala = new JTextField();
 		nomeSala.setBounds(10, 30, 86, 20);

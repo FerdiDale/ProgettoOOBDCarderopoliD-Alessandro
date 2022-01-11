@@ -1,5 +1,5 @@
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -42,21 +42,23 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 	private JLabel nCaratteriVia;
 
 	public InterfacciaModificaDatiRistorante(Controller c, Ristorante ristoranteCorrente) {
+		super ("Modifica dati del ristorante " + ristoranteCorrente.getNome());
 		theController = c;
 		
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 556, 250);
+		setBounds(100, 100, 556, 210);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.setBackground(new Color(20,20,40));
 
+
 		textFieldNomeRistorante = new JTextField();
-		textFieldNomeRistorante.setBounds(206, 55, 260, 20);
+		textFieldNomeRistorante.setBounds(206, 11, 260, 20);
 		contentPane.add(textFieldNomeRistorante);
 		textFieldNomeRistorante.setColumns(10);
 		textFieldNomeRistorante.setText(ristoranteCorrente.getNome());
@@ -64,10 +66,11 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		etichettaNomeRistorante = new JLabel("Nome");
 		etichettaNomeRistorante.setForeground(Color.WHITE);
 		etichettaNomeRistorante.setBounds(10, 55, 235, 20);
+
 		contentPane.add(etichettaNomeRistorante);
 
 		textFieldCittaRistorante = new JTextField();
-		textFieldCittaRistorante.setBounds(206, 86, 260, 20);
+		textFieldCittaRistorante.setBounds(206, 42, 260, 20);
 		contentPane.add(textFieldCittaRistorante);
 		textFieldCittaRistorante.setColumns(10);
 		textFieldCittaRistorante.setText(ristoranteCorrente.getCitta());
@@ -75,11 +78,12 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		etichettaCittaRistorante = new JLabel("Citta'");
 		etichettaCittaRistorante.setForeground(Color.WHITE);
 		etichettaCittaRistorante.setBounds(10, 86, 235, 20);
+
 		contentPane.add(etichettaCittaRistorante);
 
 		textFieldViaRistorante = new JTextField();
 		textFieldViaRistorante.setText("");
-		textFieldViaRistorante.setBounds(206, 117, 260, 20);
+		textFieldViaRistorante.setBounds(206, 73, 260, 20);
 		contentPane.add(textFieldViaRistorante);
 		textFieldViaRistorante.setColumns(10);
 		textFieldViaRistorante.setText(ristoranteCorrente.getVia());
@@ -87,11 +91,12 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		etichettaViaRistorante = new JLabel("Via");
 		etichettaViaRistorante.setForeground(Color.WHITE);
 		etichettaViaRistorante.setBounds(10, 117, 235, 20);
+
 		contentPane.add(etichettaViaRistorante);
 
 		textFieldN_CivicoRistorante = new JTextField();
 		textFieldN_CivicoRistorante.setText("");
-		textFieldN_CivicoRistorante.setBounds(206, 148, 260, 20);
+		textFieldN_CivicoRistorante.setBounds(206, 104, 260, 20);
 		contentPane.add(textFieldN_CivicoRistorante);
 		textFieldN_CivicoRistorante.setColumns(10);
 		textFieldN_CivicoRistorante.setText(ristoranteCorrente.getN_Civico().toString());
@@ -99,9 +104,11 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		etichettaN_CivicoRistorante = new JLabel("Numero Civico");
 		etichettaN_CivicoRistorante.setForeground(Color.WHITE);
 		etichettaN_CivicoRistorante.setBounds(10, 148, 235, 20);
+
 		contentPane.add(etichettaN_CivicoRistorante);
 
 		bottoneOk = new JButton("Ok");
+		bottoneOk.setBackground(new Color(0, 255, 127));
 		bottoneOk.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (bottoneOk.isEnabled()) {
@@ -139,32 +146,46 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 				}
 			}
 		});
+
 		bottoneOk.setBounds(467, 179, 63, 23);
 		bottoneOk.setBorder(null);
 		bottoneOk.setBackground(Color.green);
+
 		contentPane.add(bottoneOk);
+		
+		bottoneOk.setOpaque(true);
+		bottoneOk.setBorder(null);
 
 		bottoneIndietro = new JButton("Indietro");
+		bottoneIndietro.setBackground(new Color(0, 255, 127));
 		bottoneIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				theController.bottoneIndietroModificaRistorantePremuto();
 			}
 		});
+
 		bottoneIndietro.setBounds(10, 179, 89, 23);
 		bottoneIndietro.setBorder(null);
 		bottoneIndietro.setBackground(Color.green);
+
 		contentPane.add(bottoneIndietro);
+		
+		bottoneIndietro.setOpaque(true);
+		bottoneIndietro.setBorder(null);
 
 		nCaratteriNomeRistorante = new JLabel(String.format("%d", textFieldNomeRistorante.getText().length()));
-		nCaratteriNomeRistorante.setBounds(494, 58, 36, 14);
+		nCaratteriNomeRistorante.setForeground(new Color(255, 255, 255));
+		nCaratteriNomeRistorante.setBounds(494, 14, 36, 14);
 		contentPane.add(nCaratteriNomeRistorante);
 
 		nCaratteriCitta = new JLabel(String.format("%d", textFieldCittaRistorante.getText().length()));
-		nCaratteriCitta.setBounds(494, 89, 36, 14);
+		nCaratteriCitta.setForeground(new Color(255, 255, 255));
+		nCaratteriCitta.setBounds(494, 45, 36, 14);
 		contentPane.add(nCaratteriCitta);
 
 		nCaratteriVia = new JLabel(String.format("%d", textFieldViaRistorante.getText().length()));
-		nCaratteriVia.setBounds(494, 120, 36, 14);
+		nCaratteriVia.setForeground(new Color(255, 255, 255));
+		nCaratteriVia.setBounds(494, 76, 36, 14);
 		contentPane.add(nCaratteriVia);
 
 		textFieldNomeRistorante.getDocument().addDocumentListener(new GestoreTesti());
