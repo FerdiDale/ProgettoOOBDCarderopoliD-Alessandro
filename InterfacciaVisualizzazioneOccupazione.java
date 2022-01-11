@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.awt.EventQueue;
@@ -44,8 +45,10 @@ public class InterfacciaVisualizzazioneOccupazione extends JFrame {
 	public InterfacciaVisualizzazioneOccupazione(Controller controller, ArrayList<Tavolo> tavoli, int tavoloScelto, String dataScelta) 
 	{
 		super("Tavolata del tavolo "+ tavoli.get(tavoloScelto).getNumero()+" in data "+ dataScelta+".");
+		setLayout(null);
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
+		getContentPane().setBackground(new Color(20,20,40));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 330);
 		getContentPane().setLayout(null);

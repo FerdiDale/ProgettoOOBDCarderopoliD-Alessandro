@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AttributeSet.ColorAttribute;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -47,14 +48,17 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 	public InterfacciaAggiuntaCamerieri(Ristorante ristorante, Controller theController)
 	{
 		super("Modulo di assunzione di "+ristorante.getNome());
+		getContentPane().setForeground(Color.WHITE);
 		this.theController = theController;
 		this.ristorante = ristorante;
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		setBounds(20,20,415,464);
 		
 		etichettaNome = new JLabel("Nome");
+		etichettaNome.setForeground(Color.WHITE);
 		etichettaNome.setBounds(10, 11, 46, 14);
 		getContentPane().add(etichettaNome);
 		
@@ -64,6 +68,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldNome.setColumns(30);
 		
 		etichettaCognome = new JLabel("Cognome");
+		etichettaCognome.setForeground(Color.WHITE);
 		etichettaCognome.setBounds(136, 11, 149, 14);
 		getContentPane().add(etichettaCognome);
 		
@@ -73,6 +78,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldCognome.setColumns(30);
 		
 		etichettaCID = new JLabel("Numero CID");
+		etichettaCID.setForeground(Color.WHITE);
 		etichettaCID.setBounds(10, 75, 86, 14);
 		getContentPane().add(etichettaCID);
 		
@@ -82,6 +88,7 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldCID.setColumns(9);
 		
 		etichettaDataAssunzione = new JLabel("Data di assunzione");
+		etichettaDataAssunzione.setForeground(Color.WHITE);
 		etichettaDataAssunzione.setBounds(116, 75, 149, 14);
 		getContentPane().add(etichettaDataAssunzione);
 		
@@ -100,16 +107,19 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().add(tornaIndietro);
 		
 		nCaratteriNome = new JLabel("");
+		nCaratteriNome.setForeground(Color.WHITE);
 		nCaratteriNome.setBounds(106, 39, 46, 14);
 		getContentPane().add(nCaratteriNome);
 		nCaratteriNome.setText("0");
 		
 		nCaratteriCognome = new JLabel("");
+		nCaratteriCognome.setForeground(Color.WHITE);
 		nCaratteriCognome.setBounds(296, 39, 46, 14);
 		getContentPane().add(nCaratteriCognome);
 		nCaratteriCognome.setText("0");
 		
 		nCaratteriCID = new JLabel("");
+		nCaratteriCID.setForeground(Color.WHITE);
 		nCaratteriCID.setBounds(106, 103, 46, 14);
 		getContentPane().add(nCaratteriCID);
 		nCaratteriCID.setText("0");
@@ -135,28 +145,46 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 
 		bottoneSet = new JButton("Set");
 		bottoneSet.setBounds(296, 129, 66, 23);
+		bottoneSet.setBorder(null);
+		bottoneSet.setBackground(Color.green);
 		getContentPane().add(bottoneSet);
 		calendar = new JCalendar();
+		calendar.getDayChooser().setWeekOfYearVisible(false);
+		calendar.getDayChooser().setDecorationBackgroundColor(new Color (20, 20, 40));
+		calendar.getMonthChooser().getSpinner().setForeground(new Color (20, 20, 40));
+		calendar.getMonthChooser().getSpinner().setBackground(new Color (20, 20, 40));
+		calendar.getYearChooser().getSpinner().setForeground(new Color (20, 20, 40));
+		calendar.getYearChooser().getSpinner().setBackground(new Color (20, 20, 40));
+		calendar.getDayChooser().getDayPanel().setBackground(new Color (20, 20, 40));
 		calendar.setBounds(200, 200, 184, 153);
 		getContentPane().add(calendar);
 		
 		getContentPane().add(textFieldDataAssunzione);
 		
 		istruzioni = new JLabel("Scegliere una data dal calendario.");
+		istruzioni.setForeground(Color.WHITE);
 		istruzioni.setBounds(116, 133, 235, 14);
 		getContentPane().add(istruzioni);
 		
 		istruzioni2 = new JLabel("Poi, premere");
+		istruzioni2.setForeground(Color.WHITE);
 		istruzioni2.setBounds(116, 181, 82, 14);
 		getContentPane().add(istruzioni2);
 		
 		istruzioni3 = new JLabel("\"Set\"");
+		istruzioni3.setForeground(Color.WHITE);
 		istruzioni3.setBounds(187, 181, 82, 14);
 		getContentPane().add(istruzioni3);
 		
 		istruzioni4 = new JLabel("Dopo aver impostato la data, premere la freccia");
+		istruzioni4.setForeground(Color.WHITE);
 		istruzioni4.setBounds(116, 156, 284, 14);
 		getContentPane().add(istruzioni4);
+		
+		tornaIndietro.setBorder(null);
+		tornaIndietro.setBackground(Color.green);
+		bottoneOk.setBorder(null);
+		bottoneOk.setBackground(Color.green);
 		
 		bottoneSet.addActionListener(new GestoreBottoni());
 		

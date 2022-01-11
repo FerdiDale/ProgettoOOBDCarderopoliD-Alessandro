@@ -41,6 +41,7 @@ public class InterfacciaSelezioneDataCameriere extends JDialog {
 		setModal(true);
 		setBounds(100, 100, 302, 268);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		this.theController = controller;
 		this.licenziamento = licenziamento;
 		cameriereScelto = cameriere;
