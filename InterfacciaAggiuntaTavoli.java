@@ -57,8 +57,9 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		super("Aggiunta tavolo alla sala "+ salaCorrente.getNome());
 		getContentPane().setBackground(new Color(20, 20, 40));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 695, 515);
+		setBounds(100, 100, 730, 600);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40)); 
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
@@ -68,25 +69,29 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		tavoloDaAggiungere.setSala_App(salaCorrente);
 		
 		pannelloTavoli panel = new pannelloTavoli();
-		panel.setBounds(0, 0, 659, 362);
+		panel.setBounds(0, 0, 694, 407);
 		
 		areaDiDisegno = new JLayeredPane();
 		riferimento = areaDiDisegno;
-		areaDiDisegno.setBounds(10, 11, 659, 362);
+		areaDiDisegno.setBounds(10, 11, 694, 407);
 		getContentPane().add(areaDiDisegno);
 		areaDiDisegno.setLayout(null);
 		
 		bottoneOk = new JButton("Ok");
-		bottoneOk.setBackground(new Color(0, 255, 127));
-		bottoneOk.setBounds(10, 384, 89, 35);
+		bottoneOk.setBounds(580, 429, 89, 35);
+		bottoneOk.setBorder(null);
+		bottoneOk.setBackground(Color.green);
+
 		getContentPane().add(bottoneOk);
 		bottoneOk.setOpaque(true);
 		bottoneOk.setBorder(null);
 		bottoneOk.setEnabled(false);
 		
 		bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.setBackground(new Color(0, 255, 127));
-		bottoneIndietro.setBounds(580, 384, 89, 23);
+		bottoneIndietro.setBounds(10, 441, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
+
 		getContentPane().add(bottoneIndietro);
 		bottoneIndietro.setOpaque(true);
 		bottoneIndietro.setBorder(null);
@@ -95,7 +100,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
 		background = new JLabel();
-		background.setBounds(0, 0, 659, 362);
+		background.setBounds(0, 0, 694, 407);
 		background.setBackground(Color.white);
 		background.setOpaque(true);
 		

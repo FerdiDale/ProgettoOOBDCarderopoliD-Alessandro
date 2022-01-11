@@ -161,6 +161,7 @@ public class InterfacciaSelezioneCamerieri extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 435, 250);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		this.data = data;

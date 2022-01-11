@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 
 public class InterfacciaModificaDatiTavolo extends JFrame {
 
@@ -37,7 +38,7 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 340, 180);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -49,17 +50,22 @@ public class InterfacciaModificaDatiTavolo extends JFrame {
 		textFieldNumeroTavolo.setText(((Integer)tavoloScelto.getNumero()).toString());
 
 		bottoneOk = new JButton("Ok");
-		bottoneOk.setBounds(10, 106, 89, 23);
+		bottoneOk.setBounds(225, 107, 89, 23);
+		bottoneOk.setBorder(null);
+		bottoneOk.setBackground(Color.green);
 		getContentPane().add(bottoneOk);
 		
 		bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.setBounds(200, 106, 89, 23);
+		bottoneIndietro.setBounds(10, 107, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
 		getContentPane().add(bottoneIndietro);
 		
 		bottoneOk.addActionListener(new GestoreBottoni());
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
 		etichettaNumeroTavolo = new JLabel("Numero del tavolo");
+		etichettaNumeroTavolo.setForeground(Color.WHITE);
 		etichettaNumeroTavolo.setBounds(10, 11, 163, 14);
 		getContentPane().add(etichettaNumeroTavolo);
 		

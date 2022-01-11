@@ -52,6 +52,7 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 
 		getContentPane().setBackground(new Color(20, 20, 40));
 		
@@ -62,7 +63,8 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		textFieldNomeRistorante.getDocument().addDocumentListener(new GestoreTesti());
 
 		etichettaNomeRistorante = new JLabel("Nome");
-		etichettaNomeRistorante.setBounds(10, 11, 235, 20);
+		etichettaNomeRistorante.setForeground(Color.WHITE);
+		etichettaNomeRistorante.setBounds(10, 55, 235, 20);
 		contentPane.add(etichettaNomeRistorante);
 
 		textFieldCittaRistorante = new JTextField();
@@ -73,7 +75,9 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 
 
 		etichettaCittaRistorante = new JLabel("Citta'");
-		etichettaCittaRistorante.setBounds(10, 42, 235, 20);
+		etichettaCittaRistorante.setForeground(Color.WHITE);
+		etichettaCittaRistorante.setBounds(10, 86, 235, 20);
+
 		contentPane.add(etichettaCittaRistorante);
 
 		textFieldViaRistorante = new JTextField();
@@ -84,7 +88,9 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		textFieldViaRistorante.getDocument().addDocumentListener(new GestoreTesti());
 
 		etichettaViaRistorante = new JLabel("Via");
-		etichettaViaRistorante.setBounds(10, 73, 235, 20);
+		etichettaViaRistorante.setForeground(Color.WHITE);
+		etichettaViaRistorante.setBounds(10, 117, 235, 20);
+
 		contentPane.add(etichettaViaRistorante);
 
 		textFieldN_CivicoRistorante = new JTextField();
@@ -95,13 +101,14 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 		textFieldN_CivicoRistorante.getDocument().addDocumentListener(new GestoreTesti());
 
 		etichettaN_CivicoRistorante = new JLabel("Numero Civico");
-		etichettaN_CivicoRistorante.setBounds(10, 104, 235, 20);
+		etichettaN_CivicoRistorante.setForeground(Color.WHITE);
+		etichettaN_CivicoRistorante.setBounds(10, 148, 235, 20);
+
 		contentPane.add(etichettaN_CivicoRistorante);
 
 
 		bottoneOk = new JButton("Ok");
 		bottoneOk.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
 
 				if (bottoneOk.isEnabled()) {
@@ -138,7 +145,11 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 				}
 			}
 		});
-		bottoneOk.setBounds(467, 135, 63, 23);
+
+		bottoneOk.setBounds(467, 179, 63, 23);
+		bottoneOk.setBorder(null);
+		bottoneOk.setBackground(Color.green);
+    
 		contentPane.add(bottoneOk);
 		bottoneOk.setEnabled(false);
 
@@ -148,7 +159,11 @@ public class InterfacciaAggiuntaRistorante extends JFrame {
 				theController.bottoneIndietroAggiungiRistorantePremuto();
 			}
 		});
-		bottoneIndietro.setBounds(10, 135, 89, 23);
+
+		bottoneIndietro.setBounds(10, 179, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
+
 		contentPane.add(bottoneIndietro);
 
 		nCaratteriNomeRistorante = new JLabel("0");

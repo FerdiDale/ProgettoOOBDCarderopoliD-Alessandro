@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AttributeSet.ColorAttribute;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -43,18 +44,22 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 	public InterfacciaAggiuntaCamerieri(Ristorante ristorante, Controller theController)
 	{
 		super("Modulo di assunzione di "+ristorante.getNome());
+		getContentPane().setForeground(Color.WHITE);
 		this.theController = theController;
 		this.ristorante = ristorante;
 		
 		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/IconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		setBounds(100,100,442,244);
 		
 		etichettaNome = new JLabel("Nome");
-		etichettaNome.setBounds(33, 11, 46, 14);
+		etichettaNome.setForeground(Color.WHITE);
+		etichettaNome.setBounds(10, 11, 46, 14);
+
 		getContentPane().add(etichettaNome);
 		
 		textFieldNome = new JTextField();
@@ -63,7 +68,9 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldNome.setColumns(30);
 		
 		etichettaCognome = new JLabel("Cognome");
-		etichettaCognome.setBounds(224, 11, 149, 14);
+		etichettaCognome.setForeground(Color.WHITE);
+		etichettaCognome.setBounds(136, 11, 149, 14);
+
 		getContentPane().add(etichettaCognome);
 		
 		textFieldCognome = new JTextField();
@@ -72,7 +79,9 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldCognome.setColumns(30);
 		
 		etichettaCID = new JLabel("Numero CID");
-		etichettaCID.setBounds(33, 75, 86, 14);
+		etichettaCID.setForeground(Color.WHITE);
+		etichettaCID.setBounds(10, 75, 86, 14);
+
 		getContentPane().add(etichettaCID);
 		
 		textFieldCID = new JTextField();
@@ -81,7 +90,9 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		textFieldCID.setColumns(9);
 		
 		etichettaDataAssunzione = new JLabel("Data di assunzione");
-		etichettaDataAssunzione.setBounds(224, 75, 149, 14);
+		etichettaDataAssunzione.setForeground(Color.WHITE);
+		etichettaDataAssunzione.setBounds(116, 75, 149, 14);
+
 		getContentPane().add(etichettaDataAssunzione);
 		
 		bottoneOk = new JButton("Ok");
@@ -99,17 +110,23 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		getContentPane().add(bottoneIndietro);
 		
 		nCaratteriNome = new JLabel("");
-		nCaratteriNome.setBounds(185, 39, 46, 14);
+		nCaratteriNome.setForeground(Color.WHITE);
+		nCaratteriNome.setBounds(106, 39, 46, 14);
+
 		getContentPane().add(nCaratteriNome);
 		nCaratteriNome.setText("0");
 		
 		nCaratteriCognome = new JLabel("");
-		nCaratteriCognome.setBounds(395, 39, 21, 14);
+		nCaratteriCognome.setForeground(Color.WHITE);
+		nCaratteriCognome.setBounds(296, 39, 46, 14);
+
 		getContentPane().add(nCaratteriCognome);
 		nCaratteriCognome.setText("0");
 		
 		nCaratteriCID = new JLabel("");
-		nCaratteriCID.setBounds(185, 103, 46, 14);
+		nCaratteriCID.setForeground(Color.WHITE);
+		nCaratteriCID.setBounds(106, 103, 46, 14);
+
 		getContentPane().add(nCaratteriCID);
 		nCaratteriCID.setText("0");
 		
@@ -128,7 +145,6 @@ public class InterfacciaAggiuntaCamerieri extends JFrame
 		bottoneOk.addActionListener(handlerBottoni);
 		bottoneIndietro.addActionListener(handlerBottoni);
 		bottoneData.addActionListener(handlerBottoni);
-
 		
 		setResizable(false);
 		setVisible(true);

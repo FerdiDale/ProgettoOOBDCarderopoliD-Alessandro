@@ -49,6 +49,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 380, 220);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
@@ -64,6 +65,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().add(nome);
 		nome.setColumns(10);
 		etichettaNome = new JLabel("Nome");
+		etichettaNome.setForeground(Color.WHITE);
 		etichettaNome.setBounds(30, 15, 61, 14);
 		getContentPane().add(etichettaNome);
 		
@@ -73,6 +75,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		cognome.setColumns(10);
 		
 		etichettaCognome = new JLabel("Cognome");
+		etichettaCognome.setForeground(Color.WHITE);
 		etichettaCognome.setBounds(30, 71, 79, 14);
 		getContentPane().add(etichettaCognome);
 		
@@ -82,6 +85,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		cid.setColumns(10);
 		
 		etichettaCid = new JLabel("Numero CID");
+		etichettaCid.setForeground(Color.WHITE);
 		etichettaCid.setBounds(180, 15, 72, 14);
 		getContentPane().add(etichettaCid);
 		
@@ -91,34 +95,46 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		ntel.setColumns(10);
 		
 		etichettaNTel = new JLabel("Numero di telefono");
+		etichettaNTel.setForeground(Color.WHITE);
 		etichettaNTel.setBounds(180, 71, 119, 14);
 		getContentPane().add(etichettaNTel);
 		
 		bottoneProssimoAvventore = new JButton("Prossimo");
 		bottoneProssimoAvventore.setBounds(237, 147, 117, 23);
+		bottoneProssimoAvventore.setBorder(null);
+		bottoneProssimoAvventore.setBackground(Color.green);
 		getContentPane().add(bottoneProssimoAvventore);
 		
 		bottoneAvventorePrecedente = new JButton("Precedente");
 		bottoneAvventorePrecedente.setBounds(109, 147, 105, 23);
+		bottoneAvventorePrecedente.setBorder(null);
+		bottoneAvventorePrecedente.setBackground(Color.green);
 		getContentPane().add(bottoneAvventorePrecedente);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 147, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
+		
 		getContentPane().add(bottoneIndietro);
 		
 		contaNome = new JLabel("0");
+		contaNome.setForeground(Color.WHITE);
 		contaNome.setBounds(124, 40, 46, 23);
 		getContentPane().add(contaNome);
 		
 		contaCognome = new JLabel("0");
+		contaCognome.setForeground(Color.WHITE);
 		contaCognome.setBounds(124, 103, 46, 14);
 		getContentPane().add(contaCognome);
 		
 		contaCid = new JLabel("0");
+		contaCid.setForeground(Color.WHITE);
 		contaCid.setBounds(276, 43, 46, 14);
 		getContentPane().add(contaCid);
 		
 		contaNtel = new JLabel("0");
+		contaNtel.setForeground(Color.WHITE);
 		contaNtel.setBounds(276, 103, 46, 14);
 		getContentPane().add(contaNtel);
 		bottoneIndietro.addActionListener(new GestioneBottoni());
@@ -144,12 +160,16 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		setResizable(false);
 	}
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public InterfacciaAggiuntaDatiAvventore(Controller controller, int indice, ArrayList<Tavolo> tavoli, int tavoloScelto, String data, ArrayList<String> avventoriDelTavolo) 
 	{
 		super("Inserimento dati avventore "+ (indice+1));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 380, 220);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
@@ -165,6 +185,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		getContentPane().add(nome);
 		nome.setColumns(10);
 		etichettaNome = new JLabel("Nome");
+		etichettaNome.setForeground(Color.WHITE);
 		etichettaNome.setBounds(30, 15, 61, 14);
 		getContentPane().add(etichettaNome);
 		
@@ -174,6 +195,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		cognome.setColumns(10);
 		
 		etichettaCognome = new JLabel("Cognome");
+		etichettaCognome.setForeground(Color.WHITE);
 		etichettaCognome.setBounds(30, 71, 79, 14);
 		getContentPane().add(etichettaCognome);
 		
@@ -183,6 +205,7 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		cid.setColumns(10);
 		
 		etichettaCid = new JLabel("Numero CID");
+		etichettaCid.setForeground(Color.WHITE);
 		etichettaCid.setBounds(180, 15, 72, 14);
 		getContentPane().add(etichettaCid);
 		
@@ -192,34 +215,45 @@ public class InterfacciaAggiuntaDatiAvventore extends JFrame
 		ntel.setColumns(10);
 		
 		etichettaNTel = new JLabel("Numero di telefono");
+		etichettaNTel.setForeground(Color.WHITE);
 		etichettaNTel.setBounds(180, 71, 119, 14);
 		getContentPane().add(etichettaNTel);
 		
 		bottoneProssimoAvventore = new JButton("Prossimo");
 		bottoneProssimoAvventore.setBounds(237, 147, 117, 23);
+		bottoneProssimoAvventore.setBorder(null);
+		bottoneProssimoAvventore.setBackground(Color.green);
 		getContentPane().add(bottoneProssimoAvventore);
 		
 		bottoneAvventorePrecedente = new JButton("Precedente");
 		bottoneAvventorePrecedente.setBounds(109, 147, 105, 23);
+		bottoneAvventorePrecedente.setBorder(null);
+		bottoneAvventorePrecedente.setBackground(Color.green);
 		getContentPane().add(bottoneAvventorePrecedente);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 147, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
 		getContentPane().add(bottoneIndietro);
 		
 		contaNome = new JLabel("0");
+		contaNome.setForeground(Color.WHITE);
 		contaNome.setBounds(124, 40, 46, 23);
 		getContentPane().add(contaNome);
 		
 		contaCognome = new JLabel("0");
+		contaCognome.setForeground(Color.WHITE);
 		contaCognome.setBounds(124, 103, 46, 14);
 		getContentPane().add(contaCognome);
 		
 		contaCid = new JLabel("0");
+		contaCid.setForeground(Color.WHITE);
 		contaCid.setBounds(276, 43, 46, 14);
 		getContentPane().add(contaCid);
 		
 		contaNtel = new JLabel("0");
+		contaNtel.setForeground(Color.WHITE);
 		contaNtel.setBounds(276, 103, 46, 14);
 		getContentPane().add(contaNtel);
 		bottoneIndietro.addActionListener(new GestioneBottoni());

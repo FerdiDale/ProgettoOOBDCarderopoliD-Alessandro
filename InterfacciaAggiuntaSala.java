@@ -28,6 +28,7 @@ public class InterfacciaAggiuntaSala extends JFrame
 		super("Aggiunta Sala");
 		setResizable(false);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		GestoreBottoni GestoreNomeSala = new GestoreBottoni();
 		this.theController = theController;
 		this.ristorante = ristorante;
@@ -36,6 +37,7 @@ public class InterfacciaAggiuntaSala extends JFrame
 		setBounds(100,100,320,154);
 		
 		getContentPane().setBackground(new Color(20, 20, 40));
+
 		
 		nomeSala = new JTextField();
 		nomeSala.setBounds(10, 30, 86, 20);
@@ -43,20 +45,26 @@ public class InterfacciaAggiuntaSala extends JFrame
 	    getContentPane().add(nomeSala);
 		
 		etichettaInserisciNome = new JLabel("Nome della sala");
+		etichettaInserisciNome.setForeground(Color.WHITE);
 		etichettaInserisciNome.setBounds(10, 11, 200, 14);
 		getContentPane().add(etichettaInserisciNome);
 		
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(107, 65, 53, 20);
+		bottoneOk.setBorder(null);
+		bottoneOk.setBackground(Color.green);
 		getContentPane().add(bottoneOk);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(10, 64, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
 		getContentPane().add(bottoneIndietro);
 		
 		nomeSala.getDocument().addDocumentListener(new ContaCaratteri());
 		nomeSala.setFocusable(true);
 		contaCaratteri = new JLabel("0");
+		contaCaratteri.setForeground(Color.WHITE);
 		contaCaratteri.setBounds(106, 33, 46, 14);
 		getContentPane().add(contaCaratteri);
 		bottoneOk.addActionListener(GestoreNomeSala);

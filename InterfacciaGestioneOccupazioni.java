@@ -47,8 +47,9 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 	{
 		super("Occupazioni della sala "+tavoli.get(0).getSala_App().getNome()+" del "+ data);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 695, 515);
+		setBounds(100, 100, 730, 600);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		this.theController = controller;
@@ -58,44 +59,52 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		getContentPane().setBackground(new Color(20, 20, 40));
 		
 		areaDiDisegno = new JLayeredPane();
-		areaDiDisegno.setBounds(10, 11, 659, 362);
+		areaDiDisegno.setBounds(10, 11, 694, 407);
 		getContentPane().add(areaDiDisegno);
 		
 		bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.setBounds(10, 442, 105, 23);
+		bottoneIndietro.setBounds(10, 527, 105, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
 		getContentPane().add(bottoneIndietro);
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
 		bottoneVediOccupazione = new JButton("Vedi occupazione");
-		bottoneVediOccupazione.setBounds(10, 384, 130, 23);
+		bottoneVediOccupazione.setBounds(10, 429, 130, 23);
+		bottoneVediOccupazione.setBorder(null);
+		bottoneVediOccupazione.setBackground(Color.green);
 		getContentPane().add(bottoneVediOccupazione);
 		bottoneVediOccupazione.addActionListener(new GestoreBottoni());
 		
 		bottoneOccupaTavolo = new JButton("Occupare");
-		bottoneOccupaTavolo.setBounds(195, 384, 105, 23);
+		bottoneOccupaTavolo.setBounds(195, 429, 105, 23);
+		bottoneOccupaTavolo.setBorder(null);
+		bottoneOccupaTavolo.setBackground(Color.green);
 		getContentPane().add(bottoneOccupaTavolo);
 		bottoneOccupaTavolo.addActionListener(new GestoreBottoni());
 		
 		
 		
 		textFieldNumeroAvventori = new JTextField();
-		textFieldNumeroAvventori.setBounds(195, 423, 105, 20);
+		textFieldNumeroAvventori.setBounds(195, 468, 105, 20);
 		getContentPane().add(textFieldNumeroAvventori);
 		textFieldNumeroAvventori.setColumns(10);
 		textFieldNumeroAvventori.addKeyListener(new GestioneTesto());
 		textFieldNumeroAvventori.setFocusable(true);
 		
 		numeroOccupanti = new JLabel("Numero di avventori");
-		numeroOccupanti.setBounds(195, 408, 105, 14);
+		numeroOccupanti.setForeground(Color.WHITE);
+		numeroOccupanti.setBackground(Color.WHITE);
+		numeroOccupanti.setBounds(195, 453, 105, 14);
 		getContentPane().add(numeroOccupanti);
 		background = new JLabel();
-		background.setBounds(0, 0, 659, 362);
+		background.setBounds(0, 0, 694, 407);
 		background.setBackground(Color.white);
 		background.setOpaque(true);
 		background.addMouseListener(new GestoreIcone());
 		
 		panel = new pannelloTavoli();
-		panel.setBounds(0, 0, 659, 362);
+		panel.setBounds(0, 0, 694, 407);
 		
 		GestoreIcone handler = new GestoreIcone();
 		
@@ -138,7 +147,7 @@ public class InterfacciaGestioneOccupazioni extends JFrame
 		
 		iconaInformazioni = new JLabel();
 		iconaInformazioni.setIcon(UIManager.getIcon("OptionPane.informationIcon"));	
-		iconaInformazioni.setBounds(606, 384, 32, 43);
+		iconaInformazioni.setBounds(622, 429, 32, 43);
 		iconaInformazioni.setToolTipText("<html>In rosso: tavoli gia occupati;<br>In marrone tavoli da occupare.<br>Per occupare un tavolo bisogna inserire un numero di occupanti che rispetti la sua capacità.</html>");
 	
 		getContentPane().add(iconaInformazioni);

@@ -30,6 +30,8 @@ import javax.swing.UIManager;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.UIManager;
+import java.awt.Window.Type;
 
 public class InterfacciaRistoranti extends JFrame {
 
@@ -69,7 +71,6 @@ public class InterfacciaRistoranti extends JFrame {
 
 		bottoneAggiungiRistorante = new JButton("Aggiungi un ristorante");
 		bottoneAggiungiRistorante.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				theController.bottoneAggiungiRistorantePremuto();		
 			}
@@ -198,7 +199,5 @@ public class InterfacciaRistoranti extends JFrame {
 		scrollPaneRistoranti.getVerticalScrollBar().setOpaque(true);
 		scrollPaneRistoranti.getVerticalScrollBar().setBackground(new Color (20, 20, 40));
 		scrollPaneRistoranti.getVerticalScrollBar().setBorder(null);
-		
-	
 	}
 }

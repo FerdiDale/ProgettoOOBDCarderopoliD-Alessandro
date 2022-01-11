@@ -17,6 +17,7 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class InterfacciaModificaDatiRistorante extends JFrame {
 	
@@ -53,8 +54,8 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		getContentPane().setBackground(new Color(20, 20, 40));
+		contentPane.setBackground(new Color(20,20,40));
+
 
 		textFieldNomeRistorante = new JTextField();
 		textFieldNomeRistorante.setBounds(206, 11, 260, 20);
@@ -63,8 +64,9 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		textFieldNomeRistorante.setText(ristoranteCorrente.getNome());
 		
 		etichettaNomeRistorante = new JLabel("Nome");
-		etichettaNomeRistorante.setForeground(new Color(255, 255, 255));
-		etichettaNomeRistorante.setBounds(10, 11, 235, 20);
+		etichettaNomeRistorante.setForeground(Color.WHITE);
+		etichettaNomeRistorante.setBounds(10, 55, 235, 20);
+
 		contentPane.add(etichettaNomeRistorante);
 
 		textFieldCittaRistorante = new JTextField();
@@ -74,8 +76,9 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		textFieldCittaRistorante.setText(ristoranteCorrente.getCitta());
 	
 		etichettaCittaRistorante = new JLabel("Citta'");
-		etichettaCittaRistorante.setForeground(new Color(255, 255, 255));
-		etichettaCittaRistorante.setBounds(10, 42, 235, 20);
+		etichettaCittaRistorante.setForeground(Color.WHITE);
+		etichettaCittaRistorante.setBounds(10, 86, 235, 20);
+
 		contentPane.add(etichettaCittaRistorante);
 
 		textFieldViaRistorante = new JTextField();
@@ -86,8 +89,9 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		textFieldViaRistorante.setText(ristoranteCorrente.getVia());
 	
 		etichettaViaRistorante = new JLabel("Via");
-		etichettaViaRistorante.setForeground(new Color(255, 255, 255));
-		etichettaViaRistorante.setBounds(10, 73, 235, 20);
+		etichettaViaRistorante.setForeground(Color.WHITE);
+		etichettaViaRistorante.setBounds(10, 117, 235, 20);
+
 		contentPane.add(etichettaViaRistorante);
 
 		textFieldN_CivicoRistorante = new JTextField();
@@ -98,14 +102,14 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 		textFieldN_CivicoRistorante.setText(ristoranteCorrente.getN_Civico().toString());
 		
 		etichettaN_CivicoRistorante = new JLabel("Numero Civico");
-		etichettaN_CivicoRistorante.setForeground(new Color(255, 255, 255));
-		etichettaN_CivicoRistorante.setBounds(10, 104, 235, 20);
+		etichettaN_CivicoRistorante.setForeground(Color.WHITE);
+		etichettaN_CivicoRistorante.setBounds(10, 148, 235, 20);
+
 		contentPane.add(etichettaN_CivicoRistorante);
 
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBackground(new Color(0, 255, 127));
 		bottoneOk.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (bottoneOk.isEnabled()) {
 
@@ -142,7 +146,11 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 				}
 			}
 		});
-		bottoneOk.setBounds(467, 135, 63, 23);
+
+		bottoneOk.setBounds(467, 179, 63, 23);
+		bottoneOk.setBorder(null);
+		bottoneOk.setBackground(Color.green);
+
 		contentPane.add(bottoneOk);
 		
 		bottoneOk.setOpaque(true);
@@ -155,7 +163,11 @@ public class InterfacciaModificaDatiRistorante extends JFrame {
 				theController.bottoneIndietroModificaRistorantePremuto();
 			}
 		});
-		bottoneIndietro.setBounds(10, 135, 89, 23);
+
+		bottoneIndietro.setBounds(10, 179, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
+
 		contentPane.add(bottoneIndietro);
 		
 		bottoneIndietro.setOpaque(true);

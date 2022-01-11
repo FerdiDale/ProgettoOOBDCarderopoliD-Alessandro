@@ -21,6 +21,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 public class InterfacciaAdiacenze extends JFrame {
@@ -36,29 +37,29 @@ public class InterfacciaAdiacenze extends JFrame {
 	private Tavolo tavoloEntitaSelezionato;
 	private JButton bottoneIndietro;
 	private JButton bottoneConferma;
-	
+	private JLabel iconaInformazioni;
 	
 	public InterfacciaAdiacenze(Controller c, Tavolo tavoloScelto) {
 		super("Adiacenze del tavolo numero " + tavoloScelto.getNumero() + " della sala "+ tavoloScelto.getSala_App().getNome());
 		getContentPane().setLayout(null);
-		getContentPane().setBackground(new Color(20, 20, 40));
-		
+		getContentPane().setBackground(new Color(20,20,40));
+	
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
 		theController = c;
 		tavoloProtagonista = tavoloScelto;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 695, 452);
+		setBounds(100, 100, 730, 600);
 		this.sala = tavoloScelto.getSala_App();
 		getContentPane().setLayout(null);
 		
 		areaDiDisegno = new JLayeredPane();
-		areaDiDisegno.setBounds(10, 11, 659, 362);
+		areaDiDisegno.setBounds(10, 11, 694, 407);
 		getContentPane().add(areaDiDisegno);
 		pannelloTavoli panel = new pannelloTavoli();
-		panel.setBounds(0, 0, 659, 362);
-		areaDiDisegno.add(panel, 0);
+		panel.setBounds(0, 0, 694, 407);
+		areaDiDisegno.add(panel, 0,1);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.addActionListener(new ActionListener() {
@@ -66,7 +67,9 @@ public class InterfacciaAdiacenze extends JFrame {
 				theController.adiacenzeIndietroPremuto(sala);
 			}
 		});
-		bottoneIndietro.setBounds(10, 384, 89, 23);
+		bottoneIndietro.setBounds(10, 429, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
 		getContentPane().add(bottoneIndietro);
 		
 		gestoreIcone handler = new gestoreIcone();
@@ -77,13 +80,21 @@ public class InterfacciaAdiacenze extends JFrame {
 				theController.bottoneConfermaModificheAdiacenzePremuto(tavoloProtagonista);
 			}
 		});
-		bottoneConferma.setBounds(580, 384, 89, 23);
+		bottoneConferma.setBounds(594, 429, 110, 23);
+		bottoneConferma.setBorder(null);
+		bottoneConferma.setBackground(Color.green);
 		getContentPane().add(bottoneConferma);
 		background = new JLabel();
-		background.setBounds(0, 0, 659, 362);
+		background.setBounds(0, 0, 694, 407);
 		background.setBackground(Color.white);
 		background.setOpaque(true);
-		areaDiDisegno.add(background, -30000);
+		areaDiDisegno.add(background,0,-1);
+		
+		iconaInformazioni = new JLabel();
+		iconaInformazioni.setIcon(UIManager.getIcon("OptionPane.informationIcon"));	
+		iconaInformazioni.setBounds(672, 507, 32, 43);
+		iconaInformazioni.setToolTipText("<html>Cliccare su un tavolo marrone per renderlo adiacente a quello selezionato nella schermata precedente (diventera giallo).<br>Cliccare su un tavolo giallo per non renderlo più adiacente a quello selezionato (diventera marrone).<br></html>");
+		getContentPane().add(iconaInformazioni);
 		
 		tavoli = theController.EstrazioneTavoliSala(sala);
 		tavoloProtagonista.setTavoliAdiacenti(theController.estraiTavoliAdiacenti (tavoloProtagonista));
@@ -103,7 +114,7 @@ public class InterfacciaAdiacenze extends JFrame {
 					tavoloCorrente.setBackground(Color.YELLOW);
 			}
 			
-			areaDiDisegno.add(tavoloCorrente,0,1);
+			areaDiDisegno.add(tavoloCorrente,0,0);
 	
 			tavoliGrafici.add(tavoloCorrente);
 			
