@@ -36,58 +36,60 @@ public class InterfacciaTavoli extends JFrame
   
 		super("Visualizzazione tavoli di "+ salaCorrente.getNome());
 		getContentPane().setLayout(null);
+
+		getContentPane().setBackground(new Color(20,20,40));
 		
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
 		theController = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 695, 555);
+		setBounds(100, 100, 730, 600);
 		this.sala = salaCorrente;
 		getContentPane().setLayout(null);
 		
 		bottoneGestisciOccupazione = new JButton("Gestisci occupazioni della sala");
-		bottoneGestisciOccupazione.setBounds(337, 384, 332, 23);
+		bottoneGestisciOccupazione.setBounds(372, 429, 332, 23);
 		getContentPane().add(bottoneGestisciOccupazione);
 		
 		bottoneModificaLayout = new JButton("Modifica layout");
-		bottoneModificaLayout.setBounds(10, 418, 317, 23);
+		bottoneModificaLayout.setBounds(10, 463, 317, 23);
 		getContentPane().add(bottoneModificaLayout);
 		
 		bottoneGestisciAdiacenze = new JButton("Gestisci tavoli adiacenti a quello selezionato");
-		bottoneGestisciAdiacenze.setBounds(337, 418, 332, 23);
+		bottoneGestisciAdiacenze.setBounds(372, 463, 332, 23);
 		getContentPane().add(bottoneGestisciAdiacenze);
 		bottoneGestisciAdiacenze.setEnabled(false);
 		
 		bottoneIndietro = new JButton("Indietro");
-		bottoneIndietro.setBounds(10, 482, 89, 23);
+		bottoneIndietro.setBounds(10, 527, 89, 23);
 		getContentPane().add(bottoneIndietro);
 		
 		bottoneAggiuntaTavolo = new JButton("Aggiungi tavolo");
-		bottoneAggiuntaTavolo.setBounds(10, 384, 317, 23);
+		bottoneAggiuntaTavolo.setBounds(10, 429, 317, 23);
 		getContentPane().add(bottoneAggiuntaTavolo);
 		
 		pannelloTavoli panel = new pannelloTavoli();
-		panel.setBounds(0, 0, 659, 362);
+		panel.setBounds(0, 0, 694, 407);
 	
 		
 		areaDiDisegno = new JLayeredPane();
-		areaDiDisegno.setBounds(10, 11, 659, 362);
+		areaDiDisegno.setBounds(10, 11, 694, 407);
 		getContentPane().add(areaDiDisegno);
 		
 		bottoneModificaDatiTavolo = new JButton("Modifica dati del tavolo selezionato");
-		bottoneModificaDatiTavolo.setBounds(10, 452, 317, 23);
+		bottoneModificaDatiTavolo.setBounds(10, 497, 317, 23);
 		getContentPane().add(bottoneModificaDatiTavolo);
 		bottoneModificaDatiTavolo.setEnabled(false);
 		
 		bottoneEliminaTavolo = new JButton("Elimina tavolo selezionato");
-		bottoneEliminaTavolo.setBounds(337, 452, 332, 23);
+		bottoneEliminaTavolo.setBounds(372, 497, 332, 23);
 		getContentPane().add(bottoneEliminaTavolo);
 		areaDiDisegno.add(panel, 0,1);
 		bottoneEliminaTavolo.setEnabled(false);
 		
 		background = new JLabel();
-		background.setBounds(0, 0, 659, 362);
+		background.setBounds(0, 0, 694, 407);
 		background.setBackground(Color.white);
 		background.setOpaque(true);
 		areaDiDisegno.add(background, 0,-1);

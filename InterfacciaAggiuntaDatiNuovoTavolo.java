@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -30,7 +31,8 @@ public class InterfacciaAggiuntaDatiNuovoTavolo extends JFrame {
 		super("Inserire i dati del nuovo tavolo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 322, 199);
-		setLayout(null);
+		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
@@ -40,7 +42,7 @@ public class InterfacciaAggiuntaDatiNuovoTavolo extends JFrame {
 		
 		numeroTavolo = new JTextField();
 		numeroTavolo.setBounds(10, 30, 86, 20);
-		add(numeroTavolo);
+		getContentPane().add(numeroTavolo);
 
 		capienzaTavolo = new JTextField();
 		capienzaTavolo.setBounds(10, 75, 86, 20);
@@ -49,20 +51,26 @@ public class InterfacciaAggiuntaDatiNuovoTavolo extends JFrame {
 		
 		bottoneOk = new JButton("Ok");
 		bottoneOk.setBounds(10, 106, 89, 23);
-		add(bottoneOk);
+		bottoneOk.setBorder(null);
+		bottoneOk.setBackground(Color.green);
+		getContentPane().add(bottoneOk);
 		
 		bottoneIndietro = new JButton("Indietro");
 		bottoneIndietro.setBounds(200, 106, 89, 23);
+		bottoneIndietro.setBorder(null);
+		bottoneIndietro.setBackground(Color.green);
 		getContentPane().add(bottoneIndietro);
 		
 		bottoneOk.addActionListener(new GestoreBottoni());
 		bottoneIndietro.addActionListener(new GestoreBottoni());
 		
 		etichettaNumeroTavolo = new JLabel("Numero del tavolo");
+		etichettaNumeroTavolo.setForeground(Color.WHITE);
 		etichettaNumeroTavolo.setBounds(10, 11, 163, 14);
 		getContentPane().add(etichettaNumeroTavolo);
 		
 		etichettaCapienzaTavolo = new JLabel("Capienza del tavolo");
+		etichettaCapienzaTavolo.setForeground(Color.WHITE);
 		etichettaCapienzaTavolo.setBounds(10, 61, 46, 14);
 		getContentPane().add(etichettaCapienzaTavolo);
 		

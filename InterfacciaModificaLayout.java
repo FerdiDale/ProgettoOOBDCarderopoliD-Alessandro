@@ -49,13 +49,15 @@ public class InterfacciaModificaLayout extends JFrame {
 	public InterfacciaModificaLayout(Controller c, Sala salaCorrente) {
 		super("Modifica layout di "+ salaCorrente.getNome());
 		getContentPane().setLayout(null);
+
+		getContentPane().setBackground(new Color(20,20,40));
 		
 		ImageIcon icona = new ImageIcon("src/iconaProgetto.jpeg");
 		setIconImage(icona.getImage());
 		
 		theController = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 695, 452);
+		setBounds(100, 100, 730, 600);
 		this.sala = salaCorrente;
 		getContentPane().setLayout(null);
 		bottoneConferma = new JButton("Conferma modifiche");
@@ -95,12 +97,12 @@ public class InterfacciaModificaLayout extends JFrame {
 			}
 		});
 		
-		bottoneConferma.setBounds(505, 384, 164, 23);
+		bottoneConferma.setBounds(468, 429, 236, 23);
 		getContentPane().add(bottoneConferma);
 		pannelloTavoli panel = new pannelloTavoli();
-		panel.setBounds(0, 0, 659, 362);
+		panel.setBounds(0, 0, 694, 407);
 		areaDiDisegno = new JLayeredPane();
-		areaDiDisegno.setBounds(10, 11, 659, 362);
+		areaDiDisegno.setBounds(10, 11, 694, 407);
 		getContentPane().add(areaDiDisegno);
 		
 		bottoneIndietro = new JButton("Indietro");
@@ -109,11 +111,11 @@ public class InterfacciaModificaLayout extends JFrame {
 				theController.modificaLayoutIndietroPremuto(sala);
 			}
 		});
-		bottoneIndietro.setBounds(10, 384, 89, 23);
+		bottoneIndietro.setBounds(10, 429, 89, 23);
 		getContentPane().add(bottoneIndietro);
 		areaDiDisegno.add(panel, 0);
 		background = new JLabel();
-		background.setBounds(0, 0, 659, 362);
+		background.setBounds(0, 0, 694, 407);
 		background.setBackground(Color.white);
 		background.setOpaque(true);
 		areaDiDisegno.add(background, -30000);
@@ -345,7 +347,7 @@ public class InterfacciaModificaLayout extends JFrame {
 			}		
 			
 		}
-		@Override
+		
 		public void mouseMoved(MouseEvent e) {
 		
 		}

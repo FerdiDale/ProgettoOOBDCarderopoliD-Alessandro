@@ -36,7 +36,9 @@ public class InterfacciaSale extends JFrame
 	{
 		super("Sale del ristorante "+ ristorante.getNome());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 528, 290);
+
+		getContentPane().setBackground(new Color(20,20,40));
 		getContentPane().setLayout(null);
 		theController = c;
 		this.ristorante = ristorante;
@@ -44,35 +46,35 @@ public class InterfacciaSale extends JFrame
 		setIconImage(icona.getImage());
 		
 		bottoneAggiuntaSala = new JButton("Aggiungi sala");
-		bottoneAggiuntaSala.setBounds(290, 9, 120, 23);
+		bottoneAggiuntaSala.setBounds(328, 9, 120, 23);
 		getContentPane().add(bottoneAggiuntaSala);
 		
 		bottoneGestioneCamerieri = new JButton("Gestisci camerieri");
-		bottoneGestioneCamerieri.setBounds(273, 43, 151, 23);
+		bottoneGestioneCamerieri.setBounds(309, 43, 151, 23);
 	    getContentPane().add(bottoneGestioneCamerieri);
 		
 		bottoneRimuoviSala = new JButton("Rimuovi sala selezionata");
-		bottoneRimuoviSala.setBounds(234, 195, 176, 55);
+		bottoneRimuoviSala.setBounds(295, 177, 176, 55);
 		if (elementoSelezionato == -1) bottoneRimuoviSala.setEnabled(false);
 		getContentPane().add(bottoneRimuoviSala);
 		
 		bottoneVediTavoli = new JButton("Vedi i tavoli della sala selezionata");
-		bottoneVediTavoli.setBounds(10, 195, 205, 55);
+		bottoneVediTavoli.setBounds(269, 111, 233, 55);
 		getContentPane().add(bottoneVediTavoli);
 		if (elementoSelezionato == -1) bottoneVediTavoli.setEnabled(false);
 		
-		scorrimentoPerListaVisibile = new JScrollPane();
-		scorrimentoPerListaVisibile.setBounds(10, 11, 253, 170);
+		scorrimentoPerListaVisibile =new JScrollPane();
+		scorrimentoPerListaVisibile.setBounds(10, 11, 253, 210);
 	    getContentPane().add(scorrimentoPerListaVisibile);
 		
 	    scorrimentoPerListaVisibile.setViewportView(listaVisibile);
 	    
 	    bottoneIndietro = new JButton("Indietro");
-	    bottoneIndietro.setBounds(290, 136, 120, 17);
+	    bottoneIndietro.setBounds(10, 223, 120, 17);
 	    getContentPane().add(bottoneIndietro);
 
 	    bottoneModificaSala = new JButton("Modifica nome sala");
-	    bottoneModificaSala.setBounds(273, 77, 151, 23);
+	    bottoneModificaSala.setBounds(309, 77, 151, 23);
 	    getContentPane().add(bottoneModificaSala);
 	    GestoreClickMouse handler = new GestoreClickMouse();
 	    if (elementoSelezionato == -1) bottoneModificaSala.setEnabled(false);

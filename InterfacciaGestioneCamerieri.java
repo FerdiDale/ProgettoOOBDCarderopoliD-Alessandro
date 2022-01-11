@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +49,7 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	{
 		super("Gestione camerieri di "+ristorante.getNome());
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(new Color(20,20,40));
 		setBounds(100, 100, 540, 404);
 		this.theController=theController;
 		this.ristorante = ristorante;
@@ -69,25 +72,33 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		scrollPaneLicenziati.setViewportView(listaLicenziati);
 		
 		etichettaAssunti = new JLabel("Correntemente assunti");
+		etichettaAssunti.setForeground(Color.WHITE);
 		etichettaAssunti.setBounds(10, 10, 350, 14);
 		getContentPane().add(etichettaAssunti);
 		
 		etichettaLicenziati = new JLabel("Licenziati");
+		etichettaLicenziati.setForeground(Color.WHITE);
 		etichettaLicenziati.setBounds(10, 157, 99, 14);
 		getContentPane().add(etichettaLicenziati);
 		
 		bottoneAggiuntaCameriere = new JButton("Aggiungi Cameriere");
 		bottoneAggiuntaCameriere.setBounds(287, 33, 160, 23);
+		bottoneAggiuntaCameriere.setBorder(null);
+		bottoneAggiuntaCameriere.setBackground(Color.green);
 		getContentPane().add(bottoneAggiuntaCameriere);
 		
 		bottoneRiassumiCameriere = new JButton("Riassumi Cameriere");
 		bottoneRiassumiCameriere.setBounds(287, 234, 160, 23);
 		bottoneRiassumiCameriere.setEnabled(false);
+		bottoneRiassumiCameriere.setBorder(null);
+		bottoneRiassumiCameriere.setBackground(Color.green);
 		getContentPane().add(bottoneRiassumiCameriere);
 		
 		bottoneLicenziaCameriere = new JButton("Licenzia Cameriere");
 		bottoneLicenziaCameriere.setBounds(287, 67, 160, 23);
 		bottoneLicenziaCameriere.setEnabled(false);
+		bottoneLicenziaCameriere.setBorder(null);
+		bottoneLicenziaCameriere.setBackground(Color.green);
 		getContentPane().add(bottoneLicenziaCameriere);
 		
 		arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
