@@ -192,9 +192,9 @@ public class AvventoriDAOImplPostgres implements AvventoriDAO
 	{
 		try
 		{
-			ResultSet tavolataDB =  DB_Connection.getInstance().getConnection().createStatement().executeQuery("select id_tavolata from tavolata where id_tavolo = "+id_tavolo+" AND data = '"+data+"';");
+			ResultSet tavolataDB =  DB_Connection.getInstance().getConnection().createStatement().executeQuery("SELECT id_tavolata FROM tavolata WHERE id_tavolo = "+id_tavolo+" AND data = '"+data+"';");
 			tavolataDB.next();
-			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM elenco_avventori where id_tavolata = "+tavolataDB.getInt(1)+" AND n_cid = '"+cliente.getN_CID()+"';");
+			DB_Connection.getInstance().getConnection().createStatement().executeUpdate("DELETE FROM elenco_avventori WHERE id_tavolata = "+tavolataDB.getInt(1)+" AND n_cid = '"+cliente.getN_CID()+"';");
 		}
 		catch(SQLException e)
 		{
