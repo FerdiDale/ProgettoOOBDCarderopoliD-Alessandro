@@ -275,7 +275,6 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 							nuovaEtichettaADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT+dimYF/2 -3,6,6);
 							nuovaEtichettaInBasso.setBounds(posXInizialeT+dimXF/2 -3,posYInizialeT+dimYF -3,6,6);
 							nuovaEtichettaInBassoADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT + dimYF -3,6,6);
-							bottoneOk.setEnabled(true);
 					 	}
 					 	else
 					 	{
@@ -286,6 +285,7 @@ public class InterfacciaAggiuntaTavoli extends JFrame {
 							nuovaEtichettaInBasso.setBounds(posXInizialeT+dimXF/2 -3,posYInizialeT+dimYF -3,6,6);
 							nuovaEtichettaInBassoADestra.setBounds(posXInizialeT+dimXF -3, posYInizialeT + dimYF -3,6,6);
 					 	}
+					 	bottoneOk.setEnabled(true);
 					 	paintTable = false;
 						tavoloDisegnato = true;
 					 }
