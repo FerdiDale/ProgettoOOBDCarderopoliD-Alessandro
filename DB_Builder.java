@@ -90,12 +90,14 @@ public class DB_Builder
 				stmt.executeUpdate("CREATE TABLE Avventori"
 								+ "(Nome VARCHAR(30) NOT NULL,"
 								+ "Cognome VARCHAR(30) NOT NULL,"
-								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
-								+ "N_Tel CHAR(10) CHECK (N_Tel SIMILAR TO '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' OR N_Tel IS NULL));");
+								+ "N_CID CHAR(9) NOT NULL PRIMARY KEY, "
+								+ "N_Tel CHAR(10), "
+								+ "CONSTRAINT FormatoCIDGiustoAvventori CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'), "
+								+ "CONSTRAINT FormatoNTelGiustoOAssenteAvventori CHECK (N_Tel SIMILAR TO '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]' OR N_Tel IS NULL));");
 			
 				stmt.executeUpdate("CREATE TABLE Elenco_Avventori"
 								+ "(Id_Tavolata INTEGER NOT NULL,"
-								+ "N_CID CHAR(9) NOT NULL CHECK (N_CID SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
+								+ "N_CID CHAR(9) NOT NULL, "
 								+ "CONSTRAINT InTavolata FOREIGN KEY(Id_Tavolata) REFERENCES Tavolata(Id_Tavolata) ON DELETE CASCADE ON UPDATE CASCADE, "
 								+ "CONSTRAINT DiAvventore FOREIGN KEY(N_CID) REFERENCES Avventori(N_CID) ON DELETE CASCADE ON UPDATE CASCADE, "
 								+ "CONSTRAINT UnicoPerTavolata UNIQUE (Id_Tavolata, N_CID) );");
@@ -107,7 +109,8 @@ public class DB_Builder
 			
 				stmt.executeUpdate("CREATE TABLE Cameriere"
 								+ "(Id_Cameriere SERIAL PRIMARY KEY,"
-								+ "CID_Cameriere CHAR(9) NOT NULL CHECK (CID_Cameriere SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'),"
+								+ "CID_Cameriere CHAR(9) NOT NULL "
+								+ "CONSTRAINT FormatoCIDGiustoCamerieri CHECK (CID_Cameriere SIMILAR TO 'C[A-Z][0-9][0-9][0-9][0-9][0-9][A-Z][A-Z]'), "
 								+ "Nome VARCHAR(30) NOT NULL,"
 								+ "Cognome VARCHAR(30) NOT NULL,"
 								+ "Id_Ristorante INTEGER NOT NULL,"

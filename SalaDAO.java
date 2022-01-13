@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public interface SalaDAO 
 {
-	public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente);
+	public ArrayList<Sala> estraiSaleRistorante(Ristorante ristoranteCorrente);
 	
 	public void RimuoviSalaRistorante(Sala s);
 	

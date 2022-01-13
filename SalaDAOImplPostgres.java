@@ -3,7 +3,7 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 public class SalaDAOImplPostgres implements SalaDAO 
 {
-public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristoranteCorrente)
+public ArrayList<Sala> estraiSaleRistorante(Ristorante ristoranteCorrente)
 		{
 			ArrayList<Sala> risultato = new ArrayList<Sala>();
 			try 

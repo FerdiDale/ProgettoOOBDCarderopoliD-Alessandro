@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class TavoloDAOImplPostgres implements TavoloDAO
 {
-	public ArrayList<Tavolo> EstraiTavoliSala(Sala salaScelta)
+	public ArrayList<Tavolo> estraiTavoliSala(Sala salaScelta)
 	{
 		ArrayList<Tavolo> risultato = new ArrayList<Tavolo>();
 		try

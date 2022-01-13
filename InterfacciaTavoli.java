@@ -119,7 +119,7 @@ public class InterfacciaTavoli extends JFrame
 		areaDiDisegno.add(background, 0,-1);
 		
 		gestoreIcone handler = new gestoreIcone();
-		tavoli = theController.EstrazioneTavoliSala(salaCorrente);
+		tavoli = theController.estrazioneTavoliSala(salaCorrente);
 		
 		for (Tavolo tavolo : tavoli)
 		{

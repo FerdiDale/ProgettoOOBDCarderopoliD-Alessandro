@@ -3,9 +3,9 @@ import java.util.Date;
 
 public interface CameriereDAO 
 {
-	public ArrayList<Cameriere> EstraiCamerieriInServizio(Ristorante ristorante);
+	public ArrayList<Cameriere> estraiCamerieriInServizio(Ristorante ristorante);
 	
-	public ArrayList<Cameriere> EstraiCamerieriLicenziati(Ristorante ristorante);
+	public ArrayList<Cameriere> estraiCamerieriLicenziati(Ristorante ristorante);
 	
 	public boolean riassumiCameriereLicenziato(Cameriere c,String data);
 	

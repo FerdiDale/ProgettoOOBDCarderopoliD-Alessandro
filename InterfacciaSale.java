@@ -110,7 +110,7 @@ public class InterfacciaSale extends JFrame
 		bottoneModificaSala.addActionListener(handler);
 
 		listaSale.clear();
-		listaSale = theController.EstraiSaleRistorante(ristorante);
+		listaSale = theController.estraiSaleRistorante(ristorante);
 		
 		modelloLista.removeAllElements();
 		modelloLista.addAll(listaSale);

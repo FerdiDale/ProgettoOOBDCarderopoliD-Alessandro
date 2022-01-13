@@ -158,19 +158,19 @@ public class Controller {
 		frameSale = new InterfacciaSale(this,ristorante);
 	}
 	
-	public ArrayList<Sala> EstraiSaleRistorante(Ristorante ristorante)
+	public ArrayList<Sala> estraiSaleRistorante(Ristorante ristorante)
 	{
-		return salaDao.EstraiSaleRistorante(ristorante);
+		return salaDao.estraiSaleRistorante(ristorante);
 	}
 	
-	public ArrayList<Cameriere> EstraiCamerieriInServizioC(Ristorante ristorante)
+	public ArrayList<Cameriere> estraiCamerieriInServizioC(Ristorante ristorante)
 	{
-		return cameriereDao.EstraiCamerieriInServizio(ristorante);
+		return cameriereDao.estraiCamerieriInServizio(ristorante);
 	}
 	
-	public ArrayList<Cameriere> EstraiCamerieriLicenziatiC(Ristorante ristorante)
+	public ArrayList<Cameriere> estraiCamerieriLicenziatiC(Ristorante ristorante)
 	{
-		return cameriereDao.EstraiCamerieriLicenziati(ristorante);
+		return cameriereDao.estraiCamerieriLicenziati(ristorante);
 	}
 	
 	public boolean bottoneRiassumiCamerierePremuto(Cameriere c,String data)
@@ -313,9 +313,9 @@ public class Controller {
 		frameTavoli = new InterfacciaTavoli(this, salaScelta);
 	}
 	
-	public ArrayList<Tavolo> EstrazioneTavoliSala(Sala sala)
+	public ArrayList<Tavolo> estrazioneTavoliSala(Sala sala)
 	{
-		return tavoloDao.EstraiTavoliSala(sala);
+		return tavoloDao.estraiTavoliSala(sala);
 	}
   
 	public void bottoneModificaLayoutPremuto(Sala sala) {
@@ -525,8 +525,7 @@ public class Controller {
 	public void bottoneConfermaSelezioneCamerieriPremuto(ArrayList<Cameriere> camerieriScelti, String data, ArrayList<Tavolo> tavoli, int tavoloScelto)
 	{
 		tavolataDao .inserimentoTavolata(new Tavolata(tavoli.get(tavoloScelto),data));
-		AvventoriDAOImplPostgres ADAO = new AvventoriDAOImplPostgres();
-		ADAO.inserimentoMultiploAvventori(framesAggiuntaAvventore,0);		
+		avventoriDao.inserimentoMultiploAvventori(framesAggiuntaAvventore,0);		
 		
 		cameriereDao.inserimentoMultiploCamerieriInServizio(camerieriScelti, data, tavoli.get(tavoloScelto));
 		

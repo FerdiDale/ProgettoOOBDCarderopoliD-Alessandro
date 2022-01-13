@@ -96,7 +96,7 @@ public class InterfacciaAdiacenze extends JFrame {
 		iconaInformazioni.setToolTipText("<html>Cliccare su un tavolo marrone per renderlo adiacente a quello selezionato nella schermata precedente (diventera' giallo).<br>Cliccare su un tavolo giallo per non renderlo piU' adiacente a quello selezionato (diventera' marrone).<br></html>");
 		getContentPane().add(iconaInformazioni);
 		
-		tavoli = theController.EstrazioneTavoliSala(sala);
+		tavoli = theController.estrazioneTavoliSala(sala);
 		tavoloProtagonista.setTavoliAdiacenti(theController.estraiTavoliAdiacenti (tavoloProtagonista));
 		for (Tavolo tavolo: tavoli)
 		{

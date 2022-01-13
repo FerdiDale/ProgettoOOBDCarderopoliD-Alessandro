@@ -129,7 +129,7 @@ public class InterfacciaModificaLayout extends JFrame {
 		areaDiDisegno.add(background, -30000);
 		gestoreIcone handler = new gestoreIcone();
 		
-		tavoli = theController.EstrazioneTavoliSala(salaCorrente);
+		tavoli = theController.estrazioneTavoliSala(salaCorrente);
 		for (Tavolo tavolo: tavoli)
 		{
 			JLabel tavoloCorrente = new JLabel(String.format("%d",tavolo.getNumero()));

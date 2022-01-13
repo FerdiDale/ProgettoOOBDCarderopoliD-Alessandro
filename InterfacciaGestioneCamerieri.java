@@ -107,8 +107,8 @@ public class InterfacciaGestioneCamerieri extends JFrame
 		bottoneLicenziaCameriere.setBackground(new Color(0, 255, 127));
 		getContentPane().add(bottoneLicenziaCameriere);
 		
-		arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
-		arrayListLicenziati = theController.EstraiCamerieriLicenziatiC(ristorante);
+		arrayListAssunti = theController.estraiCamerieriInServizioC(ristorante);
+		arrayListLicenziati = theController.estraiCamerieriLicenziatiC(ristorante);
 		
 		modelloListaAssunti.removeAllElements();
 		modelloListaLicenziati.removeAllElements();
@@ -236,8 +236,8 @@ public class InterfacciaGestioneCamerieri extends JFrame
 	
 	
 	public void ripresaInterfaccia() {
-		arrayListAssunti = theController.EstraiCamerieriInServizioC(ristorante);
-		arrayListLicenziati = theController.EstraiCamerieriLicenziatiC(ristorante);
+		arrayListAssunti = theController.estraiCamerieriInServizioC(ristorante);
+		arrayListLicenziati = theController.estraiCamerieriLicenziatiC(ristorante);
 		listaAssunti.removeListSelectionListener(handlerL);
 		listaLicenziati.removeListSelectionListener(handlerL);
 		modelloListaAssunti.removeAllElements();

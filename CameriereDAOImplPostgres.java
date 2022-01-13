@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 public class CameriereDAOImplPostgres implements CameriereDAO
 {
-	public ArrayList<Cameriere> EstraiCamerieriInServizio(Ristorante ristorante)
+	public ArrayList<Cameriere> estraiCamerieriInServizio(Ristorante ristorante)
 	{
 		ArrayList<Cameriere> Risultato = new ArrayList<Cameriere>();
 		try
@@ -30,7 +30,7 @@ public class CameriereDAOImplPostgres implements CameriereDAO
 		}
 		return Risultato;
 	}
-	public ArrayList<Cameriere> EstraiCamerieriLicenziati(Ristorante ristorante)
+	public ArrayList<Cameriere> estraiCamerieriLicenziati(Ristorante ristorante)
 	{
 		ArrayList<Cameriere> Risultato = new ArrayList<Cameriere>();
 		try
