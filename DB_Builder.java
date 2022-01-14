@@ -11,7 +11,7 @@ public class DB_Builder
 			//Connessione con url del server senza database in caso il database non sia presente
 			//(La connessione con accesso al database e' gestita dalla classe singleton DB_Connection)
 			Class.forName("org.postgresql.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "1754Ggdf");	
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", "postgres", "Antonio22");	
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("CREATE DATABASE ristorantidb;");
 			//Nota: ogni volta che bisogna connettersi al db i caratteri 
@@ -409,8 +409,8 @@ public class DB_Builder
 								+ "SELECT COUNT(*) into Conta "
 								+ "FROM Elenco_avventori as EA, Tavolata as TAV "
 								+ "WHERE EA.id_tavolata = TAV.id_tavolata AND EA.n_cid = CID AND TAV.data = DataScelta; "
-								+ "ASSERT Conta = 1 , 'L avventore si trova gia in un altra tavolata nella data scelta!'; "
-								+ "IF (Conta >1) THEN "
+								+ "ASSERT Conta >= 1 , 'L avventore si trova gia in un altra tavolata nella data scelta!'; "
+								+ "IF (Conta >=1) THEN "
 								+ "	ROLLBACK; "
 								+ "END IF; "
 								+ "COMMIT; "
