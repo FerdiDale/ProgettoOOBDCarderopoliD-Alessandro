@@ -93,7 +93,7 @@ public class InterfacciaAdiacenze extends JFrame {
 		iconaInformazioni = new JLabel();
 		iconaInformazioni.setIcon(UIManager.getIcon("OptionPane.informationIcon"));	
 		iconaInformazioni.setBounds(672, 463, 32, 43);
-		iconaInformazioni.setToolTipText("<html>Cliccare su un tavolo marrone per renderlo adiacente a quello selezionato nella schermata precedente (diventera' giallo).<br>Cliccare su un tavolo giallo per non renderlo piU' adiacente a quello selezionato (diventera' marrone).<br></html>");
+		iconaInformazioni.setToolTipText("<html>Cliccare su un tavolo marrone per renderlo adiacente a quello selezionato nella schermata precedente (diventera' giallo).<br>Cliccare su un tavolo giallo per non renderlo piu' adiacente a quello selezionato (diventera' marrone).<br></html>");
 		getContentPane().add(iconaInformazioni);
 		
 		tavoli = theController.estrazioneTavoliSala(sala);
